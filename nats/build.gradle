@@ -1,0 +1,28 @@
+dependencies {
+    annotationProcessor "io.micronaut:micronaut-inject-java"
+    // needed because otherwise IntelliJ integration broken
+    compileOnly "io.micronaut:micronaut-inject-java"
+    annotationProcessor "io.micronaut.docs:micronaut-docs-asciidoc-config-props:$micronautDocsVersion"
+    compile "io.micronaut:micronaut-messaging"
+    compile "io.micronaut:micronaut-inject"
+    compile "io.nats:jnats:$natsVersion"
+    compileOnly "io.micronaut.configuration:micronaut-micrometer-core"
+    compileOnly "io.micronaut:micronaut-management"
+    
+    testCompile "io.micronaut:micronaut-inject-groovy"
+    testCompile "io.micronaut:micronaut-inject-java"
+    testCompile "org.testcontainers:spock:1.12.1"
+    testCompile "io.micronaut:micronaut-management"
+}
+
+licenseTest.enabled = false
+
+test {
+    jvmArgs '-Duser.country=US'
+    jvmArgs '-Duser.language=en'
+    testLogging {
+        showStandardStreams = true
+        exceptionFormat = 'full'
+    }
+    failFast = true
+}
