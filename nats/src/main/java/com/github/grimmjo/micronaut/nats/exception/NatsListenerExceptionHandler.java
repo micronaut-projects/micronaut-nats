@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2018 original authors
+ * Copyright 2017-2019 original authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,4 +24,4 @@ import io.micronaut.core.exceptions.ExceptionHandler;
  * @author jgrimm
  * @since 1.1.0
  */
-public interface NatsListenerExceptionHandler extends ExceptionHandler<NatsListenerException> {}
+public interface NatsListenerExceptionHandler extends ExceptionHandler<NatsListenerException> { }

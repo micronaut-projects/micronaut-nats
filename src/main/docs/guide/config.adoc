@@ -17,7 +17,7 @@ RabbitMQ also supports a fail over connection strategy where the first server th
 
 [source,yaml]
 ----
-rabbitmq:
+nats:
     address: nats://localhost:4222
     username: guest
     password: guest

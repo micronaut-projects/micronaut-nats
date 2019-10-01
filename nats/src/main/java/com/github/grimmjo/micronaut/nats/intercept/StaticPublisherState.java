@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2018 original authors
+ * Copyright 2017-2019 original authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -84,7 +84,12 @@ class StaticPublisherState {
         return returnType;
     }
 
-    String getConnection() { return connection;}
+    /**
+     * @return the connection name
+     */
+    String getConnection() {
+        return connection;
+    }
 
     /**
      * @return The serializer

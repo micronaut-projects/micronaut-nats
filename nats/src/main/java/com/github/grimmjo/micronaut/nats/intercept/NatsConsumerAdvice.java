@@ -1,3 +1,19 @@
+/*
+ * Copyright 2017-2019 original authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.github.grimmjo.micronaut.nats.intercept;
 
 import java.util.Iterator;
@@ -19,7 +35,6 @@ import io.micronaut.context.processor.ExecutableMethodProcessor;
 import io.micronaut.core.annotation.AnnotationValue;
 import io.micronaut.core.bind.BoundExecutable;
 import io.micronaut.core.bind.DefaultExecutableBinder;
-import io.micronaut.core.util.StringUtils;
 import io.micronaut.inject.BeanDefinition;
 import io.micronaut.inject.ExecutableMethod;
 import io.micronaut.inject.qualifiers.Qualifiers;
@@ -29,9 +44,8 @@ import io.nats.client.Dispatcher;
 import io.nats.client.Message;
 
 /**
- * An {@link ExecutableMethodProcessor} that will process all beans annotated
- * with {@link NatsListener} and create and subscribe the relevant methods as consumers to Nats subjects
- *
+ * An {@link ExecutableMethodProcessor} that will process all beans annotated with {@link NatsListener}.
+ * It creates and subscribes the relevant methods as consumers to Nats subjects.
  * @author jgrimm
  * @since 1.0.0
  */
@@ -49,7 +63,7 @@ public class NatsConsumerAdvice implements ExecutableMethodProcessor<NatsListene
     private final Map<Dispatcher, ConsumerState> consumerDispatchers = new ConcurrentHashMap<>();
 
     /**
-     * Default constructor
+     * Default constructor.
      *
      * @param beanContext The bean context
      * @param binderRegistry The registry to bind arguments to the method
@@ -106,11 +120,9 @@ public class NatsConsumerAdvice implements ExecutableMethodProcessor<NatsListene
                 if (boundExecutable != null) {
                     Object returnedValue = boundExecutable.invoke(bean);
 
-
-
-                    if (!isVoid && StringUtils.isNotEmpty(msg.getReplyTo())) {
-                        // Todo implement rpc
-                    }
+//                    if (!isVoid && StringUtils.isNotEmpty(msg.getReplyTo())) {
+//                        // Todo implement rpc
+//                    }
                 }
             });
 
