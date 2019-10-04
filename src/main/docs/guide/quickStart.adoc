@@ -1,0 +1,4 @@
+To add support for Nats.io to an existing project, you should first add the Micronaut Nats configuration to your build configuration. For example:
+
+dependency:micronaut-nats[groupId="com.github.grimmjo"]
+
