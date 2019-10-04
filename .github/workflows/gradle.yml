@@ -20,4 +20,18 @@ jobs:
       with:
         java-version: ${{ matrix.java }}   
     - name: Build with Gradle
-      run: ./gradlew build
+      run: ./gradlew build docs
+    - name: Publish to Sonatype OSS
+        if: success() && github.event_name == 'push' && matrix.java == '1.8'
+        env:
+          SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
+          SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
+        run: ./gradlew publish
+    - name: Publish to Github Pages
+        if: success() && github.event_name == 'push' && matrix.java == '1.8'
+        uses: micronaut-projects/github-pages-deploy-action@master
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          BASE_BRANCH: master
+          BRANCH: gh-pages
+          FOLDER: build/docs
