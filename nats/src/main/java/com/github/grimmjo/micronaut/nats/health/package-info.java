@@ -15,9 +15,8 @@
  */
 
 /**
- * Classes for serializing and deserializing Nats message bodies.
+ * Classes related to performing health checks for nats.
  *
- * @author graemerocher
- * @since 1.0
+ * @author jgrimm
  */
-package com.github.grimmjo.micronaut.nats.serdes;
+package com.github.grimmjo.micronaut.nats.health;

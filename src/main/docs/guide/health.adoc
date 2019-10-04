@@ -1,0 +1,15 @@
+This library comes with a health indicator for applications that are using the `management` module in Micronaut. See the link:https://docs.micronaut.io/latest/guide/index.html#healthEndpoint[Health Endpoint] documentation for more information about the endpoint itself.
+
+The information reported from the health indicator is under the `nats` key.
+
+[source,yaml]
+----
+"nats": {
+  "status": "UP",
+  "details": {
+    "servers": ["nats://localhost:4222"]
+  }
+}
+----
+
+TIP: To disable the Nats health indicator entirely, add `endpoints.health.nats.enabled: false`.

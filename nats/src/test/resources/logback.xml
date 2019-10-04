@@ -11,7 +11,7 @@
     <root level="error">
         <appender-ref ref="STDOUT" />
     </root>
-    <logger name="com.rabbitmq.client" level="TRACE" />
+    <logger name="io.nats.client" level="TRACE" />
     <logger name="com.github.grimmjo.micronaut.nats" level="TRACE"/>
     <!--<logger name="io.micronaut.context" level="TRACE"/>-->
 </configuration>

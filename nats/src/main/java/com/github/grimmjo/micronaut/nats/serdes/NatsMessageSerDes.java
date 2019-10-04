@@ -23,7 +23,7 @@ import io.micronaut.core.type.Argument;
 import io.nats.client.Message;
 
 /**
- * Responsible for serializing and deserializing RabbitMQ message bodies.
+ * Responsible for serializing and deserializing Nats message bodies.
  *
  * @param <T> The type to be serialized/deserialized
  * @author jgrimm
@@ -43,7 +43,7 @@ public interface NatsMessageSerDes<T> extends Ordered {
 
     /**
      * Serializes the data into a byte[] to be published
-     * to RabbitMQ.
+     * to nats.
      *
      * @param data The data to serialize
      * @return The message body
