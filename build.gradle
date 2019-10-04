@@ -52,10 +52,6 @@ subprojects { Project subproject ->
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
     }
 
-    if (subproject.parent.name == "docs-examples" || subproject.name == "docs-examples") {
-        return
-    }
-    
     apply plugin:"groovy"
     apply plugin:"java"
 
@@ -79,7 +75,6 @@ subprojects { Project subproject ->
         jvmArgs '-Duser.country=US'
         jvmArgs '-Duser.language=en'
         testLogging {
-            //showStandardStreams = true
             exceptionFormat = 'full'
         }
         afterSuite {
@@ -131,7 +126,7 @@ subprojects { Project subproject ->
     apply plugin: 'checkstyle'
 
     checkstyle {
-        toolVersion = 8.10
+        toolVersion = 8.16
         configFile = rootProject.file('config/checkstyle/checkstyle.xml')
 
         // Per submodule
@@ -142,9 +137,14 @@ subprojects { Project subproject ->
     }
 
     checkstyleTest.enabled = false
+
+    tasks.withType(JavaCompile){
+        options.encoding = "UTF-8"
+        options.compilerArgs.add('-parameters')
+    }
 }
 
-apply from:"https://raw.githubusercontent.com/micronaut-projects/micronaut-docs/v1.0.0.M3/gradle/docs.gradle"
+apply from:"https://raw.githubusercontent.com/micronaut-projects/micronaut-docs/v1.0.3/gradle/docs.gradle"
 
 allprojects {
     apply plugin: 'idea'
