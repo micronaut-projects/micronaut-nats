@@ -43,13 +43,15 @@ public class NatsConnectionFactory {
      */
     @Bean(preDestroy = "close")
     @Singleton
-    @EachBean(SingleNatsConnectionFactoryConfig.class)
-    Connection connection(SingleNatsConnectionFactoryConfig connectionFactory) {
+    @EachBean(NatsConnectionFactoryConfig.class)
+    Connection connection(NatsConnectionFactoryConfig connectionFactory) {
         try {
             Options.Builder builder = new Options.Builder();
             builder.connectionName(connectionFactory.getName());
-            if (connectionFactory.getAddress().isPresent()) {
-                builder.server(connectionFactory.getAddress().get());
+            connectionFactory.getAddresses().ifPresent(strings -> builder.servers(strings.toArray(new String[0])));
+            if (connectionFactory.getUsername().isPresent() && connectionFactory.getPassword().isPresent()) {
+                builder.userInfo(connectionFactory.getUsername().get().toCharArray(),
+                        connectionFactory.getPassword().get().toCharArray());
             }
             return Nats.connect(builder.build());
         } catch (IOException | InterruptedException e) {

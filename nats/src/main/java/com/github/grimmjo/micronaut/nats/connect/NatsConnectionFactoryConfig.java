@@ -16,12 +16,14 @@
 
 package com.github.grimmjo.micronaut.nats.connect;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
 import javax.annotation.Nullable;
 
 import io.micronaut.context.annotation.Parameter;
+import io.nats.client.Options;
 
 /**
  * Base class for nats to be configured.
@@ -33,7 +35,9 @@ public abstract class NatsConnectionFactoryConfig {
 
     private final String name;
 
-    private List<String> addresses = null;
+    private List<String> addresses = Collections.singletonList(Options.DEFAULT_URL);
+    private String username;
+    private String password;
 
     /**
      * Default constructor.
@@ -67,4 +71,33 @@ public abstract class NatsConnectionFactoryConfig {
         this.addresses = addresses;
     }
 
+    /**
+     * @return the username for the connection
+     */
+    public Optional<String> getUsername() {
+        return Optional.ofNullable(username);
+    }
+
+    /**
+     * sets the username to be passed to {@link  io.nats.client.Options.Builder#userInfo(char[], char[])}.
+     * @param username the username
+     */
+    public void setUsername(@Nullable String username) {
+        this.username = username;
+    }
+
+    /**
+     * @return the password for the connection
+     */
+    public Optional<String> getPassword() {
+        return Optional.ofNullable(password);
+    }
+
+    /**
+     * Sets the password to be passed to {@link  io.nats.client.Options.Builder#userInfo(char[], char[])}.
+     * @param password the password
+     */
+    public void setPassword(@Nullable String password) {
+        this.password = password;
+    }
 }

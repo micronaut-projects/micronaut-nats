@@ -16,29 +16,29 @@
 
 package com.github.grimmjo.micronaut.nats.connect;
 
-import javax.inject.Named;
-
-import io.micronaut.context.annotation.ConfigurationProperties;
+import io.micronaut.context.annotation.EachProperty;
+import io.micronaut.context.annotation.Parameter;
 import io.micronaut.context.annotation.Requires;
 
 /**
- * The default Nats configuration class.
+ * Allows configuration of multiple nats connections.
  *
  * @author jgrimm
  * @since 1.0.0
  */
-@Requires(missingProperty = ClusterNatsConnectionFactoryConfig.PREFIX)
-@ConfigurationProperties("nats")
-@Named(SingleNatsConnectionFactoryConfig.DEFAULT_NAME)
-public class SingleNatsConnectionFactoryConfig extends NatsConnectionFactoryConfig {
+@Requires(property = ClusterNatsConnectionFactoryConfig.PREFIX)
+@EachProperty(ClusterNatsConnectionFactoryConfig.PREFIX)
+public class ClusterNatsConnectionFactoryConfig extends NatsConnectionFactoryConfig {
 
-    public static final String DEFAULT_NAME = "default";
+    public static final String PREFIX = "nats.servers";
 
     /**
      * Default constructor.
+     *
+     * @param name The connection name
      */
-    public SingleNatsConnectionFactoryConfig() {
-        super(DEFAULT_NAME);
+    public ClusterNatsConnectionFactoryConfig(@Parameter("name") String name) {
+        super(name);
     }
 
 }

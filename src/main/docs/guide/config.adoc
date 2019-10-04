@@ -1,4 +1,4 @@
-All properties on the link:{apirabbit}client/ConnectionFactory.html[ConnectionFactory] are available to be modified, either through configuration or a link:{apimicronaut}context/event/BeanCreatedEventListener.html[BeanCreatedEventListener].
+All properties on the link:{apinats}/{natsVersion}/io/nats/client/Options.html[Options] are available to be modified, either through configuration or a link:{apimicronaut}context/event/BeanCreatedEventListener.html[BeanCreatedEventListener].
 
 The properties that can be converted from the string values in a configuration file can be configured directly.
 
@@ -10,15 +10,32 @@ TIP: It is also possible to disable the integration entirely with `nats.enabled:
 
 It is possible to configure multiple connections to the same server, different servers, or a single connection to one of a list of servers.
 
-One may want to configure multiple connections to the same server in order to have one or more sets of consumers to be executed on a different thread pool. Additionally, the below config could be used to connect to different servers with the same consumer executor by simply omitting the `consumer-executor` configuration option or supplying the same value.
+[source,yaml]
+----
+nats:
+    server1:
+      addresses:
+        - nats://localhost:4222
+      username: guest
+      password: guest
+    server2:
+      addresses:
+        - nats://randomServer:4222
+      username: guest
+      password: guest
+----
 
 
-RabbitMQ also supports a fail over connection strategy where the first server that connects successfully will be used among a list of servers. To use this option in Micronaut, simply supply a list of `host:port` addresses.
+Nats also supports a fail over connection strategy where the first server that connects successfully will be used among a list of servers. To use this option in Micronaut, simply supply a list of `host:port` addresses.
 
 [source,yaml]
 ----
 nats:
-    address: nats://localhost:4222
+    addresses:
+      - nats://localhost:4222
+      - nats://randomServer:4222
     username: guest
     password: guest
 ----
+
+IMPORTANT: When the configuration option `nats.servers` is used, no other options underneath `nats` are read; for example `nats.username`.
