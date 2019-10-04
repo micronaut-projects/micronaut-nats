@@ -1,6 +1,3 @@
-rootProject.name = 'nats-root'
+rootProject.name = 'nats'
 
 include 'nats'
-include 'docs-examples:example-groovy'
-include 'docs-examples:example-java'
-include 'docs-examples:example-kotlin'
