@@ -38,6 +38,7 @@ public abstract class NatsConnectionFactoryConfig {
     private List<String> addresses = Collections.singletonList(Options.DEFAULT_URL);
     private String username;
     private String password;
+    private String token;
 
     /**
      * Default constructor.
@@ -79,7 +80,7 @@ public abstract class NatsConnectionFactoryConfig {
     }
 
     /**
-     * sets the username to be passed to {@link  io.nats.client.Options.Builder#userInfo(char[], char[])}.
+     * sets the username to be passed to {@link io.nats.client.Options.Builder#userInfo(char[], char[])}.
      * @param username the username
      */
     public void setUsername(@Nullable String username) {
@@ -94,10 +95,25 @@ public abstract class NatsConnectionFactoryConfig {
     }
 
     /**
-     * Sets the password to be passed to {@link  io.nats.client.Options.Builder#userInfo(char[], char[])}.
+     * Sets the password to be passed to {@link io.nats.client.Options.Builder#userInfo(char[], char[])}.
      * @param password the password
      */
     public void setPassword(@Nullable String password) {
         this.password = password;
+    }
+
+    /**
+     * @return the token for the connection
+     */
+    public Optional<String> getToken() {
+        return Optional.ofNullable(token);
+    }
+
+    /**
+     * sets the token to be passed to {@link io.nats.client.Options.Builder#token(char[])}.
+     * @param token the token
+     */
+    public void setToken(String token) {
+        this.token = token;
     }
 }

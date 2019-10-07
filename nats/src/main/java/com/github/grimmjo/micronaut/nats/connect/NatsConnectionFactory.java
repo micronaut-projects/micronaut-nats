@@ -52,6 +52,8 @@ public class NatsConnectionFactory {
             if (connectionFactory.getUsername().isPresent() && connectionFactory.getPassword().isPresent()) {
                 builder.userInfo(connectionFactory.getUsername().get().toCharArray(),
                         connectionFactory.getPassword().get().toCharArray());
+            } else if (connectionFactory.getToken().isPresent()) {
+                builder.token(connectionFactory.getToken().get().toCharArray());
             }
             return Nats.connect(builder.build());
         } catch (IOException | InterruptedException e) {
