@@ -16,6 +16,8 @@
 
 package com.github.grimmjo.micronaut.nats.intercept;
 
+import java.util.Optional;
+
 import com.github.grimmjo.micronaut.nats.serdes.NatsMessageSerDes;
 import io.micronaut.core.annotation.Internal;
 import io.micronaut.core.type.Argument;
@@ -59,8 +61,8 @@ class StaticPublisherState {
     /**
      * @return The subject
      */
-    String getSubject() {
-        return subject;
+    Optional<String> getSubject() {
+        return Optional.ofNullable(subject);
     }
 
     /**

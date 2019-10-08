@@ -54,8 +54,8 @@ class SimpleBindingSpec extends AbstractNatsTest {
         MyListConsumer consumer = applicationContext.getBean(MyListConsumer)
 
         when:
-        producer.go([true, false])
-        producer.go([null, true])
+        producer.go("simple-list", [true, false])
+        producer.go("simple-list", [null, true])
 
         then:
         conditions.eventually {
@@ -99,8 +99,7 @@ class SimpleBindingSpec extends AbstractNatsTest {
     @NatsClient
     static interface MyListProducer {
 
-        @Subject("simple-list")
-        void go(List<Boolean> data)
+        void go(@Subject String subject, List<Boolean> data)
 
     }
 

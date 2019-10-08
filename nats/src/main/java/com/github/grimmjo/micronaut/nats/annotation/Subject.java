@@ -23,6 +23,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 import io.micronaut.context.annotation.AliasFor;
+import io.micronaut.core.bind.annotation.Bindable;
+import io.micronaut.messaging.annotation.MessageMapping;
 
 /**
  * Used to specify which subject should be used for messages.
@@ -32,13 +34,15 @@ import io.micronaut.context.annotation.AliasFor;
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ ElementType.METHOD})
+@Target({ElementType.METHOD, ElementType.PARAMETER})
+@Bindable
 public @interface Subject {
 
     /**
      * @return The subject to subscribe to.
      */
-    String value();
+    @AliasFor(annotation = MessageMapping.class, member = "value")
+    String value() default "";
 
     /**
      * @see NatsConnection#connection()
