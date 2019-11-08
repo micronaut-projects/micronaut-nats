@@ -39,7 +39,7 @@ ext {
 subprojects { Project subproject ->
 
     version project.projectVersion
-    group "com.github.grimmjo"
+    group "io.micronaut.nats"
    
     ext {
         isConfiguration = subproject.projectDir.parentFile.name == 'configurations'
