@@ -107,7 +107,7 @@ subprojects { Project subproject ->
         documentation "org.codehaus.groovy:groovy-dateutil:$groovyVersion"
 
         testImplementation "cglib:cglib-nodep:3.3.0"
-        testImplementation "org.objenesis:objenesis:3.0.1"
+        testImplementation "org.objenesis:objenesis:3.1"
 
         testImplementation("org.spockframework:spock-core:${spockVersion}") {
             exclude module:'groovy-all'
