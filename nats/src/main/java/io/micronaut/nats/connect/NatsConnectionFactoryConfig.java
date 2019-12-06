@@ -16,18 +16,39 @@
 
 package io.micronaut.nats.connect;
 
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.security.GeneralSecurityException;
+import java.security.KeyStore;
+import java.security.SecureRandom;
+import java.time.Duration;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
 import javax.annotation.Nullable;
+import javax.net.ssl.KeyManager;
+import javax.net.ssl.KeyManagerFactory;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.TrustManagerFactory;
 
 import io.micronaut.context.annotation.Parameter;
+import io.nats.client.Nats;
 import io.nats.client.Options;
+
+import static io.nats.client.Options.Builder;
+import static io.nats.client.Options.DEFAULT_INBOX_PREFIX;
+import static io.nats.client.Options.DEFAULT_MAX_RECONNECT;
+import static io.nats.client.Options.DEFAULT_PING_INTERVAL;
+import static io.nats.client.Options.DEFAULT_RECONNECT_BUF_SIZE;
+import static io.nats.client.Options.DEFAULT_RECONNECT_WAIT;
+import static io.nats.client.Options.DEFAULT_SSL_PROTOCOL;
+import static io.nats.client.Options.DEFAULT_URL;
 
 /**
  * Base class for nats to be configured.
- *
  * @author jgrimm
  * @since 1.0.0
  */
@@ -35,14 +56,46 @@ public abstract class NatsConnectionFactoryConfig {
 
     private final String name;
 
-    private List<String> addresses = Collections.singletonList(Options.DEFAULT_URL);
+    private List<String> addresses = Collections.singletonList(DEFAULT_URL);
+
+    private int maxReconnect = DEFAULT_MAX_RECONNECT;
+
+    private Duration reconnectWait = DEFAULT_RECONNECT_WAIT;
+
+    private Duration connectionTimeout = Options.DEFAULT_CONNECTION_TIMEOUT;
+
+    private Duration pingInterval = DEFAULT_PING_INTERVAL;
+
+    private long reconnectBufferSize = DEFAULT_RECONNECT_BUF_SIZE;
+
+    private String inboxPrefix = DEFAULT_INBOX_PREFIX;
+
+    private boolean noEcho;
+
+    private boolean utf8Support;
+
     private String username;
+
     private String password;
+
     private String token;
+
+    private String credentials;
+
+    private String keyStorePath;
+
+    private char[] keyStorePassword;
+
+    private String keyStoreType;
+
+    private String trustStorePath;
+
+    private char[] trustStorePassword;
+
+    private String trustStoreType;
 
     /**
      * Default constructor.
-     *
      * @param name The name of the configuration
      */
     public NatsConnectionFactoryConfig(@Parameter String name) {
@@ -64,8 +117,6 @@ public abstract class NatsConnectionFactoryConfig {
     }
 
     /**
-     * Sets the addresses to be passed to {@link io.nats.client.Options.Builder#servers(String[])}}.
-     *
      * @param addresses The list of addresses
      */
     public void setAddresses(@Nullable List<String> addresses) {
@@ -80,7 +131,6 @@ public abstract class NatsConnectionFactoryConfig {
     }
 
     /**
-     * sets the username to be passed to {@link io.nats.client.Options.Builder#userInfo(char[], char[])}.
      * @param username the username
      */
     public void setUsername(@Nullable String username) {
@@ -95,7 +145,6 @@ public abstract class NatsConnectionFactoryConfig {
     }
 
     /**
-     * Sets the password to be passed to {@link io.nats.client.Options.Builder#userInfo(char[], char[])}.
      * @param password the password
      */
     public void setPassword(@Nullable String password) {
@@ -110,10 +159,321 @@ public abstract class NatsConnectionFactoryConfig {
     }
 
     /**
-     * sets the token to be passed to {@link io.nats.client.Options.Builder#token(char[])}.
      * @param token the token
      */
     public void setToken(String token) {
         this.token = token;
+    }
+
+    /**
+     * @return the max reconnection tries
+     */
+    public int getMaxReconnect() {
+        return maxReconnect;
+    }
+
+    /**
+     * @param maxReconnect times to try reconnect
+     */
+    public void setMaxReconnect(int maxReconnect) {
+        this.maxReconnect = maxReconnect;
+    }
+
+    /**
+     * @return time to wait between reconnect attempts
+     */
+    public Duration getReconnectWait() {
+        return reconnectWait;
+    }
+
+    /**
+     * @param reconnectWait time to wait
+     */
+    public void setReconnectWait(Duration reconnectWait) {
+        this.reconnectWait = reconnectWait;
+    }
+
+    /**
+     * @return maximum time for initial connection
+     */
+    public Duration getConnectionTimeout() {
+        return connectionTimeout;
+    }
+
+    /**
+     * @param connectionTimeout maximumTime for inital connection
+     */
+    public void setConnectionTimeout(Duration connectionTimeout) {
+        this.connectionTimeout = connectionTimeout;
+    }
+
+    /**
+     * @return time between ping intervals
+     */
+    public Duration getPingInterval() {
+        return pingInterval;
+    }
+
+    /**
+     * @param pingInterval time between server pings
+     */
+    public void setPingInterval(Duration pingInterval) {
+        this.pingInterval = pingInterval;
+    }
+
+    /**
+     * @return size of the buffer, in bytes, used to store publish messages during reconnect
+     */
+    public long getReconnectBufferSize() {
+        return reconnectBufferSize;
+    }
+
+    /**
+     * @param reconnectBufferSize size of the buffer, in bytes, used to store publish messages during reconnect
+     */
+    public void setReconnectBufferSize(long reconnectBufferSize) {
+        this.reconnectBufferSize = reconnectBufferSize;
+    }
+
+    /**
+     * @return prefix to use for request/reply inboxes
+     */
+    public String getInboxPrefix() {
+        return inboxPrefix;
+    }
+
+    /**
+     * @param inboxPrefix custom prefix for request/reply inboxes
+     */
+    public void setInboxPrefix(String inboxPrefix) {
+        this.inboxPrefix = inboxPrefix;
+    }
+
+    /**
+     * @return whether or not to block echo messages, messages that were sent by this connection
+     */
+    public boolean isNoEcho() {
+        return noEcho;
+    }
+
+    /**
+     * @param noEcho enable or disable echo messages, messages that are sent by this connection back to this connection
+     */
+    public void setNoEcho(boolean noEcho) {
+        this.noEcho = noEcho;
+    }
+
+    /**
+     * @return whether or not the client should support for UTF8 subject names
+     */
+    public boolean isUtf8Support() {
+        return utf8Support;
+    }
+
+    /**
+     * @param utf8Support whether or not the client should support for UTF8 subject names
+     */
+    public void setUtf8Support(boolean utf8Support) {
+        this.utf8Support = utf8Support;
+    }
+
+    /**
+     *
+     * @return path to the credentials file to use for authentication with an account enabled server
+     */
+    public String getCredentials() {
+        return credentials;
+    }
+
+    /**
+     * @param credentials path to the credentials file to use for authentication with an account enabled server
+     */
+    public void setCredentials(String credentials) {
+        this.credentials = credentials;
+    }
+
+    /**
+     * @return path to the SSL Keystore
+     */
+    public String getKeyStorePath() {
+        return this.keyStorePath;
+    }
+
+    /**
+     * @param keyStorePath file path for the SSL Keystore
+     */
+    public void setKeyStorePath(String keyStorePath) {
+        this.keyStorePath = keyStorePath;
+    }
+
+    /**
+     * @return password used to unlock the keystore
+     */
+    public char[] getKeyStorePassword() {
+        return this.keyStorePassword;
+    }
+
+    /**
+     * @param keyStorePassword used to unlock the keystore
+     */
+    public void setKeyStorePassword(char[] keyStorePassword) {
+        this.keyStorePassword = keyStorePassword;
+    }
+
+    /**
+     * @return type of keystore to use for SSL connections
+     */
+    public String getKeyStoreType() {
+        return this.keyStoreType;
+    }
+
+    /**
+     * @param keyStoreType generally the default, but available for special keystore formats/types
+     */
+    public void setKeyStoreType(String keyStoreType) {
+        this.keyStoreType = keyStoreType;
+    }
+
+    /**
+     * @return file path for the SSL trust store
+     */
+    public String getTrustStorePath() {
+        return this.trustStorePath;
+    }
+
+    /**
+     * @param trustStorePath file path for the SSL trust store
+     */
+    public void setTrustStorePath(String trustStorePath) {
+        this.trustStorePath = trustStorePath;
+    }
+
+    /**
+     * @return password used to unlock the trust store
+     */
+    public char[] getTrustStorePassword() {
+        return this.trustStorePassword;
+    }
+
+    /**
+     * @param trustStorePassword used to unlock the trust store
+     */
+    public void setTrustStorePassword(char[] trustStorePassword) {
+        this.trustStorePassword = trustStorePassword;
+    }
+
+    /**
+     * @return type of keystore to use for SSL connections
+     */
+    public String getTrustStoreType() {
+        return this.trustStoreType;
+    }
+
+    /**
+     * @param trustStoreType generally the default, but available for special trust store formats/types
+     */
+    public void setTrustStoreType(String trustStoreType) {
+        this.trustStoreType = trustStoreType;
+    }
+
+    private KeyStore loadKeystore(String path, char[] password) throws IOException, GeneralSecurityException {
+        KeyStore store = KeyStore.getInstance("JKS");
+
+        try (BufferedInputStream in = new BufferedInputStream(new FileInputStream(path))) {
+            store.load(in, password);
+        }
+
+        return store;
+    }
+
+    private KeyManager[] createKeyManagers(String path, char[] password, String type)
+            throws IOException, GeneralSecurityException {
+        if (type == null || type.isEmpty()) {
+            type = "SunX509";
+        }
+
+        if (password == null || password.length == 0) {
+            password = new char[0];
+        }
+
+        KeyStore store = this.loadKeystore(path, password);
+        KeyManagerFactory factory = KeyManagerFactory.getInstance(type);
+        factory.init(store, password);
+        return factory.getKeyManagers();
+    }
+
+    private TrustManager[] createTrustManagers(String path, char[] password, String type)
+            throws IOException, GeneralSecurityException {
+        if (type == null || type.isEmpty()) {
+            type = "SunX509";
+        }
+
+        if (password == null || password.length == 0) {
+            password = new char[0];
+        }
+
+        KeyStore store = loadKeystore(path, password);
+        TrustManagerFactory factory = TrustManagerFactory.getInstance(type);
+        factory.init(store);
+        return factory.getTrustManagers();
+    }
+
+    private SSLContext createSSLContext() throws IOException, GeneralSecurityException {
+        SSLContext ctx = SSLContext.getInstance(DEFAULT_SSL_PROTOCOL);
+        ctx.init(this.createKeyManagers(this.keyStorePath, this.keyStorePassword, this.keyStoreType),
+                this.createTrustManagers(this.trustStorePath, this.trustStorePassword, this.trustStoreType),
+                new SecureRandom());
+        return ctx;
+    }
+
+    /**
+     * @return NATS options based on this set of properties
+     * @throws IOException if there is a problem reading a file or setting up the SSL context
+     * @throws GeneralSecurityException if there is a problem setting up the SSL context
+     */
+    public Options toOptions() throws IOException, GeneralSecurityException {
+        return toOptionsBuilder().build();
+    }
+
+    /**
+     * @return NATS options builder based on this set of properties, useful if other settings are required before
+     * connect is called
+     * @throws IOException if there is a problem reading a file or setting up the SSL context
+     * @throws GeneralSecurityException if there is a problem setting up the SSL context
+     */
+    public Builder toOptionsBuilder() throws IOException, GeneralSecurityException {
+        Builder builder = new Builder();
+
+        builder = builder.servers(this.addresses.toArray(new String[0]));
+        builder = builder.maxReconnects(this.maxReconnect);
+        builder = builder.reconnectWait(this.reconnectWait);
+        builder = builder.connectionTimeout(this.connectionTimeout);
+        builder = builder.connectionName(this.name);
+        builder = builder.pingInterval(this.pingInterval);
+        builder = builder.reconnectBufferSize(this.reconnectBufferSize);
+        builder = builder.inboxPrefix(this.inboxPrefix);
+
+        if (this.noEcho) {
+            builder = builder.noEcho();
+        }
+
+        if (this.utf8Support) {
+            builder = builder.supportUTF8Subjects();
+        }
+
+        if (this.credentials != null && !this.credentials.isEmpty()) {
+            builder = builder.authHandler(Nats.credentials(this.credentials));
+        } else if (this.token != null && !this.token.isEmpty()) {
+            builder = builder.token(this.token);
+        } else if (this.username != null && !this.username.isEmpty()) {
+            builder = builder.userInfo(this.username, this.password);
+        }
+
+        if (this.keyStorePath != null && !this.keyStorePath.isEmpty() && this.trustStorePath != null
+                && !this.trustStorePath.isEmpty()) {
+            builder.sslContext(this.createSSLContext());
+        }
+
+        return builder;
     }
 }
