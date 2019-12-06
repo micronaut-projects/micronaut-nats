@@ -17,6 +17,7 @@
 package io.micronaut.nats.connect;
 
 import java.io.IOException;
+import java.security.GeneralSecurityException;
 
 import javax.inject.Singleton;
 
@@ -26,7 +27,6 @@ import io.micronaut.context.annotation.Factory;
 import io.micronaut.context.exceptions.BeanInstantiationException;
 import io.nats.client.Connection;
 import io.nats.client.Nats;
-import io.nats.client.Options;
 
 /**
  * A factory for creating a connection to nats.
@@ -46,17 +46,8 @@ public class NatsConnectionFactory {
     @EachBean(NatsConnectionFactoryConfig.class)
     Connection connection(NatsConnectionFactoryConfig connectionFactory) {
         try {
-            Options.Builder builder = new Options.Builder();
-            builder.connectionName(connectionFactory.getName());
-            connectionFactory.getAddresses().ifPresent(strings -> builder.servers(strings.toArray(new String[0])));
-            if (connectionFactory.getUsername().isPresent() && connectionFactory.getPassword().isPresent()) {
-                builder.userInfo(connectionFactory.getUsername().get().toCharArray(),
-                        connectionFactory.getPassword().get().toCharArray());
-            } else if (connectionFactory.getToken().isPresent()) {
-                builder.token(connectionFactory.getToken().get().toCharArray());
-            }
-            return Nats.connect(builder.build());
-        } catch (IOException | InterruptedException e) {
+            return Nats.connect(connectionFactory.toOptions());
+        } catch (IOException | InterruptedException | GeneralSecurityException e) {
             throw new BeanInstantiationException("Error creating connection to nats", e);
         }
 
