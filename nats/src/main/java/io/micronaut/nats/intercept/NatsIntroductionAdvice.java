@@ -85,7 +85,7 @@ public class NatsIntroductionAdvice implements MethodInterceptor<Object, Object>
      * @param executorService   The executor to execute reactive operations on
      */
     public NatsIntroductionAdvice(BeanContext beanContext, ConversionService<?> conversionService,
-            NatsMessageSerDesRegistry serDesRegistry, @Named(TaskExecutors.IO) ExecutorService executorService) {
+            NatsMessageSerDesRegistry serDesRegistry, @Named(TaskExecutors.MESSAGE_CONSUMER) ExecutorService executorService) {
         this.beanContext = beanContext;
         this.conversionService = conversionService;
         this.serDesRegistry = serDesRegistry;

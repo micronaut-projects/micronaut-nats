@@ -18,13 +18,16 @@ package io.micronaut.nats.connect;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+import java.util.concurrent.ExecutorService;
 
+import javax.inject.Named;
 import javax.inject.Singleton;
 
 import io.micronaut.context.annotation.Bean;
 import io.micronaut.context.annotation.EachBean;
 import io.micronaut.context.annotation.Factory;
 import io.micronaut.context.exceptions.BeanInstantiationException;
+import io.micronaut.scheduling.TaskExecutors;
 import io.nats.client.Connection;
 import io.nats.client.Nats;
 
@@ -39,14 +42,15 @@ public class NatsConnectionFactory {
 
     /**
      * @param connectionFactory The factory to create the connection
+     * @param executorService The messaging executer service
      * @return The connection
      */
     @Bean(preDestroy = "close")
     @Singleton
     @EachBean(NatsConnectionFactoryConfig.class)
-    Connection connection(NatsConnectionFactoryConfig connectionFactory) {
+    Connection connection(NatsConnectionFactoryConfig connectionFactory, @Named(TaskExecutors.MESSAGE_CONSUMER) ExecutorService executorService) {
         try {
-            return Nats.connect(connectionFactory.toOptions());
+            return Nats.connect(connectionFactory.toOptionsBuilder().executor(executorService).build());
         } catch (IOException | InterruptedException | GeneralSecurityException e) {
             throw new BeanInstantiationException("Error creating connection to nats", e);
         }
