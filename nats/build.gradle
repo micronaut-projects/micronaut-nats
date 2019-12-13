@@ -1,4 +1,8 @@
 dependencies {
+    annotationProcessor platform("io.micronaut:micronaut-bom:$micronautVersion")
+    testAnnotationProcessor platform("io.micronaut:micronaut-bom:$micronautVersion")
+    implementation platform("io.micronaut:micronaut-bom:$micronautVersion")
+
     annotationProcessor "io.micronaut:micronaut-inject-java"
     // needed because otherwise IntelliJ integration broken
     implementation "io.micronaut:micronaut-inject-java"

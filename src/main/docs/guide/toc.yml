@@ -1,5 +1,9 @@
 introduction: Introduction
-whatsNew: What's New
-quickStart: Nats Quick Start
-config: Configuring The Connection
-health: Nats Health Indicator
+quickStart: NATS Quick Start
+producer:
+  title: NATS Producers Using @NatsClient
+  producerMethods: Defining @NatsClient Methods
+consumer:
+  title: NATS Consumers Using @NatsListener
+  consumerMethods: Defining @NatsListener Methods
+health: NATS Health Indicator

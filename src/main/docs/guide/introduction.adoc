@@ -1,1 +1,10 @@
 This project includes integration between Micronaut and nats.io. The standard link:https://github.com/nats-io/nats.java[Java Client] is used to do the actual publishing and consuming.
+
+=== Release History
+
+==== 1.0.0
+
+* Micronaut 1.2.x minimum version
+* Basic support for consumer and producers
+* RPC feature
+* Queue feature

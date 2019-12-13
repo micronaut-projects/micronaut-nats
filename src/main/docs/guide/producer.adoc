@@ -1,0 +1,4 @@
+The example in the quick start presented a trivial definition of an interface that be implemented automatically for you using the ann:nats.annotation.NatsClient[] annotation.
+
+The implementation that powers `@NatsClient` (defined by the api:nats.intercept.NatsIntroductionAdvice[] class) is, however, very flexible and offers a range of options for defining Kafka clients.
+

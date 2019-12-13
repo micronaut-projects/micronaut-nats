@@ -1,0 +1,48 @@
+All methods that publish messages to NATS must meet the following conditions:
+
+* The method must reside in a interface annotated with ann:nats.annotation.NatsClient[].
+* The method or a method parameter must be annotated with ann:nats.annotation.Subject[].
+* The method must contain an argument representing the body of the message.
+
+NOTE: In order for all of the functionality to work as designed in this guide your classes must be compiled with the parameters flag set to `true`.
+If your application was created with the Micronaut CLI, then that has already been configured for you.
+
+=== Simple Producer
+
+The easiest way for defining a producer is the following:
+
+[source,java]
+----
+@Subject("my-products")
+void sendProduct(String name);
+----
+
+=== Dynamic subject
+
+[source,java]
+----
+void sendProduct(@Subject String topic, String name);
+----
+
+=== Publishing to Queues
+
+TIP: The NATS server will route the message to the queue and select a message receiver.
+
+=== Return Type and RPC
+
+IMPORTANT: If the producer defines a return type, it automatically will use the RPC logic and will wait for an answer from a consumer
+
+[source,java]
+----
+@Subject("product")
+Product sendProduct(String name);
+
+@Subject("product")
+Single<Product> sendProduct(String name);
+
+@Subject("product")
+Maybe<Product> sendProduct(String name);
+
+@Subject("product")
+Flowable<Product> sendProduct(String name);
+----

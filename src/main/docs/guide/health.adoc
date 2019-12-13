@@ -12,4 +12,4 @@ The information reported from the health indicator is under the `nats` key.
 }
 ----
 
-TIP: To disable the Nats health indicator entirely, add `endpoints.health.nats.enabled: false`.
+TIP: To disable the NATS health indicator entirely, add `endpoints.health.nats.enabled: false`.
