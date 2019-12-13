@@ -50,4 +50,11 @@ public @interface Subject {
      */
     @AliasFor(annotation = NatsConnection.class, member = "connection")
     String connection() default "";
+
+    /**
+     * @return the queue of the consumer
+     */
+    @AliasFor(annotation = NatsListener.class, member = "queue")
+    String queue() default "";
+
 }

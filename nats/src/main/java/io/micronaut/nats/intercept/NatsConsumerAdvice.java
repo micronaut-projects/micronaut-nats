@@ -18,6 +18,7 @@ package io.micronaut.nats.intercept;
 
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 import javax.inject.Qualifier;
@@ -62,7 +63,7 @@ public class NatsConsumerAdvice implements ExecutableMethodProcessor<NatsListene
 
     private final NatsListenerExceptionHandler exceptionHandler;
 
-    private final Map<Dispatcher, ConsumerState> consumerDispatchers = new ConcurrentHashMap<>();
+    private final Map<Dispatcher, String> consumerDispatchers = new ConcurrentHashMap<>();
 
     /**
      * Default constructor.
@@ -85,8 +86,6 @@ public class NatsConsumerAdvice implements ExecutableMethodProcessor<NatsListene
 
         if (subjectAnn != null) {
             String subject = subjectAnn.getRequiredValue(String.class);
-
-            String clientTag = method.getDeclaringType().getSimpleName() + '#' + method;
 
             String connectionName =
                     method.findAnnotation(NatsConnection.class).flatMap(conn -> conn.get("connection", String.class))
@@ -135,24 +134,24 @@ public class NatsConsumerAdvice implements ExecutableMethodProcessor<NatsListene
                 }
             });
 
-            ds.subscribe(subject);
-
-            ConsumerState state = new ConsumerState();
-            state.consumerTag = clientTag;
-            state.subject = subject;
-            consumerDispatchers.put(ds, state);
-
+            Optional<String> queueOptional = subjectAnn.get("queue", String.class);
+            if (queueOptional.isPresent() && !queueOptional.get().isEmpty()) {
+                ds.subscribe(subject, queueOptional.get());
+            } else {
+                ds.subscribe(subject);
+            }
+            consumerDispatchers.put(ds, subject);
         }
     }
 
     @Override
-    public void close() throws Exception {
-        final Iterator<Map.Entry<Dispatcher, ConsumerState>> it = consumerDispatchers.entrySet().iterator();
+    public void close() {
+        final Iterator<Map.Entry<Dispatcher, String>> it = consumerDispatchers.entrySet().iterator();
         while (it.hasNext()) {
-            final Map.Entry<Dispatcher, ConsumerState> entry = it.next();
+            final Map.Entry<Dispatcher, String> entry = it.next();
             Dispatcher dispatcher = entry.getKey();
-            ConsumerState state = entry.getValue();
-            dispatcher.unsubscribe(state.subject);
+            String subject = entry.getValue();
+            dispatcher.unsubscribe(subject);
             if (!dispatcher.isActive()) {
                 it.remove();
             }
@@ -168,12 +167,4 @@ public class NatsConsumerAdvice implements ExecutableMethodProcessor<NatsListene
         }
     }
 
-    /**
-     * Consumer state.
-     */
-    private static class ConsumerState {
-        private String consumerTag;
-
-        private String subject;
-    }
 }

@@ -44,4 +44,10 @@ public @interface NatsListener {
      */
     @AliasFor(annotation = NatsConnection.class, member = "connection")
     String connection() default "";
+
+    /**
+     * @return the queue of the consumer
+     */
+    String queue() default "";
+
 }
