@@ -23,22 +23,24 @@ import java.util.concurrent.ConcurrentHashMap;
 import javax.inject.Qualifier;
 import javax.inject.Singleton;
 
+import io.micronaut.context.BeanContext;
+import io.micronaut.context.processor.ExecutableMethodProcessor;
+import io.micronaut.core.annotation.AnnotationValue;
+import io.micronaut.core.bind.BoundExecutable;
+import io.micronaut.core.bind.DefaultExecutableBinder;
+import io.micronaut.core.util.StringUtils;
+import io.micronaut.inject.BeanDefinition;
+import io.micronaut.inject.ExecutableMethod;
+import io.micronaut.inject.qualifiers.Qualifiers;
+import io.micronaut.messaging.exceptions.MessageListenerException;
 import io.micronaut.nats.annotation.NatsConnection;
 import io.micronaut.nats.annotation.NatsListener;
 import io.micronaut.nats.annotation.Subject;
 import io.micronaut.nats.bind.NatsBinderRegistry;
 import io.micronaut.nats.exception.NatsListenerException;
 import io.micronaut.nats.exception.NatsListenerExceptionHandler;
+import io.micronaut.nats.serdes.NatsMessageSerDes;
 import io.micronaut.nats.serdes.NatsMessageSerDesRegistry;
-import io.micronaut.context.BeanContext;
-import io.micronaut.context.processor.ExecutableMethodProcessor;
-import io.micronaut.core.annotation.AnnotationValue;
-import io.micronaut.core.bind.BoundExecutable;
-import io.micronaut.core.bind.DefaultExecutableBinder;
-import io.micronaut.inject.BeanDefinition;
-import io.micronaut.inject.ExecutableMethod;
-import io.micronaut.inject.qualifiers.Qualifiers;
-import io.micronaut.messaging.exceptions.MessageListenerException;
 import io.nats.client.Connection;
 import io.nats.client.Dispatcher;
 import io.nats.client.Message;
@@ -64,10 +66,9 @@ public class NatsConsumerAdvice implements ExecutableMethodProcessor<NatsListene
 
     /**
      * Default constructor.
-     *
-     * @param beanContext The bean context
-     * @param binderRegistry The registry to bind arguments to the method
-     * @param serDesRegistry The serialization/deserialization registry
+     * @param beanContext      The bean context
+     * @param binderRegistry   The registry to bind arguments to the method
+     * @param serDesRegistry   The serialization/deserialization registry
      * @param exceptionHandler The exception handler to use if the consumer isn't a handler
      */
     public NatsConsumerAdvice(BeanContext beanContext, NatsBinderRegistry binderRegistry,
@@ -119,10 +120,18 @@ public class NatsConsumerAdvice implements ExecutableMethodProcessor<NatsListene
 
                 if (boundExecutable != null) {
                     Object returnedValue = boundExecutable.invoke(bean);
-
-//                    if (!isVoid && StringUtils.isNotEmpty(msg.getReplyTo())) {
-//                        // Todo implement rpc
-//                    }
+                    if (!isVoid && StringUtils.isNotEmpty(msg.getReplyTo())) {
+                        byte[] converted = null;
+                        if (returnedValue != null) {
+                            NatsMessageSerDes serDes = serDesRegistry.findSerdes(method.getReturnType().asArgument())
+                                    .map(NatsMessageSerDes.class::cast).orElseThrow(() -> new NatsListenerException(
+                                            String.format(
+                                                    "Could not find a serializer for the body argument of type [%s]",
+                                                    returnedValue.getClass().getName()), bean, msg));
+                            converted = serDes.serialize(returnedValue);
+                        }
+                        connection.publish(msg.getReplyTo(), converted);
+                    }
                 }
             });
 
@@ -164,6 +173,7 @@ public class NatsConsumerAdvice implements ExecutableMethodProcessor<NatsListene
      */
     private static class ConsumerState {
         private String consumerTag;
+
         private String subject;
     }
 }
