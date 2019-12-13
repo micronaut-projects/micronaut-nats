@@ -35,6 +35,18 @@ public class NatsListenerException extends MessageListenerException {
 
     private final Message messageState;
 
+    /**
+     * Creates a new exception.
+     *
+     * @param message The message
+     * @param listener The listener
+     * @param messageState The message
+     */
+    public NatsListenerException(String message,  Object listener, @Nullable Message messageState) {
+        super(message);
+        this.listener = listener;
+        this.messageState = messageState;
+    }
 
     /**
      * Creates a new exception.

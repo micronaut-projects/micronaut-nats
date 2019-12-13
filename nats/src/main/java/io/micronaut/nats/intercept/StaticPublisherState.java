@@ -18,10 +18,12 @@ package io.micronaut.nats.intercept;
 
 import java.util.Optional;
 
-import io.micronaut.nats.serdes.NatsMessageSerDes;
 import io.micronaut.core.annotation.Internal;
+import io.micronaut.core.async.publisher.Publishers;
 import io.micronaut.core.type.Argument;
 import io.micronaut.core.type.ReturnType;
+import io.micronaut.nats.reactive.ReactivePublisher;
+import io.micronaut.nats.serdes.NatsMessageSerDes;
 
 /**
  * Stores the static state for publishing messages with
@@ -39,6 +41,8 @@ class StaticPublisherState {
     private final String connection;
     private final NatsMessageSerDes<?> serDes;
     private final Argument<?> dataType;
+    private final ReactivePublisher reactivePublisher;
+    private final boolean reactive;
 
     /**
      * Default constructor.
@@ -47,15 +51,24 @@ class StaticPublisherState {
      * @param returnType   The return type of the method
      * @param connection   The connection name
      * @param serDes       The body serializer
+     * @param reactivePublisher The reactive publisher
      */
     StaticPublisherState(String subject, Argument bodyArgument, ReturnType<?> returnType, String connection,
-            NatsMessageSerDes<?> serDes) {
+            NatsMessageSerDes<?> serDes, ReactivePublisher reactivePublisher) {
         this.subject = subject;
         this.bodyArgument = bodyArgument;
-        this.dataType = returnType.asArgument();
-        this.returnType = returnType;
         this.connection = connection;
         this.serDes = serDes;
+        this.reactivePublisher = reactivePublisher;
+        Class<?> javaReturnType = returnType.getType();
+        this.reactive = Publishers.isConvertibleToPublisher(javaReturnType);
+        if (this.reactive) {
+            this.dataType = returnType.getFirstTypeVariable()
+                    .orElse(Argument.VOID);
+        } else {
+            this.dataType = returnType.asArgument();
+        }
+        this.returnType = returnType;
     }
 
     /**
@@ -98,6 +111,20 @@ class StaticPublisherState {
      */
     NatsMessageSerDes<Object> getSerDes() {
         return (NatsMessageSerDes) serDes;
+    }
+
+    /**
+     * @return True if the method returns a reactive type
+     */
+    boolean isReactive() {
+        return reactive;
+    }
+
+    /**
+     * @return The reactive publisher
+     */
+    ReactivePublisher getReactivePublisher() {
+        return reactivePublisher;
     }
 
 }

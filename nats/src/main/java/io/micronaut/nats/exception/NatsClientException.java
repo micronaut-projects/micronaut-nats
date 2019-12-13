@@ -16,22 +16,57 @@
 
 package io.micronaut.nats.exception;
 
+import java.util.List;
+
 import io.micronaut.messaging.exceptions.MessagingClientException;
+import io.micronaut.nats.reactive.PublishState;
 
 /**
  * Exception thrown when an error occurs publishing a Nats message.
- *
  * @author jgrimm
  * @since 1.0.0
  */
 public class NatsClientException extends MessagingClientException {
 
+    private final List<PublishState> failures;
+
     /**
      * Creates a new exception.
-     *
      * @param message The message
      */
     public NatsClientException(String message) {
         super(message);
+        this.failures = null;
     }
+
+    /**
+     * Creates a new exception.
+     * @param message  The message
+     * @param failures The messages that failed to send
+     */
+    public NatsClientException(String message, List<PublishState> failures) {
+        super(message);
+        this.failures = failures;
+    }
+
+    /**
+     * Creates a new exception.
+     * @param message The message
+     * @param cause   The cause
+     */
+    public NatsClientException(String message, Throwable cause) {
+        this(message, cause, null);
+    }
+
+    /**
+     * Creates a new exception.
+     * @param message  The message
+     * @param cause    The cause
+     * @param failures The messages that failed to send
+     */
+    public NatsClientException(String message, Throwable cause, List<PublishState> failures) {
+        super(message, cause);
+        this.failures = failures;
+    }
+
 }
