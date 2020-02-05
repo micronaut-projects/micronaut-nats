@@ -16,9 +16,6 @@
 
 package io.micronaut.nats.executor;
 
-import javax.inject.Named;
-import javax.inject.Singleton;
-
 import io.micronaut.context.annotation.Bean;
 import io.micronaut.context.annotation.Factory;
 import io.micronaut.context.annotation.Requires;
@@ -26,6 +23,9 @@ import io.micronaut.scheduling.TaskExecutors;
 import io.micronaut.scheduling.executor.ExecutorConfiguration;
 import io.micronaut.scheduling.executor.ExecutorType;
 import io.micronaut.scheduling.executor.UserExecutorConfiguration;
+
+import javax.inject.Named;
+import javax.inject.Singleton;
 
 /**
  * Configures a {@link java.util.concurrent.ScheduledExecutorService} for running {@link io.micronaut.nats.annotation.NatsListener} instances.
@@ -45,6 +45,8 @@ public class ConsumerExecutorServiceConfig {
     @Bean
     @Named(TaskExecutors.MESSAGE_CONSUMER)
     ExecutorConfiguration configuration() {
-        return UserExecutorConfiguration.of(ExecutorType.FIXED, 75);
+        return UserExecutorConfiguration.AVAILABLE_PROCESSORS > 3 ?
+                UserExecutorConfiguration.of(ExecutorType.FIXED) :
+                UserExecutorConfiguration.of(ExecutorType.FIXED, 6);
     }
 }
