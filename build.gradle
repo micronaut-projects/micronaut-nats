@@ -3,14 +3,13 @@ buildscript {
         maven { url "https://repo.grails.org/grails/core" }
     }
     dependencies {
+        classpath "org.grails:grails-gradle-plugin:$grailsVersion"
         classpath "org.grails:grails-docs:$grailsVersion"
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4'
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.5'
         classpath 'com.bmuschko:gradle-nexus-plugin:2.3.1'
         classpath 'io.github.groovylang.groovydoc:groovydoc-gradle-plugin:1.0.1'
         classpath "io.micronaut.docs:micronaut-docs-asciidoc-extensions:$micronautDocsVersion"
         classpath "io.micronaut.docs:micronaut-docs-gradle-plugins:$micronautDocsVersion"
-        classpath "io.spring.nohttp:nohttp-gradle:0.0.3.RELEASE"
-        classpath "com.github.jengelman.gradle.plugins:shadow:5.2.0"
     }
 }
 
@@ -39,25 +38,22 @@ subprojects { Project subproject ->
 
     version project.projectVersion
     group "io.micronaut.nats"
-   
     ext {
         isConfiguration = subproject.projectDir.parentFile.name == 'configurations'
         isBuildSnapshot = version.toString().endsWith("-SNAPSHOT")
     }
-    
+
+
     repositories {
-        mavenLocal()
         maven { url "https://repo.grails.org/grails/core" }
-        maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
     }
 
+    apply plugin:"java-library"
     apply plugin:"groovy"
-    apply plugin:"java"
-
 
     sourceCompatibility = '1.8'
     targetCompatibility = '1.8'
-    apply from: rootProject.file('gradle/publishing.gradle')
+    apply from:"https://raw.githubusercontent.com/micronaut-projects/micronaut-build/v${micronautBuildVersion}/publishing.gradle"
         
 
     jar {
@@ -94,25 +90,29 @@ subprojects { Project subproject ->
                 if(group == 'org.codehaus.groovy') {
                     details.useVersion(groovyVersion)
                 }
+                if(group == 'org.ow2.asm') {
+                    details.useVersion(asmVersion)
+                }
             }
         }
     }
     dependencies {
+        //platform
         annotationProcessor platform("io.micronaut:micronaut-bom:$micronautVersion")
         testAnnotationProcessor platform("io.micronaut:micronaut-bom:$micronautVersion")
+        api platform("io.micronaut:micronaut-bom:$micronautVersion")
         implementation platform("io.micronaut:micronaut-bom:$micronautVersion")
 
         documentation "org.codehaus.groovy:groovy-templates:$groovyVersion"
         documentation "org.codehaus.groovy:groovy-dateutil:$groovyVersion"
 
-        testImplementation "cglib:cglib-nodep:3.3.0"
-        testImplementation "org.objenesis:objenesis:3.0.1"
 
         testImplementation("org.spockframework:spock-core:${spockVersion}") {
             exclude module:'groovy-all'
         }
-
         testRuntimeOnly "ch.qos.logback:logback-classic:1.2.3"
+        testRuntimeOnly "cglib:cglib-nodep:3.3.0"
+        testRuntimeOnly "org.objenesis:objenesis:3.1"
         testImplementation "org.codehaus.groovy:groovy-test:$groovyVersion"
     }
 
@@ -122,11 +122,12 @@ subprojects { Project subproject ->
 
     task allDeps(type: DependencyReportTask) {}
 
+
     apply plugin: 'checkstyle'
 
     checkstyle {
-        toolVersion = 8.16
-        configFile = rootProject.file('config/checkstyle/checkstyle.xml')
+        toolVersion = 8.10
+        configFile = file("${rootDir}/config/checkstyle/checkstyle.xml")
 
         // Per submodule
         maxErrors = 1
@@ -136,14 +137,7 @@ subprojects { Project subproject ->
     }
 
     checkstyleTest.enabled = false
-
-    tasks.withType(JavaCompile){
-        options.encoding = "UTF-8"
-        options.compilerArgs.add('-parameters')
-    }
 }
-
-apply from:"https://raw.githubusercontent.com/micronaut-projects/micronaut-docs/v1.0.3/gradle/docs.gradle"
 
 allprojects {
     apply plugin: 'idea'
@@ -156,3 +150,5 @@ allprojects {
     }
     apply from: rootProject.file('gradle/license.gradle')
 }
+
+apply from:"https://raw.githubusercontent.com/micronaut-projects/micronaut-docs/v${micronautDocsVersion}/gradle/docs.gradle"
