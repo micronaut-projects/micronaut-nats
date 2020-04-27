@@ -1,4 +1,104 @@
-To add support for Nats.io to an existing project, you should first add the Micronaut Nats configuration to your build configuration. For example:
+To add support for NATS.io to an existing project, you should first add the Micronaut NATS configuration to your build configuration. For example:
 
 dependency:micronaut-nats[groupId="io.micronaut.nats"]
 
+=== Configuring NATS
+
+NOTE: Without any configuration the defaults in the link:{apinats}/{natsVersion}/io/nats/client/Options.html[Options] will be used.
+
+It is possible to configure multiple connections to the same server, different servers, or a single connection to one of a list of servers.
+
+[source,yaml]
+----
+nats:
+    server1:
+      addresses:
+        - "nats://localhost:4222"
+      username: guest
+      password: guest
+    server2:
+      addresses:
+        - "nats://randomServer:4222"
+      username: guest
+      password: guest
+----
+
+NATS also supports a fail over connection strategy where the first server that connects successfully will be used among a list of servers. To use this option in Micronaut, simply supply a list of `host:port` addresses.
+
+[source,yaml]
+----
+nats:
+    addresses:
+      - "nats://localhost:4222"
+      - "nats://randomServer:4222"
+    username: guest
+    password: guest
+----
+
+IMPORTANT: When the configuration option `nats.servers` is used, no other options underneath `nats` are read; for example `nats.username`.
+
+TIP: It is also possible to disable the integration entirely with `nats.enabled: false`
+
+=== Creating a NATS Producer with @NatsClient
+
+To create a NATS `Producer` that sends messages you can simply define an interface that is annotated with ann:nats.annotation.NatsClient[].
+
+For example the following is a trivial `@NatsClient` interface:
+
+.ProductClient.java
+[source,java]
+----
+import io.micronaut.nats.annotation.NatsClient;
+import io.micronaut.nats.annotation.Subject;
+import io.micronaut.messaging.annotation.Body;
+
+@NatsClient // <1>
+public interface ProductClient {
+
+    @Subject("my-products") // <2>
+    void send(String name);
+
+    void sendProduct(@Subject String brand, @Body String name); // <3>
+}
+----
+
+<1> The ann:nats.annotation.NatsClient[] annotation is used to designate this interface as a client
+<2> The ann:nats.annotation.Subject[] annotation indicates which subject the `Message` should be published to
+<3> It is also possible for the subject to be dynamic by making it a method argument
+
+At compile time Micronaut will produce an implementation of the above interface. You can retrieve an instance of `ProductClient` either by looking up the bean from the api:context.ApplicationContext[] or by injecting the bean with `@Inject`:
+
+.Using ProductClient
+[source,groovy]
+----
+ProductClient client = applicationContext.getBean(ProductClient.class);
+client.sendProduct("Nike", "Blue Trainers");
+----
+
+
+=== Creating a NATS Consumer with @NatsListener
+
+To listen to NATS messages you can use the ann:nats.annotation.NatsListener[] annotation to define a message listener.
+
+The following example will listen for messages published by the `ProductClient` in the previous section:
+
+.ProductListener.java
+[source,java]
+----
+import io.micronaut.messaging.annotation.Body;
+import io.micronaut.nats.annotation.NatsListener;
+import io.micronaut.nats.annotation.Subject;
+
+@NatsListener // <1>
+public class ProductListener {
+
+    @Subject("my-products") // <2>
+    public void receive(@Body String name) { // <3>
+        System.out.println("Got Product - " + name);
+    }
+}
+----
+
+<1> The ann:nats.annotation.NatsListener[] is used to designate this class as a listener.
+<2> The ann:nats.annotation.Subject[] annotation is again used to indicate which subject to subscribe to.
+<3> The `receive` method defines one argument, which will receive the value.

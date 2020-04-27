@@ -25,7 +25,7 @@ import javax.annotation.Nullable
 
 class QueueSpec extends AbstractNatsTest {
 
-    void "test simple producing and consuming with a boolean"() {
+    void "test queue support"() {
         ApplicationContext applicationContext = startContext()
         PollingConditions conditions = new PollingConditions(timeout: 3)
         MyProducer producer = applicationContext.getBean(MyProducer)

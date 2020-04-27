@@ -1,0 +1,3 @@
+The quick start section presented a trivial example of what is possible with the ann:nats.annotation.NatsListener[] annotation.
+
+The implementation that powers `@NatsListener` (defined by the api:nats.intercept.NatsConsumerAdvice[] class) is, however, very flexible and offers a range of options for consuming NATS message.
