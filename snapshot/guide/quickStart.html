@@ -1,0 +1,320 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script src="/cdn-cgi/apps/head/3cOPSgo5Omz84ycX7CvigfX4cpw.js"></script><script async src="https://www.googletagmanager.com/gtag/js?id=UA-82213539-2"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-82213539-2');
+    </script>
+    <title>2 NATS Quick Start 1.0.0.BUILD-SNAPSHOT</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8"/>
+    <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8"/>
+    <script type="text/javascript">
+function addJsClass() {
+    var classes = document.body.className.split(" ");
+    classes.push("js");
+    document.body.className = classes.join(" ");
+}
+    </script>
+</head>
+
+<body class="body" onload="addJsClass();">
+<div id="navigation">
+    <div class="navTitle">
+        
+        Micronaut Nats
+    </div>
+    <div class="navLinks">
+        <ul>
+            <li>
+                <div id="nav-summary" onmouseover="toggleNavSummary(false)" onmouseout="toggleNavSummary(true)">
+                    <a href="../guide/index.html" class="button">Table of contents</a>
+
+                    <div id="nav-summary-childs" style="display:none;">
+                        
+                        <div class="toc-item" style="margin-left:0"><a href="../guide/introduction.html"><strong>1</strong><span>Introduction</span></a>
+                        </div>
+                        
+                        <div class="toc-item" style="margin-left:0"><a href="../guide/quickStart.html"><strong>2</strong><span>NATS Quick Start</span></a>
+                        </div>
+                        
+                        <div class="toc-item" style="margin-left:0"><a href="../guide/producer.html"><strong>3</strong><span>NATS Producers Using @NatsClient</span></a>
+                        </div>
+                        
+                        <div class="toc-item" style="margin-left:0"><a href="../guide/consumer.html"><strong>4</strong><span>NATS Consumers Using @NatsListener</span></a>
+                        </div>
+                        
+                        <div class="toc-item" style="margin-left:0"><a href="../guide/health.html"><strong>5</strong><span>NATS Health Indicator</span></a>
+                        </div>
+                        
+                    </div>
+                </div>
+            </li>
+            <li class="separator selected">
+                <a id="ref-button" onclick="localToggle(); return false;" href="#">Quick Reference</a>
+            </li>
+        </ul>
+    </div>
+
+
+</div>
+
+<table id="colset" border="0" cellpadding="0" cellspacing="0">
+    <tr>
+        <td id="col1">
+            <div id="main" class="corner-all">
+
+                
+                    <div class="toc-item prev-left"><a href="../guide/introduction.html">&lt;&lt; <strong>1</strong><span>Introduction</span></a></div>
+                
+
+                <span id='toggle-col1' class="toggle">(<a href="#" onclick="localToggle(); return false;">Quick Reference</a>)</span>
+
+                
+                    <div class="toc-item next-right"><a href="../guide/producer.html"><strong>3</strong><span>NATS Producers Using @NatsClient</span> >></a></div>
+                
+
+
+                <div class="project">
+                    <h1>2 NATS Quick Start</h1>
+
+                    <p><strong>Version:</strong> 1.0.0.BUILD-SNAPSHOT</p>
+                </div>
+
+                
+
+                
+
+<h1 id="quickStart">2 NATS Quick Start</h1>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/master/src/main/docs/guide/quickStart.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="paragraph">
+<p>To add support for NATS.io to an existing project, you should first add the Micronaut NATS configuration to your build configuration. For example:</p>
+</div>
+<div class="paragraph">
+<p>        <div class="listingblock multi-language-sample">
+<div class="title"></div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="gradle">implementation(<span class="hljs-string">"io.micronaut.nats:micronaut-nats")</span></code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="maven">&lt;dependency&gt;
+    &lt;groupId&gt;io.micronaut.nats&lt;/groupId&gt;
+    &lt;artifactId&gt;micronaut-nats&lt;/artifactId&gt;
+&lt;/dependency&gt;</code></pre>
+</div>
+</div>
+</p>
+</div>
+<div class="sect2">
+<h3 id="_configuring_nats">Configuring NATS</h3>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Without any configuration the defaults in the <a href="https://javadoc.io/doc/io.nats/jnats//2.6.7/io/nats/client/Options.html">Options</a> will be used.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>It is possible to configure multiple connections to the same server, different servers, or a single connection to one of a list of servers.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">nats:
+    server1:
+      addresses:
+        - "nats://localhost:4222"
+      username: guest
+      password: guest
+    server2:
+      addresses:
+        - "nats://randomServer:4222"
+      username: guest
+      password: guest</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>NATS also supports a fail over connection strategy where the first server that connects successfully will be used among a list of servers. To use this option in Micronaut, simply supply a list of <code>host:port</code> addresses.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">nats:
+    addresses:
+      - "nats://localhost:4222"
+      - "nats://randomServer:4222"
+    username: guest
+    password: guest</code></pre>
+</div>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+When the configuration option <code>nats.servers</code> is used, no other options underneath <code>nats</code> are read; for example <code>nats.username</code>.
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+It is also possible to disable the integration entirely with <code>nats.enabled: false</code>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_creating_a_nats_producer_with_natsclient">Creating a NATS Producer with @NatsClient</h3>
+<div class="paragraph">
+<p>To create a NATS <code>Producer</code> that sends messages you can simply define an interface that is annotated with <a href="../api/io/micronaut/nats/annotation/NatsClient.html">@NatsClient</a>.</p>
+</div>
+<div class="paragraph">
+<p>For example the following is a trivial <code>@NatsClient</code> interface:</p>
+</div>
+<div class="listingblock">
+<div class="title">ProductClient.java</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">import io.micronaut.nats.annotation.NatsClient;
+import io.micronaut.nats.annotation.Subject;
+import io.micronaut.messaging.annotation.Body;
+
+@NatsClient <i class="conum" data-value="1"></i><b>(1)</b>
+public interface ProductClient {
+
+    @Subject("my-products") <i class="conum" data-value="2"></i><b>(2)</b>
+    void send(String name);
+
+    void sendProduct(@Subject String brand, @Body String name); <i class="conum" data-value="3"></i><b>(3)</b>
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The <a href="../api/io/micronaut/nats/annotation/NatsClient.html">@NatsClient</a> annotation is used to designate this interface as a client</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>The <a href="../api/io/micronaut/nats/annotation/Subject.html">@Subject</a> annotation indicates which subject the <code>Message</code> should be published to</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>It is also possible for the subject to be dynamic by making it a method argument</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>At compile time Micronaut will produce an implementation of the above interface. You can retrieve an instance of <code>ProductClient</code> either by looking up the bean from the <a href="../api/io/micronaut/context/ApplicationContext.html">ApplicationContext</a> or by injecting the bean with <code>@Inject</code>:</p>
+</div>
+<div class="listingblock">
+<div class="title">Using ProductClient</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">ProductClient client = applicationContext.getBean(ProductClient.class);
+client.sendProduct("Nike", "Blue Trainers");</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_creating_a_nats_consumer_with_natslistener">Creating a NATS Consumer with @NatsListener</h3>
+<div class="paragraph">
+<p>To listen to NATS messages you can use the <a href="../api/io/micronaut/nats/annotation/NatsListener.html">@NatsListener</a> annotation to define a message listener.</p>
+</div>
+<div class="paragraph">
+<p>The following example will listen for messages published by the <code>ProductClient</code> in the previous section:</p>
+</div>
+<div class="listingblock">
+<div class="title">ProductListener.java</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">import io.micronaut.messaging.annotation.Body;
+import io.micronaut.nats.annotation.NatsListener;
+import io.micronaut.nats.annotation.Subject;
+
+@NatsListener <i class="conum" data-value="1"></i><b>(1)</b>
+public class ProductListener {
+
+    @Subject("my-products") <i class="conum" data-value="2"></i><b>(2)</b>
+    public void receive(@Body String name) { <i class="conum" data-value="3"></i><b>(3)</b>
+        System.out.println("Got Product - " + name);
+    }
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The <a href="../api/io/micronaut/nats/annotation/NatsListener.html">@NatsListener</a> is used to designate this class as a listener.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>The <a href="../api/io/micronaut/nats/annotation/Subject.html">@Subject</a> annotation is again used to indicate which subject to subscribe to.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>The <code>receive</code> method defines one argument, which will receive the value.</td>
+</tr>
+</table>
+</div>
+</div>
+
+
+                <div style="clear:both;margin-top:15px;"></div>
+                
+                    <div class="toc-item prev-left"><a href="../guide/introduction.html">&lt;&lt; <strong>1</strong><span>Introduction</span></a></div>
+                
+                    <div class="toc-item next-right"><a href="../guide/producer.html"><strong>3</strong><span>NATS Producers Using @NatsClient</span> >></a></div>
+                
+                <div style="clear:both"></div>
+            </div>
+        </td>
+        <td id="col2">
+            <div class="local clearfix">
+                <div class="local-title">
+                    <a href="../guide/index.html" target="mainFrame">Quick Reference</a>
+                    <span class="toggle">(<a href="#" onclick="localToggle(); return false;">hide</a>)</span>
+                </div>
+                <div class="menu">
+                    
+                </div>
+            </div>
+        </td>
+    </tr>
+</table>
+
+<div id="footer">
+    
+    
+</div>
+
+<script type="text/javascript" src="../js/docs.js"></script>
+
+</body>
+</html>

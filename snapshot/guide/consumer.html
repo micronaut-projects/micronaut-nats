@@ -1,0 +1,250 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script src="/cdn-cgi/apps/head/3cOPSgo5Omz84ycX7CvigfX4cpw.js"></script><script async src="https://www.googletagmanager.com/gtag/js?id=UA-82213539-2"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-82213539-2');
+    </script>
+    <title>4 NATS Consumers Using @NatsListener 1.0.0.BUILD-SNAPSHOT</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8"/>
+    <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8"/>
+    <script type="text/javascript">
+function addJsClass() {
+    var classes = document.body.className.split(" ");
+    classes.push("js");
+    document.body.className = classes.join(" ");
+}
+    </script>
+</head>
+
+<body class="body" onload="addJsClass();">
+<div id="navigation">
+    <div class="navTitle">
+        
+        Micronaut Nats
+    </div>
+    <div class="navLinks">
+        <ul>
+            <li>
+                <div id="nav-summary" onmouseover="toggleNavSummary(false)" onmouseout="toggleNavSummary(true)">
+                    <a href="../guide/index.html" class="button">Table of contents</a>
+
+                    <div id="nav-summary-childs" style="display:none;">
+                        
+                        <div class="toc-item" style="margin-left:0"><a href="../guide/introduction.html"><strong>1</strong><span>Introduction</span></a>
+                        </div>
+                        
+                        <div class="toc-item" style="margin-left:0"><a href="../guide/quickStart.html"><strong>2</strong><span>NATS Quick Start</span></a>
+                        </div>
+                        
+                        <div class="toc-item" style="margin-left:0"><a href="../guide/producer.html"><strong>3</strong><span>NATS Producers Using @NatsClient</span></a>
+                        </div>
+                        
+                        <div class="toc-item" style="margin-left:0"><a href="../guide/consumer.html"><strong>4</strong><span>NATS Consumers Using @NatsListener</span></a>
+                        </div>
+                        
+                        <div class="toc-item" style="margin-left:0"><a href="../guide/health.html"><strong>5</strong><span>NATS Health Indicator</span></a>
+                        </div>
+                        
+                    </div>
+                </div>
+            </li>
+            <li class="separator selected">
+                <a id="ref-button" onclick="localToggle(); return false;" href="#">Quick Reference</a>
+            </li>
+        </ul>
+    </div>
+
+
+</div>
+
+<table id="colset" border="0" cellpadding="0" cellspacing="0">
+    <tr>
+        <td id="col1">
+            <div id="main" class="corner-all">
+
+                
+                    <div class="toc-item prev-left"><a href="../guide/producer.html">&lt;&lt; <strong>3</strong><span>NATS Producers Using @NatsClient</span></a></div>
+                
+
+                <span id='toggle-col1' class="toggle">(<a href="#" onclick="localToggle(); return false;">Quick Reference</a>)</span>
+
+                
+                    <div class="toc-item next-right"><a href="../guide/health.html"><strong>5</strong><span>NATS Health Indicator</span> >></a></div>
+                
+
+
+                <div class="project">
+                    <h1>4 NATS Consumers Using @NatsListener</h1>
+
+                    <p><strong>Version:</strong> 1.0.0.BUILD-SNAPSHOT</p>
+                </div>
+
+                
+                <div id="table-of-content">
+                    <h2>Table of Contents</h2>
+                    
+                    <div class="toc-item" style="margin-left:0px"><a href="#consumerMethods"><strong>4.1</strong><span>Defining @NatsListener Methods</span></a>
+                    </div>
+                    
+                </div>
+                
+
+                
+
+<h1 id="consumer">4 NATS Consumers Using @NatsListener</h1>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/master/src/main/docs/guide/consumer.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="paragraph">
+<p>The quick start section presented a trivial example of what is possible with the <a href="../api/io/micronaut/nats/annotation/NatsListener.html">@NatsListener</a> annotation.</p>
+</div>
+<div class="paragraph">
+<p>The implementation that powers <code>@NatsListener</code> (defined by the <a href="../api/io/micronaut/nats/intercept/NatsConsumerAdvice.html">NatsConsumerAdvice</a> class) is, however, very flexible and offers a range of options for consuming NATS message.</p>
+</div>
+
+
+<h2 id="consumerMethods">4.1 Defining @NatsListener Methods</h2>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/master/src/main/docs/guide/consumer/consumerMethods.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="paragraph">
+<p>All methods that consume messages from NATS must meet the following conditions:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The method must reside in a class annotated with <a href="../api/io/micronaut/nats/annotation/NatsListener.html">@NatsListener</a>.</p>
+</li>
+<li>
+<p>The method must be annotated with <a href="../api/io/micronaut/nats/annotation/Subject.html">@Subject</a>.</p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+In order for all of the functionality to work as <code>designed</code> in this guide your classes must be compiled with the parameters flag set to <code>true</code>.
+If your application was created with the Micronaut CLI, then that has already been configured for you.
+</td>
+</tr>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_simple_consumer">Simple Consumer</h3>
+<div class="paragraph">
+<p>The easiest way for defining a producer is the following:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    @Subject("my-products")
+    public void receive(String name) {
+        System.out.println("Got Product - " + name);
+    }</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_queue_support">Queue Support</h3>
+<div class="paragraph">
+<p>Subscribers may specify queue groups at subscription time. When a message is published to the group NATS will deliver it to a one-and-only-one subscriber.</p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+Queue groups do not persist messages. If no listeners are available, the message is discarded.
+</td>
+</tr>
+</table>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    @Subject(value = "my-products", queue="my-queue")
+    public void receive(String name) {
+        System.out.println("Got Product - " + name);
+    }</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_return_type_and_rpc">Return Type and RPC</h3>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+If the consumer defines a return type, it automatically will use the RPC logic and will send the return value to the producer
+</td>
+</tr>
+</table>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    @Subject(value = "my-products")
+    public Product receive(String name) {
+        return new Product(name);
+    }</code></pre>
+</div>
+</div>
+</div>
+
+
+                <div style="clear:both;margin-top:15px;"></div>
+                
+                    <div class="toc-item prev-left"><a href="../guide/producer.html">&lt;&lt; <strong>3</strong><span>NATS Producers Using @NatsClient</span></a></div>
+                
+                    <div class="toc-item next-right"><a href="../guide/health.html"><strong>5</strong><span>NATS Health Indicator</span> >></a></div>
+                
+                <div style="clear:both"></div>
+            </div>
+        </td>
+        <td id="col2">
+            <div class="local clearfix">
+                <div class="local-title">
+                    <a href="../guide/index.html" target="mainFrame">Quick Reference</a>
+                    <span class="toggle">(<a href="#" onclick="localToggle(); return false;">hide</a>)</span>
+                </div>
+                <div class="menu">
+                    
+                </div>
+            </div>
+        </td>
+    </tr>
+</table>
+
+<div id="footer">
+    
+    
+</div>
+
+<script type="text/javascript" src="../js/docs.js"></script>
+
+</body>
+</html>
