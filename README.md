@@ -7,7 +7,7 @@ Integrates Micronaut and nats.io
 
 ## Documentation
 
-See the [Documentation](https://micronaut-projects.github.io/micronaut-nats/latest/guide/) for more information. 
+See the [Documentation](https://micronaut-projects.github.io/micronaut-nats/1.0.x/guide/) for more information. 
 
 See the [Snapshot Documentation](https://micronaut-projects.github.io/micronaut-nats/snapshot/guide/) for the current development docs.
 
