@@ -14,7 +14,7 @@ dependencies {
     compileOnly "io.micronaut.configuration:micronaut-micrometer-core"
     
     testAnnotationProcessor "io.micronaut:micronaut-inject-java"
-    testImplementation "io.micronaut.test:micronaut-test-spock"
+    testImplementation "io.micronaut.test:micronaut-test-spock:1.1.5"
     testImplementation "io.micronaut:micronaut-inject-groovy"
     testImplementation "io.micronaut:micronaut-inject-java"
     testImplementation "org.testcontainers:spock:1.14.1"
