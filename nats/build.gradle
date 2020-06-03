@@ -11,8 +11,8 @@ dependencies {
     api "io.nats:jnats:$natsVersion"
 
     compileOnly "io.micronaut:micronaut-management"
-    compileOnly "io.micronaut.configuration:micronaut-micrometer-core"
-    
+    compileOnly "io.micronaut.micrometer:micronaut-micrometer-core"
+
     testAnnotationProcessor "io.micronaut:micronaut-inject-java"
     testImplementation "io.micronaut.test:micronaut-test-spock:1.2.0"
     testImplementation "io.micronaut:micronaut-inject-groovy"
