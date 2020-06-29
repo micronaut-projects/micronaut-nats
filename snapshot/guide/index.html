@@ -28,6 +28,7 @@
 <body class="body" id="docs" onload="addJsClass();" onhashchange="highlightMenu()">
 
 <div id="table-of-content-nav-link" class="desktop">
+    <a id="theme-switcher" title="Switch to dark theme" href="javascript:switchTheme(true)"><i class="fa fa-moon-o"></i></a>
     <a title="Collapse/Open Table of contents" title="Hide Table of Contents" href="javascript:hideTableOfContents();" class="button">[ + ]</a>
 </div>
 
@@ -38,8 +39,7 @@
         </div>
         <div class="navLinks">
             <ul>
-                    <li>
-                        <div id="nav-summary" onmouseover="toggleNavSummary(false)" onmouseout="toggleNavSummary(true)" class="desktop">
+                    <li><div id="nav-summary" onmouseover="toggleNavSummary(false)" onmouseout="toggleNavSummary(true)" class="desktop">
                             <a href="../guide/index.html" class="button">Table of contents</a>
                             <div id="nav-summary-childs" style="display:none;">
                                 
@@ -72,7 +72,6 @@
                 <li class="mobile">
                     <a title="Go to Configuration Reference documentation" href="../guide/configurationreference.html" class="button">Conf</a>
                 </li>
-
             </ul>
 
         </div>
@@ -108,8 +107,7 @@
         <p><strong>Version:</strong> <select style='max-width: 200px' onChange='window.document.location.href=this.options[this.selectedIndex].value;'><option selected='selected' value='https://micronaut-projects.github.io/micronaut-nats/snapshot/guide/index.html'>SNAPSHOT</option><option value='https://micronaut-projects.github.io/micronaut-nats/1.0.0/guide/index.html'>1.0.0</option><option value='https://micronaut-projects.github.io/micronaut-nats/1.0.0.RC1/guide/index.html'>1.0.0.RC1</option></select></p>
     </div>
     
-
-<h1 id="introduction">1 Introduction</h1>
+<h1 id="introduction"><a class="anchor" href="#introduction"></a>1 Introduction</h1>
 
 <div class='contribute-btn'>
     <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/master/src/main/docs/guide/introduction.adoc"'>
@@ -144,8 +142,7 @@
 </div>
 </div>
 
-
-<h1 id="quickStart">2 NATS Quick Start</h1>
+<h1 id="quickStart"><a class="anchor" href="#quickStart"></a>2 NATS Quick Start</h1>
 
 <div class='contribute-btn'>
     <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/master/src/main/docs/guide/quickStart.adoc"'>
@@ -339,8 +336,7 @@ public class ProductListener {
 </div>
 </div>
 
-
-<h1 id="producer">3 NATS Producers Using @NatsClient</h1>
+<h1 id="producer"><a class="anchor" href="#producer"></a>3 NATS Producers Using @NatsClient</h1>
 
 <div class='contribute-btn'>
     <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/master/src/main/docs/guide/producer.adoc"'>
@@ -356,8 +352,7 @@ public class ProductListener {
 <p>The implementation that powers <code>@NatsClient</code> (defined by the <a href="../api/io/micronaut/nats/intercept/NatsIntroductionAdvice.html">NatsIntroductionAdvice</a> class) is, however, very flexible and offers a range of options for defining Kafka clients.</p>
 </div>
 
-
-<h2 id="producerMethods">3.1 Defining @NatsClient Methods</h2>
+<h2 id="producerMethods"><a class="anchor" href="#producerMethods"></a>3.1 Defining @NatsClient Methods</h2>
 
 <div class='contribute-btn'>
     <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/master/src/main/docs/guide/producer/producerMethods.adoc"'>
@@ -461,8 +456,7 @@ Flowable&lt;Product&gt; sendProduct(String name);</code></pre>
 </div>
 </div>
 
-
-<h1 id="consumer">4 NATS Consumers Using @NatsListener</h1>
+<h1 id="consumer"><a class="anchor" href="#consumer"></a>4 NATS Consumers Using @NatsListener</h1>
 
 <div class='contribute-btn'>
     <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/master/src/main/docs/guide/consumer.adoc"'>
@@ -478,8 +472,7 @@ Flowable&lt;Product&gt; sendProduct(String name);</code></pre>
 <p>The implementation that powers <code>@NatsListener</code> (defined by the <a href="../api/io/micronaut/nats/intercept/NatsConsumerAdvice.html">NatsConsumerAdvice</a> class) is, however, very flexible and offers a range of options for consuming NATS message.</p>
 </div>
 
-
-<h2 id="consumerMethods">4.1 Defining @NatsListener Methods</h2>
+<h2 id="consumerMethods"><a class="anchor" href="#consumerMethods"></a>4.1 Defining @NatsListener Methods</h2>
 
 <div class='contribute-btn'>
     <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/master/src/main/docs/guide/consumer/consumerMethods.adoc"'>
@@ -578,8 +571,7 @@ If the consumer defines a return type, it automatically will use the RPC logic a
 </div>
 </div>
 
-
-<h1 id="health">5 NATS Health Indicator</h1>
+<h1 id="health"><a class="anchor" href="#health"></a>5 NATS Health Indicator</h1>
 
 <div class='contribute-btn'>
     <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/master/src/main/docs/guide/health.adoc"'>
