@@ -19,7 +19,7 @@ import javax.annotation.Nullable;
 import javax.annotation.concurrent.Immutable;
 
 /**
- * Stores the state of a RabbitMQ message to be published.
+ * Stores the state of a Nats message to be published.
  *
  * @author James Kleeh
  * @since 1.1.0
