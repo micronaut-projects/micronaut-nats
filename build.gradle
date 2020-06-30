@@ -21,6 +21,9 @@ subprojects { Project subproject ->
         return
     }
 
+    test {
+        useJUnitPlatform()
+    }
     apply plugin: "io.micronaut.build.publishing"
 }
 
