@@ -8,7 +8,7 @@ If your application was created with the Micronaut CLI, then that has already be
 
 === Simple Consumer
 
-The easiest way for defining a producer is the following:
+The easiest way for defining a consumer is the following:
 
 [source,java]
 ----
