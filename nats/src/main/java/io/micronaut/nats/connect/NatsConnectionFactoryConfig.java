@@ -21,17 +21,17 @@ import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.security.KeyStore;
 import java.security.SecureRandom;
+import java.security.cert.CertificateFactory;
+import java.security.cert.X509Certificate;
 import java.time.Duration;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
 import javax.annotation.Nullable;
-import javax.net.ssl.KeyManager;
-import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLContext;
-import javax.net.ssl.TrustManager;
 import javax.net.ssl.TrustManagerFactory;
+import javax.validation.constraints.NotNull;
 
 import io.micronaut.context.annotation.Parameter;
 import io.nats.client.Nats;
@@ -81,17 +81,7 @@ public abstract class NatsConnectionFactoryConfig {
 
     private String credentials;
 
-    private String keyStorePath;
-
-    private char[] keyStorePassword;
-
-    private String keyStoreType;
-
-    private String trustStorePath;
-
-    private char[] trustStorePassword;
-
-    private String trustStoreType;
+    private TLS tls;
 
     /**
      * Default constructor.
@@ -277,7 +267,6 @@ public abstract class NatsConnectionFactoryConfig {
     }
 
     /**
-     *
      * @return path to the credentials file to use for authentication with an account enabled server
      */
     public String getCredentials() {
@@ -292,146 +281,10 @@ public abstract class NatsConnectionFactoryConfig {
     }
 
     /**
-     * @return path to the SSL Keystore
+     * @param tls The tls configuration
      */
-    public String getKeyStorePath() {
-        return this.keyStorePath;
-    }
-
-    /**
-     * @param keyStorePath file path for the SSL Keystore
-     */
-    public void setKeyStorePath(String keyStorePath) {
-        this.keyStorePath = keyStorePath;
-    }
-
-    /**
-     * @return password used to unlock the keystore
-     */
-    public char[] getKeyStorePassword() {
-        return this.keyStorePassword;
-    }
-
-    /**
-     * @param keyStorePassword used to unlock the keystore
-     */
-    public void setKeyStorePassword(char[] keyStorePassword) {
-        this.keyStorePassword = keyStorePassword;
-    }
-
-    /**
-     * @return type of keystore to use for SSL connections
-     */
-    public String getKeyStoreType() {
-        return this.keyStoreType;
-    }
-
-    /**
-     * @param keyStoreType generally the default, but available for special keystore formats/types
-     */
-    public void setKeyStoreType(String keyStoreType) {
-        this.keyStoreType = keyStoreType;
-    }
-
-    /**
-     * @return file path for the SSL trust store
-     */
-    public String getTrustStorePath() {
-        return this.trustStorePath;
-    }
-
-    /**
-     * @param trustStorePath file path for the SSL trust store
-     */
-    public void setTrustStorePath(String trustStorePath) {
-        this.trustStorePath = trustStorePath;
-    }
-
-    /**
-     * @return password used to unlock the trust store
-     */
-    public char[] getTrustStorePassword() {
-        return this.trustStorePassword;
-    }
-
-    /**
-     * @param trustStorePassword used to unlock the trust store
-     */
-    public void setTrustStorePassword(char[] trustStorePassword) {
-        this.trustStorePassword = trustStorePassword;
-    }
-
-    /**
-     * @return type of keystore to use for SSL connections
-     */
-    public String getTrustStoreType() {
-        return this.trustStoreType;
-    }
-
-    /**
-     * @param trustStoreType generally the default, but available for special trust store formats/types
-     */
-    public void setTrustStoreType(String trustStoreType) {
-        this.trustStoreType = trustStoreType;
-    }
-
-    private KeyStore loadKeystore(String path, char[] password) throws IOException, GeneralSecurityException {
-        KeyStore store = KeyStore.getInstance("JKS");
-
-        try (BufferedInputStream in = new BufferedInputStream(new FileInputStream(path))) {
-            store.load(in, password);
-        }
-
-        return store;
-    }
-
-    private KeyManager[] createKeyManagers(String path, char[] password, String type)
-            throws IOException, GeneralSecurityException {
-        if (type == null || type.isEmpty()) {
-            type = "SunX509";
-        }
-
-        if (password == null || password.length == 0) {
-            password = new char[0];
-        }
-
-        KeyStore store = this.loadKeystore(path, password);
-        KeyManagerFactory factory = KeyManagerFactory.getInstance(type);
-        factory.init(store, password);
-        return factory.getKeyManagers();
-    }
-
-    private TrustManager[] createTrustManagers(String path, char[] password, String type)
-            throws IOException, GeneralSecurityException {
-        if (type == null || type.isEmpty()) {
-            type = "SunX509";
-        }
-
-        if (password == null || password.length == 0) {
-            password = new char[0];
-        }
-
-        KeyStore store = loadKeystore(path, password);
-        TrustManagerFactory factory = TrustManagerFactory.getInstance(type);
-        factory.init(store);
-        return factory.getTrustManagers();
-    }
-
-    private SSLContext createSSLContext() throws IOException, GeneralSecurityException {
-        SSLContext ctx = SSLContext.getInstance(DEFAULT_SSL_PROTOCOL);
-        ctx.init(this.createKeyManagers(this.keyStorePath, this.keyStorePassword, this.keyStoreType),
-                this.createTrustManagers(this.trustStorePath, this.trustStorePassword, this.trustStoreType),
-                new SecureRandom());
-        return ctx;
-    }
-
-    /**
-     * @return NATS options based on this set of properties
-     * @throws IOException if there is a problem reading a file or setting up the SSL context
-     * @throws GeneralSecurityException if there is a problem setting up the SSL context
-     */
-    public Options toOptions() throws IOException, GeneralSecurityException {
-        return toOptionsBuilder().build();
+    public void setTls(@NotNull NatsConnectionFactoryConfig.TLS tls) {
+        this.tls = tls;
     }
 
     /**
@@ -468,11 +321,107 @@ public abstract class NatsConnectionFactoryConfig {
             builder = builder.userInfo(this.username, this.password);
         }
 
-        if (this.keyStorePath != null && !this.keyStorePath.isEmpty() && this.trustStorePath != null
-                && !this.trustStorePath.isEmpty()) {
-            builder.sslContext(this.createSSLContext());
+        if (this.tls != null) {
+            builder.sslContext(this.tls.createTlsContext());
         }
 
         return builder;
+    }
+
+    /**
+     * TLS Configuration.
+     */
+    public static class TLS {
+
+        private String trustStorePath;
+
+        private String trustStorePassword;
+
+        private String trustStoreType;
+
+        private String certificatePath;
+
+        /**
+         * @return file path for the trust store
+         */
+        public String getTrustStorePath() {
+            return this.trustStorePath;
+        }
+
+        /**
+         * @param trustStorePath file path for the trust store
+         */
+        public void setTrustStorePath(String trustStorePath) {
+            this.trustStorePath = trustStorePath;
+        }
+
+        /**
+         * @return password used to unlock the trust store
+         */
+        public String getTrustStorePassword() {
+            return this.trustStorePassword;
+        }
+
+        /**
+         * @param trustStorePassword used to unlock the trust store
+         */
+        public void setTrustStorePassword(String trustStorePassword) {
+            this.trustStorePassword = trustStorePassword;
+        }
+
+        /**
+         * @return type of keystore to use for connections
+         */
+        public String getTrustStoreType() {
+            return this.trustStoreType;
+        }
+
+        /**
+         * @param trustStoreType generally the default, but available for special trust store formats/types
+         */
+        public void setTrustStoreType(String trustStoreType) {
+            this.trustStoreType = trustStoreType;
+        }
+
+        /**
+         * @return the certificate path
+         */
+        public String getCertificatePath() {
+            return certificatePath;
+        }
+
+        /**
+         * @param certificatePath the path to the certificate
+         */
+        public void setCertificatePath(String certificatePath) {
+            this.certificatePath = certificatePath;
+        }
+
+        private SSLContext createTlsContext() throws IOException, GeneralSecurityException {
+            SSLContext ctx = SSLContext.getInstance(DEFAULT_SSL_PROTOCOL);
+
+            TrustManagerFactory factory =
+                    TrustManagerFactory.getInstance(Optional.ofNullable(trustStoreType).orElse("SunX509"));
+            KeyStore ks = KeyStore.getInstance(KeyStore.getDefaultType());
+            if (trustStorePath != null && !trustStorePath.isEmpty()) {
+                try (BufferedInputStream in = new BufferedInputStream(new FileInputStream(trustStorePath))) {
+                    ks.load(in, Optional.ofNullable(trustStorePassword).map(String::toCharArray).orElse(new char[0]));
+                }
+            } else {
+                ks.load(null);
+            }
+            if (certificatePath != null && !certificatePath.isEmpty()) {
+                try (BufferedInputStream in = new BufferedInputStream(new FileInputStream(certificatePath))) {
+                    CertificateFactory cf = CertificateFactory.getInstance("X.509");
+                    X509Certificate cert = (X509Certificate) cf.generateCertificate(in);
+                    ks.setCertificateEntry("nats", cert);
+                }
+            }
+            factory.init(ks);
+            ctx.init(null, factory.getTrustManagers(), new SecureRandom());
+
+            return ctx;
+        }
+
     }
 }

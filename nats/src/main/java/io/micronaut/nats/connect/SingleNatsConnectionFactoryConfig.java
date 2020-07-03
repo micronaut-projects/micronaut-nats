@@ -16,6 +16,7 @@
 package io.micronaut.nats.connect;
 
 import javax.inject.Named;
+import javax.validation.constraints.NotNull;
 
 import io.micronaut.context.annotation.ConfigurationProperties;
 import io.micronaut.context.annotation.Requires;
@@ -38,6 +39,23 @@ public class SingleNatsConnectionFactoryConfig extends NatsConnectionFactoryConf
      */
     public SingleNatsConnectionFactoryConfig() {
         super(DEFAULT_NAME);
+    }
+
+    /**
+     * Sets the tls configuration.
+     *
+     * @param tls The tls configuration
+     */
+    public void setTls(@NotNull DefaultTlsConfiguration tls) {
+        super.setTls(tls);
+    }
+
+    /**
+     * @see TLS
+     */
+    @ConfigurationProperties("tls")
+    public static class DefaultTlsConfiguration extends TLS {
+
     }
 
 }

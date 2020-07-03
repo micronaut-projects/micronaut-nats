@@ -15,13 +15,15 @@
  */
 package io.micronaut.nats.connect;
 
+import javax.validation.constraints.NotNull;
+
+import io.micronaut.context.annotation.ConfigurationProperties;
 import io.micronaut.context.annotation.EachProperty;
 import io.micronaut.context.annotation.Parameter;
 import io.micronaut.context.annotation.Requires;
 
 /**
  * Allows configuration of multiple nats connections.
- *
  * @author jgrimm
  * @since 1.0.0
  */
@@ -33,11 +35,25 @@ public class ClusterNatsConnectionFactoryConfig extends NatsConnectionFactoryCon
 
     /**
      * Default constructor.
-     *
      * @param name The connection name
      */
     public ClusterNatsConnectionFactoryConfig(@Parameter("name") String name) {
         super(name);
     }
 
+    /**
+     * Sets the tls configuration.
+     * @param tls The tls configuration
+     */
+    public void setTls(@NotNull DefaultTlsConfiguration tls) {
+        super.setTls(tls);
+    }
+
+    /**
+     * @see TLS
+     */
+    @ConfigurationProperties("tls")
+    public static class DefaultTlsConfiguration extends TLS {
+
+    }
 }

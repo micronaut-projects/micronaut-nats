@@ -44,15 +44,19 @@ nats:
 
 IMPORTANT: When the configuration option `nats.servers` is used, no other options underneath `nats` are read; for example `nats.username`.
 
-If you need to setup SSL, it can be configured this way:
+If you need to setup TLS, it can be configured this way:
 
 [source,yaml]
 ----
 nats:
     addresses:
-      - "nats://localhost:4222"
-    keyStorePath:
-    keyStorePassword:
-    trustStorePath:
-    trustStorePassword:
+      - "nats://localhost:4222" // <1>
+    tls:
+      trust-store-path:  /path/to/client.truststore.jks // <2>
+      trust-store-password: secret
+      certificate-path: /path/to/certificate.crt // <3>
 ----
+
+<1> You can either use `nats://localhost:4222` or `tls://localhost:4222` as protocol.
+<2> You can configure a complete truststore
+<3> Or ou can use a single certificate for connecting to NATS securely.

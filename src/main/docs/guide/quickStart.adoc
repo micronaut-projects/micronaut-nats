@@ -2,8 +2,6 @@ To add support for NATS.io to an existing project, you should first add the Micr
 
 dependency:micronaut-nats[groupId="io.micronaut.nats"]
 
-=== Configuring NATS
-
 === Creating a NATS Producer with @NatsClient
 
 To create a NATS `Producer` that sends messages you can simply define an interface that is annotated with ann:nats.annotation.NatsClient[].

@@ -41,13 +41,14 @@ public class NatsConnectionFactory {
 
     /**
      * @param connectionFactory The factory to create the connection
-     * @param executorService The messaging executer service
+     * @param executorService   The messaging executer service
      * @return The connection
      */
     @Bean(preDestroy = "close")
     @Singleton
     @EachBean(NatsConnectionFactoryConfig.class)
-    Connection connection(NatsConnectionFactoryConfig connectionFactory, @Named(TaskExecutors.MESSAGE_CONSUMER) ExecutorService executorService) {
+    Connection connection(NatsConnectionFactoryConfig connectionFactory,
+            @Named(TaskExecutors.MESSAGE_CONSUMER) ExecutorService executorService) {
         try {
             return Nats.connect(connectionFactory.toOptionsBuilder().executor(executorService).build());
         } catch (IOException | InterruptedException | GeneralSecurityException e) {
