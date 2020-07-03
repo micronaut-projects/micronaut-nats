@@ -4,41 +4,6 @@ dependency:micronaut-nats[groupId="io.micronaut.nats"]
 
 === Configuring NATS
 
-NOTE: Without any configuration the defaults in the link:{apinats}{natsVersion}/io/nats/client/Options.html[Options] will be used.
-
-It is possible to configure multiple connections to the same server, different servers, or a single connection to one of a list of servers.
-
-[source,yaml]
-----
-nats:
-    server1:
-      addresses:
-        - "nats://localhost:4222"
-      username: guest
-      password: guest
-    server2:
-      addresses:
-        - "nats://randomServer:4222"
-      username: guest
-      password: guest
-----
-
-NATS also supports a fail over connection strategy where the first server that connects successfully will be used among a list of servers. To use this option in Micronaut, simply supply a list of `host:port` addresses.
-
-[source,yaml]
-----
-nats:
-    addresses:
-      - "nats://localhost:4222"
-      - "nats://randomServer:4222"
-    username: guest
-    password: guest
-----
-
-IMPORTANT: When the configuration option `nats.servers` is used, no other options underneath `nats` are read; for example `nats.username`.
-
-TIP: It is also possible to disable the integration entirely with `nats.enabled: false`
-
 === Creating a NATS Producer with @NatsClient
 
 To create a NATS `Producer` that sends messages you can simply define an interface that is annotated with ann:nats.annotation.NatsClient[].

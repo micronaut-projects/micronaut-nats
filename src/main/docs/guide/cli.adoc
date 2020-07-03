@@ -1,0 +1,30 @@
+To create a project with NATS support using the Micronaut CLI, supply the `nats` feature to the `features` flag.
+
+----
+$ mn create-app my-nats-app --features nats
+----
+
+This will create a project with the minimum necessary configuration for NATS.
+
+
+=== Messaging Application
+
+The Micronaut CLI can generate messaging applications. This will create a Micronaut app with NATS support, and _without_ an HTTP server (although you can add one if you desire). The profile also provides a couple commands for generating NATS consumers and producers.
+
+To create a NATS messaging application, use the the following command:
+
+----
+$ mn create-messaging-app my-nats-service --features nats
+----
+
+As you'd expect, you can start the application with `./gradlew run` (for Gradle) or `./mvnw compile exec:exec` (Maven). The application will (with the default config) attempt to connect to NATS at `nats://localhost:4222`, and will continue to run without starting up an HTTP server. All communication to/from the service will take place via NATS producers and/or consumers.
+
+Within the new project, you can now run the NATS specific code generation commands:
+
+----
+$ mn create-nats-producer Message
+| Rendered template Producer.java to destination src/main/java/my/nats/app/MessageProducer.java
+
+$ mn create-nats-listener Message
+| Rendered template Listener.java to destination src/main/java/my/nats/app/MessageListener.java
+----

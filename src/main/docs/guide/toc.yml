@@ -1,4 +1,5 @@
 introduction: Introduction
+whatsNew: What's New
 cli: Using the Micronaut CLI
 quickStart: NATS Quick Start
 config: Configuring the connection
