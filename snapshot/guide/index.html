@@ -45,13 +45,19 @@
                                 
                                 <div class="toc-item" style="margin-left:0"><a href="#introduction"><strong>1</strong><span>Introduction</span></a></div>
                                 
-                                <div class="toc-item" style="margin-left:0"><a href="#quickStart"><strong>2</strong><span>NATS Quick Start</span></a></div>
+                                <div class="toc-item" style="margin-left:0"><a href="#whatsNew"><strong>2</strong><span>What's New</span></a></div>
                                 
-                                <div class="toc-item" style="margin-left:0"><a href="#producer"><strong>3</strong><span>NATS Producers Using @NatsClient</span></a></div>
+                                <div class="toc-item" style="margin-left:0"><a href="#cli"><strong>3</strong><span>Using the Micronaut CLI</span></a></div>
                                 
-                                <div class="toc-item" style="margin-left:0"><a href="#consumer"><strong>4</strong><span>NATS Consumers Using @NatsListener</span></a></div>
+                                <div class="toc-item" style="margin-left:0"><a href="#quickStart"><strong>4</strong><span>NATS Quick Start</span></a></div>
                                 
-                                <div class="toc-item" style="margin-left:0"><a href="#health"><strong>5</strong><span>NATS Health Indicator</span></a></div>
+                                <div class="toc-item" style="margin-left:0"><a href="#config"><strong>5</strong><span>Configuring the connection</span></a></div>
+                                
+                                <div class="toc-item" style="margin-left:0"><a href="#producer"><strong>6</strong><span>NATS Producers Using @NatsClient</span></a></div>
+                                
+                                <div class="toc-item" style="margin-left:0"><a href="#consumer"><strong>7</strong><span>NATS Consumers Using @NatsListener</span></a></div>
+                                
+                                <div class="toc-item" style="margin-left:0"><a href="#health"><strong>8</strong><span>NATS Health Indicator</span></a></div>
                                 
                             </div>
                         </div>
@@ -84,17 +90,23 @@
         
         <div class="toc-item" style="margin-left:0px" id="toc-item-introduction"><a href="#introduction"><strong>1</strong><span>Introduction</span></a></div>
         
-        <div class="toc-item" style="margin-left:0px" id="toc-item-quickStart"><a href="#quickStart"><strong>2</strong><span>NATS Quick Start</span></a></div>
+        <div class="toc-item" style="margin-left:0px" id="toc-item-whatsNew"><a href="#whatsNew"><strong>2</strong><span>What's New</span></a></div>
         
-        <div class="toc-item" style="margin-left:0px" id="toc-item-producer"><a href="#producer"><strong>3</strong><span>NATS Producers Using @NatsClient</span></a></div>
+        <div class="toc-item" style="margin-left:0px" id="toc-item-cli"><a href="#cli"><strong>3</strong><span>Using the Micronaut CLI</span></a></div>
         
-        <div class="toc-item" style="margin-left:10px" id="toc-item-producerMethods"><a href="#producerMethods"><strong>3.1</strong><span>Defining @NatsClient Methods</span></a></div>
+        <div class="toc-item" style="margin-left:0px" id="toc-item-quickStart"><a href="#quickStart"><strong>4</strong><span>NATS Quick Start</span></a></div>
         
-        <div class="toc-item" style="margin-left:0px" id="toc-item-consumer"><a href="#consumer"><strong>4</strong><span>NATS Consumers Using @NatsListener</span></a></div>
+        <div class="toc-item" style="margin-left:0px" id="toc-item-config"><a href="#config"><strong>5</strong><span>Configuring the connection</span></a></div>
         
-        <div class="toc-item" style="margin-left:10px" id="toc-item-consumerMethods"><a href="#consumerMethods"><strong>4.1</strong><span>Defining @NatsListener Methods</span></a></div>
+        <div class="toc-item" style="margin-left:0px" id="toc-item-producer"><a href="#producer"><strong>6</strong><span>NATS Producers Using @NatsClient</span></a></div>
         
-        <div class="toc-item" style="margin-left:0px" id="toc-item-health"><a href="#health"><strong>5</strong><span>NATS Health Indicator</span></a></div>
+        <div class="toc-item" style="margin-left:10px" id="toc-item-producerMethods"><a href="#producerMethods"><strong>6.1</strong><span>Defining @NatsClient Methods</span></a></div>
+        
+        <div class="toc-item" style="margin-left:0px" id="toc-item-consumer"><a href="#consumer"><strong>7</strong><span>NATS Consumers Using @NatsListener</span></a></div>
+        
+        <div class="toc-item" style="margin-left:10px" id="toc-item-consumerMethods"><a href="#consumerMethods"><strong>7.1</strong><span>Defining @NatsListener Methods</span></a></div>
+        
+        <div class="toc-item" style="margin-left:0px" id="toc-item-health"><a href="#health"><strong>8</strong><span>NATS Health Indicator</span></a></div>
         
         </div>
     </div>
@@ -119,10 +131,22 @@
 <div class="paragraph">
 <p>This project includes integration between Micronaut and nats.io. The standard <a href="https://github.com/nats-io/nats.java">Java Client</a> is used to do the actual publishing and consuming.</p>
 </div>
-<div class="sect2">
-<h3 id="_release_history">Release History</h3>
-<div class="sect3">
-<h4 id="_1_0_0">1.0.0</h4>
+
+<h1 id="whatsNew"><a class="anchor" href="#whatsNew"></a>2 What's New</h1>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/master/src/main/docs/guide/whatsNew.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="paragraph">
+<p>This section will outline any breaking changes between major or milestone releases as well as detail any new features that have been added.</p>
+</div>
+<div class="sect1">
+<h2 id="_1_0_0">1.0.0</h2>
+<div class="sectionbody">
 <div class="ulist">
 <ul>
 <li>
@@ -142,7 +166,57 @@
 </div>
 </div>
 
-<h1 id="quickStart"><a class="anchor" href="#quickStart"></a>2 NATS Quick Start</h1>
+<h1 id="cli"><a class="anchor" href="#cli"></a>3 Using the Micronaut CLI</h1>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/master/src/main/docs/guide/cli.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="paragraph">
+<p>To create a project with NATS support using the Micronaut CLI, supply the <code>nats</code> feature to the <code>features</code> flag.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>$ mn create-app my-nats-app --features nats</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This will create a project with the minimum necessary configuration for NATS.</p>
+</div>
+<div class="sect2">
+<h3 id="_messaging_application">Messaging Application</h3>
+<div class="paragraph">
+<p>The Micronaut CLI can generate messaging applications. This will create a Micronaut app with NATS support, and <em>without</em> an HTTP server (although you can add one if you desire). The profile also provides a couple commands for generating NATS consumers and producers.</p>
+</div>
+<div class="paragraph">
+<p>To create a NATS messaging application, use the the following command:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>$ mn create-messaging-app my-nats-service --features nats</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>As you&#8217;d expect, you can start the application with <code>./gradlew run</code> (for Gradle) or <code>./mvnw compile exec:exec</code> (Maven). The application will (with the default config) attempt to connect to NATS at <code>nats://localhost:4222</code>, and will continue to run without starting up an HTTP server. All communication to/from the service will take place via NATS producers and/or consumers.</p>
+</div>
+<div class="paragraph">
+<p>Within the new project, you can now run the NATS specific code generation commands:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>$ mn create-nats-producer Message
+| Rendered template Producer.java to destination src/main/java/my/nats/app/MessageProducer.java
+
+$ mn create-nats-listener Message
+| Rendered template Listener.java to destination src/main/java/my/nats/app/MessageListener.java</pre>
+</div>
+</div>
+</div>
+
+<h1 id="quickStart"><a class="anchor" href="#quickStart"></a>4 NATS Quick Start</h1>
 
 <div class='contribute-btn'>
     <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/master/src/main/docs/guide/quickStart.adoc"'>
@@ -170,76 +244,6 @@
 </div>
 </div>
 </p>
-</div>
-<div class="sect2">
-<h3 id="_configuring_nats">Configuring NATS</h3>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-Without any configuration the defaults in the <a href="https://javadoc.io/doc/io.nats/jnats/2.6.8/io/nats/client/Options.html">Options</a> will be used.
-</td>
-</tr>
-</table>
-</div>
-<div class="paragraph">
-<p>It is possible to configure multiple connections to the same server, different servers, or a single connection to one of a list of servers.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">nats:
-    server1:
-      addresses:
-        - "nats://localhost:4222"
-      username: guest
-      password: guest
-    server2:
-      addresses:
-        - "nats://randomServer:4222"
-      username: guest
-      password: guest</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>NATS also supports a fail over connection strategy where the first server that connects successfully will be used among a list of servers. To use this option in Micronaut, simply supply a list of <code>host:port</code> addresses.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">nats:
-    addresses:
-      - "nats://localhost:4222"
-      - "nats://randomServer:4222"
-    username: guest
-    password: guest</code></pre>
-</div>
-</div>
-<div class="admonitionblock important">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-important" title="Important"></i>
-</td>
-<td class="content">
-When the configuration option <code>nats.servers</code> is used, no other options underneath <code>nats</code> are read; for example <code>nats.username</code>.
-</td>
-</tr>
-</table>
-</div>
-<div class="admonitionblock tip">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-tip" title="Tip"></i>
-</td>
-<td class="content">
-It is also possible to disable the integration entirely with <code>nats.enabled: false</code>
-</td>
-</tr>
-</table>
-</div>
 </div>
 <div class="sect2">
 <h3 id="_creating_a_nats_producer_with_natsclient">Creating a NATS Producer with @NatsClient</h3>
@@ -336,7 +340,291 @@ public class ProductListener {
 </div>
 </div>
 
-<h1 id="producer"><a class="anchor" href="#producer"></a>3 NATS Producers Using @NatsClient</h1>
+<h1 id="config"><a class="anchor" href="#config"></a>5 Configuring the connection</h1>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/master/src/main/docs/guide/config.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="paragraph">
+<p>All properties on the <a href="https://javadoc.io/doc/io.nats/jnats/2.6.8/io/nats/client/Options.html">Options</a> are available to be modified, either through configuration or a <a href="https://docs.micronaut.io/latest/api/io/micronaut/context/event/BeanCreatedEventListener.html">BeanCreatedEventListener</a>.</p>
+</div>
+<div class="paragraph">
+<p>The properties that can be converted from the string values in a configuration file can be configured directly.</p>
+</div>
+<a id="io.micronaut.nats.connect.SingleNatsConnectionFactoryConfig" href="#io.micronaut.nats.connect.SingleNatsConnectionFactoryConfig">&#128279;</a>
+<table class="tableblock frame-all grid-all spread">
+<caption class="title">Table 1. Configuration Properties for <a href="../api/io/micronaut/nats/connect/SingleNatsConnectionFactoryConfig.html">SingleNatsConnectionFactoryConfig</a></caption>
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Property</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.addresses</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.util.List</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The list of addresses</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.username</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">the username</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.password</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">the password</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.token</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">the token</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.max-reconnect</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">int</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">times to try reconnect</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.reconnect-wait</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.time.Duration</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">time to wait</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.connection-timeout</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.time.Duration</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">maximumTime for inital connection</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.ping-interval</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.time.Duration</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">time between server pings</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.reconnect-buffer-size</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">long</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">size of the buffer, in bytes, used to store publish messages during reconnect</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.inbox-prefix</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">custom prefix for request/reply inboxes</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.no-echo</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">enable or disable echo messages, messages that are sent by this connection back to this connection</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.utf8support</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">whether or not the client should support for UTF8 subject names</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.credentials</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">path to the credentials file to use for authentication with an account enabled server</p></td>
+</tr>
+</tbody>
+</table>
+<a id="io.micronaut.nats.connect.ClusterNatsConnectionFactoryConfig" href="#io.micronaut.nats.connect.ClusterNatsConnectionFactoryConfig">&#128279;</a>
+<table class="tableblock frame-all grid-all spread">
+<caption class="title">Table 2. Configuration Properties for <a href="../api/io/micronaut/nats/connect/ClusterNatsConnectionFactoryConfig.html">ClusterNatsConnectionFactoryConfig</a></caption>
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Property</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.servers.*.addresses</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.util.List</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The list of addresses</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.servers.*.username</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">the username</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.servers.*.password</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">the password</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.servers.*.token</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">the token</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.servers.*.max-reconnect</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">int</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">times to try reconnect</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.servers.*.reconnect-wait</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.time.Duration</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">time to wait</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.servers.*.connection-timeout</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.time.Duration</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">maximumTime for inital connection</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.servers.*.ping-interval</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.time.Duration</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">time between server pings</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.servers.*.reconnect-buffer-size</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">long</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">size of the buffer, in bytes, used to store publish messages during reconnect</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.servers.*.inbox-prefix</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">custom prefix for request/reply inboxes</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.servers.*.no-echo</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">enable or disable echo messages, messages that are sent by this connection back to this connection</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.servers.*.utf8support</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">whether or not the client should support for UTF8 subject names</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.servers.*.credentials</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">path to the credentials file to use for authentication with an account enabled server</p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Without any configuration the defaults in the <a href="https://javadoc.io/doc/io.nats/jnats/2.6.8/io/nats/client/Options.html">Options</a> will be used.
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+It is also possible to disable the integration entirely with <code>nats.enabled: false</code>
+</td>
+</tr>
+</table>
+</div>
+<div class="sect1">
+<h2 id="_connections">Connections</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>It is possible to configure multiple connections to the same server, different servers, or a single connection to one of a list of servers.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">nats:
+    server1:
+      addresses:
+        - "nats://localhost:4222"
+      username: guest
+      password: guest
+    server2:
+      addresses:
+        - "nats://randomServer:4222"
+      username: guest
+      password: guest</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>NATS also supports a fail over connection strategy where the first server that connects successfully will be used among a list of servers. To use this option in Micronaut, simply supply a list of <code>host:port</code> addresses.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">nats:
+    addresses:
+      - "nats://localhost:4222"
+      - "nats://randomServer:4222"
+    username: guest
+    password: guest</code></pre>
+</div>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+When the configuration option <code>nats.servers</code> is used, no other options underneath <code>nats</code> are read; for example <code>nats.username</code>.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>If you need to setup TLS, it can be configured this way:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">nats:
+    addresses:
+      - "nats://localhost:4222" <i class="conum" data-value="1"></i><b>(1)</b>
+    tls:
+      trust-store-path:  /path/to/client.truststore.jks <i class="conum" data-value="2"></i><b>(2)</b>
+      trust-store-password: secret
+      certificate-path: /path/to/certificate.crt <i class="conum" data-value="3"></i><b>(3)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>You can either use <code>nats://localhost:4222</code> or <code>tls://localhost:4222</code> as protocol.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>You can configure a complete truststore</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Or ou can use a single certificate for connecting to NATS securely.</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+
+<h1 id="producer"><a class="anchor" href="#producer"></a>6 NATS Producers Using @NatsClient</h1>
 
 <div class='contribute-btn'>
     <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/master/src/main/docs/guide/producer.adoc"'>
@@ -352,7 +640,7 @@ public class ProductListener {
 <p>The implementation that powers <code>@NatsClient</code> (defined by the <a href="../api/io/micronaut/nats/intercept/NatsIntroductionAdvice.html">NatsIntroductionAdvice</a> class) is, however, very flexible and offers a range of options for defining Kafka clients.</p>
 </div>
 
-<h2 id="producerMethods"><a class="anchor" href="#producerMethods"></a>3.1 Defining @NatsClient Methods</h2>
+<h2 id="producerMethods"><a class="anchor" href="#producerMethods"></a>6.1 Defining @NatsClient Methods</h2>
 
 <div class='contribute-btn'>
     <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/master/src/main/docs/guide/producer/producerMethods.adoc"'>
@@ -456,7 +744,7 @@ Flowable&lt;Product&gt; sendProduct(String name);</code></pre>
 </div>
 </div>
 
-<h1 id="consumer"><a class="anchor" href="#consumer"></a>4 NATS Consumers Using @NatsListener</h1>
+<h1 id="consumer"><a class="anchor" href="#consumer"></a>7 NATS Consumers Using @NatsListener</h1>
 
 <div class='contribute-btn'>
     <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/master/src/main/docs/guide/consumer.adoc"'>
@@ -472,7 +760,7 @@ Flowable&lt;Product&gt; sendProduct(String name);</code></pre>
 <p>The implementation that powers <code>@NatsListener</code> (defined by the <a href="../api/io/micronaut/nats/intercept/NatsConsumerAdvice.html">NatsConsumerAdvice</a> class) is, however, very flexible and offers a range of options for consuming NATS message.</p>
 </div>
 
-<h2 id="consumerMethods"><a class="anchor" href="#consumerMethods"></a>4.1 Defining @NatsListener Methods</h2>
+<h2 id="consumerMethods"><a class="anchor" href="#consumerMethods"></a>7.1 Defining @NatsListener Methods</h2>
 
 <div class='contribute-btn'>
     <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/master/src/main/docs/guide/consumer/consumerMethods.adoc"'>
@@ -510,7 +798,7 @@ If your application was created with the Micronaut CLI, then that has already be
 <div class="sect2">
 <h3 id="_simple_consumer">Simple Consumer</h3>
 <div class="paragraph">
-<p>The easiest way for defining a producer is the following:</p>
+<p>The easiest way for defining a consumer is the following:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -571,7 +859,7 @@ If the consumer defines a return type, it automatically will use the RPC logic a
 </div>
 </div>
 
-<h1 id="health"><a class="anchor" href="#health"></a>5 NATS Health Indicator</h1>
+<h1 id="health"><a class="anchor" href="#health"></a>8 NATS Health Indicator</h1>
 
 <div class='contribute-btn'>
     <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/master/src/main/docs/guide/health.adoc"'>

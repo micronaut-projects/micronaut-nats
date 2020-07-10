@@ -11,7 +11,7 @@
 
         gtag('config', 'UA-82213539-2');
     </script>
-    <title>4 NATS Consumers Using @NatsListener 1.0.1.BUILD-SNAPSHOT</title>
+    <title>7 NATS Consumers Using @NatsListener 1.0.1.BUILD-SNAPSHOT</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8"/>
     <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8"/>
@@ -41,16 +41,25 @@ function addJsClass() {
                         <div class="toc-item" style="margin-left:0"><a href="../guide/introduction.html"><strong>1</strong><span>Introduction</span></a>
                         </div>
                         
-                        <div class="toc-item" style="margin-left:0"><a href="../guide/quickStart.html"><strong>2</strong><span>NATS Quick Start</span></a>
+                        <div class="toc-item" style="margin-left:0"><a href="../guide/whatsNew.html"><strong>2</strong><span>What's New</span></a>
                         </div>
                         
-                        <div class="toc-item" style="margin-left:0"><a href="../guide/producer.html"><strong>3</strong><span>NATS Producers Using @NatsClient</span></a>
+                        <div class="toc-item" style="margin-left:0"><a href="../guide/cli.html"><strong>3</strong><span>Using the Micronaut CLI</span></a>
                         </div>
                         
-                        <div class="toc-item" style="margin-left:0"><a href="../guide/consumer.html"><strong>4</strong><span>NATS Consumers Using @NatsListener</span></a>
+                        <div class="toc-item" style="margin-left:0"><a href="../guide/quickStart.html"><strong>4</strong><span>NATS Quick Start</span></a>
                         </div>
                         
-                        <div class="toc-item" style="margin-left:0"><a href="../guide/health.html"><strong>5</strong><span>NATS Health Indicator</span></a>
+                        <div class="toc-item" style="margin-left:0"><a href="../guide/config.html"><strong>5</strong><span>Configuring the connection</span></a>
+                        </div>
+                        
+                        <div class="toc-item" style="margin-left:0"><a href="../guide/producer.html"><strong>6</strong><span>NATS Producers Using @NatsClient</span></a>
+                        </div>
+                        
+                        <div class="toc-item" style="margin-left:0"><a href="../guide/consumer.html"><strong>7</strong><span>NATS Consumers Using @NatsListener</span></a>
+                        </div>
+                        
+                        <div class="toc-item" style="margin-left:0"><a href="../guide/health.html"><strong>8</strong><span>NATS Health Indicator</span></a>
                         </div>
                         
                     </div>
@@ -71,18 +80,18 @@ function addJsClass() {
             <div id="main" class="corner-all">
 
                 
-                    <div class="toc-item prev-left"><a href="../guide/producer.html">&lt;&lt; <strong>3</strong><span>NATS Producers Using @NatsClient</span></a></div>
+                    <div class="toc-item prev-left"><a href="../guide/producer.html">&lt;&lt; <strong>6</strong><span>NATS Producers Using @NatsClient</span></a></div>
                 
 
                 <span id='toggle-col1' class="toggle">(<a href="#" onclick="localToggle(); return false;">Quick Reference</a>)</span>
 
                 
-                    <div class="toc-item next-right"><a href="../guide/health.html"><strong>5</strong><span>NATS Health Indicator</span> >></a></div>
+                    <div class="toc-item next-right"><a href="../guide/health.html"><strong>8</strong><span>NATS Health Indicator</span> >></a></div>
                 
 
 
                 <div class="project">
-                    <h1>4 NATS Consumers Using @NatsListener</h1>
+                    <h1>7 NATS Consumers Using @NatsListener</h1>
 
                     <p><strong>Version:</strong> 1.0.1.BUILD-SNAPSHOT</p>
                 </div>
@@ -91,14 +100,14 @@ function addJsClass() {
                 <div id="table-of-content">
                     <h2>Table of Contents</h2>
                     
-                    <div class="toc-item" style="margin-left:0px"><a href="#consumerMethods"><strong>4.1</strong><span>Defining @NatsListener Methods</span></a>
+                    <div class="toc-item" style="margin-left:0px"><a href="#consumerMethods"><strong>7.1</strong><span>Defining @NatsListener Methods</span></a>
                     </div>
                     
                 </div>
                 
 
                 
-<h1 id="consumer"><a class="anchor" href="#consumer"></a>4 NATS Consumers Using @NatsListener</h1>
+<h1 id="consumer"><a class="anchor" href="#consumer"></a>7 NATS Consumers Using @NatsListener</h1>
 
 <div class='contribute-btn'>
     <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/master/src/main/docs/guide/consumer.adoc"'>
@@ -114,7 +123,7 @@ function addJsClass() {
 <p>The implementation that powers <code>@NatsListener</code> (defined by the <a href="../api/io/micronaut/nats/intercept/NatsConsumerAdvice.html">NatsConsumerAdvice</a> class) is, however, very flexible and offers a range of options for consuming NATS message.</p>
 </div>
 
-<h2 id="consumerMethods"><a class="anchor" href="#consumerMethods"></a>4.1 Defining @NatsListener Methods</h2>
+<h2 id="consumerMethods"><a class="anchor" href="#consumerMethods"></a>7.1 Defining @NatsListener Methods</h2>
 
 <div class='contribute-btn'>
     <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/master/src/main/docs/guide/consumer/consumerMethods.adoc"'>
@@ -152,7 +161,7 @@ If your application was created with the Micronaut CLI, then that has already be
 <div class="sect2">
 <h3 id="_simple_consumer">Simple Consumer</h3>
 <div class="paragraph">
-<p>The easiest way for defining a producer is the following:</p>
+<p>The easiest way for defining a consumer is the following:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -216,9 +225,9 @@ If the consumer defines a return type, it automatically will use the RPC logic a
 
                 <div style="clear:both;margin-top:15px;"></div>
                 
-                    <div class="toc-item prev-left"><a href="../guide/producer.html">&lt;&lt; <strong>3</strong><span>NATS Producers Using @NatsClient</span></a></div>
+                    <div class="toc-item prev-left"><a href="../guide/producer.html">&lt;&lt; <strong>6</strong><span>NATS Producers Using @NatsClient</span></a></div>
                 
-                    <div class="toc-item next-right"><a href="../guide/health.html"><strong>5</strong><span>NATS Health Indicator</span> >></a></div>
+                    <div class="toc-item next-right"><a href="../guide/health.html"><strong>8</strong><span>NATS Health Indicator</span> >></a></div>
                 
                 <div style="clear:both"></div>
             </div>

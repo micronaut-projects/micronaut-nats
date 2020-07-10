@@ -17,6 +17,12 @@
     catch(err) {
     }
 //-->
+var methods = {"i0":10};
+var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
+var altColor = "altColor";
+var rowColor = "rowColor";
+var tableTab = "tableTab";
+var activeTableTab = "activeTableTab";
 </script>
 <noscript>
 <div>JavaScript is disabled on your browser.</div>
@@ -42,7 +48,7 @@
 <div class="subNav">
 <ul class="navList">
 <li>Prev&nbsp;Class</li>
-<li><a href="../../../../io/micronaut/nats/connect/NatsConnectionFactory.html" title="class in io.micronaut.nats.connect"><span class="typeNameLink">Next&nbsp;Class</span></a></li>
+<li><a href="../../../../io/micronaut/nats/connect/ClusterNatsConnectionFactoryConfig.DefaultTlsConfiguration.html" title="class in io.micronaut.nats.connect"><span class="typeNameLink">Next&nbsp;Class</span></a></li>
 </ul>
 <ul class="navList">
 <li><a href="../../../../index.html?io/micronaut/nats/connect/ClusterNatsConnectionFactoryConfig.html" target="_top">Frames</a></li>
@@ -66,16 +72,16 @@
 <div>
 <ul class="subNavList">
 <li>Summary:&nbsp;</li>
-<li>Nested&nbsp;|&nbsp;</li>
+<li><a href="#nested.class.summary">Nested</a>&nbsp;|&nbsp;</li>
 <li><a href="#field.summary">Field</a>&nbsp;|&nbsp;</li>
 <li><a href="#constructor.summary">Constr</a>&nbsp;|&nbsp;</li>
-<li><a href="#methods.inherited.from.class.io.micronaut.nats.connect.NatsConnectionFactoryConfig">Method</a></li>
+<li><a href="#method.summary">Method</a></li>
 </ul>
 <ul class="subNavList">
 <li>Detail:&nbsp;</li>
 <li><a href="#field.detail">Field</a>&nbsp;|&nbsp;</li>
 <li><a href="#constructor.detail">Constr</a>&nbsp;|&nbsp;</li>
-<li>Method</li>
+<li><a href="#method.detail">Method</a></li>
 </ul>
 </div>
 <a name="skip.navbar.top">
@@ -123,6 +129,32 @@ extends <a href="../../../../io/micronaut/nats/connect/NatsConnectionFactoryConf
 <div class="summary">
 <ul class="blockList">
 <li class="blockList">
+<!-- ======== NESTED CLASS SUMMARY ======== -->
+<ul class="blockList">
+<li class="blockList"><a name="nested.class.summary">
+<!--   -->
+</a>
+<h3>Nested Class Summary</h3>
+<table class="memberSummary" border="0" cellpadding="3" cellspacing="0" summary="Nested Class Summary table, listing nested classes, and an explanation">
+<caption><span>Nested Classes</span><span class="tabEnd">&nbsp;</span></caption>
+<tr>
+<th class="colFirst" scope="col">Modifier and Type</th>
+<th class="colLast" scope="col">Class and Description</th>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static class&nbsp;</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../io/micronaut/nats/connect/ClusterNatsConnectionFactoryConfig.DefaultTlsConfiguration.html" title="class in io.micronaut.nats.connect">ClusterNatsConnectionFactoryConfig.DefaultTlsConfiguration</a></span></code>&nbsp;</td>
+</tr>
+</table>
+<ul class="blockList">
+<li class="blockList"><a name="nested.classes.inherited.from.class.io.micronaut.nats.connect.NatsConnectionFactoryConfig">
+<!--   -->
+</a>
+<h3>Nested classes/interfaces inherited from class&nbsp;io.micronaut.nats.connect.<a href="../../../../io/micronaut/nats/connect/NatsConnectionFactoryConfig.html" title="class in io.micronaut.nats.connect">NatsConnectionFactoryConfig</a></h3>
+<code><a href="../../../../io/micronaut/nats/connect/NatsConnectionFactoryConfig.TLS.html" title="class in io.micronaut.nats.connect">NatsConnectionFactoryConfig.TLS</a></code></li>
+</ul>
+</li>
+</ul>
 <!-- =========== FIELD SUMMARY =========== -->
 <ul class="blockList">
 <li class="blockList"><a name="field.summary">
@@ -167,12 +199,25 @@ extends <a href="../../../../io/micronaut/nats/connect/NatsConnectionFactoryConf
 <!--   -->
 </a>
 <h3>Method Summary</h3>
+<table class="memberSummary" border="0" cellpadding="3" cellspacing="0" summary="Method Summary table, listing methods, and an explanation">
+<caption><span id="t0" class="activeTableTab"><span>All Methods</span><span class="tabEnd">&nbsp;</span></span><span id="t2" class="tableTab"><span><a href="javascript:show(2);">Instance Methods</a></span><span class="tabEnd">&nbsp;</span></span><span id="t4" class="tableTab"><span><a href="javascript:show(8);">Concrete Methods</a></span><span class="tabEnd">&nbsp;</span></span></caption>
+<tr>
+<th class="colFirst" scope="col">Modifier and Type</th>
+<th class="colLast" scope="col">Method and Description</th>
+</tr>
+<tr id="i0" class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../io/micronaut/nats/connect/ClusterNatsConnectionFactoryConfig.html#setTls-io.micronaut.nats.connect.ClusterNatsConnectionFactoryConfig.DefaultTlsConfiguration-">setTls</a></span>(@NotNull <a href="../../../../io/micronaut/nats/connect/ClusterNatsConnectionFactoryConfig.DefaultTlsConfiguration.html" title="class in io.micronaut.nats.connect">ClusterNatsConnectionFactoryConfig.DefaultTlsConfiguration</a>&nbsp;tls)</code>
+<div class="block">Sets the tls configuration.</div>
+</td>
+</tr>
+</table>
 <ul class="blockList">
 <li class="blockList"><a name="methods.inherited.from.class.io.micronaut.nats.connect.NatsConnectionFactoryConfig">
 <!--   -->
 </a>
 <h3>Methods inherited from class&nbsp;io.micronaut.nats.connect.<a href="../../../../io/micronaut/nats/connect/NatsConnectionFactoryConfig.html" title="class in io.micronaut.nats.connect">NatsConnectionFactoryConfig</a></h3>
-<code><a href="../../../../io/micronaut/nats/connect/NatsConnectionFactoryConfig.html#getAddresses--">getAddresses</a>, <a href="../../../../io/micronaut/nats/connect/NatsConnectionFactoryConfig.html#getConnectionTimeout--">getConnectionTimeout</a>, <a href="../../../../io/micronaut/nats/connect/NatsConnectionFactoryConfig.html#getCredentials--">getCredentials</a>, <a href="../../../../io/micronaut/nats/connect/NatsConnectionFactoryConfig.html#getInboxPrefix--">getInboxPrefix</a>, <a href="../../../../io/micronaut/nats/connect/NatsConnectionFactoryConfig.html#getKeyStorePassword--">getKeyStorePassword</a>, <a href="../../../../io/micronaut/nats/connect/NatsConnectionFactoryConfig.html#getKeyStorePath--">getKeyStorePath</a>, <a href="../../../../io/micronaut/nats/connect/NatsConnectionFactoryConfig.html#getKeyStoreType--">getKeyStoreType</a>, <a href="../../../../io/micronaut/nats/connect/NatsConnectionFactoryConfig.html#getMaxReconnect--">getMaxReconnect</a>, <a href="../../../../io/micronaut/nats/connect/NatsConnectionFactoryConfig.html#getName--">getName</a>, <a href="../../../../io/micronaut/nats/connect/NatsConnectionFactoryConfig.html#getPassword--">getPassword</a>, <a href="../../../../io/micronaut/nats/connect/NatsConnectionFactoryConfig.html#getPingInterval--">getPingInterval</a>, <a href="../../../../io/micronaut/nats/connect/NatsConnectionFactoryConfig.html#getReconnectBufferSize--">getReconnectBufferSize</a>, <a href="../../../../io/micronaut/nats/connect/NatsConnectionFactoryConfig.html#getReconnectWait--">getReconnectWait</a>, <a href="../../../../io/micronaut/nats/connect/NatsConnectionFactoryConfig.html#getToken--">getToken</a>, <a href="../../../../io/micronaut/nats/connect/NatsConnectionFactoryConfig.html#getTrustStorePassword--">getTrustStorePassword</a>, <a href="../../../../io/micronaut/nats/connect/NatsConnectionFactoryConfig.html#getTrustStorePath--">getTrustStorePath</a>, <a href="../../../../io/micronaut/nats/connect/NatsConnectionFactoryConfig.html#getTrustStoreType--">getTrustStoreType</a>, <a href="../../../../io/micronaut/nats/connect/NatsConnectionFactoryConfig.html#getUsername--">getUsername</a>, <a href="../../../../io/micronaut/nats/connect/NatsConnectionFactoryConfig.html#isNoEcho--">isNoEcho</a>, <a href="../../../../io/micronaut/nats/connect/NatsConnectionFactoryConfig.html#isUtf8Support--">isUtf8Support</a>, <a href="../../../../io/micronaut/nats/connect/NatsConnectionFactoryConfig.html#setAddresses-java.util.List-">setAddresses</a>, <a href="../../../../io/micronaut/nats/connect/NatsConnectionFactoryConfig.html#setConnectionTimeout-java.time.Duration-">setConnectionTimeout</a>, <a href="../../../../io/micronaut/nats/connect/NatsConnectionFactoryConfig.html#setCredentials-java.lang.String-">setCredentials</a>, <a href="../../../../io/micronaut/nats/connect/NatsConnectionFactoryConfig.html#setInboxPrefix-java.lang.String-">setInboxPrefix</a>, <a href="../../../../io/micronaut/nats/connect/NatsConnectionFactoryConfig.html#setKeyStorePassword-char:A-">setKeyStorePassword</a>, <a href="../../../../io/micronaut/nats/connect/NatsConnectionFactoryConfig.html#setKeyStorePath-java.lang.String-">setKeyStorePath</a>, <a href="../../../../io/micronaut/nats/connect/NatsConnectionFactoryConfig.html#setKeyStoreType-java.lang.String-">setKeyStoreType</a>, <a href="../../../../io/micronaut/nats/connect/NatsConnectionFactoryConfig.html#setMaxReconnect-int-">setMaxReconnect</a>, <a href="../../../../io/micronaut/nats/connect/NatsConnectionFactoryConfig.html#setNoEcho-boolean-">setNoEcho</a>, <a href="../../../../io/micronaut/nats/connect/NatsConnectionFactoryConfig.html#setPassword-java.lang.String-">setPassword</a>, <a href="../../../../io/micronaut/nats/connect/NatsConnectionFactoryConfig.html#setPingInterval-java.time.Duration-">setPingInterval</a>, <a href="../../../../io/micronaut/nats/connect/NatsConnectionFactoryConfig.html#setReconnectBufferSize-long-">setReconnectBufferSize</a>, <a href="../../../../io/micronaut/nats/connect/NatsConnectionFactoryConfig.html#setReconnectWait-java.time.Duration-">setReconnectWait</a>, <a href="../../../../io/micronaut/nats/connect/NatsConnectionFactoryConfig.html#setToken-java.lang.String-">setToken</a>, <a href="../../../../io/micronaut/nats/connect/NatsConnectionFactoryConfig.html#setTrustStorePassword-char:A-">setTrustStorePassword</a>, <a href="../../../../io/micronaut/nats/connect/NatsConnectionFactoryConfig.html#setTrustStorePath-java.lang.String-">setTrustStorePath</a>, <a href="../../../../io/micronaut/nats/connect/NatsConnectionFactoryConfig.html#setTrustStoreType-java.lang.String-">setTrustStoreType</a>, <a href="../../../../io/micronaut/nats/connect/NatsConnectionFactoryConfig.html#setUsername-java.lang.String-">setUsername</a>, <a href="../../../../io/micronaut/nats/connect/NatsConnectionFactoryConfig.html#setUtf8Support-boolean-">setUtf8Support</a>, <a href="../../../../io/micronaut/nats/connect/NatsConnectionFactoryConfig.html#toOptions--">toOptions</a>, <a href="../../../../io/micronaut/nats/connect/NatsConnectionFactoryConfig.html#toOptionsBuilder--">toOptionsBuilder</a></code></li>
+<code><a href="../../../../io/micronaut/nats/connect/NatsConnectionFactoryConfig.html#getAddresses--">getAddresses</a>, <a href="../../../../io/micronaut/nats/connect/NatsConnectionFactoryConfig.html#getConnectionTimeout--">getConnectionTimeout</a>, <a href="../../../../io/micronaut/nats/connect/NatsConnectionFactoryConfig.html#getCredentials--">getCredentials</a>, <a href="../../../../io/micronaut/nats/connect/NatsConnectionFactoryConfig.html#getInboxPrefix--">getInboxPrefix</a>, <a href="../../../../io/micronaut/nats/connect/NatsConnectionFactoryConfig.html#getMaxReconnect--">getMaxReconnect</a>, <a href="../../../../io/micronaut/nats/connect/NatsConnectionFactoryConfig.html#getName--">getName</a>, <a href="../../../../io/micronaut/nats/connect/NatsConnectionFactoryConfig.html#getPassword--">getPassword</a>, <a href="../../../../io/micronaut/nats/connect/NatsConnectionFactoryConfig.html#getPingInterval--">getPingInterval</a>, <a href="../../../../io/micronaut/nats/connect/NatsConnectionFactoryConfig.html#getReconnectBufferSize--">getReconnectBufferSize</a>, <a href="../../../../io/micronaut/nats/connect/NatsConnectionFactoryConfig.html#getReconnectWait--">getReconnectWait</a>, <a href="../../../../io/micronaut/nats/connect/NatsConnectionFactoryConfig.html#getToken--">getToken</a>, <a href="../../../../io/micronaut/nats/connect/NatsConnectionFactoryConfig.html#getUsername--">getUsername</a>, <a href="../../../../io/micronaut/nats/connect/NatsConnectionFactoryConfig.html#isNoEcho--">isNoEcho</a>, <a href="../../../../io/micronaut/nats/connect/NatsConnectionFactoryConfig.html#isUtf8Support--">isUtf8Support</a>, <a href="../../../../io/micronaut/nats/connect/NatsConnectionFactoryConfig.html#setAddresses-java.util.List-">setAddresses</a>, <a href="../../../../io/micronaut/nats/connect/NatsConnectionFactoryConfig.html#setConnectionTimeout-java.time.Duration-">setConnectionTimeout</a>, <a href="../../../../io/micronaut/nats/connect/NatsConnectionFactoryConfig.html#setCredentials-java.lang.String-">setCredentials</a>, <a href="../../../../io/micronaut/nats/connect/NatsConnectionFactoryConfig.html#setInboxPrefix-java.lang.String-">setInboxPrefix</a>, <a href="../../../../io/micronaut/nats/connect/NatsConnectionFactoryConfig.html#setMaxReconnect-int-">setMaxReconnect</a>, <a href="../../../../io/micronaut/nats/connect/NatsConnectionFactoryConfig.html#setNoEcho-boolean-">setNoEcho</a>, <a href="../../../../io/micronaut/nats/connect/NatsConnectionFactoryConfig.html#setPassword-java.lang.String-">setPassword</a>, <a href="../../../../io/micronaut/nats/connect/NatsConnectionFactoryConfig.html#setPingInterval-java.time.Duration-">setPingInterval</a>, <a href="../../../../io/micronaut/nats/connect/NatsConnectionFactoryConfig.html#setReconnectBufferSize-long-">setReconnectBufferSize</a>, <a href="../../../../io/micronaut/nats/connect/NatsConnectionFactoryConfig.html#setReconnectWait-java.time.Duration-">setReconnectWait</a>, <a href="../../../../io/micronaut/nats/connect/NatsConnectionFactoryConfig.html#setTls-io.micronaut.nats.connect.NatsConnectionFactoryConfig.TLS-">setTls</a>, <a href="../../../../io/micronaut/nats/connect/NatsConnectionFactoryConfig.html#setToken-java.lang.String-">setToken</a>, <a href="../../../../io/micronaut/nats/connect/NatsConnectionFactoryConfig.html#setUsername-java.lang.String-">setUsername</a>, <a href="../../../../io/micronaut/nats/connect/NatsConnectionFactoryConfig.html#setUtf8Support-boolean-">setUtf8Support</a>, <a href="../../../../io/micronaut/nats/connect/NatsConnectionFactoryConfig.html#toOptionsBuilder--">toOptionsBuilder</a></code></li>
 </ul>
 <ul class="blockList">
 <li class="blockList"><a name="methods.inherited.from.class.java.lang.Object">
@@ -233,6 +278,29 @@ extends <a href="../../../../io/micronaut/nats/connect/NatsConnectionFactoryConf
 </ul>
 </li>
 </ul>
+<!-- ============ METHOD DETAIL ========== -->
+<ul class="blockList">
+<li class="blockList"><a name="method.detail">
+<!--   -->
+</a>
+<h3>Method Detail</h3>
+<a name="setTls-io.micronaut.nats.connect.ClusterNatsConnectionFactoryConfig.DefaultTlsConfiguration-">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>setTls</h4>
+<pre>public&nbsp;void&nbsp;setTls(@NotNull
+                   @NotNull <a href="../../../../io/micronaut/nats/connect/ClusterNatsConnectionFactoryConfig.DefaultTlsConfiguration.html" title="class in io.micronaut.nats.connect">ClusterNatsConnectionFactoryConfig.DefaultTlsConfiguration</a>&nbsp;tls)</pre>
+<div class="block">Sets the tls configuration.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>tls</code> - The tls configuration</dd>
+</dl>
+</li>
+</ul>
+</li>
+</ul>
 </li>
 </ul>
 </div>
@@ -259,7 +327,7 @@ extends <a href="../../../../io/micronaut/nats/connect/NatsConnectionFactoryConf
 <div class="subNav">
 <ul class="navList">
 <li>Prev&nbsp;Class</li>
-<li><a href="../../../../io/micronaut/nats/connect/NatsConnectionFactory.html" title="class in io.micronaut.nats.connect"><span class="typeNameLink">Next&nbsp;Class</span></a></li>
+<li><a href="../../../../io/micronaut/nats/connect/ClusterNatsConnectionFactoryConfig.DefaultTlsConfiguration.html" title="class in io.micronaut.nats.connect"><span class="typeNameLink">Next&nbsp;Class</span></a></li>
 </ul>
 <ul class="navList">
 <li><a href="../../../../index.html?io/micronaut/nats/connect/ClusterNatsConnectionFactoryConfig.html" target="_top">Frames</a></li>
@@ -283,16 +351,16 @@ extends <a href="../../../../io/micronaut/nats/connect/NatsConnectionFactoryConf
 <div>
 <ul class="subNavList">
 <li>Summary:&nbsp;</li>
-<li>Nested&nbsp;|&nbsp;</li>
+<li><a href="#nested.class.summary">Nested</a>&nbsp;|&nbsp;</li>
 <li><a href="#field.summary">Field</a>&nbsp;|&nbsp;</li>
 <li><a href="#constructor.summary">Constr</a>&nbsp;|&nbsp;</li>
-<li><a href="#methods.inherited.from.class.io.micronaut.nats.connect.NatsConnectionFactoryConfig">Method</a></li>
+<li><a href="#method.summary">Method</a></li>
 </ul>
 <ul class="subNavList">
 <li>Detail:&nbsp;</li>
 <li><a href="#field.detail">Field</a>&nbsp;|&nbsp;</li>
 <li><a href="#constructor.detail">Constr</a>&nbsp;|&nbsp;</li>
-<li>Method</li>
+<li><a href="#method.detail">Method</a></li>
 </ul>
 </div>
 <a name="skip.navbar.bottom">
