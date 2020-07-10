@@ -1,0 +1,62 @@
+All properties on the link:{apinats}{natsVersion}/io/nats/client/Options.html[Options] are available to be modified, either through configuration or a link:{apimicronaut}context/event/BeanCreatedEventListener.html[BeanCreatedEventListener].
+
+The properties that can be converted from the string values in a configuration file can be configured directly.
+
+include::{includedir}configurationProperties/io.micronaut.nats.connect.SingleNatsConnectionFactoryConfig.adoc[]
+
+include::{includedir}configurationProperties/io.micronaut.nats.connect.ClusterNatsConnectionFactoryConfig.adoc[]
+
+NOTE: Without any configuration the defaults in the link:{apinats}{natsVersion}/io/nats/client/Options.html[Options] will be used.
+
+TIP: It is also possible to disable the integration entirely with `nats.enabled: false`
+
+
+== Connections
+
+It is possible to configure multiple connections to the same server, different servers, or a single connection to one of a list of servers.
+
+[source,yaml]
+----
+nats:
+    server1:
+      addresses:
+        - "nats://localhost:4222"
+      username: guest
+      password: guest
+    server2:
+      addresses:
+        - "nats://randomServer:4222"
+      username: guest
+      password: guest
+----
+
+NATS also supports a fail over connection strategy where the first server that connects successfully will be used among a list of servers. To use this option in Micronaut, simply supply a list of `host:port` addresses.
+
+[source,yaml]
+----
+nats:
+    addresses:
+      - "nats://localhost:4222"
+      - "nats://randomServer:4222"
+    username: guest
+    password: guest
+----
+
+IMPORTANT: When the configuration option `nats.servers` is used, no other options underneath `nats` are read; for example `nats.username`.
+
+If you need to setup TLS, it can be configured this way:
+
+[source,yaml]
+----
+nats:
+    addresses:
+      - "nats://localhost:4222" // <1>
+    tls:
+      trust-store-path:  /path/to/client.truststore.jks // <2>
+      trust-store-password: secret
+      certificate-path: /path/to/certificate.crt // <3>
+----
+
+<1> You can either use `nats://localhost:4222` or `tls://localhost:4222` as protocol.
+<2> You can configure a complete truststore
+<3> Or ou can use a single certificate for connecting to NATS securely.

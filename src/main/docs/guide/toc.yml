@@ -1,5 +1,8 @@
 introduction: Introduction
+whatsNew: What's New
+cli: Using the Micronaut CLI
 quickStart: NATS Quick Start
+config: Configuring the connection
 producer:
   title: NATS Producers Using @NatsClient
   producerMethods: Defining @NatsClient Methods
