@@ -7,7 +7,7 @@ buildscript {
         maven { url "https://oss.jfrog.org/oss-snapshot-local" }
     }
     dependencies {
-        classpath "io.micronaut.build:micronaut-gradle-plugins:2.0.5"
+        classpath "io.micronaut.build:micronaut-gradle-plugins:2.0.6"
     }
 }
 
@@ -20,10 +20,7 @@ subprojects { Project subproject ->
     if (subproject.parent.name == "docs-examples" || subproject.name == "docs-examples") {
         return
     }
-
-    test {
-        useJUnitPlatform()
-    }
+    
     apply plugin: "io.micronaut.build.publishing"
 }
 
