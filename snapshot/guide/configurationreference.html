@@ -51,93 +51,9 @@
             </div>
 <div class="sect2">
 <h3 id="_nats_config_properties">Nats Config Properties</h3>
-<a id="io.micronaut.nats.connect.SingleNatsConnectionFactoryConfig" href="#io.micronaut.nats.connect.SingleNatsConnectionFactoryConfig">&#128279;</a>
-<table class="tableblock frame-all grid-all spread">
-<caption class="title">Table 1. Configuration Properties for <a href="../api/io/micronaut/nats/connect/SingleNatsConnectionFactoryConfig.html">SingleNatsConnectionFactoryConfig</a></caption>
-<colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Property</th>
-<th class="tableblock halign-left valign-top">Type</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.addresses</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.util.List</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The list of addresses</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.username</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">the username</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.password</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">the password</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.token</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">the token</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.max-reconnect</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">int</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">times to try reconnect</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.reconnect-wait</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.time.Duration</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">time to wait</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.connection-timeout</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.time.Duration</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">maximumTime for inital connection</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.ping-interval</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.time.Duration</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">time between server pings</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.reconnect-buffer-size</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">long</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">size of the buffer, in bytes, used to store publish messages during reconnect</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.inbox-prefix</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">custom prefix for request/reply inboxes</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.no-echo</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">enable or disable echo messages, messages that are sent by this connection back to this connection</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.utf8support</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">whether or not the client should support for UTF8 subject names</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.credentials</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">path to the credentials file to use for authentication with an account enabled server</p></td>
-</tr>
-</tbody>
-</table>
-<div style="page-break-after: always;"></div>
 <a id="io.micronaut.nats.connect.ClusterNatsConnectionFactoryConfig" href="#io.micronaut.nats.connect.ClusterNatsConnectionFactoryConfig">&#128279;</a>
 <table class="tableblock frame-all grid-all spread">
-<caption class="title">Table 2. Configuration Properties for <a href="../api/io/micronaut/nats/connect/ClusterNatsConnectionFactoryConfig.html">ClusterNatsConnectionFactoryConfig</a></caption>
+<caption class="title">Table 1. Configuration Properties for <a href="../api/io/micronaut/nats/connect/ClusterNatsConnectionFactoryConfig.html">ClusterNatsConnectionFactoryConfig</a></caption>
 <colgroup>
 <col style="width: 33.3333%;">
 <col style="width: 33.3333%;">
@@ -219,6 +135,50 @@
 </tbody>
 </table>
 <div style="page-break-after: always;"></div>
+<a id="io.micronaut.nats.connect.ClusterNatsConnectionFactoryConfig$DefaultTlsConfiguration" href="#io.micronaut.nats.connect.ClusterNatsConnectionFactoryConfig$DefaultTlsConfiguration">&#128279;</a>
+<table class="tableblock frame-all grid-all spread">
+<caption class="title">Table 2. Configuration Properties for <a href="../api/io/micronaut/nats/connect/ClusterNatsConnectionFactoryConfig.DefaultTlsConfiguration.html">ClusterNatsConnectionFactoryConfig$DefaultTlsConfiguration</a></caption>
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Property</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.servers.*.tls</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="../api/io/micronaut/nats/connect/NatsConnectionFactoryConfig.TLS.html">NatsConnectionFactoryConfig$TLS</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The tls configuration</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.servers.*.tls.trust-store-path</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">file path for the trust store</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.servers.*.tls.trust-store-password</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">used to unlock the trust store</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.servers.*.tls.trust-store-type</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">generally the default, but available for special trust store formats/types</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.servers.*.tls.certificate-path</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">the path to the certificate</p></td>
+</tr>
+</tbody>
+</table>
+<div style="page-break-after: always;"></div>
 <a id="io.micronaut.nats.connect.SingleNatsConnectionFactoryConfig$DefaultTlsConfiguration" href="#io.micronaut.nats.connect.SingleNatsConnectionFactoryConfig$DefaultTlsConfiguration">&#128279;</a>
 <table class="tableblock frame-all grid-all spread">
 <caption class="title">Table 3. Configuration Properties for <a href="../api/io/micronaut/nats/connect/SingleNatsConnectionFactoryConfig.DefaultTlsConfiguration.html">SingleNatsConnectionFactoryConfig$DefaultTlsConfiguration</a></caption>
@@ -263,9 +223,9 @@
 </tbody>
 </table>
 <div style="page-break-after: always;"></div>
-<a id="io.micronaut.nats.connect.ClusterNatsConnectionFactoryConfig$DefaultTlsConfiguration" href="#io.micronaut.nats.connect.ClusterNatsConnectionFactoryConfig$DefaultTlsConfiguration">&#128279;</a>
+<a id="io.micronaut.nats.connect.SingleNatsConnectionFactoryConfig" href="#io.micronaut.nats.connect.SingleNatsConnectionFactoryConfig">&#128279;</a>
 <table class="tableblock frame-all grid-all spread">
-<caption class="title">Table 4. Configuration Properties for <a href="../api/io/micronaut/nats/connect/ClusterNatsConnectionFactoryConfig.DefaultTlsConfiguration.html">ClusterNatsConnectionFactoryConfig$DefaultTlsConfiguration</a></caption>
+<caption class="title">Table 4. Configuration Properties for <a href="../api/io/micronaut/nats/connect/SingleNatsConnectionFactoryConfig.html">SingleNatsConnectionFactoryConfig</a></caption>
 <colgroup>
 <col style="width: 33.3333%;">
 <col style="width: 33.3333%;">
@@ -280,29 +240,69 @@
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.servers.*.tls</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="../api/io/micronaut/nats/connect/NatsConnectionFactoryConfig.TLS.html">NatsConnectionFactoryConfig$TLS</a></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The tls configuration</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.addresses</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.util.List</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The list of addresses</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.servers.*.tls.trust-store-path</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.username</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">file path for the trust store</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">the username</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.servers.*.tls.trust-store-password</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.password</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">used to unlock the trust store</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">the password</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.servers.*.tls.trust-store-type</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.token</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">generally the default, but available for special trust store formats/types</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">the token</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.servers.*.tls.certificate-path</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.max-reconnect</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">int</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">times to try reconnect</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.reconnect-wait</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.time.Duration</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">time to wait</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.connection-timeout</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.time.Duration</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">maximumTime for inital connection</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.ping-interval</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.time.Duration</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">time between server pings</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.reconnect-buffer-size</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">long</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">size of the buffer, in bytes, used to store publish messages during reconnect</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.inbox-prefix</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">the path to the certificate</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">custom prefix for request/reply inboxes</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.no-echo</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">enable or disable echo messages, messages that are sent by this connection back to this connection</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.utf8support</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">whether or not the client should support for UTF8 subject names</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.credentials</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">path to the credentials file to use for authentication with an account enabled server</p></td>
 </tr>
 </tbody>
 </table>
