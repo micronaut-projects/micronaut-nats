@@ -105,14 +105,14 @@
         <h1>Micronaut Nats</h1>
         <p></p>
         <p>Integration between Micronaut and nats.io</p>
-        <p><strong>Version:</strong> <select style='max-width: 200px' onChange='window.document.location.href=this.options[this.selectedIndex].value;'><option value='https://micronaut-projects.github.io/micronaut-nats/snapshot/guide/index.html'>1.0.0</option><option selected='selected' value='https://micronaut-projects.github.io/micronaut-nats/1.0.0/guide/index.html'>1.0.0</option><option value='https://micronaut-projects.github.io/micronaut-nats/1.0.0.RC1/guide/index.html'>1.0.0.RC1</option></select></p>
+        <p><strong>Version:</strong> <select style='max-width: 200px' onChange='window.document.location.href=this.options[this.selectedIndex].value;'><option value='https://micronaut-projects.github.io/micronaut-nats/snapshot/guide/index.html'>SNAPSHOT</option><option selected='selected' value='https://micronaut-projects.github.io/micronaut-nats/1.0.1/guide/index.html'>1.0.1</option><option value='https://micronaut-projects.github.io/micronaut-nats/1.0.0/guide/index.html'>1.0.0</option><option value='https://micronaut-projects.github.io/micronaut-nats/1.0.0.RC1/guide/index.html'>1.0.0.RC1</option></select></p>
     </div>
     
 
 <h1 id="introduction">1 Introduction</h1>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/master/src/main/docs/guide/introduction.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/1.0.x/src/main/docs/guide/introduction.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -148,7 +148,7 @@
 <h1 id="quickStart">2 NATS Quick Start</h1>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/master/src/main/docs/guide/quickStart.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/1.0.x/src/main/docs/guide/quickStart.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -183,7 +183,7 @@
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-Without any configuration the defaults in the <a href="https://javadoc.io/doc/io.nats/jnats/2.6.7/io/nats/client/Options.html">Options</a> will be used.
+Without any configuration the defaults in the <a href="https://javadoc.io/doc/io.nats/jnats/2.6.8/io/nats/client/Options.html">Options</a> will be used.
 </td>
 </tr>
 </table>
@@ -343,7 +343,7 @@ public class ProductListener {
 <h1 id="producer">3 NATS Producers Using @NatsClient</h1>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/master/src/main/docs/guide/producer.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/1.0.x/src/main/docs/guide/producer.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -360,7 +360,7 @@ public class ProductListener {
 <h2 id="producerMethods">3.1 Defining @NatsClient Methods</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/master/src/main/docs/guide/producer/producerMethods.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/1.0.x/src/main/docs/guide/producer/producerMethods.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -465,7 +465,7 @@ Flowable&lt;Product&gt; sendProduct(String name);</code></pre>
 <h1 id="consumer">4 NATS Consumers Using @NatsListener</h1>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/master/src/main/docs/guide/consumer.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/1.0.x/src/main/docs/guide/consumer.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -482,7 +482,7 @@ Flowable&lt;Product&gt; sendProduct(String name);</code></pre>
 <h2 id="consumerMethods">4.1 Defining @NatsListener Methods</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/master/src/main/docs/guide/consumer/consumerMethods.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/1.0.x/src/main/docs/guide/consumer/consumerMethods.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -582,7 +582,7 @@ If the consumer defines a return type, it automatically will use the RPC logic a
 <h1 id="health">5 NATS Health Indicator</h1>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/master/src/main/docs/guide/health.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/1.0.x/src/main/docs/guide/health.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
