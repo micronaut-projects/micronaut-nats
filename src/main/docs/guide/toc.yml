@@ -10,3 +10,4 @@ consumer:
   title: NATS Consumers Using @NatsListener
   consumerMethods: Defining @NatsListener Methods
 health: NATS Health Indicator
+repository: Repository
