@@ -1,5 +1,5 @@
 introduction: Introduction
-whatsNew: What's New
+releaseHistory: Release History
 cli: Using the Micronaut CLI
 quickStart: NATS Quick Start
 config: Configuring the connection
@@ -10,3 +10,4 @@ consumer:
   title: NATS Consumers Using @NatsListener
   consumerMethods: Defining @NatsListener Methods
 health: NATS Health Indicator
+repository: Repository

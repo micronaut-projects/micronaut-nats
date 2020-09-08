@@ -1,8 +1,0 @@
-This section will outline any breaking changes between major or milestone releases as well as detail any new features that have been added.
-
-== 1.0.0
-
-* Micronaut 1.2.x minimum version
-* Basic support for consumer and producers
-* RPC feature
-* Queue feature
