@@ -11,7 +11,7 @@
 
         gtag('config', 'UA-82213539-2');
     </script>
-    <title>4 NATS Quick Start 1.0.1.BUILD-SNAPSHOT</title>
+    <title>2 NATS Quick Start 1.0.1.BUILD-SNAPSHOT</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8"/>
     <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8"/>
@@ -41,25 +41,16 @@ function addJsClass() {
                         <div class="toc-item" style="margin-left:0"><a href="../guide/introduction.html"><strong>1</strong><span>Introduction</span></a>
                         </div>
                         
-                        <div class="toc-item" style="margin-left:0"><a href="../guide/whatsNew.html"><strong>2</strong><span>What's New</span></a>
+                        <div class="toc-item" style="margin-left:0"><a href="../guide/quickStart.html"><strong>2</strong><span>NATS Quick Start</span></a>
                         </div>
                         
-                        <div class="toc-item" style="margin-left:0"><a href="../guide/cli.html"><strong>3</strong><span>Using the Micronaut CLI</span></a>
+                        <div class="toc-item" style="margin-left:0"><a href="../guide/producer.html"><strong>3</strong><span>NATS Producers Using @NatsClient</span></a>
                         </div>
                         
-                        <div class="toc-item" style="margin-left:0"><a href="../guide/quickStart.html"><strong>4</strong><span>NATS Quick Start</span></a>
+                        <div class="toc-item" style="margin-left:0"><a href="../guide/consumer.html"><strong>4</strong><span>NATS Consumers Using @NatsListener</span></a>
                         </div>
                         
-                        <div class="toc-item" style="margin-left:0"><a href="../guide/config.html"><strong>5</strong><span>Configuring the connection</span></a>
-                        </div>
-                        
-                        <div class="toc-item" style="margin-left:0"><a href="../guide/producer.html"><strong>6</strong><span>NATS Producers Using @NatsClient</span></a>
-                        </div>
-                        
-                        <div class="toc-item" style="margin-left:0"><a href="../guide/consumer.html"><strong>7</strong><span>NATS Consumers Using @NatsListener</span></a>
-                        </div>
-                        
-                        <div class="toc-item" style="margin-left:0"><a href="../guide/health.html"><strong>8</strong><span>NATS Health Indicator</span></a>
+                        <div class="toc-item" style="margin-left:0"><a href="../guide/health.html"><strong>5</strong><span>NATS Health Indicator</span></a>
                         </div>
                         
                     </div>
@@ -80,18 +71,18 @@ function addJsClass() {
             <div id="main" class="corner-all">
 
                 
-                    <div class="toc-item prev-left"><a href="../guide/cli.html">&lt;&lt; <strong>3</strong><span>Using the Micronaut CLI</span></a></div>
+                    <div class="toc-item prev-left"><a href="../guide/introduction.html">&lt;&lt; <strong>1</strong><span>Introduction</span></a></div>
                 
 
                 <span id='toggle-col1' class="toggle">(<a href="#" onclick="localToggle(); return false;">Quick Reference</a>)</span>
 
                 
-                    <div class="toc-item next-right"><a href="../guide/config.html"><strong>5</strong><span>Configuring the connection</span> >></a></div>
+                    <div class="toc-item next-right"><a href="../guide/producer.html"><strong>3</strong><span>NATS Producers Using @NatsClient</span> >></a></div>
                 
 
 
                 <div class="project">
-                    <h1>4 NATS Quick Start</h1>
+                    <h1>2 NATS Quick Start</h1>
 
                     <p><strong>Version:</strong> 1.0.1.BUILD-SNAPSHOT</p>
                 </div>
@@ -99,10 +90,11 @@ function addJsClass() {
                 
 
                 
-<h1 id="quickStart"><a class="anchor" href="#quickStart"></a>4 NATS Quick Start</h1>
+
+<h1 id="quickStart">2 NATS Quick Start</h1>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/master/src/main/docs/guide/quickStart.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/1.0.x/src/main/docs/guide/quickStart.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -127,6 +119,76 @@ function addJsClass() {
 </div>
 </div>
 </p>
+</div>
+<div class="sect2">
+<h3 id="_configuring_nats">Configuring NATS</h3>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Without any configuration the defaults in the <a href="https://javadoc.io/doc/io.nats/jnats/2.6.8/io/nats/client/Options.html">Options</a> will be used.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>It is possible to configure multiple connections to the same server, different servers, or a single connection to one of a list of servers.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">nats:
+    server1:
+      addresses:
+        - "nats://localhost:4222"
+      username: guest
+      password: guest
+    server2:
+      addresses:
+        - "nats://randomServer:4222"
+      username: guest
+      password: guest</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>NATS also supports a fail over connection strategy where the first server that connects successfully will be used among a list of servers. To use this option in Micronaut, simply supply a list of <code>host:port</code> addresses.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">nats:
+    addresses:
+      - "nats://localhost:4222"
+      - "nats://randomServer:4222"
+    username: guest
+    password: guest</code></pre>
+</div>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+When the configuration option <code>nats.servers</code> is used, no other options underneath <code>nats</code> are read; for example <code>nats.username</code>.
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+It is also possible to disable the integration entirely with <code>nats.enabled: false</code>
+</td>
+</tr>
+</table>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_creating_a_nats_producer_with_natsclient">Creating a NATS Producer with @NatsClient</h3>
@@ -226,9 +288,9 @@ public class ProductListener {
 
                 <div style="clear:both;margin-top:15px;"></div>
                 
-                    <div class="toc-item prev-left"><a href="../guide/cli.html">&lt;&lt; <strong>3</strong><span>Using the Micronaut CLI</span></a></div>
+                    <div class="toc-item prev-left"><a href="../guide/introduction.html">&lt;&lt; <strong>1</strong><span>Introduction</span></a></div>
                 
-                    <div class="toc-item next-right"><a href="../guide/config.html"><strong>5</strong><span>Configuring the connection</span> >></a></div>
+                    <div class="toc-item next-right"><a href="../guide/producer.html"><strong>3</strong><span>NATS Producers Using @NatsClient</span> >></a></div>
                 
                 <div style="clear:both"></div>
             </div>
