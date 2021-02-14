@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2020 original authors
+ * Copyright 2017-2019 original authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,16 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/**
- * Configuration for Nats.
- */
-@Configuration
-@Requires(classes = {Connection.class})
-@Requires(property = "nats")
-@Requires(property = "nats.enabled", notEquals = StringUtils.FALSE)
-package io.micronaut.nats;
+package io.micronaut.nats.connect
 
-import io.micronaut.context.annotation.Configuration;
-import io.micronaut.context.annotation.Requires;
-import io.micronaut.core.util.StringUtils;
-import io.nats.client.Connection;
+import io.micronaut.context.ApplicationContext
+import io.nats.client.Connection
+import spock.lang.Specification
+
+class NoNatsConfigurationSpec extends Specification {
+
+
+    void "no nats configuration"() {
+        given:
+        ApplicationContext context = ApplicationContext.run()
+
+        expect:
+        context.getBeansOfType(Connection).isEmpty()
+
+        cleanup:
+        context.stop()
+
+    }
+
+}
