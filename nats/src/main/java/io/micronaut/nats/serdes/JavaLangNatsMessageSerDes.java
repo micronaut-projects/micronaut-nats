@@ -22,10 +22,10 @@ import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import javax.inject.Singleton;
 
+import io.micronaut.core.annotation.NonNull;
+import io.micronaut.core.annotation.Nullable;
 import io.micronaut.core.serialize.exceptions.SerializationException;
 import io.micronaut.core.type.Argument;
 import io.nats.client.Message;
@@ -104,7 +104,7 @@ public class JavaLangNatsMessageSerDes implements NatsMessageSerDes<Object> {
     /**
      * @return The serDes that handles {@link String}
      */
-    @Nonnull
+    @NonNull
     protected NatsMessageSerDes<String> getStringSerDes() {
         return new StringSerDes();
     }
@@ -112,7 +112,7 @@ public class JavaLangNatsMessageSerDes implements NatsMessageSerDes<Object> {
     /**
      * @return The serDes that handles {@link Short}
      */
-    @Nonnull
+    @NonNull
     protected NatsMessageSerDes<Short> getShortSerDes() {
         return new ShortSerDes();
     }
@@ -120,7 +120,7 @@ public class JavaLangNatsMessageSerDes implements NatsMessageSerDes<Object> {
     /**
      * @return The serDes that handles {@link Integer}
      */
-    @Nonnull
+    @NonNull
     protected NatsMessageSerDes<Integer> getIntegerSerDes() {
         return new IntegerSerDes();
     }
@@ -128,7 +128,7 @@ public class JavaLangNatsMessageSerDes implements NatsMessageSerDes<Object> {
     /**
      * @return The serDes that handles {@link Long}
      */
-    @Nonnull
+    @NonNull
     protected NatsMessageSerDes<Long> getLongSerDes() {
         return new LongSerDes();
     }
@@ -136,7 +136,7 @@ public class JavaLangNatsMessageSerDes implements NatsMessageSerDes<Object> {
     /**
      * @return The serDes that handles {@link Float}
      */
-    @Nonnull
+    @NonNull
     protected NatsMessageSerDes<Float> getFloatSerDes() {
         return new FloatSerDes();
     }
@@ -144,7 +144,7 @@ public class JavaLangNatsMessageSerDes implements NatsMessageSerDes<Object> {
     /**
      * @return The serDes that handles {@link Double}
      */
-    @Nonnull
+    @NonNull
     protected NatsMessageSerDes<Double> getDoubleSerDes() {
         return new DoubleSerDes();
     }
@@ -152,7 +152,7 @@ public class JavaLangNatsMessageSerDes implements NatsMessageSerDes<Object> {
     /**
      * @return The serDes that handles byte[]
      */
-    @Nonnull
+    @NonNull
     protected NatsMessageSerDes<byte[]> getByteArraySerDes() {
         return new ByteArraySerDes();
     }
@@ -160,7 +160,7 @@ public class JavaLangNatsMessageSerDes implements NatsMessageSerDes<Object> {
     /**
      * @return The serDes that handles {@link ByteBuffer}
      */
-    @Nonnull
+    @NonNull
     protected NatsMessageSerDes<ByteBuffer> getByteBufferSerDes() {
         return new ByteBufferSerDes();
     }
@@ -168,7 +168,7 @@ public class JavaLangNatsMessageSerDes implements NatsMessageSerDes<Object> {
     /**
      * @return The serDes that handles {@link UUID}
      */
-    @Nonnull
+    @NonNull
     protected NatsMessageSerDes<UUID> getUUIDSerDes() {
         return new UUIDSerDes();
     }
@@ -176,7 +176,7 @@ public class JavaLangNatsMessageSerDes implements NatsMessageSerDes<Object> {
     /**
      * @return The serDes that handles {@link UUID}
      */
-    @Nonnull
+    @NonNull
     protected NatsMessageSerDes<Boolean> getBooleanSerDes() {
         return new BooleanSerDes();
     }

@@ -16,10 +16,9 @@
 package io.micronaut.nats.rpc
 
 import io.micronaut.context.annotation.Requires
+import io.micronaut.core.annotation.Nullable
 import io.micronaut.nats.annotation.NatsListener
 import io.micronaut.nats.annotation.Subject
-
-import javax.annotation.Nullable
 
 /**
  *

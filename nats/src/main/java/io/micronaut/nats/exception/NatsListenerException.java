@@ -17,8 +17,7 @@ package io.micronaut.nats.exception;
 
 import java.util.Optional;
 
-import javax.annotation.Nullable;
-
+import io.micronaut.core.annotation.Nullable;
 import io.micronaut.messaging.exceptions.MessageListenerException;
 import io.nats.client.Message;
 
