@@ -18,10 +18,9 @@ package io.micronaut.nats.annotation
 
 import io.micronaut.context.ApplicationContext
 import io.micronaut.context.annotation.Requires
+import io.micronaut.core.annotation.Nullable
 import io.micronaut.nats.AbstractNatsTest
 import spock.util.concurrent.PollingConditions
-
-import javax.annotation.Nullable
 
 class BindingSpec extends AbstractNatsTest {
 

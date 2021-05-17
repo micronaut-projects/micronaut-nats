@@ -15,7 +15,8 @@
  */
 package io.micronaut.nats.reactive;
 
-import javax.annotation.Nullable;
+import io.micronaut.core.annotation.Nullable;
+
 import javax.annotation.concurrent.Immutable;
 
 /**

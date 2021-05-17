@@ -28,12 +28,12 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import javax.annotation.Nullable;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManagerFactory;
 import javax.validation.constraints.NotNull;
 
 import io.micronaut.context.annotation.Parameter;
+import io.micronaut.core.annotation.Nullable;
 import io.nats.client.Nats;
 import io.nats.client.Options;
 

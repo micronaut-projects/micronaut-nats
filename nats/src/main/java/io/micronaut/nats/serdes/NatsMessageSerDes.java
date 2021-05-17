@@ -15,8 +15,7 @@
  */
 package io.micronaut.nats.serdes;
 
-import javax.annotation.Nullable;
-
+import io.micronaut.core.annotation.Nullable;
 import io.micronaut.core.order.Ordered;
 import io.micronaut.core.type.Argument;
 import io.nats.client.Message;
