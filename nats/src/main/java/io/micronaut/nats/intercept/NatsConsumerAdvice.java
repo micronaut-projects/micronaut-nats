@@ -20,9 +20,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
-import javax.inject.Qualifier;
-import javax.inject.Singleton;
-
 import io.micronaut.context.BeanContext;
 import io.micronaut.context.processor.ExecutableMethodProcessor;
 import io.micronaut.core.annotation.AnnotationValue;
@@ -44,6 +41,7 @@ import io.micronaut.nats.serdes.NatsMessageSerDesRegistry;
 import io.nats.client.Connection;
 import io.nats.client.Dispatcher;
 import io.nats.client.Message;
+import jakarta.inject.Singleton;
 
 /**
  * An {@link ExecutableMethodProcessor} that will process all beans annotated with {@link NatsListener}.
@@ -52,7 +50,7 @@ import io.nats.client.Message;
  * @since 1.0.0
  */
 @Singleton
-public class NatsConsumerAdvice implements ExecutableMethodProcessor<NatsListener>, AutoCloseable {
+public class NatsConsumerAdvice implements ExecutableMethodProcessor<Subject>, AutoCloseable {
 
     private final BeanContext beanContext;
 
@@ -91,7 +89,7 @@ public class NatsConsumerAdvice implements ExecutableMethodProcessor<NatsListene
                             .orElse(NatsConnection.DEFAULT_CONNECTION);
 
             io.micronaut.context.Qualifier<Object> qualifer =
-                    beanDefinition.getAnnotationTypeByStereotype(Qualifier.class)
+                    beanDefinition.getAnnotationTypeByStereotype("javax.inject.Qualifier")
                             .map(type -> Qualifiers.byAnnotation(beanDefinition, type)).orElse(null);
 
             Class<Object> beanType = (Class<Object>) beanDefinition.getBeanType();

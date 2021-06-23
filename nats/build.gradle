@@ -6,6 +6,7 @@ dependencies {
     api "io.micronaut:micronaut-inject-java"
     api "io.nats:jnats:$natsVersion"
 
+    compileOnly "jakarta.inject:jakarta.inject-api:2.0.0"
     compileOnly "io.micronaut.micrometer:micronaut-micrometer-core"
     compileOnly "io.micronaut:micronaut-management"
 

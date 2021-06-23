@@ -17,15 +17,12 @@ package io.micronaut.nats.reactive;
 
 import io.micronaut.core.annotation.Nullable;
 
-import javax.annotation.concurrent.Immutable;
-
 /**
  * Stores the state of a Nats message to be published.
  *
  * @author James Kleeh
  * @since 1.1.0
  */
-@Immutable
 public class PublishState {
 
     private final String subject;

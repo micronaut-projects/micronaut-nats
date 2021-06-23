@@ -15,11 +15,11 @@
  */
 package io.micronaut.nats.connect;
 
-import javax.inject.Named;
 import javax.validation.constraints.NotNull;
 
 import io.micronaut.context.annotation.ConfigurationProperties;
 import io.micronaut.context.annotation.Requires;
+import jakarta.inject.Named;
 
 /**
  * The default Nats configuration class.

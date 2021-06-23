@@ -17,13 +17,12 @@ package io.micronaut.nats.bind;
 
 import java.util.Optional;
 
-import javax.inject.Singleton;
-
-import io.micronaut.nats.serdes.NatsMessageSerDesRegistry;
 import io.micronaut.core.convert.ArgumentConversionContext;
 import io.micronaut.core.type.Argument;
 import io.micronaut.messaging.annotation.Body;
+import io.micronaut.nats.serdes.NatsMessageSerDesRegistry;
 import io.nats.client.Message;
+import jakarta.inject.Singleton;
 
 /**
  * Binds an argument of with the {@link Body} annotation from the {@link Message}.

@@ -19,9 +19,6 @@ import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.concurrent.ExecutorService;
 
-import javax.inject.Named;
-import javax.inject.Singleton;
-
 import io.micronaut.context.annotation.Bean;
 import io.micronaut.context.annotation.EachBean;
 import io.micronaut.context.annotation.Factory;
@@ -29,6 +26,8 @@ import io.micronaut.context.exceptions.BeanInstantiationException;
 import io.micronaut.scheduling.TaskExecutors;
 import io.nats.client.Connection;
 import io.nats.client.Nats;
+import jakarta.inject.Named;
+import jakarta.inject.Singleton;
 
 /**
  * A factory for creating a connection to nats.
