@@ -33,6 +33,7 @@ import io.micronaut.core.type.Argument;
 import io.micronaut.inject.ExecutableMethod;
 import io.micronaut.inject.qualifiers.Qualifiers;
 import io.micronaut.messaging.annotation.Body;
+import io.micronaut.messaging.annotation.MessageBody;
 import io.micronaut.nats.annotation.NatsClient;
 import io.micronaut.nats.annotation.NatsConnection;
 import io.micronaut.nats.annotation.Subject;
@@ -209,10 +210,13 @@ public class NatsIntroductionAdvice implements MethodInterceptor<Object, Object>
 
     private Optional<Argument<?>> findBodyArgument(ExecutableMethod<?, ?> method) {
         return Optional.ofNullable(Arrays.stream(method.getArguments())
-                .filter(arg -> arg.getAnnotationMetadata().hasAnnotation(Body.class)).findFirst().orElseGet(
+                                         .filter(arg -> arg.getAnnotationMetadata().hasAnnotation(Body.class)
+                                                 || arg.getAnnotationMetadata().hasAnnotation(
+                                                 MessageBody.class)).findFirst().orElseGet(
                         () -> Arrays.stream(method.getArguments())
-                                .filter(arg -> !arg.getAnnotationMetadata().hasStereotype(Subject.class)).findFirst()
-                                .orElse(null)));
+                                    .filter(arg -> !arg.getAnnotationMetadata().hasStereotype(Subject.class))
+                                    .findFirst()
+                                    .orElse(null)));
     }
 
     private Optional<String> findSubjectKey(MethodInvocationContext<Object, Object> method) {

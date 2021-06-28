@@ -19,19 +19,19 @@ import java.util.Optional;
 
 import io.micronaut.core.convert.ArgumentConversionContext;
 import io.micronaut.core.type.Argument;
-import io.micronaut.messaging.annotation.Body;
+import io.micronaut.messaging.annotation.MessageBody;
 import io.micronaut.nats.serdes.NatsMessageSerDesRegistry;
 import io.nats.client.Message;
 import jakarta.inject.Singleton;
 
 /**
- * Binds an argument of with the {@link Body} annotation from the {@link Message}.
+ * Binds an argument of with the {@link MessageBody} annotation from the {@link Message}.
  *
  * @author jgrimm
  * @since 1.0.0
  */
 @Singleton
-public class NatsBodyBinder implements NatsAnnotatedArgumentBinder<Body> {
+public class NatsBodyBinder implements NatsAnnotatedArgumentBinder<MessageBody> {
 
     private final NatsMessageSerDesRegistry serDesRegistry;
 
@@ -44,8 +44,8 @@ public class NatsBodyBinder implements NatsAnnotatedArgumentBinder<Body> {
     }
 
     @Override
-    public Class<Body> getAnnotationType() {
-        return Body.class;
+    public Class<MessageBody> getAnnotationType() {
+        return MessageBody.class;
     }
 
     @Override

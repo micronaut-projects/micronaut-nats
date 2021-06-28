@@ -17,7 +17,7 @@ package io.micronaut.nats.annotation
 
 import io.micronaut.context.ApplicationContext
 import io.micronaut.context.annotation.Requires
-import io.micronaut.messaging.annotation.Body
+import io.micronaut.messaging.annotation.MessageBody
 import io.micronaut.nats.AbstractNatsTest
 import reactor.core.publisher.Mono
 import spock.util.concurrent.PollingConditions
@@ -55,7 +55,7 @@ class BasicAopSpec extends AbstractNatsTest {
     static interface MyProducer {
 
         @Subject("abc")
-        void go(@Body byte[] data)
+        void go(@MessageBody byte[] data)
 
         @Subject("abc")
         Mono goConfirm(byte[] data)

@@ -13,7 +13,7 @@ For example the following is a trivial `@NatsClient` interface:
 ----
 import io.micronaut.nats.annotation.NatsClient;
 import io.micronaut.nats.annotation.Subject;
-import io.micronaut.messaging.annotation.Body;
+import io.micronaut.messaging.annotation.MessageBody;
 
 @NatsClient // <1>
 public interface ProductClient {
@@ -21,7 +21,7 @@ public interface ProductClient {
     @Subject("my-products") // <2>
     void send(String name);
 
-    void sendProduct(@Subject String brand, @Body String name); // <3>
+    void sendProduct(@Subject String brand, @MessageBody String name); // <3>
 }
 ----
 
@@ -48,7 +48,7 @@ The following example will listen for messages published by the `ProductClient` 
 .ProductListener.java
 [source,java]
 ----
-import io.micronaut.messaging.annotation.Body;
+import io.micronaut.messaging.annotation.MessageBody;
 import io.micronaut.nats.annotation.NatsListener;
 import io.micronaut.nats.annotation.Subject;
 
@@ -56,7 +56,7 @@ import io.micronaut.nats.annotation.Subject;
 public class ProductListener {
 
     @Subject("my-products") // <2>
-    public void receive(@Body String name) { // <3>
+    public void receive(@MessageBody String name) { // <3>
         System.out.println("Got Product - " + name);
     }
 }
