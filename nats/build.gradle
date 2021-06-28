@@ -5,6 +5,8 @@ dependencies {
     api "io.micronaut:micronaut-messaging:$micronautVersion"
     api "io.micronaut:micronaut-inject-java"
     api "io.nats:jnats:$natsVersion"
+    // TODO: Remove when RxJava2 -> Reactor PR is merged into core
+    api "io.micronaut.reactor:micronaut-reactor"
 
     compileOnly "io.micronaut.micrometer:micronaut-micrometer-core"
     compileOnly "io.micronaut:micronaut-management"

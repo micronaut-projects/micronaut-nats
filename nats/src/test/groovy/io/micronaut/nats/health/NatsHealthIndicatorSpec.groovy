@@ -5,7 +5,7 @@ import io.micronaut.context.ApplicationContext
 import io.micronaut.health.HealthStatus
 import io.micronaut.management.health.indicator.HealthResult
 import io.micronaut.nats.AbstractNatsTest
-import io.reactivex.Single
+import reactor.core.publisher.Mono
 
 /**
  *
@@ -19,7 +19,7 @@ class NatsHealthIndicatorSpec extends AbstractNatsTest {
 
         when:
         NatsHealthIndicator healthIndicator = context.getBean(NatsHealthIndicator)
-        HealthResult result = Single.fromPublisher(healthIndicator.result).blockingGet()
+        HealthResult result = Mono.from(healthIndicator.result).block()
 
         then:
         result.status == HealthStatus.UP
@@ -36,13 +36,13 @@ class NatsHealthIndicatorSpec extends AbstractNatsTest {
         when:
         NatsHealthIndicator healthIndicator = context.getBean(NatsHealthIndicator)
         natsContainer.stop()
-        HealthResult result = Single.fromPublisher(healthIndicator.result).blockingGet()
+        HealthResult result = Mono.from(healthIndicator.result).block()
 
         then:
         result.status == HealthStatus.DOWN
 
         cleanup:
         natsContainer.start()
-        context.close();
+        context.close()
     }
 }

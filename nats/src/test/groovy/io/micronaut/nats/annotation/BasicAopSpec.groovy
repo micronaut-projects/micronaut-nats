@@ -15,13 +15,13 @@
  */
 package io.micronaut.nats.annotation
 
-
 import io.micronaut.context.ApplicationContext
 import io.micronaut.context.annotation.Requires
 import io.micronaut.messaging.annotation.Body
 import io.micronaut.nats.AbstractNatsTest
-import io.reactivex.Completable
+import reactor.core.publisher.Mono
 import spock.util.concurrent.PollingConditions
+
 /**
  *
  * @author jgrimm
@@ -58,7 +58,7 @@ class BasicAopSpec extends AbstractNatsTest {
         void go(@Body byte[] data)
 
         @Subject("abc")
-        Completable goConfirm(byte[] data)
+        Mono goConfirm(byte[] data)
     }
 
     @Requires(property = "spec.name", value = "BasicAopSpec")

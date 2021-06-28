@@ -43,17 +43,15 @@ import io.micronaut.nats.serdes.NatsMessageSerDes;
 import io.micronaut.nats.serdes.NatsMessageSerDesRegistry;
 import io.micronaut.scheduling.TaskExecutors;
 import io.nats.client.Message;
-import io.reactivex.Completable;
-import io.reactivex.Flowable;
-import io.reactivex.Maybe;
-import io.reactivex.Scheduler;
-import io.reactivex.Single;
-import io.reactivex.schedulers.Schedulers;
 import jakarta.inject.Named;
 import jakarta.inject.Singleton;
 import org.reactivestreams.Publisher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+import reactor.core.scheduler.Scheduler;
+import reactor.core.scheduler.Schedulers;
 
 /**
  * Implementation of the {@link NatsClient} advice annotation.
@@ -87,7 +85,7 @@ public class NatsIntroductionAdvice implements MethodInterceptor<Object, Object>
         this.beanContext = beanContext;
         this.conversionService = conversionService;
         this.serDesRegistry = serDesRegistry;
-        this.scheduler = Schedulers.from(executorService);
+        this.scheduler = Schedulers.fromExecutorService(executorService);
     }
 
     @Override
@@ -146,22 +144,22 @@ public class NatsIntroductionAdvice implements MethodInterceptor<Object, Object>
                     if (LOG.isDebugEnabled()) {
                         LOG.debug("Sending the message with publisher confirms.", context);
                     }
-                    reactive = Flowable.fromPublisher(reactivePublisher.publish(publishState)).subscribeOn(scheduler);
+                    reactive = Flux.from(reactivePublisher.publish(publishState)).subscribeOn(scheduler);
                 } else {
                     if (LOG.isDebugEnabled()) {
                         LOG.debug("Publish is an RPC call. Publisher will complete when a response is received.",
                                 context);
                     }
-                    reactive = Flowable.fromPublisher(reactivePublisher.publishAndReply(publishState))
-                            .flatMap(consumerState -> {
-                                Object deserialized = deserialize(consumerState, publisherState.getDataType(),
-                                        publisherState.getDataType());
-                                if (deserialized == null) {
-                                    return Flowable.empty();
-                                } else {
-                                    return Flowable.just(deserialized);
-                                }
-                            }).subscribeOn(scheduler);
+                    reactive = Flux.from(reactivePublisher.publishAndReply(publishState))
+                                   .flatMap(consumerState -> {
+                                       Object deserialized = deserialize(consumerState, publisherState.getDataType(),
+                                               publisherState.getDataType());
+                                       if (deserialized == null) {
+                                           return Flux.empty();
+                                       } else {
+                                           return Flux.just(deserialized);
+                                       }
+                                   }).subscribeOn(scheduler);
                 }
                 return conversionService.convert(reactive, context.getReturnType().getType()).orElseThrow(
                         () -> new NatsClientException(
@@ -172,28 +170,26 @@ public class NatsIntroductionAdvice implements MethodInterceptor<Object, Object>
                     if (LOG.isDebugEnabled()) {
                         LOG.debug("Sending the message without publisher confirms.", context);
                     }
-                    Throwable throwable =
-                            Completable.fromPublisher(reactivePublisher.publish(publishState)).blockingGet();
-                    if (throwable != null) {
-                        throw new NatsClientException(
-                                String.format("Failed to publish a message with subject: [%s]", subject), throwable,
-                                Collections.singletonList(publishState));
-                    }
-                    return null;
+
+                    return Mono.from(reactivePublisher.publish(publishState))
+                               .onErrorResume(throwable -> Mono.error(new NatsClientException(
+                                       String.format("Failed to publish a message with subject: [%s]", subject),
+                                       throwable,
+                                       Collections.singletonList(publishState)))).block();
                 } else {
                     if (LOG.isDebugEnabled()) {
                         LOG.debug("Publish is an RPC call. Blocking until a response is received.", context);
                     }
-                    return Single.fromPublisher(reactivePublisher.publishAndReply(publishState))
-                            .flatMapMaybe(message -> {
-                                Object deserialized = deserialize(message, publisherState.getDataType(),
-                                        publisherState.getDataType());
-                                if (deserialized == null) {
-                                    return Maybe.empty();
-                                } else {
-                                    return Maybe.just(deserialized);
-                                }
-                            }).blockingGet();
+                    return Mono.from(reactivePublisher.publishAndReply(publishState))
+                               .flatMap(message -> {
+                                   Object deserialized = deserialize(message, publisherState.getDataType(),
+                                           publisherState.getDataType());
+                                   if (deserialized == null) {
+                                       return Mono.empty();
+                                   } else {
+                                       return Mono.just(deserialized);
+                                   }
+                               }).block();
                 }
             }
 
