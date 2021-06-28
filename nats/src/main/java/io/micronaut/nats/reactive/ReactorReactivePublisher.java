@@ -29,7 +29,7 @@ import reactor.core.publisher.Mono;
 
 @Internal
 @EachBean(Connection.class)
-public class RxJavaReactivePublisher implements ReactivePublisher {
+public class ReactorReactivePublisher implements ReactivePublisher {
 
     private final Connection connection;
 
@@ -37,7 +37,7 @@ public class RxJavaReactivePublisher implements ReactivePublisher {
      * Constructor.
      * @param connection The given connection
      */
-    public RxJavaReactivePublisher(@Parameter Connection connection) {
+    public ReactorReactivePublisher(@Parameter Connection connection) {
         this.connection = connection;
     }
 
