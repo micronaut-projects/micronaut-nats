@@ -244,7 +244,7 @@ $ mn create-nats-listener Message
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">import io.micronaut.nats.annotation.NatsClient;
 import io.micronaut.nats.annotation.Subject;
-import io.micronaut.messaging.annotation.Body;
+import io.micronaut.messaging.annotation.MessageBody;
 
 @NatsClient <i class="conum" data-value="1"></i><b>(1)</b>
 public interface ProductClient {
@@ -252,7 +252,7 @@ public interface ProductClient {
     @Subject("my-products") <i class="conum" data-value="2"></i><b>(2)</b>
     void send(String name);
 
-    void sendProduct(@Subject String brand, @Body String name); <i class="conum" data-value="3"></i><b>(3)</b>
+    void sendProduct(@Subject String brand, @MessageBody String name); <i class="conum" data-value="3"></i><b>(3)</b>
 }</code></pre>
 </div>
 </div>
@@ -294,7 +294,7 @@ client.sendProduct("Nike", "Blue Trainers");</code></pre>
 <div class="listingblock">
 <div class="title">ProductListener.java</div>
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">import io.micronaut.messaging.annotation.Body;
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">import io.micronaut.messaging.annotation.MessageBody;
 import io.micronaut.nats.annotation.NatsListener;
 import io.micronaut.nats.annotation.Subject;
 
@@ -302,7 +302,7 @@ import io.micronaut.nats.annotation.Subject;
 public class ProductListener {
 
     @Subject("my-products") <i class="conum" data-value="2"></i><b>(2)</b>
-    public void receive(@Body String name) { <i class="conum" data-value="3"></i><b>(3)</b>
+    public void receive(@MessageBody String name) { <i class="conum" data-value="3"></i><b>(3)</b>
         System.out.println("Got Product - " + name);
     }
 }</code></pre>
@@ -336,7 +336,7 @@ public class ProductListener {
 
 
 <div class="paragraph">
-<p>All properties on the <a href="https://javadoc.io/doc/io.nats/jnats/2.11.1/io/nats/client/Options.html">Options</a> are available to be modified, either through configuration or a <a href="https://docs.micronaut.io/latest/api/io/micronaut/context/event/BeanCreatedEventListener.html">BeanCreatedEventListener</a>.</p>
+<p>All properties on the <a href="https://javadoc.io/doc/io.nats/jnats/2.11.4/io/nats/client/Options.html">Options</a> are available to be modified, either through configuration or a <a href="https://docs.micronaut.io/latest/api/io/micronaut/context/event/BeanCreatedEventListener.html">BeanCreatedEventListener</a>.</p>
 </div>
 <div class="paragraph">
 <p>The properties that can be converted from the string values in a configuration file can be configured directly.</p>
@@ -514,7 +514,7 @@ public class ProductListener {
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-Without any configuration the defaults in the <a href="https://javadoc.io/doc/io.nats/jnats/2.11.1/io/nats/client/Options.html">Options</a> will be used.
+Without any configuration the defaults in the <a href="https://javadoc.io/doc/io.nats/jnats/2.11.4/io/nats/client/Options.html">Options</a> will be used.
 </td>
 </tr>
 </table>
@@ -719,13 +719,10 @@ If the producer defines a return type, it automatically will use the RPC logic a
 Product sendProduct(String name);
 
 @Subject("product")
-Single&lt;Product&gt; sendProduct(String name);
+Mono&lt;Product&gt; sendProduct(String name);
 
 @Subject("product")
-Maybe&lt;Product&gt; sendProduct(String name);
-
-@Subject("product")
-Flowable&lt;Product&gt; sendProduct(String name);</code></pre>
+Flux&lt;Product&gt; sendProduct(String name);</code></pre>
 </div>
 </div>
 </div>
