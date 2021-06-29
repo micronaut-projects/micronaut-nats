@@ -20,14 +20,13 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
 
-import javax.inject.Singleton;
-
 import io.micronaut.core.bind.ArgumentBinder;
 import io.micronaut.core.bind.ArgumentBinderRegistry;
 import io.micronaut.core.bind.annotation.Bindable;
 import io.micronaut.core.type.Argument;
 import io.micronaut.core.util.ArrayUtils;
 import io.nats.client.Message;
+import jakarta.inject.Singleton;
 
 /**
  * Used to determine which {@link NatsArgumentBinder} to use for any given argument.

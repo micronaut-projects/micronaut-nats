@@ -18,10 +18,8 @@ package io.micronaut.nats.rpc
 import io.micronaut.context.annotation.Requires
 import io.micronaut.nats.annotation.NatsClient
 import io.micronaut.nats.annotation.Subject
-import io.reactivex.Flowable
-import io.reactivex.Maybe
-import io.reactivex.Single
-
+import reactor.core.publisher.Flux
+import reactor.core.publisher.Mono
 /**
  *
  * @author jgrimm
@@ -31,14 +29,9 @@ import io.reactivex.Single
 interface Publisher {
 
     @Subject("rpc")
-    Flowable<String> rpcCall(String data)
+    Flux<String> rpcCall(String data)
 
     @Subject("rpc")
-    Maybe<String> rpcCallMaybe(String data)
+    Mono<String> rpcCallMono(String data)
 
-    @Subject("rpc")
-    Single<String> rpcCallSingle(String data)
-
-    @Subject("rpc")
-    String rpcBlocking(String data)
 }

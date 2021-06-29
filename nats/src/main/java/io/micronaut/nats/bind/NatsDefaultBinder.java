@@ -15,10 +15,9 @@
  */
 package io.micronaut.nats.bind;
 
-import javax.inject.Singleton;
-
 import io.micronaut.core.convert.ArgumentConversionContext;
 import io.nats.client.Message;
+import jakarta.inject.Singleton;
 
 /**
  * The default binder for binding an argument from the {@link Message}

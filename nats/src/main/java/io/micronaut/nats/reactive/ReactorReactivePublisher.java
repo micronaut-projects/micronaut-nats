@@ -20,9 +20,8 @@ import io.micronaut.context.annotation.Parameter;
 import io.micronaut.core.annotation.Internal;
 import io.nats.client.Connection;
 import io.nats.client.Message;
-import io.reactivex.Completable;
-import io.reactivex.Single;
 import org.reactivestreams.Publisher;
+import reactor.core.publisher.Mono;
 
 /**
  * @author jgrimm
@@ -30,7 +29,7 @@ import org.reactivestreams.Publisher;
 
 @Internal
 @EachBean(Connection.class)
-public class RxJavaReactivePublisher implements ReactivePublisher {
+public class ReactorReactivePublisher implements ReactivePublisher {
 
     private final Connection connection;
 
@@ -38,30 +37,29 @@ public class RxJavaReactivePublisher implements ReactivePublisher {
      * Constructor.
      * @param connection The given connection
      */
-    public RxJavaReactivePublisher(@Parameter Connection connection) {
+    public ReactorReactivePublisher(@Parameter Connection connection) {
         this.connection = connection;
     }
 
     @Override
     public Publisher<Void> publish(PublishState publishState) {
-        return getConnection().flatMapCompletable(con -> publishInternal(publishState, con)).toFlowable();
+        return getConnection().flatMap(con -> publishInternal(publishState, con));
     }
 
-    private Completable publishInternal(PublishState publishState, Connection con) {
-        return Completable.create(subscriber -> {
+    private Mono<Void> publishInternal(PublishState publishState, Connection con) {
+        return Mono.create(subscriber -> {
             con.publish(publishState.getSubject(), publishState.getBody());
-            subscriber.onComplete();
+            subscriber.success();
         });
     }
 
     @Override
     public Publisher<Message> publishAndReply(PublishState publishState) {
         return getConnection()
-                .flatMap(con -> Single.fromFuture(con.request(publishState.getSubject(), publishState.getBody())))
-                .toFlowable();
+                .flatMap(con -> Mono.fromFuture(con.request(publishState.getSubject(), publishState.getBody())));
     }
 
-    private Single<Connection> getConnection() {
-        return Single.just(connection);
+    private Mono<Connection> getConnection() {
+        return Mono.just(connection);
     }
 }

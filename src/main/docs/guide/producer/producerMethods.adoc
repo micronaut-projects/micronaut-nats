@@ -38,11 +38,8 @@ IMPORTANT: If the producer defines a return type, it automatically will use the 
 Product sendProduct(String name);
 
 @Subject("product")
-Single<Product> sendProduct(String name);
+Mono<Product> sendProduct(String name);
 
 @Subject("product")
-Maybe<Product> sendProduct(String name);
-
-@Subject("product")
-Flowable<Product> sendProduct(String name);
+Flux<Product> sendProduct(String name);
 ----

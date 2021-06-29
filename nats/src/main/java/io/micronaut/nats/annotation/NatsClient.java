@@ -21,14 +21,13 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import javax.inject.Scope;
-import javax.inject.Singleton;
-
-import io.micronaut.nats.intercept.NatsIntroductionAdvice;
 import io.micronaut.aop.Introduction;
 import io.micronaut.context.annotation.AliasFor;
 import io.micronaut.context.annotation.Type;
+import io.micronaut.nats.intercept.NatsIntroductionAdvice;
 import io.micronaut.retry.annotation.Recoverable;
+import jakarta.inject.Scope;
+import jakarta.inject.Singleton;
 
 /**
  * An introduction advice that automatically implemnts interfaces and abstract classes and publishes nats messages.

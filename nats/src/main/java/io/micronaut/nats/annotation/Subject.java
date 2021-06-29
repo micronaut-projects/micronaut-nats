@@ -22,6 +22,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 import io.micronaut.context.annotation.AliasFor;
+import io.micronaut.context.annotation.Executable;
 import io.micronaut.core.bind.annotation.Bindable;
 import io.micronaut.messaging.annotation.MessageMapping;
 
@@ -35,6 +36,7 @@ import io.micronaut.messaging.annotation.MessageMapping;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.METHOD, ElementType.PARAMETER})
 @Bindable
+@Executable
 public @interface Subject {
 
     /**

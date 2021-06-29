@@ -14,17 +14,9 @@ class RpcSpec extends AbstractNatsTest {
         Publisher producer = context.getBean(Publisher)
 
         expect:
-        producer.rpcBlocking("hello") == "HELLO"
-        producer.rpcCallMaybe("hello").blockingGet() == "HELLO"
-        producer.rpcCallMaybe(null).blockingGet() == null
-        producer.rpcCallSingle("hello").blockingGet() == "HELLO"
-        producer.rpcBlocking("world") == "WORLD"
-
-        when:
-        producer.rpcCallSingle(null).blockingGet() == null
-
-        then:
-        thrown(NoSuchElementException)
+        producer.rpcCall("hello").blockFirst() == "HELLO"
+        producer.rpcCallMono("hello").block() == "HELLO"
+        producer.rpcCallMono(null).block() == null
 
         cleanup:
         context.close()

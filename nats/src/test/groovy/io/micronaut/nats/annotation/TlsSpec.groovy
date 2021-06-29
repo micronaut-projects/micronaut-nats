@@ -17,7 +17,7 @@ package io.micronaut.nats.annotation
 
 import io.micronaut.context.ApplicationContext
 import io.micronaut.context.annotation.Requires
-import io.micronaut.messaging.annotation.Body
+import io.micronaut.messaging.annotation.MessageBody
 import io.micronaut.nats.AbstractNatsTest
 import org.testcontainers.containers.BindMode
 import org.testcontainers.containers.GenericContainer
@@ -83,7 +83,7 @@ class TlsSpec extends AbstractNatsTest {
     static interface MyProducer {
 
         @Subject("abc")
-        void go(@Body byte[] data)
+        void go(@MessageBody byte[] data)
 
     }
 

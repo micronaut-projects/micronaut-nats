@@ -18,9 +18,8 @@ package io.micronaut.nats.serdes;
 import java.util.Arrays;
 import java.util.Optional;
 
-import javax.inject.Singleton;
-
 import io.micronaut.core.type.Argument;
+import jakarta.inject.Singleton;
 
 /**
  * Default implementation of {@link NatsMessageSerDesRegistry}.

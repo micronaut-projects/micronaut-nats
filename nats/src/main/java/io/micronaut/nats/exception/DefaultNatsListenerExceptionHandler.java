@@ -17,10 +17,9 @@ package io.micronaut.nats.exception;
 
 import java.util.Optional;
 
-import javax.inject.Singleton;
-
 import io.micronaut.context.annotation.Primary;
 import io.nats.client.Message;
+import jakarta.inject.Singleton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
