@@ -32,7 +32,6 @@ import io.micronaut.core.convert.ConversionService;
 import io.micronaut.core.type.Argument;
 import io.micronaut.inject.ExecutableMethod;
 import io.micronaut.inject.qualifiers.Qualifiers;
-import io.micronaut.messaging.annotation.Body;
 import io.micronaut.messaging.annotation.MessageBody;
 import io.micronaut.nats.annotation.NatsClient;
 import io.micronaut.nats.annotation.NatsConnection;
@@ -210,8 +209,7 @@ public class NatsIntroductionAdvice implements MethodInterceptor<Object, Object>
 
     private Optional<Argument<?>> findBodyArgument(ExecutableMethod<?, ?> method) {
         return Optional.ofNullable(Arrays.stream(method.getArguments())
-                                         .filter(arg -> arg.getAnnotationMetadata().hasAnnotation(Body.class)
-                                                 || arg.getAnnotationMetadata().hasAnnotation(
+                                         .filter(arg -> arg.getAnnotationMetadata().hasAnnotation(
                                                  MessageBody.class)).findFirst().orElseGet(
                         () -> Arrays.stream(method.getArguments())
                                     .filter(arg -> !arg.getAnnotationMetadata().hasStereotype(Subject.class))

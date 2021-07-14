@@ -24,6 +24,7 @@ import java.lang.annotation.Target;
 import io.micronaut.aop.Introduction;
 import io.micronaut.context.annotation.AliasFor;
 import io.micronaut.context.annotation.Type;
+import io.micronaut.messaging.annotation.MessageProducer;
 import io.micronaut.nats.intercept.NatsIntroductionAdvice;
 import io.micronaut.retry.annotation.Recoverable;
 import jakarta.inject.Scope;
@@ -43,6 +44,7 @@ import jakarta.inject.Singleton;
 @Type(NatsIntroductionAdvice.class)
 @Recoverable
 @Singleton
+@MessageProducer
 public @interface NatsClient {
 
     /**

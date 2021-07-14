@@ -37,6 +37,7 @@ import io.micronaut.messaging.annotation.MessageMapping;
 @Target({ElementType.METHOD, ElementType.PARAMETER})
 @Bindable
 @Executable
+@MessageMapping
 public @interface Subject {
 
     /**
