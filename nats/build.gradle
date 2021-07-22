@@ -2,11 +2,9 @@ dependencies {
     annotationProcessor "io.micronaut:micronaut-inject-java"
     annotationProcessor "io.micronaut.docs:micronaut-docs-asciidoc-config-props:$micronautDocsVersion"
 
-    api "io.micronaut:micronaut-messaging:$micronautVersion"
-    api "io.micronaut:micronaut-inject-java"
+    api "io.micronaut:micronaut-messaging"
+    api "io.micronaut:micronaut-inject"
     api "io.nats:jnats:$natsVersion"
-    // TODO: Remove when RxJava2 -> Reactor PR is merged into core
-    api "io.micronaut.reactor:micronaut-reactor"
 
     compileOnly "io.micronaut.micrometer:micronaut-micrometer-core"
     compileOnly "io.micronaut:micronaut-management"
@@ -15,8 +13,8 @@ dependencies {
         exclude module:'groovy-all'
     }
     testImplementation "io.micronaut.test:micronaut-test-spock:$micronautTestVersion"
-    testImplementation "io.micronaut:micronaut-inject-groovy"
-    testImplementation "io.micronaut:micronaut-inject-java"
+    testCompileOnly "io.micronaut:micronaut-inject-groovy"
+    testAnnotationProcessor "io.micronaut:micronaut-inject-java"
     testImplementation "org.testcontainers:spock:1.15.3"
     testImplementation "io.micronaut:micronaut-management"
 }

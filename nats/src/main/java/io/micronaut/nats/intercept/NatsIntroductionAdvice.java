@@ -20,8 +20,10 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 
+import io.micronaut.aop.InterceptedMethod;
 import io.micronaut.aop.MethodInterceptor;
 import io.micronaut.aop.MethodInvocationContext;
 import io.micronaut.caffeine.cache.Cache;
@@ -30,6 +32,7 @@ import io.micronaut.context.BeanContext;
 import io.micronaut.core.annotation.AnnotationValue;
 import io.micronaut.core.convert.ConversionService;
 import io.micronaut.core.type.Argument;
+import io.micronaut.core.util.StringUtils;
 import io.micronaut.inject.ExecutableMethod;
 import io.micronaut.inject.qualifiers.Qualifiers;
 import io.micronaut.messaging.annotation.MessageBody;
@@ -46,6 +49,8 @@ import io.nats.client.Message;
 import jakarta.inject.Named;
 import jakarta.inject.Singleton;
 import org.reactivestreams.Publisher;
+import org.reactivestreams.Subscriber;
+import org.reactivestreams.Subscription;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import reactor.core.publisher.Flux;
@@ -133,66 +138,83 @@ public class NatsIntroductionAdvice implements MethodInterceptor<Object, Object>
             }
 
             PublishState publishState = new PublishState(subject, converted);
-            Class dataTypeClass = publisherState.getDataType().getType();
-            boolean isVoid = dataTypeClass == void.class || dataTypeClass == Void.class;
-
             ReactivePublisher reactivePublisher = publisherState.getReactivePublisher();
+            InterceptedMethod interceptedMethod = InterceptedMethod.of(context);
 
-            if (publisherState.isReactive()) {
-                Publisher reactive;
-                if (isVoid) {
-                    if (LOG.isDebugEnabled()) {
-                        LOG.debug("Sending the message with publisher confirms.", context);
-                    }
-                    reactive = Flux.from(reactivePublisher.publish(publishState)).subscribeOn(scheduler);
-                } else {
-                    if (LOG.isDebugEnabled()) {
-                        LOG.debug("Publish is an RPC call. Publisher will complete when a response is received.",
-                                context);
-                    }
-                    reactive = Flux.from(reactivePublisher.publishAndReply(publishState))
-                                   .flatMap(consumerState -> {
-                                       Object deserialized = deserialize(consumerState, publisherState.getDataType(),
-                                               publisherState.getDataType());
-                                       if (deserialized == null) {
-                                           return Flux.empty();
-                                       } else {
-                                           return Flux.just(deserialized);
-                                       }
-                                   }).subscribeOn(scheduler);
-                }
-                return conversionService.convert(reactive, context.getReturnType().getType()).orElseThrow(
-                        () -> new NatsClientException(
-                                "Could not convert the publisher acknowledgement response to the return type of the "
-                                        + "method", Collections.singletonList(publishState)));
-            } else {
-                if (isVoid) {
-                    if (LOG.isDebugEnabled()) {
-                        LOG.debug("Sending the message without publisher confirms.", context);
-                    }
+            try {
+                boolean rpc = !interceptedMethod.returnTypeValue().isVoid();
 
-                    return Mono.from(reactivePublisher.publish(publishState))
-                               .onErrorResume(throwable -> Mono.error(new NatsClientException(
-                                       String.format("Failed to publish a message with subject: [%s]", subject),
-                                       throwable,
-                                       Collections.singletonList(publishState)))).block();
-                } else {
-                    if (LOG.isDebugEnabled()) {
-                        LOG.debug("Publish is an RPC call. Blocking until a response is received.", context);
+                Mono<?> reactive;
+                if (rpc) {
+                    reactive = Mono.from(reactivePublisher.publishAndReply(publishState))
+                            .flatMap(message -> {
+                                Object deserialized = deserialize(message, publisherState.getDataType(),
+                                        publisherState.getDataType());
+                                if (deserialized == null) {
+                                    return Mono.empty();
+                                } else {
+                                    return Mono.just(deserialized);
+                                }
+                            });
+
+                    if (interceptedMethod.resultType() == InterceptedMethod.ResultType.SYNCHRONOUS) {
+                        if (LOG.isDebugEnabled()) {
+                            LOG.debug("Publish is an RPC call. Blocking until a response is received.", context);
+                        }
+                    } else {
+                        if (LOG.isDebugEnabled()) {
+                            LOG.debug("Publish is an RPC call. Publisher will complete when a response is received.", context);
+                        }
+                        reactive = reactive.subscribeOn(scheduler);
                     }
-                    return Mono.from(reactivePublisher.publishAndReply(publishState))
-                               .flatMap(message -> {
-                                   Object deserialized = deserialize(message, publisherState.getDataType(),
-                                           publisherState.getDataType());
-                                   if (deserialized == null) {
-                                       return Mono.empty();
-                                   } else {
-                                       return Mono.just(deserialized);
-                                   }
-                               }).block();
+                } else {
+                        if (LOG.isDebugEnabled()) {
+                            LOG.debug("Sending the message.", context);
+                        }
+                        reactive = Mono.from(reactivePublisher.publish(publishState))
+                                .onErrorMap(throwable -> new NatsClientException(
+                                        String.format("Failed to publish a message with subject: [%s]", subject),
+                                        throwable,
+                                        Collections.singletonList(publishState)));
+
                 }
+
+                switch (interceptedMethod.resultType()) {
+                    case PUBLISHER:
+                        return interceptedMethod.handleResult(reactive);
+                    case COMPLETION_STAGE:
+                        CompletableFuture<Object> future = new CompletableFuture<>();
+                        reactive.subscribe(new Subscriber<Object>() {
+                            Object value = null;
+                            @Override
+                            public void onSubscribe(Subscription s) {
+                                s.request(1);
+                            }
+
+                            @Override
+                            public void onNext(Object o) {
+                                value = o;
+                            }
+
+                            @Override
+                            public void onError(Throwable t) {
+                                future.completeExceptionally(t);
+                            }
+
+                            @Override
+                            public void onComplete() {
+                                future.complete(value);
+                            }
+                        });
+                        return interceptedMethod.handleResult(future);
+                    case SYNCHRONOUS:
+                        return interceptedMethod.handleResult(reactive.block());
+                    default:
+                        return interceptedMethod.unsupported();
+                }
+            } catch (Exception e) {
+                return interceptedMethod.handleException(e);
             }
-
         } else {
             return context.proceed();
         }
