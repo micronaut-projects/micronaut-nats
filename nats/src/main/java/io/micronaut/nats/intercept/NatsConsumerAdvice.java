@@ -79,65 +79,67 @@ public class NatsConsumerAdvice implements ExecutableMethodProcessor<Subject>, A
 
     @Override
     public void process(BeanDefinition<?> beanDefinition, ExecutableMethod<?, ?> method) {
-        AnnotationValue<Subject> subjectAnn = method.getAnnotation(Subject.class);
+        if (method.hasAnnotation(NatsListener.class)) {
+            AnnotationValue<Subject> subjectAnn = method.getAnnotation(Subject.class);
 
-        if (subjectAnn != null) {
-            String subject = subjectAnn.getRequiredValue(String.class);
+            if (subjectAnn != null) {
+                String subject = subjectAnn.getRequiredValue(String.class);
 
-            String connectionName =
-                    method.findAnnotation(NatsConnection.class).flatMap(conn -> conn.get("connection", String.class))
-                            .orElse(NatsConnection.DEFAULT_CONNECTION);
+                String connectionName =
+                        method.findAnnotation(NatsConnection.class).flatMap(conn -> conn.get("connection", String.class))
+                                .orElse(NatsConnection.DEFAULT_CONNECTION);
 
-            io.micronaut.context.Qualifier<Object> qualifer =
-                    beanDefinition.getAnnotationTypeByStereotype("javax.inject.Qualifier")
-                            .map(type -> Qualifiers.byAnnotation(beanDefinition, type)).orElse(null);
+                io.micronaut.context.Qualifier<Object> qualifer =
+                        beanDefinition.getAnnotationTypeByStereotype("javax.inject.Qualifier")
+                                .map(type -> Qualifiers.byAnnotation(beanDefinition, type)).orElse(null);
 
-            Class<Object> beanType = (Class<Object>) beanDefinition.getBeanType();
+                Class<Object> beanType = (Class<Object>) beanDefinition.getBeanType();
 
-            Class<?> returnTypeClass = method.getReturnType().getType();
-            boolean isVoid = returnTypeClass == Void.class || returnTypeClass == void.class;
+                Class<?> returnTypeClass = method.getReturnType().getType();
+                boolean isVoid = returnTypeClass == Void.class || returnTypeClass == void.class;
 
-            Object bean = beanContext.findBean(beanType, qualifer).orElseThrow(
-                    () -> new MessageListenerException("Could not find the bean to execute the method " + method));
+                Object bean = beanContext.findBean(beanType, qualifer).orElseThrow(
+                        () -> new MessageListenerException("Could not find the bean to execute the method " + method));
 
-            Connection connection = beanContext.getBean(Connection.class, Qualifiers.byName(connectionName));
+                Connection connection = beanContext.getBean(Connection.class, Qualifiers.byName(connectionName));
 
-            DefaultExecutableBinder<Message> binder = new DefaultExecutableBinder<>();
+                DefaultExecutableBinder<Message> binder = new DefaultExecutableBinder<>();
 
-            Dispatcher ds = connection.createDispatcher(msg -> {
-                BoundExecutable boundExecutable = null;
-                try {
-                    boundExecutable = binder.bind(method, binderRegistry, msg);
-                } catch (Throwable e) {
-                    handleException(
-                            new NatsListenerException("An error occurred binding the message to the method", e, bean,
-                                    msg));
-                }
-
-                if (boundExecutable != null) {
-                    Object returnedValue = boundExecutable.invoke(bean);
-                    if (!isVoid && StringUtils.isNotEmpty(msg.getReplyTo())) {
-                        byte[] converted = null;
-                        if (returnedValue != null) {
-                            NatsMessageSerDes serDes = serDesRegistry.findSerdes(method.getReturnType().asArgument())
-                                    .map(NatsMessageSerDes.class::cast).orElseThrow(() -> new NatsListenerException(
-                                            String.format(
-                                                    "Could not find a serializer for the body argument of type [%s]",
-                                                    returnedValue.getClass().getName()), bean, msg));
-                            converted = serDes.serialize(returnedValue);
-                        }
-                        connection.publish(msg.getReplyTo(), converted);
+                Dispatcher ds = connection.createDispatcher(msg -> {
+                    BoundExecutable boundExecutable = null;
+                    try {
+                        boundExecutable = binder.bind(method, binderRegistry, msg);
+                    } catch (Throwable e) {
+                        handleException(
+                                new NatsListenerException("An error occurred binding the message to the method", e, bean,
+                                        msg));
                     }
-                }
-            });
 
-            Optional<String> queueOptional = subjectAnn.get("queue", String.class);
-            if (queueOptional.isPresent() && !queueOptional.get().isEmpty()) {
-                ds.subscribe(subject, queueOptional.get());
-            } else {
-                ds.subscribe(subject);
+                    if (boundExecutable != null) {
+                        Object returnedValue = boundExecutable.invoke(bean);
+                        if (!isVoid && StringUtils.isNotEmpty(msg.getReplyTo())) {
+                            byte[] converted = null;
+                            if (returnedValue != null) {
+                                NatsMessageSerDes serDes = serDesRegistry.findSerdes(method.getReturnType().asArgument())
+                                        .map(NatsMessageSerDes.class::cast).orElseThrow(() -> new NatsListenerException(
+                                                String.format(
+                                                        "Could not find a serializer for the body argument of type [%s]",
+                                                        returnedValue.getClass().getName()), bean, msg));
+                                converted = serDes.serialize(returnedValue);
+                            }
+                            connection.publish(msg.getReplyTo(), converted);
+                        }
+                    }
+                });
+
+                Optional<String> queueOptional = subjectAnn.get("queue", String.class);
+                if (queueOptional.isPresent() && !queueOptional.get().isEmpty()) {
+                    ds.subscribe(subject, queueOptional.get());
+                } else {
+                    ds.subscribe(subject);
+                }
+                consumerDispatchers.put(ds, subject);
             }
-            consumerDispatchers.put(ds, subject);
         }
     }
 
