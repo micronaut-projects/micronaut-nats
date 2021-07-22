@@ -18,8 +18,6 @@ package io.micronaut.nats.rpc
 import io.micronaut.context.annotation.Requires
 import io.micronaut.nats.annotation.NatsClient
 import io.micronaut.nats.annotation.Subject
-import reactor.core.publisher.Flux
-import reactor.core.publisher.Mono
 /**
  *
  * @author jgrimm
@@ -29,9 +27,6 @@ import reactor.core.publisher.Mono
 interface Publisher {
 
     @Subject("rpc")
-    Flux<String> rpcCall(String data)
-
-    @Subject("rpc")
-    Mono<String> rpcCallMono(String data)
+    org.reactivestreams.Publisher<String> rpcCall(String data)
 
 }

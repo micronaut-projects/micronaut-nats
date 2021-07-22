@@ -2,6 +2,7 @@ package io.micronaut.nats.rpc
 
 import io.micronaut.context.ApplicationContext
 import io.micronaut.nats.AbstractNatsTest
+import reactor.core.publisher.Mono
 
 /**
  *
@@ -14,9 +15,8 @@ class RpcSpec extends AbstractNatsTest {
         Publisher producer = context.getBean(Publisher)
 
         expect:
-        producer.rpcCall("hello").blockFirst() == "HELLO"
-        producer.rpcCallMono("hello").block() == "HELLO"
-        producer.rpcCallMono(null).block() == null
+        Mono.from(producer.rpcCall("hello")).block() == "HELLO"
+        Mono.from(producer.rpcCall(null)).block() == null
 
         cleanup:
         context.close()
