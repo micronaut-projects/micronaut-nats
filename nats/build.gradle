@@ -6,7 +6,9 @@ dependencies {
     api "io.micronaut:micronaut-inject"
     api "io.nats:jnats:$natsVersion"
 
-    compileOnly "io.micronaut.micrometer:micronaut-micrometer-core"
+    implementation "io.projectreactor:reactor-core"
+
+    compileOnly "io.micronaut.micrometer:micronaut-micrometer-core:4.0.0-RC2"
     compileOnly "io.micronaut:micronaut-management"
 
     testImplementation("org.spockframework:spock-core:${spockVersion}") {
