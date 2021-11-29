@@ -16,19 +16,16 @@
 package io.micronaut.nats.serdes;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.type.TypeFactory;
 import io.micronaut.core.annotation.Nullable;
 import io.micronaut.core.reflect.ClassUtils;
 import io.micronaut.core.serialize.exceptions.SerializationException;
 import io.micronaut.core.type.Argument;
+import io.micronaut.jackson.databind.JacksonDatabindMapper;
+import io.micronaut.json.JsonMapper;
 import io.nats.client.Message;
+import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 
 /**
@@ -45,14 +42,28 @@ public class JsonNatsMessageSerDes implements NatsMessageSerDes<Object> {
      */
     public static final Integer ORDER = 200;
 
-    private final ObjectMapper objectMapper;
+    private final JsonMapper jsonMapper;
+
+    /**
+     * Legacy jackson constructor.
+     *
+     * @param objectMapper The jackson object mapper
+     * @deprecated Use {@link #JsonNatsMessageSerDes(JsonMapper)} instead
+     */
+    @Deprecated
+    public JsonNatsMessageSerDes(ObjectMapper objectMapper) {
+        this(new JacksonDatabindMapper(objectMapper));
+    }
 
     /**
      * Default constructor.
-     * @param objectMapper The jackson object mapper
+     *
+     * @param jsonMapper The json mapper
+     * @since 3.2.0
      */
-    public JsonNatsMessageSerDes(ObjectMapper objectMapper) {
-        this.objectMapper = objectMapper;
+    @Inject
+    public JsonNatsMessageSerDes(JsonMapper jsonMapper) {
+        this.jsonMapper = jsonMapper;
     }
 
     @Nullable
@@ -63,12 +74,7 @@ public class JsonNatsMessageSerDes implements NatsMessageSerDes<Object> {
             return null;
         }
         try {
-            if (type.hasTypeVariables()) {
-                JavaType javaType = constructJavaType(type);
-                return objectMapper.readValue(body, javaType);
-            } else {
-                return objectMapper.readValue(body, type.getType());
-            }
+            return jsonMapper.readValue(body, type);
         } catch (IOException e) {
             throw new SerializationException(
                     "Error decoding JSON stream for type [" + type.getName() + "]: " + e.getMessage());
@@ -81,8 +87,8 @@ public class JsonNatsMessageSerDes implements NatsMessageSerDes<Object> {
             return null;
         }
         try {
-            return objectMapper.writeValueAsBytes(data);
-        } catch (JsonProcessingException e) {
+            return jsonMapper.writeValueAsBytes(data);
+        } catch (IOException e) {
             throw new SerializationException("Error encoding object [" + data + "] to JSON: " + e.getMessage());
         }
     }
@@ -95,26 +101,6 @@ public class JsonNatsMessageSerDes implements NatsMessageSerDes<Object> {
     @Override
     public boolean supports(Argument<Object> argument) {
         return !ClassUtils.isJavaBasicType(argument.getType());
-    }
-
-    private <T> JavaType constructJavaType(Argument<T> type) {
-        Map<String, Argument<?>> typeVariables = type.getTypeVariables();
-        TypeFactory typeFactory = objectMapper.getTypeFactory();
-        JavaType[] objects = toJavaTypeArray(typeFactory, typeVariables);
-        return typeFactory.constructParametricType(type.getType(), objects);
-    }
-
-    private JavaType[] toJavaTypeArray(TypeFactory typeFactory, Map<String, Argument<?>> typeVariables) {
-        List<JavaType> javaTypes = new ArrayList<>();
-        for (Argument<?> argument : typeVariables.values()) {
-            if (argument.hasTypeVariables()) {
-                javaTypes.add(typeFactory.constructParametricType(argument.getType(),
-                        toJavaTypeArray(typeFactory, argument.getTypeVariables())));
-            } else {
-                javaTypes.add(typeFactory.constructType(argument.getType()));
-            }
-        }
-        return javaTypes.toArray(new JavaType[0]);
     }
 
 }
