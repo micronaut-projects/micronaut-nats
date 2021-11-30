@@ -59,7 +59,7 @@ public class JsonNatsMessageSerDes implements NatsMessageSerDes<Object> {
      * Default constructor.
      *
      * @param jsonMapper The json mapper
-     * @since 3.2.0
+     * @since 3.1.0
      */
     @Inject
     public JsonNatsMessageSerDes(JsonMapper jsonMapper) {
