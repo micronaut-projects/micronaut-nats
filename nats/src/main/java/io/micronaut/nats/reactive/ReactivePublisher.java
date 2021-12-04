@@ -24,25 +24,25 @@ import org.reactivestreams.Publisher;
  */
 public interface ReactivePublisher {
 
+
     /**
      * Publish the message with the provided arguments and return
      * a reactive type that completes successfully when the message
      * is published.
      *
-     * @param publishState The publishing data
+     * @param message The message to publish
      * @return the publisher
      */
-    Publisher<Void> publish(PublishState publishState);
+    Publisher<Void> publish(Message message);
 
     /**
      * Publish the message with the provided arguments and return
      * a reactive type that completes successfully when the reply
      * is received from the reply to queue.
      *
-     * @param publishState The publishing data
-     *
+     * @param message The message to publish
      * @return The publisher of the received reply
      */
 
-    Publisher<Message> publishAndReply(PublishState publishState);
+    Publisher<Message> publishAndReply(Message message);
 }

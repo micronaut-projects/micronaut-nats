@@ -43,13 +43,6 @@ class TlsSpec extends AbstractNatsTest {
         natsContainer.start()
     }
 
-    protected ApplicationContext startContext(Map additionalConfig = [:]) {
-        ApplicationContext.run(
-                ["nats.addresses": ["nats://localhost:${natsContainer.getMappedPort(4222)}"],
-                 "spec.name"     : getClass().simpleName] << additionalConfig, "test")
-    }
-
-
     @Unroll
     void "test simple producing and consuming"() {
         ApplicationContext context = startContext(properties)

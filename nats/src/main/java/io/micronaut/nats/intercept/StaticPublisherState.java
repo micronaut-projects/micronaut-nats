@@ -23,6 +23,7 @@ import io.micronaut.core.type.Argument;
 import io.micronaut.core.type.ReturnType;
 import io.micronaut.nats.reactive.ReactivePublisher;
 import io.micronaut.nats.serdes.NatsMessageSerDes;
+import io.nats.client.impl.Headers;
 
 /**
  * Stores the static state for publishing messages with
@@ -36,6 +37,7 @@ class StaticPublisherState {
 
     private final String subject;
     private final Argument bodyArgument;
+    private final Headers headers;
     private final ReturnType<?> returnType;
     private final String connection;
     private final NatsMessageSerDes<?> serDes;
@@ -47,15 +49,17 @@ class StaticPublisherState {
      * Default constructor.
      * @param subject      The subject to publish to
      * @param bodyArgument The argument representing the body
+     * @param methodHeaders The methods headers
      * @param returnType   The return type of the method
      * @param connection   The connection name
      * @param serDes       The body serializer
      * @param reactivePublisher The reactive publisher
      */
-    StaticPublisherState(String subject, Argument bodyArgument, ReturnType<?> returnType, String connection,
+    StaticPublisherState(String subject, Argument bodyArgument, Headers methodHeaders, ReturnType<?> returnType, String connection,
             NatsMessageSerDes<?> serDes, ReactivePublisher reactivePublisher) {
         this.subject = subject;
         this.bodyArgument = bodyArgument;
+        this.headers = methodHeaders;
         this.connection = connection;
         this.serDes = serDes;
         this.reactivePublisher = reactivePublisher;
@@ -82,6 +86,13 @@ class StaticPublisherState {
      */
     Argument getBodyArgument() {
         return bodyArgument;
+    }
+
+    /**
+     * @return the method headers
+     */
+    Headers getHeaders() {
+        return headers;
     }
 
     /**

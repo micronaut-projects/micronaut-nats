@@ -42,21 +42,21 @@ public class ReactorReactivePublisher implements ReactivePublisher {
     }
 
     @Override
-    public Publisher<Void> publish(PublishState publishState) {
-        return getConnection().flatMap(con -> publishInternal(publishState, con));
+    public Publisher<Void> publish(Message message) {
+        return getConnection().flatMap(con -> publishInternal(message, con));
     }
 
-    private Mono<Void> publishInternal(PublishState publishState, Connection con) {
+    private Mono<Void> publishInternal(Message message, Connection con) {
         return Mono.create(subscriber -> {
-            con.publish(publishState.getSubject(), publishState.getBody());
+            con.publish(message);
             subscriber.success();
         });
     }
 
     @Override
-    public Publisher<Message> publishAndReply(PublishState publishState) {
+    public Publisher<Message> publishAndReply(Message message) {
         return getConnection()
-                .flatMap(con -> Mono.fromFuture(con.request(publishState.getSubject(), publishState.getBody())));
+                .flatMap(con -> Mono.fromFuture(con.request(message)));
     }
 
     private Mono<Connection> getConnection() {
