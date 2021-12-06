@@ -19,26 +19,27 @@ import java.util.Optional;
 
 import io.micronaut.core.convert.ArgumentConversionContext;
 import io.micronaut.core.type.Argument;
+import io.nats.client.Connection;
 import io.nats.client.Message;
-import io.nats.client.impl.Headers;
 import jakarta.inject.Singleton;
 
 /**
- * Binds an argument of type {@link Headers} from the {@link Message}.
+ * Binds an argument type {@link Message}.
  *
  * @author Joachim Grimm
  * @since 3.1.0
  */
 @Singleton
-public class NatsHeadersBinder implements NatsTypeArgumentBinder<Headers> {
+public class NatsConnectionBinder implements NatsTypeArgumentBinder<Connection> {
 
     @Override
-    public Argument<Headers> argumentType() {
-        return Argument.of(Headers.class);
+    public Argument<Connection> argumentType() {
+        return Argument.of(Connection.class);
     }
 
     @Override
-    public BindingResult<Headers> bind(ArgumentConversionContext<Headers> context, Message source) {
-        return () -> Optional.of(source.getHeaders());
+    public BindingResult<Connection> bind(ArgumentConversionContext<Connection> context, Message source) {
+        Optional<Connection> connection = Optional.of(source.getConnection());
+        return () -> connection;
     }
 }

@@ -20,25 +20,26 @@ import java.util.Optional;
 import io.micronaut.core.convert.ArgumentConversionContext;
 import io.micronaut.core.type.Argument;
 import io.nats.client.Message;
-import io.nats.client.impl.Headers;
+import io.nats.client.Subscription;
 import jakarta.inject.Singleton;
 
 /**
- * Binds an argument of type {@link Headers} from the {@link Message}.
+ * Binds an argument of type {@link Subscription} from the {@link Message}.
  *
  * @author Joachim Grimm
  * @since 3.1.0
  */
 @Singleton
-public class NatsHeadersBinder implements NatsTypeArgumentBinder<Headers> {
+public class NatsSubscriptionBinder implements NatsTypeArgumentBinder<Subscription> {
 
     @Override
-    public Argument<Headers> argumentType() {
-        return Argument.of(Headers.class);
+    public Argument<Subscription> argumentType() {
+        return Argument.of(Subscription.class);
     }
 
     @Override
-    public BindingResult<Headers> bind(ArgumentConversionContext<Headers> context, Message source) {
-        return () -> Optional.of(source.getHeaders());
+    public BindingResult<Subscription> bind(ArgumentConversionContext<Subscription> context, Message source) {
+        Optional<Subscription> subscription = Optional.of(source.getSubscription());
+        return () -> subscription;
     }
 }
