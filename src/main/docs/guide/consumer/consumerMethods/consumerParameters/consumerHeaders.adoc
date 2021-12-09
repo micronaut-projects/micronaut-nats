@@ -1,0 +1,9 @@
+Headers can be retrieved with the link:{apimicronaut}messaging/annotation/MessageHeader.html[@MessageHeader] annotation applied to the arguments of the method.
+
+snippet::io.micronaut.nats.docs.headers.ProductListener[tags="imports,clazz", project-base="docs-examples/example]
+
+<1> The header name comes from the annotation and the value is retrieved and converted to a Boolean.
+<2> The header name comes from the annotation and the value is retrieved and converted to a Long.
+<3> The header name comes from the argument name. This argument allows null values.
+<4> The header can also be a list representing multiple values.
+<5> All headers can be bound to a `Headers` argument.

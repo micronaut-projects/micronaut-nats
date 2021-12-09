@@ -1,0 +1,7 @@
+Arguments can also be bound based on their type. Several types are supported by default and each type has a corresponding api:configuration.nats.bind.NatsTypeArgumentBinder[]. The argument binders are covered in detail in the section on <<consumerCustom, Custom Parameter Binding>>.
+
+There is only type that is supported for retrieving data about the link:{apinats}{natsVersion}/io/nats/client/Message.html[Message].
+
+snippet::io.micronaut.nats.docs.consumer.types.ProductListener[tags="imports,clazz", project-base="docs-examples/example]
+
+<1> The arguments are bound from the link:{apinats}{natsVersion}/io/nats/client/Message.html[Message].

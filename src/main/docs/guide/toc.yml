@@ -4,10 +4,28 @@ cli: Using the Micronaut CLI
 quickStart: NATS Quick Start
 config: Configuring the connection
 producer:
-  title: NATS Producers Using @NatsClient
-  producerMethods: Defining @NatsClient Methods
+  title: NATS Producers
+  producerMethods:
+    title: Defining @NatsClient Methods
+    producerParameters:
+      title: Publishing Parameters
+      producerSubject: Subject
+      producerHeaders: Headers
+      producerBody: Message Body
 consumer:
-  title: NATS Consumers Using @NatsListener
-  consumerMethods: Defining @NatsListener Methods
+  title: NATS Consumers
+  consumerMethods:
+    title: Defining @NatsListener Methods
+    consumerParameters:
+      title: Consumer Parameters
+      consumerSubject: Subject
+      consumerHeaders: Headers
+      consumerTypes: Nats Types
+      consumerBody: Message Body
+      consumerCustom: Custom Parameter Binding
+rpc: Request-Reply (RPC)
+serdes:
+  title: Message Serialization/Deserialization (SerDes)
+  custom: Custom SerDes
 health: NATS Health Indicator
 repository: Repository

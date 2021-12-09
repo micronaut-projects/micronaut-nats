@@ -12,3 +12,4 @@ plugins {
 rootProject.name = 'nats'
 
 include 'nats'
+include 'docs-examples:example-java'
