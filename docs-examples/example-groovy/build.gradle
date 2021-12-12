@@ -1,0 +1,31 @@
+plugins {
+    id "groovy"
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation project(":nats")
+    testImplementation "io.micronaut:micronaut-inject"
+    testCompileOnly "io.micronaut:micronaut-inject-groovy"
+    testImplementation "org.testcontainers:spock:1.16.2"
+    testImplementation("org.spockframework:spock-core") {
+        exclude group: "org.codehaus.groovy", module: "groovy-all"
+    }
+    testRuntimeOnly "ch.qos.logback:logback-classic:1.2.6"
+    testImplementation "io.projectreactor:reactor-core"
+}
+
+test {
+    useJUnitPlatform()
+
+    jvmArgs '-Duser.country=US'
+    jvmArgs '-Duser.language=en'
+    failFast = true
+}
+
+tasks.withType(GroovyCompile) {
+    groovyOptions.forkOptions.jvmArgs.add('-Dgroovy.parameters=true')
+}
