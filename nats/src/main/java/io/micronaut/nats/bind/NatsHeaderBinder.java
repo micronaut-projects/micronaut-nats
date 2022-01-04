@@ -51,7 +51,7 @@ public class NatsHeaderBinder implements NatsAnnotatedArgumentBinder<MessageHead
     @Override
     public BindingResult<Object> bind(ArgumentConversionContext<Object> context, Message messageState) {
         String parameterName = context.getAnnotationMetadata()
-                                      .getValue(MessageHeader.class, String.class)
+                                      .stringValue(MessageHeader.class)
                                       .orElse(context.getArgument().getName());
 
         Headers rawHeaders = messageState.getHeaders();

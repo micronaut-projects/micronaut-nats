@@ -16,7 +16,6 @@
 package io.micronaut.nats.intercept;
 
 import java.util.AbstractMap;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -105,8 +104,7 @@ public class NatsIntroductionAdvice implements MethodInterceptor<Object, Object>
                 if (!method.findAnnotation(NatsClient.class).isPresent()) {
                     throw new IllegalStateException("No @NatsClient annotation present on method: " + method);
                 }
-                Optional<AnnotationValue<Subject>> subjectAnn = method.findAnnotation(Subject.class);
-                Optional<String> subject = subjectAnn.flatMap(s -> s.getValue(String.class));
+                Optional<String> subject = method.findAnnotation(Subject.class).flatMap(AnnotationValue::stringValue);
 
                 String connection = method.findAnnotation(NatsConnection.class)
                         .flatMap(conn -> conn.get("connection", String.class))
@@ -121,13 +119,10 @@ public class NatsIntroductionAdvice implements MethodInterceptor<Object, Object>
                         method.getAnnotationValuesByType(MessageHeader.class);
                 Collections.reverse(headerAnnotations); //set the values in the class first so methods can override
                 headerAnnotations.forEach(header -> {
-                    String name = header.get("name", String.class).orElse(null);
-                    String value = header.getValue(String.class).orElse(null);
+                    String name = header.stringValue("name").orElse(null);
+                    String value = header.stringValue().orElse(null);
 
                     if (StringUtils.isNotEmpty(name) && StringUtils.isNotEmpty(value)) {
-                        if (!methodHeaders.containsKey(name)) {
-                            methodHeaders.put(name, new ArrayList<>());
-                        }
                         methodHeaders.put(name, value);
                     }
                 });
@@ -297,7 +292,7 @@ public class NatsIntroductionAdvice implements MethodInterceptor<Object, Object>
             Map<String, Object> parameterValues) {
         String argumentName = argument.getName();
         String name = annotationValue.get("name", String.class)
-                                     .orElse(annotationValue.getValue(String.class).orElse(argumentName));
+                                     .orElse(annotationValue.stringValue().orElse(argumentName));
         Optional<List> value =
                 conversionService.convert(parameterValues.get(argumentName), Argument.of(List.class, String.class));
 
