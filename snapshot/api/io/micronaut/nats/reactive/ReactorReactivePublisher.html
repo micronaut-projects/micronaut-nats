@@ -159,7 +159,7 @@ implements <a href="../../../../io/micronaut/nats/reactive/ReactivePublisher.htm
 </tr>
 <tr id="i0" class="altColor">
 <td class="colFirst"><code>org.reactivestreams.Publisher&lt;java.lang.Void&gt;</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../io/micronaut/nats/reactive/ReactorReactivePublisher.html#publish-io.micronaut.nats.reactive.PublishState-">publish</a></span>(<a href="../../../../io/micronaut/nats/reactive/PublishState.html" title="class in io.micronaut.nats.reactive">PublishState</a>&nbsp;publishState)</code>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../io/micronaut/nats/reactive/ReactorReactivePublisher.html#publish-io.nats.client.Message-">publish</a></span>(io.nats.client.Message&nbsp;message)</code>
 <div class="block">Publish the message with the provided arguments and return
  a reactive type that completes successfully when the message
  is published.</div>
@@ -167,7 +167,7 @@ implements <a href="../../../../io/micronaut/nats/reactive/ReactivePublisher.htm
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>org.reactivestreams.Publisher&lt;io.nats.client.Message&gt;</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../io/micronaut/nats/reactive/ReactorReactivePublisher.html#publishAndReply-io.micronaut.nats.reactive.PublishState-">publishAndReply</a></span>(<a href="../../../../io/micronaut/nats/reactive/PublishState.html" title="class in io.micronaut.nats.reactive">PublishState</a>&nbsp;publishState)</code>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../io/micronaut/nats/reactive/ReactorReactivePublisher.html#publishAndReply-io.nats.client.Message-">publishAndReply</a></span>(io.nats.client.Message&nbsp;message)</code>
 <div class="block">Publish the message with the provided arguments and return
  a reactive type that completes successfully when the reply
  is received from the reply to queue.</div>
@@ -218,43 +218,43 @@ implements <a href="../../../../io/micronaut/nats/reactive/ReactivePublisher.htm
 <!--   -->
 </a>
 <h3>Method Detail</h3>
-<a name="publish-io.micronaut.nats.reactive.PublishState-">
+<a name="publish-io.nats.client.Message-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>publish</h4>
-<pre>public&nbsp;org.reactivestreams.Publisher&lt;java.lang.Void&gt;&nbsp;publish(<a href="../../../../io/micronaut/nats/reactive/PublishState.html" title="class in io.micronaut.nats.reactive">PublishState</a>&nbsp;publishState)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../io/micronaut/nats/reactive/ReactivePublisher.html#publish-io.micronaut.nats.reactive.PublishState-">ReactivePublisher</a></code></span></div>
+<pre>public&nbsp;org.reactivestreams.Publisher&lt;java.lang.Void&gt;&nbsp;publish(io.nats.client.Message&nbsp;message)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../io/micronaut/nats/reactive/ReactivePublisher.html#publish-io.nats.client.Message-">ReactivePublisher</a></code></span></div>
 <div class="block">Publish the message with the provided arguments and return
  a reactive type that completes successfully when the message
  is published.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="../../../../io/micronaut/nats/reactive/ReactivePublisher.html#publish-io.micronaut.nats.reactive.PublishState-">publish</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../io/micronaut/nats/reactive/ReactivePublisher.html" title="interface in io.micronaut.nats.reactive">ReactivePublisher</a></code></dd>
+<dd><code><a href="../../../../io/micronaut/nats/reactive/ReactivePublisher.html#publish-io.nats.client.Message-">publish</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../io/micronaut/nats/reactive/ReactivePublisher.html" title="interface in io.micronaut.nats.reactive">ReactivePublisher</a></code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>publishState</code> - The publishing data</dd>
+<dd><code>message</code> - The message to publish</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the publisher</dd>
 </dl>
 </li>
 </ul>
-<a name="publishAndReply-io.micronaut.nats.reactive.PublishState-">
+<a name="publishAndReply-io.nats.client.Message-">
 <!--   -->
 </a>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>publishAndReply</h4>
-<pre>public&nbsp;org.reactivestreams.Publisher&lt;io.nats.client.Message&gt;&nbsp;publishAndReply(<a href="../../../../io/micronaut/nats/reactive/PublishState.html" title="class in io.micronaut.nats.reactive">PublishState</a>&nbsp;publishState)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../io/micronaut/nats/reactive/ReactivePublisher.html#publishAndReply-io.micronaut.nats.reactive.PublishState-">ReactivePublisher</a></code></span></div>
+<pre>public&nbsp;org.reactivestreams.Publisher&lt;io.nats.client.Message&gt;&nbsp;publishAndReply(io.nats.client.Message&nbsp;message)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../io/micronaut/nats/reactive/ReactivePublisher.html#publishAndReply-io.nats.client.Message-">ReactivePublisher</a></code></span></div>
 <div class="block">Publish the message with the provided arguments and return
  a reactive type that completes successfully when the reply
  is received from the reply to queue.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="../../../../io/micronaut/nats/reactive/ReactivePublisher.html#publishAndReply-io.micronaut.nats.reactive.PublishState-">publishAndReply</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../io/micronaut/nats/reactive/ReactivePublisher.html" title="interface in io.micronaut.nats.reactive">ReactivePublisher</a></code></dd>
+<dd><code><a href="../../../../io/micronaut/nats/reactive/ReactivePublisher.html#publishAndReply-io.nats.client.Message-">publishAndReply</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../io/micronaut/nats/reactive/ReactivePublisher.html" title="interface in io.micronaut.nats.reactive">ReactivePublisher</a></code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>publishState</code> - The publishing data</dd>
+<dd><code>message</code> - The message to publish</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>The publisher of the received reply</dd>
 </dl>

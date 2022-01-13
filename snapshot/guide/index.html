@@ -53,13 +53,17 @@
                                 
                                 <div class="toc-item" style="margin-left:0"><a href="#config"><strong>5</strong><span>Configuring the connection</span></a></div>
                                 
-                                <div class="toc-item" style="margin-left:0"><a href="#producer"><strong>6</strong><span>NATS Producers Using @NatsClient</span></a></div>
+                                <div class="toc-item" style="margin-left:0"><a href="#producer"><strong>6</strong><span>NATS Producers</span></a></div>
                                 
-                                <div class="toc-item" style="margin-left:0"><a href="#consumer"><strong>7</strong><span>NATS Consumers Using @NatsListener</span></a></div>
+                                <div class="toc-item" style="margin-left:0"><a href="#consumer"><strong>7</strong><span>NATS Consumers</span></a></div>
                                 
-                                <div class="toc-item" style="margin-left:0"><a href="#health"><strong>8</strong><span>NATS Health Indicator</span></a></div>
+                                <div class="toc-item" style="margin-left:0"><a href="#rpc"><strong>8</strong><span>Request-Reply (RPC)</span></a></div>
                                 
-                                <div class="toc-item" style="margin-left:0"><a href="#repository"><strong>9</strong><span>Repository</span></a></div>
+                                <div class="toc-item" style="margin-left:0"><a href="#serdes"><strong>9</strong><span>Message Serialization/Deserialization (SerDes)</span></a></div>
+                                
+                                <div class="toc-item" style="margin-left:0"><a href="#health"><strong>10</strong><span>NATS Health Indicator</span></a></div>
+                                
+                                <div class="toc-item" style="margin-left:0"><a href="#repository"><strong>11</strong><span>Repository</span></a></div>
                                 
                             </div>
                         </div>
@@ -100,17 +104,43 @@
         
         <div class="toc-item" style="margin-left:0px" id="toc-item-config"><a href="#config"><strong>5</strong><span>Configuring the connection</span></a></div>
         
-        <div class="toc-item" style="margin-left:0px" id="toc-item-producer"><a href="#producer"><strong>6</strong><span>NATS Producers Using @NatsClient</span></a></div>
+        <div class="toc-item" style="margin-left:0px" id="toc-item-producer"><a href="#producer"><strong>6</strong><span>NATS Producers</span></a></div>
         
         <div class="toc-item" style="margin-left:10px" id="toc-item-producerMethods"><a href="#producerMethods"><strong>6.1</strong><span>Defining @NatsClient Methods</span></a></div>
         
-        <div class="toc-item" style="margin-left:0px" id="toc-item-consumer"><a href="#consumer"><strong>7</strong><span>NATS Consumers Using @NatsListener</span></a></div>
+        <div class="toc-item" style="margin-left:20px" id="toc-item-producerParameters"><a href="#producerParameters"><strong>6.1.1</strong><span>Publishing Parameters</span></a></div>
+        
+        <div class="toc-item" style="margin-left:30px" id="toc-item-producerSubject"><a href="#producerSubject"><strong>6.1.1.1</strong><span>Subject</span></a></div>
+        
+        <div class="toc-item" style="margin-left:30px" id="toc-item-producerHeaders"><a href="#producerHeaders"><strong>6.1.1.2</strong><span>Headers</span></a></div>
+        
+        <div class="toc-item" style="margin-left:30px" id="toc-item-producerBody"><a href="#producerBody"><strong>6.1.1.3</strong><span>Message Body</span></a></div>
+        
+        <div class="toc-item" style="margin-left:0px" id="toc-item-consumer"><a href="#consumer"><strong>7</strong><span>NATS Consumers</span></a></div>
         
         <div class="toc-item" style="margin-left:10px" id="toc-item-consumerMethods"><a href="#consumerMethods"><strong>7.1</strong><span>Defining @NatsListener Methods</span></a></div>
         
-        <div class="toc-item" style="margin-left:0px" id="toc-item-health"><a href="#health"><strong>8</strong><span>NATS Health Indicator</span></a></div>
+        <div class="toc-item" style="margin-left:20px" id="toc-item-consumerParameters"><a href="#consumerParameters"><strong>7.1.1</strong><span>Consumer Parameters</span></a></div>
         
-        <div class="toc-item" style="margin-left:0px" id="toc-item-repository"><a href="#repository"><strong>9</strong><span>Repository</span></a></div>
+        <div class="toc-item" style="margin-left:30px" id="toc-item-consumerSubject"><a href="#consumerSubject"><strong>7.1.1.1</strong><span>Subject</span></a></div>
+        
+        <div class="toc-item" style="margin-left:30px" id="toc-item-consumerHeaders"><a href="#consumerHeaders"><strong>7.1.1.2</strong><span>Headers</span></a></div>
+        
+        <div class="toc-item" style="margin-left:30px" id="toc-item-consumerTypes"><a href="#consumerTypes"><strong>7.1.1.3</strong><span>Nats Types</span></a></div>
+        
+        <div class="toc-item" style="margin-left:30px" id="toc-item-consumerBody"><a href="#consumerBody"><strong>7.1.1.4</strong><span>Message Body</span></a></div>
+        
+        <div class="toc-item" style="margin-left:30px" id="toc-item-consumerCustom"><a href="#consumerCustom"><strong>7.1.1.5</strong><span>Custom Parameter Binding</span></a></div>
+        
+        <div class="toc-item" style="margin-left:0px" id="toc-item-rpc"><a href="#rpc"><strong>8</strong><span>Request-Reply (RPC)</span></a></div>
+        
+        <div class="toc-item" style="margin-left:0px" id="toc-item-serdes"><a href="#serdes"><strong>9</strong><span>Message Serialization/Deserialization (SerDes)</span></a></div>
+        
+        <div class="toc-item" style="margin-left:10px" id="toc-item-custom"><a href="#custom"><strong>9.1</strong><span>Custom SerDes</span></a></div>
+        
+        <div class="toc-item" style="margin-left:0px" id="toc-item-health"><a href="#health"><strong>10</strong><span>NATS Health Indicator</span></a></div>
+        
+        <div class="toc-item" style="margin-left:0px" id="toc-item-repository"><a href="#repository"><strong>11</strong><span>Repository</span></a></div>
         
         </div>
     </div>
@@ -239,20 +269,42 @@ $ mn create-nats-listener Message
 <div class="paragraph">
 <p>For example the following is a trivial <code>@NatsClient</code> interface:</p>
 </div>
-<div class="listingblock">
-<div class="title">ProductClient.java</div>
+<div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">import io.micronaut.nats.annotation.NatsClient;
-import io.micronaut.nats.annotation.Subject;
-import io.micronaut.messaging.annotation.MessageBody;
+<pre class="highlight"><code class="language-java" data-lang="java">import io.micronaut.nats.annotation.Subject;
+import io.micronaut.nats.annotation.NatsClient;
 
-@NatsClient <i class="conum" data-value="1"></i><b>(1)</b>
+@NatsClient <b class="conum">(1)</b>
 public interface ProductClient {
 
-    @Subject("my-products") <i class="conum" data-value="2"></i><b>(2)</b>
-    void send(String name);
+    @Subject("product") <b class="conum">(2)</b>
+    void send(byte[] data); <b class="conum">(3)</b>
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlight"><code class="language-groovy" data-lang="groovy">import io.micronaut.nats.annotation.NatsClient
+import io.micronaut.nats.annotation.Subject
 
-    void sendProduct(@Subject String brand, @MessageBody String name); <i class="conum" data-value="3"></i><b>(3)</b>
+@NatsClient <b class="conum">(1)</b>
+interface ProductClient {
+
+    @Subject("product") <b class="conum">(2)</b>
+    void send(byte[] data) <b class="conum">(3)</b>
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlight"><code class="language-kotlin" data-lang="kotlin">import io.micronaut.nats.annotation.NatsClient
+import io.micronaut.nats.annotation.Subject
+
+@NatsClient <b class="conum">(1)</b>
+interface ProductClient {
+
+    @Subject("product") <b class="conum">(2)</b>
+    fun send(data: ByteArray) <b class="conum">(3)</b>
 }</code></pre>
 </div>
 </div>
@@ -275,11 +327,22 @@ public interface ProductClient {
 <div class="paragraph">
 <p>At compile time Micronaut will produce an implementation of the above interface. You can retrieve an instance of <code>ProductClient</code> either by looking up the bean from the <a href="../api/io/micronaut/context/ApplicationContext.html">ApplicationContext</a> or by injecting the bean with <code>@Inject</code>:</p>
 </div>
-<div class="listingblock">
-<div class="title">Using ProductClient</div>
+<div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">ProductClient client = applicationContext.getBean(ProductClient.class);
-client.sendProduct("Nike", "Blue Trainers");</code></pre>
+<pre class="highlight"><code class="language-java" data-lang="java">ProductClient productClient = applicationContext.getBean(ProductClient.class);
+productClient.send("quickstart".getBytes());</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlight"><code class="language-groovy" data-lang="groovy">def productClient = applicationContext.getBean(ProductClient)
+productClient.send("quickstart".bytes)</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlight"><code class="language-kotlin" data-lang="kotlin">val productClient = ctx.getBean(ProductClient::class.java)
+productClient.send("quickstart".toByteArray())</code></pre>
 </div>
 </div>
 </div>
@@ -291,19 +354,59 @@ client.sendProduct("Nike", "Blue Trainers");</code></pre>
 <div class="paragraph">
 <p>The following example will listen for messages published by the <code>ProductClient</code> in the previous section:</p>
 </div>
-<div class="listingblock">
-<div class="title">ProductListener.java</div>
+<div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">import io.micronaut.messaging.annotation.MessageBody;
-import io.micronaut.nats.annotation.NatsListener;
+<pre class="highlight"><code class="language-java" data-lang="java">import io.micronaut.nats.annotation.NatsListener;
 import io.micronaut.nats.annotation.Subject;
 
-@NatsListener <i class="conum" data-value="1"></i><b>(1)</b>
+@NatsListener <b class="conum">(1)</b>
 public class ProductListener {
 
-    @Subject("my-products") <i class="conum" data-value="2"></i><b>(2)</b>
-    public void receive(@MessageBody String name) { <i class="conum" data-value="3"></i><b>(3)</b>
-        System.out.println("Got Product - " + name);
+    List&lt;String&gt; messageLengths = Collections.synchronizedList(new ArrayList&lt;&gt;());
+
+    @Subject("product") <b class="conum">(2)</b>
+    public void receive(byte[] data) { <b class="conum">(3)</b>
+        messageLengths.add(new String(data));
+        System.out.println("Java received " + data.length + " bytes from Nats");
+    }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlight"><code class="language-groovy" data-lang="groovy">import io.micronaut.nats.annotation.NatsListener
+import io.micronaut.nats.annotation.Subject
+
+import java.util.concurrent.CopyOnWriteArrayList
+
+@NatsListener <b class="conum">(1)</b>
+class ProductListener {
+
+    CopyOnWriteArrayList&lt;String&gt; messageLengths = []
+
+    @Subject("product") <b class="conum">(2)</b>
+    void receive(byte[] data) { <b class="conum">(3)</b>
+        messageLengths &lt;&lt; new String(data)
+    }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlight"><code class="language-kotlin" data-lang="kotlin">import io.micronaut.nats.annotation.NatsListener
+import io.micronaut.nats.annotation.Subject
+import java.util.Collections
+
+@NatsListener <b class="conum">(1)</b>
+class ProductListener {
+
+    val messageLengths: MutableList&lt;String&gt; = Collections.synchronizedList(ArrayList())
+
+    @Subject("product") <b class="conum">(2)</b>
+    fun receive(data: ByteArray) { <b class="conum">(3)</b>
+        val string = String(data)
+        messageLengths.add(string)
+        println("Kotlin received ${data.size} bytes from Nats: ${string}")
     }
 }</code></pre>
 </div>
@@ -610,7 +713,7 @@ When the configuration option <code>nats.servers</code> is used, no other option
 </div>
 </div>
 
-<h1 id="producer"><a class="anchor" href="#producer"></a>6 NATS Producers Using @NatsClient</h1>
+<h1 id="producer"><a class="anchor" href="#producer"></a>6 NATS Producers</h1>
 
 <div class='contribute-btn'>
     <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/master/src/main/docs/guide/producer.adoc"'>
@@ -641,7 +744,7 @@ When the configuration option <code>nats.servers</code> is used, no other option
 <div class="ulist">
 <ul>
 <li>
-<p>The method must reside in a interface annotated with <a href="../api/io/micronaut/nats/annotation/NatsClient.html">@NatsClient</a>.</p>
+<p>The method must reside in an interface annotated with <a href="../api/io/micronaut/nats/annotation/NatsClient.html">@NatsClient</a>.</p>
 </li>
 <li>
 <p>The method or a method parameter must be annotated with <a href="../api/io/micronaut/nats/annotation/Subject.html">@Subject</a>.</p>
@@ -651,6 +754,18 @@ When the configuration option <code>nats.servers</code> is used, no other option
 </li>
 </ul>
 </div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+If a body argument cannot be found, an exception will be thrown.
+</td>
+</tr>
+</table>
+</div>
 <div class="admonitionblock note">
 <table>
 <tr>
@@ -658,34 +773,174 @@ When the configuration option <code>nats.servers</code> is used, no other option
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-In order for all of the functionality to work as designed in this guide your classes must be compiled with the parameters flag set to <code>true</code>.
-If your application was created with the Micronaut CLI, then that has already been configured for you.
+In order for all of the functionality to work as designed in this guide your classes must be compiled with the parameters flag set to <code>true</code>. If your application was created with the Micronaut CLI, then that has already been configured for you.
 </td>
 </tr>
 </table>
 </div>
-<div class="sect2">
-<h3 id="_simple_producer">Simple Producer</h3>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+Unless a reactive type is returned from the publishing method, the action is blocking.
+</td>
+</tr>
+</table>
+</div>
+
+<h2 id="producerParameters"><a class="anchor" href="#producerParameters"></a>6.1.1 Publishing Parameters</h2>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/master/src/main/docs/guide/producer/producerMethods/producerParameters.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
 <div class="paragraph">
-<p>The easiest way for defining a producer is the following:</p>
+<p>All options are available to be set for publishing messages. The <a href="https://javadoc.io/doc/io.nats/jnats/2.11.4/io/nats/client/Connection.html#publish-io.nats.client.Message-">publish</a> method is used by the <a href="../api/io/micronaut/configuration/nats/intercept/NatsIntroductionAdvice.html">NatsIntroductionAdvice</a> to publish messages and all arguments can be set through annotations or method arguments.</p>
 </div>
-<div class="listingblock">
+
+<h2 id="producerSubject"><a class="anchor" href="#producerSubject"></a>6.1.1.1 Subject</h2>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/master/src/main/docs/guide/producer/producerMethods/producerParameters/producerSubject.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="paragraph">
+<p>If you need to specify the subject of the message, apply the <a href="../api/io/micronaut/configuration/nats/annotation/Subject.html">@Subject</a> annotation to the method or an argument of the method. Apply the annotation to the method itself if the value is static for every execution. Apply the annotation to an argument of the method if the value should be set per execution.</p>
+</div>
+<div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">@Subject("my-products")
-void sendProduct(String name);</code></pre>
+<pre class="highlight"><code class="language-java" data-lang="java">import io.micronaut.nats.annotation.NatsClient;
+import io.micronaut.nats.annotation.Subject;
+
+@NatsClient
+public interface ProductClient {
+
+    @Subject("product") <b class="conum">(1)</b>
+    void send(byte[] data);
+
+    void send(@Subject String subject, byte[] data); <b class="conum">(2)</b>
+}</code></pre>
 </div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlight"><code class="language-groovy" data-lang="groovy">import io.micronaut.nats.annotation.NatsClient
+import io.micronaut.nats.annotation.Subject
+
+@NatsClient
+interface ProductClient {
+
+    @Subject("product") <b class="conum">(1)</b>
+    void send(byte[] data)
+
+    void send(@Subject String subject, byte[] data) <b class="conum">(2)</b>
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlight"><code class="language-kotlin" data-lang="kotlin">import io.micronaut.nats.annotation.NatsClient
+import io.micronaut.nats.annotation.Subject
+
+@NatsClient
+interface ProductClient {
+
+    @Subject("product") <b class="conum">(1)</b>
+    fun send(data: ByteArray)
+
+    fun send(@Subject subject: String, data:ByteArray) <b class="conum">(2)</b>
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The subject is static</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>The subject must be set per execution</td>
+</tr>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_producer_connection">Producer Connection</h3>
+<div class="paragraph">
+<p>If multiple Nats servers have been configured, the name of the server can be set in the <a href="../api/io/micronaut/configuration/nats/annotation/Subject.html">@Subject</a> annotation to designate which connection should be used to publish messages.</p>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">import io.micronaut.nats.annotation.NatsClient;
+import io.micronaut.nats.annotation.Subject;
+
+@NatsClient
+public interface ProductClient {
+
+    @Subject(value = "product", connection = "product-cluster") <b class="conum">(1)</b>
+    void send(byte[] data);
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlight"><code class="language-groovy" data-lang="groovy">import io.micronaut.nats.annotation.NatsClient
+import io.micronaut.nats.annotation.Subject
+
+@NatsClient <b class="conum">(1)</b>
+interface ProductClient {
+
+    @Subject(value = "product", connection = "product-cluster") <b class="conum">(2)</b>
+    void send(byte[] data) <b class="conum">(3)</b>
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlight"><code class="language-kotlin" data-lang="kotlin">import io.micronaut.nats.annotation.NatsClient
+import io.micronaut.nats.annotation.Subject
+
+@NatsClient
+interface ProductClient {
+
+    @Subject(value = "product", connection = "product-cluster") <b class="conum">(1)</b>
+    fun send(data: ByteArray)
+
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The connection is set on the subject annotation.</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The <code>connection</code> option is also available to be set on the <a href="../api/io/micronaut/configuration/nats/annotation/NatsClient.html">@NatsClient</a> annotation.
+</td>
+</tr>
+</table>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_dynamic_subject">Dynamic subject</h3>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">void sendProduct(@Subject String topic, String name);</code></pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_publishing_to_queues">Publishing to Queues</h3>
+<h3 id="_queues">Queues</h3>
 <div class="admonitionblock tip">
 <table>
 <tr>
@@ -699,35 +954,162 @@ The NATS server will route the message to the queue and select a message receive
 </table>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_return_type_and_rpc">Return Type and RPC</h3>
-<div class="admonitionblock important">
+
+<h2 id="producerHeaders"><a class="anchor" href="#producerHeaders"></a>6.1.1.2 Headers</h2>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/master/src/main/docs/guide/producer/producerMethods/producerParameters/producerHeaders.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="paragraph">
+<p>Headers can be set on the message with the <a href="https://docs.micronaut.io/latest/api/io/micronaut/messaging/annotation/MessageHeader.html">@MessageHeader</a> annotation applied to the method or an argument of the method. Apply the annotation to the method itself if the value is static for every execution. Apply the annotation to an argument of the method if the value should be set per execution.</p>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">import io.micronaut.messaging.annotation.MessageBody;
+import io.micronaut.messaging.annotation.MessageHeader;
+import io.micronaut.nats.annotation.NatsClient;
+import io.micronaut.nats.annotation.Subject;
+import io.nats.client.impl.Headers;
+
+@NatsClient
+@MessageHeader(name = "x-product-sealed", value = "true") <b class="conum">(1)</b>
+@MessageHeader(name = "productSize", value = "large")
+public interface ProductClient {
+
+    @Subject("product")
+    @MessageHeader(name = "x-product-count", value = "10") <b class="conum">(2)</b>
+    @MessageHeader(name = "productSize", value = "small")
+    void send(byte[] data);
+
+    @Subject("product")
+    void send(@MessageHeader String productSize, <b class="conum">(3)</b>
+              @MessageHeader("x-product-count") Long count,
+              byte[] data);
+
+    @Subject("products")
+    @MessageHeader(name = "x-product-count", value = "20")
+    void send(@MessageBody byte[] data, @MessageHeader List&lt;String&gt; productSizes);<b class="conum">(4)</b>
+
+    @Subject("productHeader")
+    void send(@MessageBody byte[] data, Headers headers);<b class="conum">(5)</b>
+
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlight"><code class="language-groovy" data-lang="groovy">import io.micronaut.messaging.annotation.MessageBody
+import io.micronaut.messaging.annotation.MessageHeader
+import io.micronaut.nats.annotation.NatsClient
+import io.micronaut.nats.annotation.Subject
+import io.nats.client.impl.Headers
+
+@NatsClient
+@MessageHeader(name = "x-product-sealed", value = "true") <b class="conum">(1)</b>
+@MessageHeader(name = "productSize", value = "large")
+interface ProductClient {
+
+
+    @Subject("product")
+    @MessageHeader(name = "x-product-count", value = "10") <b class="conum">(2)</b>
+    @MessageHeader(name = "productSize", value = "small")
+    void send(byte[] data)
+
+    @Subject("product")
+    void send(@MessageHeader String productSize, <b class="conum">(3)</b>
+              @MessageHeader("x-product-count") Long count,
+              byte[] data)
+
+    @Subject("products")
+    @MessageHeader(name = "x-product-count", value = "20")
+    void send(@MessageBody byte[] data, @MessageHeader List&lt;String&gt; productSizes) <b class="conum">(4)</b>
+
+    @Subject("productHeader")
+    void send(@MessageBody byte[] data, Headers headers) <b class="conum">(5)</b>
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlight"><code class="language-kotlin" data-lang="kotlin">import io.micronaut.messaging.annotation.MessageBody
+import io.micronaut.messaging.annotation.MessageHeader
+import io.micronaut.messaging.annotation.MessageHeaders
+import io.micronaut.nats.annotation.NatsClient
+import io.micronaut.nats.annotation.Subject
+import io.nats.client.impl.Headers
+
+@NatsClient
+@MessageHeaders(
+    MessageHeader(name = "x-product-sealed", value = "true"), <b class="conum">(1)</b>
+    MessageHeader(name = "productSize", value = "large")
+)
+interface ProductClient {
+
+    @Subject("product")
+    @MessageHeaders(
+        MessageHeader(name = "x-product-count", value = "10"), <b class="conum">(2)</b>
+        MessageHeader(name = "productSize", value = "small")
+    )
+    fun send(data: ByteArray)
+
+    @Subject("product")
+    fun send(@MessageHeader productSize: String?, <b class="conum">(3)</b>
+             @MessageHeader("x-product-count") count: Long,
+             data: ByteArray)
+
+    @Subject("products")
+    @MessageHeader(name = "x-product-count", value = "20")
+    fun send(@MessageBody data:ByteArray, @MessageHeader productSizes: List&lt;String&gt;) <b class="conum">(4)</b>
+
+    @Subject("productHeader")
+    fun send(@MessageBody data: ByteArray, headers: Headers) <b class="conum">(5)</b>
+
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
 <table>
 <tr>
-<td class="icon">
-<i class="fa icon-important" title="Important"></i>
-</td>
-<td class="content">
-If the producer defines a return type, it automatically will use the RPC logic and will wait for an answer from a consumer
-</td>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Headers can be defined at the class level and will apply to all methods. If a header is defined on the method with the same name as one on the class, the value on the method will be used.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Multiple annotations can be used to set multiple headers on the method or class level.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Headers can be set per execution. The name is inferred from the argument if the annotation value is not set. Null values will be ignored.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>You can also use a List as header.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="5"></i><b>5</b></td>
+<td>A <code>Headers</code> argument can be used to pass custom headers.</td>
 </tr>
 </table>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">@Subject("product")
-Product sendProduct(String name);
 
-@Subject("product")
-Mono&lt;Product&gt; sendProduct(String name);
+<h2 id="producerBody"><a class="anchor" href="#producerBody"></a>6.1.1.3 Message Body</h2>
 
-@Subject("product")
-Flux&lt;Product&gt; sendProduct(String name);</code></pre>
-</div>
-</div>
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/master/src/main/docs/guide/producer/producerMethods/producerParameters/producerBody.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
 </div>
 
-<h1 id="consumer"><a class="anchor" href="#consumer"></a>7 NATS Consumers Using @NatsListener</h1>
+
+<div class="paragraph">
+<p>Most examples up to this point have been using a <code>byte[]</code> as the body type for simplicity. This library supports most standard Java types and JSON serialization (using Jackson) by default. The functionality is extensible and it is possible to add support for additional types and serialization strategies. See the section on <a href="#serdes">Message Serialization/Deserialization</a> for more information.</p>
+</div>
+
+<h1 id="consumer"><a class="anchor" href="#consumer"></a>7 NATS Consumers</h1>
 
 <div class='contribute-btn'>
     <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/master/src/main/docs/guide/consumer.adoc"'>
@@ -778,24 +1160,192 @@ If your application was created with the Micronaut CLI, then that has already be
 </tr>
 </table>
 </div>
-<div class="sect2">
-<h3 id="_simple_consumer">Simple Consumer</h3>
+
+<h2 id="consumerParameters"><a class="anchor" href="#consumerParameters"></a>7.1.1 Consumer Parameters</h2>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/master/src/main/docs/guide/consumer/consumerMethods/consumerParameters.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
 <div class="paragraph">
-<p>The easiest way for defining a consumer is the following:</p>
+<p>The <a href="https://javadoc.io/doc/io.nats/jnats/2.11.4/io/nats/client/Connection.html#createDispatcher-io.nats.client.MessageHandler-">createDispatcher</a> method is used by the <a href="../api/io/micronaut/configuration/nats/intercept/NatsConsumerAdvice.html">NatsConsumerAdvice</a> to consume messages. Some of the options can be directly configured through annotations.</p>
 </div>
-<div class="listingblock">
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+In order for the consumer method to be invoked, all arguments must be satisfied. To allow execution of the method with a null value, the argument <strong>must</strong> be declared as nullable. If the arguments cannot be satisfied, the message will be rejected.
+</td>
+</tr>
+</table>
+</div>
+
+<h2 id="consumerSubject"><a class="anchor" href="#consumerSubject"></a>7.1.1.1 Subject</h2>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/master/src/main/docs/guide/consumer/consumerMethods/consumerParameters/consumerSubject.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="paragraph">
+<p>A <a href="../api/io/micronaut/configuration/nats/annotation/Subject.html">@Subject</a> annotation is required for a method to be a consumer of messages from Nats. Simply apply the annotation to the method and supply the name of the subject you would like to listen to.</p>
+</div>
+<div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    @Subject("my-products")
-    public void receive(String name) {
-        System.out.println("Got Product - " + name);
-    }</code></pre>
+<pre class="highlight"><code class="language-java" data-lang="java">import io.micronaut.nats.annotation.NatsListener;
+import io.micronaut.nats.annotation.Subject;
+
+@NatsListener
+public class ProductListener {
+
+    List&lt;Integer&gt; messageLengths = Collections.synchronizedList(new ArrayList&lt;&gt;());
+
+    @Subject("product") <b class="conum">(1)</b>
+    public void receive(byte[] data) {
+        messageLengths.add(data.length);
+    }
+}</code></pre>
 </div>
 </div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlight"><code class="language-groovy" data-lang="groovy">import io.micronaut.nats.annotation.NatsListener
+import io.micronaut.nats.annotation.Subject
+
+import java.util.concurrent.CopyOnWriteArrayList
+
+@NatsListener
+class ProductListener {
+
+    CopyOnWriteArrayList&lt;Integer&gt; messageLengths = []
+
+    @Subject("product") <b class="conum">(1)</b>
+    void receive(byte[] data) {
+        messageLengths &lt;&lt; data.length
+    }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlight"><code class="language-kotlin" data-lang="kotlin">import io.micronaut.nats.annotation.NatsListener
+import io.micronaut.nats.annotation.Subject
+import java.util.Collections
+
+@NatsListener
+class ProductListener {
+
+    val messageLengths: MutableList&lt;Int&gt; = Collections.synchronizedList(ArrayList())
+
+    @Subject("product") <b class="conum">(1)</b>
+    fun receive(data: ByteArray) {
+        messageLengths.add(data.size)
+    }
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The subject annotation is set per method. Multiple methods may be defined with different subjects in the same class.</td>
+</tr>
+</table>
 </div>
 <div class="sect2">
 <h3 id="_queue_support">Queue Support</h3>
 <div class="paragraph">
-<p>Subscribers may specify queue groups at subscription time. When a message is published to the group NATS will deliver it to a one-and-only-one subscriber.</p>
+<p>Subscribers may specify queue groups at subscription time. When a message is published to the group, NATS will deliver it to a one-and-only-one subscriber.</p>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">import io.micronaut.nats.annotation.NatsListener;
+import io.micronaut.nats.annotation.Subject;
+
+@NatsListener
+public class ProductListener {
+
+    List&lt;String&gt; messageLengths = Collections.synchronizedList(new ArrayList&lt;&gt;());
+
+    @Subject(value = "product", queue = "product-queue") <b class="conum">(1)</b>
+    public void receiveByQueue1(byte[] data) {
+        messageLengths.add(new String(data));
+        System.out.println("Java received " + data.length + " bytes from Nats");
+    }
+
+    @Subject(value = "product", queue = "product-queue")
+    public void receiveByQueue2(byte[] data) {
+        messageLengths.add(new String(data));
+        System.out.println("Java received " + data.length + " bytes from Nats");
+    }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlight"><code class="language-groovy" data-lang="groovy">import io.micronaut.nats.annotation.NatsListener
+import io.micronaut.nats.annotation.Subject
+
+import java.util.concurrent.CopyOnWriteArrayList
+
+@NatsListener
+class ProductListener {
+
+    CopyOnWriteArrayList&lt;String&gt; messageLengths = []
+
+    @Subject(value = "product", queue = "product-queue") <b class="conum">(1)</b>
+    void receiveByQueue1(byte[] data) {
+        messageLengths &lt;&lt; new String(data)
+    }
+
+    @Subject(value = "product", queue = "product-queue")
+    public void receiveByQueue2(byte[] data) {
+        messageLengths &lt;&lt; new String(data)
+    }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlight"><code class="language-kotlin" data-lang="kotlin">import io.micronaut.messaging.annotation.MessageHeader
+import io.micronaut.nats.annotation.NatsListener
+import io.micronaut.nats.annotation.Subject
+import io.nats.client.impl.Headers
+import java.util.Collections
+
+@NatsListener
+class ProductListener {
+
+    var messageLengths: MutableList&lt;String&gt; = Collections.synchronizedList(ArrayList())
+
+    @Subject(value = "product", queue = "product-queue") <b class="conum">(1)</b>
+    fun receiveByQueue1(data: ByteArray) {
+        messageLengths.add(String(data))
+    }
+
+    @Subject(value = "product", queue = "product-queue")
+    fun receiveByQueue2(data: ByteArray) {
+        messageLengths.add(String(data))
+    }
+
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Defining a queue can be done in the <a href="../api/io/micronaut/configuration/nats/annotation/Subject.html">@Subject</a></td>
+</tr>
+</table>
 </div>
 <div class="admonitionblock important">
 <table>
@@ -809,17 +1359,1034 @@ Queue groups do not persist messages. If no listeners are available, the message
 </tr>
 </table>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    @Subject(value = "my-products", queue="my-queue")
-    public void receive(String name) {
-        System.out.println("Got Product - " + name);
-    }</code></pre>
 </div>
+<div class="sect2">
+<h3 id="_other_options">Other Options</h3>
+<div class="paragraph">
+<p>If multiple Nats servers have been configured, the name of the server can be set in the <a href="../api/io/micronaut/configuration/nats/annotation/Subject.html">@Subject</a> annotation to designate which connection should be used to listen for messages.</p>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">import io.micronaut.nats.annotation.NatsListener;
+import io.micronaut.nats.annotation.Subject;
+
+@NatsListener
+public class ProductListener {
+
+    List&lt;String&gt; messageLengths = Collections.synchronizedList(new ArrayList&lt;&gt;());
+
+    @Subject(value = "product", connection = "product-cluster") <b class="conum">(1)</b>
+    public void receive(byte[] data) {
+        messageLengths.add(new String(data));
+        System.out.println("Java received " + data.length + " bytes from Nats");
+    }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlight"><code class="language-groovy" data-lang="groovy">import io.micronaut.nats.annotation.NatsListener
+import io.micronaut.nats.annotation.Subject
+
+@NatsListener
+class ProductListener {
+
+    List&lt;String&gt; messageLengths = Collections.synchronizedList([])
+
+    @Subject(value = "product", connection = "product-cluster") <b class="conum">(1)</b>
+    void receive(byte[] data) {
+        messageLengths &lt;&lt; new String(data)
+    }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlight"><code class="language-kotlin" data-lang="kotlin">import io.micronaut.messaging.annotation.MessageHeader
+import io.micronaut.nats.annotation.NatsListener
+import io.micronaut.nats.annotation.Subject
+import io.nats.client.impl.Headers
+import java.util.Collections
+
+@NatsListener
+class ProductListener {
+
+    var messageLengths: MutableList&lt;String&gt; = Collections.synchronizedList(ArrayList())
+
+    @Subject(value = "product", connection = "product-cluster") <b class="conum">(1)</b>
+    fun receive(data: ByteArray) {
+        messageLengths.add(String(data))
+    }
+
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The connection is set on the subject annotation.</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The <code>connection</code> option is also available to be set on the <a href="../api/io/micronaut/configuration/nats/annotation/NatsListener.html">@NatsListener</a> annotation.
+</td>
+</tr>
+</table>
+</div>
+</div>
+
+<h2 id="consumerHeaders"><a class="anchor" href="#consumerHeaders"></a>7.1.1.2 Headers</h2>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/master/src/main/docs/guide/consumer/consumerMethods/consumerParameters/consumerHeaders.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="paragraph">
+<p>Headers can be retrieved with the <a href="https://docs.micronaut.io/latest/api/io/micronaut/messaging/annotation/MessageHeader.html">@MessageHeader</a> annotation applied to the arguments of the method.</p>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">import io.micronaut.messaging.annotation.MessageBody;
+import io.micronaut.messaging.annotation.MessageHeader;
+import io.micronaut.nats.annotation.NatsListener;
+import io.micronaut.nats.annotation.Subject;
+import io.nats.client.impl.Headers;
+
+@NatsListener
+public class ProductListener {
+
+    Set&lt;String&gt; messageProperties = Collections.synchronizedSet(new HashSet&lt;&gt;());
+
+    @Subject("product")
+    public void receive(byte[] data,
+            @MessageHeader("x-product-sealed") Boolean sealed, <b class="conum">(1)</b>
+            @MessageHeader("x-product-count") Long count, <b class="conum">(2)</b>
+            @Nullable @MessageHeader String productSize) { <b class="conum">(3)</b>
+        messageProperties.add(sealed + "|" + count + "|" + productSize);
+    }
+
+    @Subject("products")
+    public void receive(@MessageBody byte[] data, @MessageHeader("x-product-sealed") Boolean sealed,
+            @MessageHeader("x-product-count") Long count, @MessageHeader List&lt;String&gt; productSizes) { <b class="conum">(4)</b>
+        for (String productSize : productSizes) {
+            messageProperties.add(sealed + "|" + count + "|" + productSize);
+        }
+    }
+
+    @Subject("productHeader")
+    public void receive(@MessageBody byte[] data, Headers headers) { <b class="conum">(5)</b>
+        String productSize = headers.get("productSize").get(0);
+        messageProperties.add(
+                headers.get("x-product-sealed").get(0) + "|" +
+                        headers.get("x-product-count").get(0) + "|" +
+                        productSize);
+    }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlight"><code class="language-groovy" data-lang="groovy">import io.micronaut.core.annotation.Nullable
+import io.micronaut.messaging.annotation.MessageBody
+import io.micronaut.messaging.annotation.MessageHeader
+import io.micronaut.nats.annotation.NatsListener
+import io.micronaut.nats.annotation.Subject
+import io.nats.client.impl.Headers
+
+import java.util.concurrent.CopyOnWriteArrayList
+
+@NatsListener
+class ProductListener {
+
+    CopyOnWriteArrayList&lt;String&gt; messageProperties = []
+
+    @Subject("product")
+    void receive(byte[] data,
+                 @MessageHeader("x-product-sealed") Boolean sealed, <b class="conum">(1)</b>
+                 @MessageHeader("x-product-count") Long count, <b class="conum">(2)</b>
+                 @Nullable @MessageHeader String productSize) { <b class="conum">(3)</b>
+        messageProperties &lt;&lt; sealed.toString() + "|" + count + "|" + productSize
+    }
+
+    @Subject("products")
+    void receive(@MessageBody byte[] data, @MessageHeader("x-product-sealed") Boolean sealed,
+                 @MessageHeader("x-product-count") Long count, @MessageHeader List&lt;String&gt; productSizes) { <b class="conum">(4)</b>
+        productSizes.forEach {
+            messageProperties &lt;&lt; sealed.toString() + "|" + count + "|" + it
+        }
+    }
+
+    @Subject("productHeader")
+    void receive(@MessageBody byte[] data, Headers headers) { <b class="conum">(5)</b>
+        String productSize = headers.get("productSize").get(0)
+        messageProperties &lt;&lt; headers.get("x-product-sealed").get(0) + "|" +
+                        headers.get("x-product-count").get(0) + "|" +
+                        productSize
+    }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlight"><code class="language-kotlin" data-lang="kotlin">import io.micronaut.messaging.annotation.MessageBody
+import io.micronaut.messaging.annotation.MessageHeader
+import io.micronaut.nats.annotation.NatsListener
+import io.micronaut.nats.annotation.Subject
+import io.nats.client.impl.Headers
+import java.util.Collections
+
+@NatsListener
+class ProductListener {
+
+    var messageProperties: MutableList&lt;String&gt; = Collections.synchronizedList(ArrayList())
+
+    @Subject("product")
+    fun receive(data: ByteArray,
+                @MessageHeader("x-product-sealed") sealed: Boolean, <b class="conum">(1)</b>
+                @MessageHeader("x-product-count") count: Long, <b class="conum">(2)</b>
+                @MessageHeader productSize: String?) { <b class="conum">(3)</b>
+        messageProperties.add(sealed.toString() + "|" + count + "|" + productSize)
+    }
+
+    @Subject("products")
+    fun receive(@MessageBody data: ByteArray,
+                @MessageHeader("x-product-sealed") sealed: Boolean,
+                @MessageHeader("x-product-count") count: Long,
+                @MessageHeader productSizes: List&lt;String&gt;?) { <b class="conum">(4)</b>
+        productSizes?.forEach {
+            messageProperties.add("${sealed}|${count}|${it}")
+        }
+    }
+
+    @Subject("productHeader")
+    fun receive(@MessageBody data: ByteArray, headers: Headers) { <b class="conum">(5)</b>
+        messageProperties.add("${headers["x-product-sealed"][0]}|${headers["x-product-count"][0]}|${headers["productSize"][0]}")
+    }
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The header name comes from the annotation and the value is retrieved and converted to a Boolean.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>The header name comes from the annotation and the value is retrieved and converted to a Long.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>The header name comes from the argument name. This argument allows null values.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>The header can also be a list representing multiple values.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="5"></i><b>5</b></td>
+<td>All headers can be bound to a <code>Headers</code> argument.</td>
+</tr>
+</table>
+</div>
+
+<h2 id="consumerTypes"><a class="anchor" href="#consumerTypes"></a>7.1.1.3 Nats Types</h2>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/master/src/main/docs/guide/consumer/consumerMethods/consumerParameters/consumerTypes.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="paragraph">
+<p>Arguments can also be bound based on their type. Several types are supported by default and each type has a corresponding <a href="../api/io/micronaut/configuration/nats/bind/NatsTypeArgumentBinder.html">NatsTypeArgumentBinder</a>. The argument binders are covered in detail in the section on <a href="#consumerCustom">Custom Parameter Binding</a>.</p>
+</div>
+<div class="paragraph">
+<p>There is only type that is supported for retrieving data about the <a href="https://javadoc.io/doc/io.nats/jnats/2.11.4/io/nats/client/Message.html">Message</a>.</p>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">import io.micronaut.nats.annotation.NatsListener;
+import io.micronaut.nats.annotation.Subject;
+import io.nats.client.Connection;
+import io.nats.client.Message;
+import io.nats.client.Subscription;
+import io.nats.client.impl.Headers;
+
+@NatsListener
+public class ProductListener {
+
+    List&lt;String&gt; messages = Collections.synchronizedList(new ArrayList&lt;&gt;());
+
+    @Subject("product")
+    public void receive(byte[] data,
+            Message message,
+            Connection connection,
+            Subscription subscription,
+            Headers headers) { <b class="conum">(1)</b>
+        messages.add(String.format("subject: [%s], maxPayload: [%s], pendingMessageCount: [%s], x-productCount: [%s]",
+                message.getSubject(),
+                connection.getMaxPayload(), subscription.getPendingMessageCount(),
+                headers.get("x-product-count").get(0)));
+    }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlight"><code class="language-groovy" data-lang="groovy">import io.micronaut.nats.annotation.NatsListener
+import io.micronaut.nats.annotation.Subject
+
+import io.nats.client.Connection
+import io.nats.client.Message
+import io.nats.client.Subscription
+import io.nats.client.impl.Headers
+
+import java.util.concurrent.CopyOnWriteArrayList
+
+@NatsListener
+class ProductListener {
+
+    CopyOnWriteArrayList&lt;String&gt; messages = []
+
+    @Subject("product")
+    void receive(byte[] data,
+                 Message message,
+                 Connection connection,
+                 Subscription subscription,
+                 Headers headers) { <b class="conum">(1)</b>
+        def count = headers.get("x-product-count").get(0)
+        messages &lt;&lt; "subject: [$message.subject], maxPayload: [$connection.maxPayload], pendingMessageCount: [$subscription.pendingMessageCount], x-productCount: [$count]".toString()
+
+    }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlight"><code class="language-kotlin" data-lang="kotlin">import io.micronaut.nats.annotation.NatsListener
+import io.micronaut.nats.annotation.Subject
+import io.nats.client.Connection
+import io.nats.client.Message
+import io.nats.client.Subscription
+import io.nats.client.impl.Headers
+import java.util.Collections
+
+
+@NatsListener
+class ProductListener {
+
+    var messages: MutableList&lt;String&gt; = Collections.synchronizedList(ArrayList())
+
+    @Subject(value = "product")
+    fun receive(data: ByteArray,
+                message: Message,
+                connection: Connection,
+                subscription: Subscription,
+                headers: Headers) { <b class="conum">(1)</b>
+        messages.add("subject: [${message.subject}], maxPayload: [${connection.maxPayload}], pendingMessageCount: [${subscription.pendingMessageCount}], x-productCount: [${headers["x-product-count"][0]}]")
+    }
+
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The arguments are bound from the <a href="https://javadoc.io/doc/io.nats/jnats/2.11.4/io/nats/client/Message.html">Message</a>.</td>
+</tr>
+</table>
+</div>
+
+<h2 id="consumerBody"><a class="anchor" href="#consumerBody"></a>7.1.1.4 Message Body</h2>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/master/src/main/docs/guide/consumer/consumerMethods/consumerParameters/consumerBody.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="paragraph">
+<p>Most examples up to this point have been using a <code>byte[]</code> as the body type for simplicity. This library supports most standard Java types and JSON deserialization (using Jackson) by default. The functionality is extensible and it is possible to add support for additional types and deserialization strategies. See the section on <a href="#serdes">Message Serialization/Deserialization</a> for more information.</p>
+</div>
+
+<h2 id="consumerCustom"><a class="anchor" href="#consumerCustom"></a>7.1.1.5 Custom Parameter Binding</h2>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/master/src/main/docs/guide/consumer/consumerMethods/consumerParameters/consumerCustom.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="sect2">
+<h3 id="_default_binding_functionality">Default Binding Functionality</h3>
+<div class="paragraph">
+<p>Consumer argument binding is achieved through an <a href="https://docs.micronaut.io/latest/api/io/micronaut/core/bind/ArgumentBinderRegistry.html">ArgumentBinderRegistry</a>  that is specific for binding consumers from Nats messages. The class responsible for this is the <a href="../api/io/micronaut/configuration/nats/bind/NatsBinderRegistry.html">NatsBinderRegistry</a>.</p>
+</div>
+<div class="paragraph">
+<p>The registry supports argument binders that are used based on an annotation applied to the argument or the argument type. All argument binders must implement either <a href="../api/io/micronaut/configuration/nats/bind/NatsAnnotatedArgumentBinder.html">NatsAnnotatedArgumentBinder</a> or <a href="../api/io/micronaut/configuration/nats/bind/NatsTypeArgumentBinder.html">NatsTypeArgumentBinder</a>. The exception to that rule is the <a href="../api/io/micronaut/configuration/nats/bind/NatsDefaultBinder.html">NatsDefaultBinder</a> which is used when no other binders support a given argument.</p>
+</div>
+<div class="paragraph">
+<p>When an argument needs bound, the <a href="https://javadoc.io/doc/io.nats/jnats/2.11.4/io/nats/client/Message.html">Message</a> is used as the source of all of the available data. The binder registry follows a small sequence of steps to attempt to find a binder that supports the argument.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Search the annotation based binders for one that matches any annotation on the argument that is annotated with <a href="https://docs.micronaut.io/latest/api/io/micronaut/core/bind/annotation/Bindable.html">@Bindable</a>.</p>
+</li>
+<li>
+<p>Search the type based binders for one that matches or is a subclass of the argument type.</p>
+</li>
+<li>
+<p>Return the default binder.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>The default binder binds the body of the message to the argument.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_return_type_and_rpc">Return Type and RPC</h3>
+<h3 id="_custom_binding">Custom Binding</h3>
+<div class="paragraph">
+<p>To inject your own argument binding behavior, it is as simple as registering a bean. The existing binder registry will inject it and include it in the normal processing.</p>
+</div>
+<div class="sect3">
+<h4 id="_annotation_binding">Annotation Binding</h4>
+<div class="paragraph">
+<p>A custom annotation can be created to bind consumer arguments. A custom binder can then be created to use that annotation and the <a href="https://javadoc.io/doc/io.nats/jnats/2.11.4/io/nats/client/Message.html">Message</a> to supply a value for the argument. The value may in fact come from anywhere, however for the purposes of this documentation, the replyTo in the message is used.</p>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
+import io.micronaut.core.bind.annotation.Bindable;
+
+@Documented
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ElementType.PARAMETER})
+@Bindable <b class="conum">(1)</b>
+public @interface SID {
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlight"><code class="language-groovy" data-lang="groovy">import io.micronaut.core.bind.annotation.Bindable
+
+import java.lang.annotation.Documented
+import java.lang.annotation.ElementType
+import java.lang.annotation.Retention
+import java.lang.annotation.RetentionPolicy
+import java.lang.annotation.Target
+
+@Documented
+@Retention(RetentionPolicy.RUNTIME)
+@Target([ElementType.PARAMETER])
+@Bindable <b class="conum">(1)</b>
+@interface SID {
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlight"><code class="language-kotlin" data-lang="kotlin">import io.micronaut.core.bind.annotation.Bindable
+
+@MustBeDocumented
+@Retention(AnnotationRetention.RUNTIME)
+@Target(AnnotationTarget.VALUE_PARAMETER)
+@Bindable <b class="conum">(1)</b>
+annotation class SID</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The <a href="https://docs.micronaut.io/latest/api/io/micronaut/core/bind/annotation/Bindable.html">@Bindable</a> annotation is required for the annotation to be considered for binding.</td>
+</tr>
+</table>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">import io.micronaut.core.convert.ArgumentConversionContext;
+import io.micronaut.core.convert.ConversionService;
+import io.micronaut.nats.bind.NatsAnnotatedArgumentBinder;
+import io.nats.client.Message;
+import jakarta.inject.Singleton;
+
+@Singleton <b class="conum">(1)</b>
+public class SIDAnnotationBinder implements NatsAnnotatedArgumentBinder&lt;SID&gt; { <b class="conum">(2)</b>
+
+    private final ConversionService&lt;?&gt; conversionService;
+
+    public SIDAnnotationBinder(ConversionService&lt;?&gt; conversionService) { <b class="conum">(3)</b>
+        this.conversionService = conversionService;
+    }
+
+    @Override
+    public Class&lt;SID&gt; getAnnotationType() {
+        return SID.class;
+    }
+
+    @Override
+    public BindingResult&lt;Object&gt; bind(ArgumentConversionContext&lt;Object&gt; context, Message source) {
+        String sid = source.getSID(); <b class="conum">(4)</b>
+        return () -&gt; conversionService.convert(sid, context); <b class="conum">(5)</b>
+    }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlight"><code class="language-groovy" data-lang="groovy">import io.micronaut.core.convert.ArgumentConversionContext
+import io.micronaut.core.convert.ConversionService
+import io.micronaut.nats.bind.NatsAnnotatedArgumentBinder
+import io.nats.client.Message
+
+import jakarta.inject.Singleton
+
+@Singleton <b class="conum">(1)</b>
+class SIDAnnotationBinder implements NatsAnnotatedArgumentBinder&lt;SID&gt; { <b class="conum">(2)</b>
+
+    private final ConversionService conversionService
+
+    SIDAnnotationBinder(ConversionService conversionService) { <b class="conum">(3)</b>
+        this.conversionService = conversionService
+    }
+
+    @Override
+    Class&lt;SID&gt; getAnnotationType() {
+        SID
+    }
+
+    @Override
+    BindingResult&lt;Object&gt; bind(ArgumentConversionContext&lt;Object&gt; context, Message source) {
+        String sid = source.getSID() <b class="conum">(4)</b>
+        return { -&gt; conversionService.convert(sid, context) } <b class="conum">(5)</b>
+    }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlight"><code class="language-kotlin" data-lang="kotlin">import io.micronaut.core.bind.ArgumentBinder
+import io.micronaut.core.convert.ArgumentConversionContext
+import io.micronaut.core.convert.ConversionService
+import io.micronaut.nats.bind.NatsAnnotatedArgumentBinder
+import io.nats.client.Message
+import jakarta.inject.Singleton
+
+@Singleton <b class="conum">(1)</b>
+class SIDAnnotationBinder(private val conversionService: ConversionService&lt;*&gt;) <b class="conum">(3)</b>
+    : NatsAnnotatedArgumentBinder&lt;SID&gt; { <b class="conum">(2)</b>
+
+    override fun getAnnotationType(): Class&lt;SID&gt; {
+        return SID::class.java
+    }
+
+    override fun bind(context: ArgumentConversionContext&lt;Any&gt;, source: Message): ArgumentBinder.BindingResult&lt;Any&gt; {
+        val sid = source.sid <b class="conum">(4)</b>
+        return ArgumentBinder.BindingResult { conversionService.convert(sid, context) } <b class="conum">(5)</b>
+    }
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The class is made a bean by annotating with <code>@Singleton</code>.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>The custom annotation is used as the generic type for the interface.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>The conversion service is injected into the instance.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>The replyTo is retrieved from the message state.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="5"></i><b>5</b></td>
+<td>The replyTo is converted to the argument type.</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The annotation can now be used on the argument in a consumer method.</p>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">import io.micronaut.nats.annotation.NatsListener;
+import io.micronaut.nats.annotation.Subject;
+
+@NatsListener
+public class ProductListener {
+
+    List&lt;String&gt; messages = Collections.synchronizedList(new ArrayList&lt;&gt;());
+
+    @Subject("product")
+    public void receive(byte[] data, @SID String sid) { <b class="conum">(1)</b>
+        messages.add(sid);
+    }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlight"><code class="language-groovy" data-lang="groovy">import io.micronaut.nats.annotation.NatsListener
+import io.micronaut.nats.annotation.Subject
+import io.micronaut.nats.docs.consumer.custom.type.ProductInfo
+
+import java.util.concurrent.CopyOnWriteArrayList
+
+@NatsListener
+class ProductListener {
+
+    CopyOnWriteArrayList&lt;ProductInfo&gt; messages = []
+
+    @Subject("product")
+    void receive(byte[] data, @SID String sid) {
+        messages &lt;&lt; sid
+    }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlight"><code class="language-kotlin" data-lang="kotlin">import io.micronaut.nats.annotation.NatsListener
+import io.micronaut.nats.annotation.Subject
+import io.micronaut.nats.docs.consumer.custom.type.ProductInfo
+import java.util.Collections
+
+@NatsListener
+class ProductListener {
+
+    var messages: MutableList&lt;String&gt; = Collections.synchronizedList(ArrayList())
+
+    @Subject("product")
+    fun receive(data: ByteArray, @SID sid: String)  {<b class="conum">(1)</b>
+        messages.add(sid)
+    }
+
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_type_binding">Type Binding</h4>
+<div class="paragraph">
+<p>A custom binder can be created to support any argument type. For example the following class could be created to bind values from the headers. This functionality could allow the work of retrieving and converting the headers to occur in a single place instead of multiple times in your code.</p>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">import io.micronaut.core.annotation.NonNull;
+import io.micronaut.core.annotation.Nullable;
+
+public class ProductInfo {
+
+    private String size;
+    private Long count;
+    private Boolean sealed;
+
+    public ProductInfo(@Nullable String size, <b class="conum">(1)</b>
+                       @NonNull Long count, <b class="conum">(2)</b>
+                       @NonNull Boolean sealed) { <b class="conum">(3)</b>
+        this.size = size;
+        this.count = count;
+        this.sealed = sealed;
+    }
+
+    public String getSize() {
+        return size;
+    }
+
+    public Long getCount() {
+        return count;
+    }
+
+    public Boolean getSealed() {
+        return sealed;
+    }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlight"><code class="language-groovy" data-lang="groovy">import io.micronaut.core.annotation.NonNull
+import io.micronaut.core.annotation.Nullable
+
+class ProductInfo {
+
+    private String size
+    private Long count
+    private Boolean sealed
+
+    ProductInfo(@Nullable String size, <b class="conum">(1)</b>
+                @NonNull Long count, <b class="conum">(2)</b>
+                @NonNull Boolean sealed) { <b class="conum">(3)</b>
+        this.size = size
+        this.count = count
+        this.sealed = sealed
+    }
+
+    String getSize() {
+        size
+    }
+
+    Long getCount() {
+        count
+    }
+
+    Boolean getSealed() {
+        sealed
+    }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlight"><code class="language-kotlin" data-lang="kotlin">class ProductInfo(val size: String?, <b class="conum">(1)</b>
+                  val count: Long, <b class="conum">(2)</b>
+                  val sealed: Boolean)<b class="conum">(3)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The <code>size</code> argument is not required</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>The <code>count</code> argument is required</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>The <code>sealed</code> argument is required</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>A type argument binder can then be created to create the <code>ProductInfo</code> instance to bind to your consumer method argument.</p>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">import io.micronaut.core.convert.ArgumentConversionContext;
+import io.micronaut.core.convert.ConversionError;
+import io.micronaut.core.convert.ConversionService;
+import io.micronaut.core.type.Argument;
+import io.micronaut.nats.bind.NatsHeaderConvertibleValues;
+import io.micronaut.nats.bind.NatsTypeArgumentBinder;
+import io.nats.client.Message;
+import io.nats.client.impl.Headers;
+import jakarta.inject.Singleton;
+
+@Singleton <b class="conum">(1)</b>
+public class ProductInfoTypeBinder implements NatsTypeArgumentBinder&lt;ProductInfo&gt; { <b class="conum">(2)</b>
+
+    private final ConversionService&lt;?&gt; conversionService;
+
+    ProductInfoTypeBinder(ConversionService&lt;?&gt; conversionService) { <b class="conum">(3)</b>
+        this.conversionService = conversionService;
+    }
+
+    @Override
+    public Argument&lt;ProductInfo&gt; argumentType() {
+        return Argument.of(ProductInfo.class);
+    }
+
+    @Override
+    public BindingResult&lt;ProductInfo&gt; bind(ArgumentConversionContext&lt;ProductInfo&gt; context, Message source) {
+        Headers rawHeaders = source.getHeaders(); <b class="conum">(4)</b>
+
+        if (rawHeaders == null) {
+            return BindingResult.EMPTY;
+        }
+
+        NatsHeaderConvertibleValues headers = new NatsHeaderConvertibleValues(rawHeaders, conversionService);
+
+        String size = headers.get("productSize", String.class).orElse(null);  <b class="conum">(5)</b>
+        Optional&lt;Long&gt; count = headers.get("x-product-count", Long.class); <b class="conum">(6)</b>
+        Optional&lt;Boolean&gt; sealed = headers.get("x-product-sealed", Boolean.class); <b class="conum">(7)</b>
+
+        if (headers.getConversionErrors().isEmpty() &amp;&amp; count.isPresent() &amp;&amp; sealed.isPresent()) {
+            return () -&gt; Optional.of(new ProductInfo(size, count.get(), sealed.get())); <b class="conum">(8)</b>
+        } else {
+            return new BindingResult&lt;ProductInfo&gt;() {
+                @Override
+                public Optional&lt;ProductInfo&gt; getValue() {
+                    return Optional.empty();
+                }
+
+                @Override
+                public List&lt;ConversionError&gt; getConversionErrors() {
+                    return headers.getConversionErrors(); <b class="conum">(9)</b>
+                }
+            };
+        }
+    }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlight"><code class="language-groovy" data-lang="groovy">import io.micronaut.core.convert.ArgumentConversionContext
+import io.micronaut.core.convert.ConversionError
+import io.micronaut.core.convert.ConversionService
+import io.micronaut.core.type.Argument
+import io.micronaut.nats.bind.NatsHeaderConvertibleValues
+import io.micronaut.nats.bind.NatsTypeArgumentBinder
+import io.nats.client.Message
+import io.nats.client.impl.Headers
+
+import jakarta.inject.Singleton
+
+@Singleton <b class="conum">(1)</b>
+class ProductInfoTypeBinder implements NatsTypeArgumentBinder&lt;ProductInfo&gt; { <b class="conum">(2)</b>
+
+    private final ConversionService conversionService
+
+    ProductInfoTypeBinder(ConversionService conversionService) { <b class="conum">(3)</b>
+        this.conversionService = conversionService
+    }
+
+    @Override
+    Argument&lt;ProductInfo&gt; argumentType() {
+        return Argument.of(ProductInfo)
+    }
+
+    @Override
+    BindingResult&lt;ProductInfo&gt; bind(ArgumentConversionContext&lt;ProductInfo&gt; context, Message source) {
+        Headers rawHeaders = source.headers <b class="conum">(4)</b>
+
+        if (rawHeaders == null) {
+            return BindingResult.EMPTY
+        }
+
+        def headers = new NatsHeaderConvertibleValues(rawHeaders, conversionService)
+
+        String size = headers.get("productSize", String).orElse(null)  <b class="conum">(5)</b>
+        Optional&lt;Long&gt; count = headers.get("x-product-count", Long) <b class="conum">(6)</b>
+        Optional&lt;Boolean&gt; sealed = headers.get("x-product-sealed", Boolean) <b class="conum">(7)</b>
+
+        if (headers.conversionErrors.isEmpty() &amp;&amp; count.isPresent() &amp;&amp; sealed.isPresent()) {
+            { -&gt; Optional.of(new ProductInfo(size, count.get(), sealed.get())) } <b class="conum">(8)</b>
+        } else {
+            new BindingResult&lt;ProductInfo&gt;() {
+                @Override
+                Optional&lt;ProductInfo&gt; getValue() {
+                    Optional.empty()
+                }
+
+                @Override
+                List&lt;ConversionError&gt; getConversionErrors() {
+                    headers.conversionErrors <b class="conum">(9)</b>
+                }
+            }
+        }
+    }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlight"><code class="language-kotlin" data-lang="kotlin">import io.micronaut.core.bind.ArgumentBinder.BindingResult
+import io.micronaut.core.convert.ArgumentConversionContext
+import io.micronaut.core.convert.ConversionError
+import io.micronaut.core.convert.ConversionService
+import io.micronaut.core.type.Argument
+import io.micronaut.nats.bind.NatsHeaderConvertibleValues
+import io.micronaut.nats.bind.NatsTypeArgumentBinder
+import io.micronaut.nats.docs.consumer.custom.type.ProductInfo
+import io.nats.client.Message
+import jakarta.inject.Singleton
+import java.util.Optional
+
+@Singleton <b class="conum">(1)</b>
+class ProductInfoTypeBinder constructor(private val conversionService: ConversionService&lt;*&gt;) <b class="conum">(3)</b>
+    : NatsTypeArgumentBinder&lt;ProductInfo&gt; { <b class="conum">(2)</b>
+
+    override fun argumentType(): Argument&lt;ProductInfo&gt; {
+        return Argument.of(ProductInfo::class.java)
+    }
+
+    override fun bind(context: ArgumentConversionContext&lt;ProductInfo&gt;, source: Message): BindingResult&lt;ProductInfo&gt; {
+        val rawHeaders = source.headers ?: return BindingResult { Optional.empty&lt;ProductInfo&gt;() } <b class="conum">(4)</b>
+
+        val headers = NatsHeaderConvertibleValues(rawHeaders, conversionService)
+
+        val size = headers.get("productSize", String::class.java).orElse(null)  <b class="conum">(5)</b>
+        val count = headers.get("x-product-count", Long::class.java) <b class="conum">(6)</b>
+        val sealed = headers.get("x-product-sealed", Boolean::class.java) <b class="conum">(7)</b>
+
+        if (headers.conversionErrors.isEmpty() &amp;&amp; count.isPresent &amp;&amp; sealed.isPresent) {
+            return BindingResult&lt;ProductInfo&gt; { Optional.of(ProductInfo(size, count.get(), sealed.get())) } <b class="conum">(8)</b>
+        } else {
+            return object : BindingResult&lt;ProductInfo&gt; {
+                override fun getValue(): Optional&lt;ProductInfo&gt; {
+                    return Optional.empty()
+                }
+
+                override fun getConversionErrors(): List&lt;ConversionError&gt; {
+                    return headers.conversionErrors <b class="conum">(9)</b>
+                }
+            }
+        }
+    }
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The class is made a bean by annotating with <code>@Singleton</code>.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>The custom type is used as the generic type for the interface.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>The conversion service is injected into the instance.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>The headers are retrieved from the message state.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="5"></i><b>5</b></td>
+<td>The <code>productSize</code> header is retrieved, defaulting to null if the value was not found or could not be converted.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="6"></i><b>6</b></td>
+<td>The <code>x-product-count</code> header is retrieved and converted with a new argument context that is used to retrieve conversion errors later.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="7"></i><b>7</b></td>
+<td>The <code>x-product-sealed</code> header is retrieved and converted with a new argument context that is used to retrieve conversion errors later.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="8"></i><b>8</b></td>
+<td>There are no conversion errors and the two required arguments are present, so the instance can be constructed.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="9"></i><b>9</b></td>
+<td>There are conversion errors or one of the required arguments is not present so a custom <code>BindingResult</code> is returned that allows the conversion errors to be handled appropriately.</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+
+<h1 id="rpc"><a class="anchor" href="#rpc"></a>8 Request-Reply (RPC)</h1>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/master/src/main/docs/guide/rpc.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="paragraph">
+<p>This library supports RPC through the usage of <a href="https://docs.nats.io/nats-concepts/core-nats/reqreply">Request-Reply</a>. Both blocking and non blocking variations are supported.</p>
+</div>
+<div class="paragraph">
+<p>The following is an example direct reply to where the consumer is converting the body to upper case and replying with the converted string.</p>
+</div>
+<div class="sect1">
+<h2 id="_client_side">Client Side</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The "client side" in this case starts by publishing a message. A consumer somewhere will then receive the message and reply with a new value.</p>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">import io.micronaut.nats.annotation.NatsClient;
+import io.micronaut.nats.annotation.Subject;
+import org.reactivestreams.Publisher;
+
+@NatsClient
+public interface ProductClient {
+
+    @Subject("product")
+    String send(String data); <b class="conum">(1)</b>
+
+    @Subject("product")
+    Publisher&lt;String&gt; sendReactive(String data); <b class="conum">(2)</b>
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlight"><code class="language-groovy" data-lang="groovy">import io.micronaut.nats.annotation.NatsClient
+import io.micronaut.nats.annotation.Subject
+import org.reactivestreams.Publisher
+
+@NatsClient
+interface ProductClient {
+
+    @Subject("product")
+    String send(String data) <b class="conum">(1)</b>
+
+    @Subject("product")
+    Publisher&lt;String&gt; sendReactive(String data) <b class="conum">(2)</b>
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlight"><code class="language-kotlin" data-lang="kotlin">import io.micronaut.nats.annotation.NatsClient
+import io.micronaut.nats.annotation.Subject
+import org.reactivestreams.Publisher
+
+@NatsClient
+interface ProductClient {
+
+    @Subject("product")
+    fun send(data: String): String <b class="conum">(1)</b>
+
+    @Subject("product")
+    fun sendReactive(data: String): Publisher&lt;String&gt; <b class="conum">(2)</b>
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The send method is blocking and will return when the response is received.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>The sendReactive method returns a reactive type that will complete when the response is received. Reactive methods will be executed on the IO thread pool.</td>
+</tr>
+</table>
+</div>
 <div class="admonitionblock important">
 <table>
 <tr>
@@ -827,22 +2394,333 @@ Queue groups do not persist messages. If no listeners are available, the message
 <i class="fa icon-important" title="Important"></i>
 </td>
 <td class="content">
-If the consumer defines a return type, it automatically will use the RPC logic and will send the return value to the producer
+In order for the publisher to assume RPC should be used instead of just completing when the publish is confirmed, the data type must <strong>not</strong> be <code>Void</code>. In both cases above, the data type is <code>String</code>.
 </td>
 </tr>
 </table>
 </div>
-<div class="listingblock">
+</div>
+</div>
+<div class="sect1">
+<h2 id="_server_side">Server Side</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The "server side" in this case starts with the consumption of a message, and then a new message is published by returning the result</p>
+</div>
+<div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    @Subject(value = "my-products")
-    public Product receive(String name) {
-        return new Product(name);
-    }</code></pre>
+<pre class="highlight"><code class="language-java" data-lang="java">import io.micronaut.nats.annotation.NatsListener;
+import io.micronaut.nats.annotation.Subject;
+
+@NatsListener
+public class ProductListener {
+
+    @Subject("product")
+    public String toUpperCase(String data) { <b class="conum">(1)</b>
+        return data.toUpperCase(); <b class="conum">(2)</b>
+    }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlight"><code class="language-groovy" data-lang="groovy">import io.micronaut.nats.annotation.NatsListener
+import io.micronaut.nats.annotation.Subject
+
+@NatsListener
+class ProductListener {
+
+    @Subject("product")
+    String toUpperCase(String data) { <b class="conum">(1)</b>
+        data.toUpperCase() <b class="conum">(2)</b>
+    }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlight"><code class="language-kotlin" data-lang="kotlin">import io.micronaut.nats.annotation.NatsListener
+import io.micronaut.nats.annotation.Subject
+import java.util.Collections
+
+@NatsListener
+class ProductListener {
+
+    @Subject("product")
+    fun receive(data: String): String { <b class="conum">(1)</b>
+        return data.uppercase() <b class="conum">(2)</b>
+    }
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The data from message is injected.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>The converted message is returned.</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+If the reply publish fails for any reason, the original message will be rejected.
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+RPC consumer methods must never return a reactive type. Because the resulting publish needs to occur on the same thread and only a single item can be emitted, there is no value in doing so.
+</td>
+</tr>
+</table>
 </div>
 </div>
 </div>
 
-<h1 id="health"><a class="anchor" href="#health"></a>8 NATS Health Indicator</h1>
+<h1 id="serdes"><a class="anchor" href="#serdes"></a>9 Message Serialization/Deserialization (SerDes)</h1>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/master/src/main/docs/guide/serdes.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="paragraph">
+<p>The serialization and deserialization of message bodies is handled through instances of <a href="../api/io/micronaut/configuration/nats/serdes/NatsMessageSerDes.html">NatsMessageSerDes</a>. The ser-des (Serializer/Deserializer) is responsible for both serialization and deserialization of Nats message bodies into the message body types defined in your clients and consumers methods.</p>
+</div>
+<div class="paragraph">
+<p>The ser-des are managed by a <a href="../api/io/micronaut/configuration/nats/serdes/NatsMessageSerDesRegistry.html">NatsMessageSerDesRegistry</a>. All ser-des beans are injected in order into the registry and then searched for when serialization or deserialization is needed. The first ser-des that returns true for <a href="../api/io/micronaut/configuration/nats/serdes/NatsMessageSerDes.html#supports-java.lang.Class-">NatsMessageSerDes#supports(Class)</a> is returned and used.</p>
+</div>
+<div class="paragraph">
+<p>By default, standard Java lang types and JSON format (with Jackson) are supported. You can supply your own ser-des by simply registering a bean of type <a href="../api/io/micronaut/configuration/nats/serdes/NatsMessageSerDes.html">NatsMessageSerDes</a>. All ser-des implement the <a href="https://docs.micronaut.io/latest/api/io/micronaut/core/order/Ordered.html">Ordered</a> interface, so custom implementations can come before, after, or in between the default implementations.</p>
+</div>
+
+<h2 id="custom"><a class="anchor" href="#custom"></a>9.1 Custom SerDes</h2>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/master/src/main/docs/guide/serdes/custom.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="paragraph">
+<p>A custom serializer/deserializer would be necessary to support custom data formats. In the section on <a href="#consumerCustom">Custom Consumer Binding</a> an example was demonstrated that allowed binding a <code>ProductInfo</code> type from the headers of the message. If instead that object should represent the body of the message with a custom data format, you could register your own serializer/deserializer to do so.</p>
+</div>
+<div class="paragraph">
+<p>In this example a simple data format of the string representation of the fields are concatenated together with a pipe character.</p>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">import io.micronaut.core.convert.ConversionService;
+import io.micronaut.core.type.Argument;
+import io.micronaut.nats.serdes.NatsMessageSerDes;
+import io.nats.client.Message;
+import jakarta.inject.Singleton;
+
+@Singleton <b class="conum">(1)</b>
+public class ProductInfoSerDes implements NatsMessageSerDes&lt;ProductInfo&gt; { <b class="conum">(2)</b>
+
+    private final ConversionService&lt;?&gt; conversionService;
+
+    public ProductInfoSerDes(ConversionService&lt;?&gt; conversionService) { <b class="conum">(3)</b>
+        this.conversionService = conversionService;
+    }
+
+    @Override
+    public ProductInfo deserialize(Message message, Argument&lt;ProductInfo&gt; argument) { <b class="conum">(4)</b>
+        String body = new String(message.getData(), StandardCharsets.UTF_8);
+        String[] parts = body.split("\\|");
+        if (parts.length == 3) {
+            String size = parts[0];
+            if (size.equals("null")) {
+                size = null;
+            }
+
+            Optional&lt;Long&gt; count = conversionService.convert(parts[1], Long.class);
+            Optional&lt;Boolean&gt; sealed = conversionService.convert(parts[2], Boolean.class);
+
+            if (count.isPresent() &amp;&amp; sealed.isPresent()) {
+                return new ProductInfo(size, count.get(), sealed.get());
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public byte[] serialize(ProductInfo data) { <b class="conum">(5)</b>
+        if (data == null) {
+            return null;
+        }
+        return (data.getSize() + "|" + data.getCount() + "|" + data.getSealed()).getBytes(StandardCharsets.UTF_8);
+    }
+
+    @Override
+    public boolean supports(Argument&lt;ProductInfo&gt; argument) { <b class="conum">(6)</b>
+        return argument.getType().isAssignableFrom(ProductInfo.class);
+    }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlight"><code class="language-groovy" data-lang="groovy">import io.micronaut.core.convert.ConversionService
+import io.micronaut.core.type.Argument
+import io.micronaut.nats.serdes.NatsMessageSerDes
+import io.nats.client.Message
+
+import jakarta.inject.Singleton
+
+@Singleton <b class="conum">(1)</b>
+class ProductInfoSerDes implements NatsMessageSerDes&lt;ProductInfo&gt; { <b class="conum">(2)</b>
+
+    private static final Charset UTF8 = Charset.forName("UTF-8")
+
+    private final ConversionService conversionService
+
+    ProductInfoSerDes(ConversionService conversionService) { <b class="conum">(3)</b>
+        this.conversionService = conversionService
+    }
+
+    @Override
+    ProductInfo deserialize(Message message, Argument&lt;ProductInfo&gt; argument) { <b class="conum">(4)</b>
+        String body = new String(message.data, UTF8)
+        String[] parts = body.split("\\|")
+        if (parts.length == 3) {
+            String size = parts[0]
+            if (size == "null") {
+                size = null
+            }
+
+            Optional&lt;Long&gt; count = conversionService.convert(parts[1], Long)
+            Optional&lt;Boolean&gt; sealed = conversionService.convert(parts[2], Boolean)
+
+            if (count.isPresent() &amp;&amp; sealed.isPresent()) {
+                return new ProductInfo(size, count.get(), sealed.get())
+            }
+        }
+        null
+    }
+
+    @Override
+    byte[] serialize(ProductInfo data) { <b class="conum">(5)</b>
+        if (data == null) {
+            return null
+        }
+        (data.size + "|" + data.count + "|" + data.sealed).getBytes(UTF8)
+    }
+
+    @Override
+    boolean supports(Argument&lt;ProductInfo&gt; argument) { <b class="conum">(6)</b>
+        argument.type.isAssignableFrom(ProductInfo)
+    }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlight"><code class="language-kotlin" data-lang="kotlin">import io.micronaut.core.convert.ConversionService
+import io.micronaut.core.type.Argument
+import io.micronaut.nats.serdes.NatsMessageSerDes
+import io.nats.client.Message
+import jakarta.inject.Singleton
+import java.nio.charset.Charset
+
+@Singleton <b class="conum">(1)</b>
+class ProductInfoSerDes(private val conversionService: ConversionService&lt;*&gt;)<b class="conum">(3)</b>
+    : NatsMessageSerDes&lt;ProductInfo&gt; { <b class="conum">(2)</b>
+
+    override fun deserialize(message: Message, argument: Argument&lt;ProductInfo&gt;): ProductInfo? { <b class="conum">(4)</b>
+        val body = String(message.data, CHARSET)
+        val parts = body.split("\\|".toRegex())
+        if (parts.size == 3) {
+            var size: String? = parts[0]
+            if (size == "null") {
+                size = null
+            }
+
+            val count = conversionService.convert(parts[1], Long::class.java)
+            val sealed = conversionService.convert(parts[2], Boolean::class.java)
+
+            if (count.isPresent &amp;&amp; sealed.isPresent) {
+                return ProductInfo(size, count.get(), sealed.get())
+            }
+        }
+        return null
+    }
+
+    override fun serialize(data: ProductInfo?): ByteArray { <b class="conum">(5)</b>
+        return (data?.size + "|" + data?.count + "|" + data?.sealed).toByteArray(CHARSET)
+    }
+
+    override fun supports(argument: Argument&lt;ProductInfo&gt;): Boolean { <b class="conum">(6)</b>
+        return argument.type.isAssignableFrom(ProductInfo::class.java)
+    }
+
+    companion object {
+        private val CHARSET = Charset.forName("UTF-8")
+    }
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The class is declared as a singleton so it will be registered with the context</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>The generic specifies what type we want to accept and return</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>The conversion service is injected to convert the parts of the message to the required types</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>The deserialize method takes the bytes from the message and constructs a <code>ProductInfo</code></td>
+</tr>
+<tr>
+<td><i class="conum" data-value="5"></i><b>5</b></td>
+<td>The serialize method takes the <code>ProductInfo</code> and returns the bytes to publish. A mutable version of the properties is also provided so properties such as the content type can be set before publishing.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="6"></i><b>6</b></td>
+<td>The supports method ensures only the correct body types are processed by this ser-des</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+Because the <code>getOrder</code> method was not overridden, the default order of 0 is used. All default ser-des have a lower precedent than the default order which means this ser-des will be checked before the others.
+</td>
+</tr>
+</table>
+</div>
+
+<h1 id="health"><a class="anchor" href="#health"></a>10 NATS Health Indicator</h1>
 
 <div class='contribute-btn'>
     <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/master/src/main/docs/guide/health.adoc"'>
@@ -880,7 +2758,7 @@ To disable the NATS health indicator entirely, add <code>endpoints.health.nats.e
 </table>
 </div>
 
-<h1 id="repository"><a class="anchor" href="#repository"></a>9 Repository</h1>
+<h1 id="repository"><a class="anchor" href="#repository"></a>11 Repository</h1>
 
 <div class='contribute-btn'>
     <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/master/src/main/docs/guide/repository.adoc"'>

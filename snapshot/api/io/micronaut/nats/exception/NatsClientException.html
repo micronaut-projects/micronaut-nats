@@ -165,7 +165,7 @@ extends io.micronaut.messaging.exceptions.MessagingClientException</pre>
 </tr>
 <tr class="rowColor">
 <td class="colOne"><code><span class="memberNameLink"><a href="../../../../io/micronaut/nats/exception/NatsClientException.html#NatsClientException-java.lang.String-java.util.List-">NatsClientException</a></span>(java.lang.String&nbsp;message,
-                   java.util.List&lt;<a href="../../../../io/micronaut/nats/reactive/PublishState.html" title="class in io.micronaut.nats.reactive">PublishState</a>&gt;&nbsp;failures)</code>
+                   java.util.List&lt;io.nats.client.Message&gt;&nbsp;messages)</code>
 <div class="block">Creates a new exception.</div>
 </td>
 </tr>
@@ -178,7 +178,7 @@ extends io.micronaut.messaging.exceptions.MessagingClientException</pre>
 <tr class="rowColor">
 <td class="colOne"><code><span class="memberNameLink"><a href="../../../../io/micronaut/nats/exception/NatsClientException.html#NatsClientException-java.lang.String-java.lang.Throwable-java.util.List-">NatsClientException</a></span>(java.lang.String&nbsp;message,
                    java.lang.Throwable&nbsp;cause,
-                   java.util.List&lt;<a href="../../../../io/micronaut/nats/reactive/PublishState.html" title="class in io.micronaut.nats.reactive">PublishState</a>&gt;&nbsp;failures)</code>
+                   java.util.List&lt;io.nats.client.Message&gt;&nbsp;messages)</code>
 <div class="block">Creates a new exception.</div>
 </td>
 </tr>
@@ -240,12 +240,12 @@ extends io.micronaut.messaging.exceptions.MessagingClientException</pre>
 <li class="blockList">
 <h4>NatsClientException</h4>
 <pre>public&nbsp;NatsClientException(java.lang.String&nbsp;message,
-                           java.util.List&lt;<a href="../../../../io/micronaut/nats/reactive/PublishState.html" title="class in io.micronaut.nats.reactive">PublishState</a>&gt;&nbsp;failures)</pre>
+                           java.util.List&lt;io.nats.client.Message&gt;&nbsp;messages)</pre>
 <div class="block">Creates a new exception.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>message</code> - The message</dd>
-<dd><code>failures</code> - The messages that failed to send</dd>
+<dd><code>messages</code> - The messages that failed to send</dd>
 </dl>
 </li>
 </ul>
@@ -273,13 +273,13 @@ extends io.micronaut.messaging.exceptions.MessagingClientException</pre>
 <h4>NatsClientException</h4>
 <pre>public&nbsp;NatsClientException(java.lang.String&nbsp;message,
                            java.lang.Throwable&nbsp;cause,
-                           java.util.List&lt;<a href="../../../../io/micronaut/nats/reactive/PublishState.html" title="class in io.micronaut.nats.reactive">PublishState</a>&gt;&nbsp;failures)</pre>
+                           java.util.List&lt;io.nats.client.Message&gt;&nbsp;messages)</pre>
 <div class="block">Creates a new exception.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>message</code> - The message</dd>
 <dd><code>cause</code> - The cause</dd>
-<dd><code>failures</code> - The messages that failed to send</dd>
+<dd><code>messages</code> - The messages that failed to send</dd>
 </dl>
 </li>
 </ul>
