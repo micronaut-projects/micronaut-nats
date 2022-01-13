@@ -1,0 +1,30 @@
+plugins {
+    id "java"
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testAnnotationProcessor "io.micronaut:micronaut-inject-java"
+    testImplementation "io.micronaut:micronaut-inject"
+    testImplementation project(":nats")
+    testImplementation "org.testcontainers:testcontainers:1.16.2"
+    testImplementation 'org.awaitility:awaitility:4.1.1'
+    testImplementation "org.junit.jupiter:junit-jupiter-api:$junitVersion"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junitVersion"
+    testRuntimeOnly "ch.qos.logback:logback-classic:1.2.6"
+    testImplementation "io.projectreactor:reactor-core"
+}
+
+compileJava.options.compilerArgs += '-parameters'
+compileTestJava.options.compilerArgs += '-parameters'
+
+test {
+    useJUnitPlatform()
+
+    jvmArgs '-Duser.country=US'
+    jvmArgs '-Duser.language=en'
+    failFast = true
+}

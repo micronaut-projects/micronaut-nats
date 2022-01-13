@@ -15,8 +15,10 @@
  */
 package io.micronaut.nats.intercept;
 
+import java.util.AbstractMap;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
@@ -24,6 +26,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 
 import io.micronaut.aop.InterceptedMethod;
+import io.micronaut.aop.InterceptorBean;
 import io.micronaut.aop.MethodInterceptor;
 import io.micronaut.aop.MethodInvocationContext;
 import io.micronaut.caffeine.cache.Cache;
@@ -32,19 +35,22 @@ import io.micronaut.context.BeanContext;
 import io.micronaut.core.annotation.AnnotationValue;
 import io.micronaut.core.convert.ConversionService;
 import io.micronaut.core.type.Argument;
+import io.micronaut.core.util.StringUtils;
 import io.micronaut.inject.ExecutableMethod;
 import io.micronaut.inject.qualifiers.Qualifiers;
 import io.micronaut.messaging.annotation.MessageBody;
+import io.micronaut.messaging.annotation.MessageHeader;
 import io.micronaut.nats.annotation.NatsClient;
 import io.micronaut.nats.annotation.NatsConnection;
 import io.micronaut.nats.annotation.Subject;
 import io.micronaut.nats.exception.NatsClientException;
-import io.micronaut.nats.reactive.PublishState;
 import io.micronaut.nats.reactive.ReactivePublisher;
 import io.micronaut.nats.serdes.NatsMessageSerDes;
 import io.micronaut.nats.serdes.NatsMessageSerDesRegistry;
 import io.micronaut.scheduling.TaskExecutors;
 import io.nats.client.Message;
+import io.nats.client.impl.Headers;
+import io.nats.client.impl.NatsMessage;
 import jakarta.inject.Named;
 import jakarta.inject.Singleton;
 import org.reactivestreams.Subscriber;
@@ -61,6 +67,7 @@ import reactor.core.scheduler.Schedulers;
  * @since 1.0.0
  */
 @Singleton
+@InterceptorBean(NatsClient.class)
 public class NatsIntroductionAdvice implements MethodInterceptor<Object, Object> {
 
     private static final Logger LOG = LoggerFactory.getLogger(NatsIntroductionAdvice.class);
@@ -97,8 +104,7 @@ public class NatsIntroductionAdvice implements MethodInterceptor<Object, Object>
                 if (!method.findAnnotation(NatsClient.class).isPresent()) {
                     throw new IllegalStateException("No @NatsClient annotation present on method: " + method);
                 }
-                Optional<AnnotationValue<Subject>> subjectAnn = method.findAnnotation(Subject.class);
-                Optional<String> subject = subjectAnn.flatMap(s -> s.getValue(String.class));
+                Optional<String> subject = method.findAnnotation(Subject.class).flatMap(AnnotationValue::stringValue);
 
                 String connection = method.findAnnotation(NatsConnection.class)
                         .flatMap(conn -> conn.get("connection", String.class))
@@ -106,6 +112,20 @@ public class NatsIntroductionAdvice implements MethodInterceptor<Object, Object>
 
                 Argument<?> bodyArgument = findBodyArgument(method).orElseThrow(
                         () -> new NatsClientException("No valid message body argument found for method: " + method));
+
+                Headers methodHeaders = new Headers();
+
+                List<AnnotationValue<MessageHeader>> headerAnnotations =
+                        method.getAnnotationValuesByType(MessageHeader.class);
+                Collections.reverse(headerAnnotations); //set the values in the class first so methods can override
+                headerAnnotations.forEach(header -> {
+                    String name = header.stringValue("name").orElse(null);
+                    String value = header.stringValue().orElse(null);
+
+                    if (StringUtils.isNotEmpty(name) && StringUtils.isNotEmpty(value)) {
+                        methodHeaders.put(name, value);
+                    }
+                });
 
                 NatsMessageSerDes<?> serDes = serDesRegistry.findSerdes(bodyArgument).orElseThrow(
                         () -> new NatsClientException(
@@ -121,20 +141,46 @@ public class NatsIntroductionAdvice implements MethodInterceptor<Object, Object>
                             e);
                 }
 
-                return new StaticPublisherState(subject.orElse(null), bodyArgument, method.getReturnType(), connection,
+                return new StaticPublisherState(subject.orElse(null), bodyArgument, methodHeaders,
+                        method.getReturnType(), connection,
                         serDes, reactivePublisher);
             });
 
+            NatsMessage.Builder builder = NatsMessage.builder();
+            Headers headers = publisherState.getHeaders();
+            Argument[] arguments = context.getArguments();
             Map<String, Object> parameterValues = context.getParameterValueMap();
+            for (Argument argument : arguments) {
+                AnnotationValue<MessageHeader> headerAnn = argument.getAnnotation(MessageHeader.class);
+                boolean headersObject = argument.getType() == Headers.class;
+                if (headerAnn != null) {
+                    Map.Entry<String, List<String>> entry = getNameAndValue(argument, headerAnn, parameterValues);
+                    String name = entry.getKey();
+                    List<String> value = entry.getValue();
+                    headers.put(name, value);
+                } else if (headersObject) {
+                    Headers dynamicHeaders = (Headers) parameterValues.get(argument.getName());
+                    dynamicHeaders.forEach(headers::put);
+                }
+
+            }
+
+            if (!headers.isEmpty()) {
+                builder.headers(headers);
+            }
+
             Object body = parameterValues.get(publisherState.getBodyArgument().getName());
             byte[] converted = publisherState.getSerDes().serialize(body);
+            builder = builder.data(converted);
+
             String subject = publisherState.getSubject().orElse(findSubjectKey(context).orElse(null));
+            builder = builder.subject(subject);
             if (subject == null) {
                 throw new IllegalStateException(
                         "No @Subject annotation present on method: " + context.getExecutableMethod());
             }
 
-            PublishState publishState = new PublishState(subject, converted);
+            Message message = builder.build();
             ReactivePublisher reactivePublisher = publisherState.getReactivePublisher();
             InterceptedMethod interceptedMethod = InterceptedMethod.of(context);
 
@@ -143,9 +189,9 @@ public class NatsIntroductionAdvice implements MethodInterceptor<Object, Object>
 
                 Mono<?> reactive;
                 if (rpc) {
-                    reactive = Mono.from(reactivePublisher.publishAndReply(publishState))
-                            .flatMap(message -> {
-                                Object deserialized = deserialize(message, publisherState.getDataType(),
+                    reactive = Mono.from(reactivePublisher.publishAndReply(message))
+                            .flatMap(response -> {
+                                Object deserialized = deserialize(response, publisherState.getDataType(),
                                         publisherState.getDataType());
                                 if (deserialized == null) {
                                     return Mono.empty();
@@ -168,11 +214,10 @@ public class NatsIntroductionAdvice implements MethodInterceptor<Object, Object>
                         if (LOG.isDebugEnabled()) {
                             LOG.debug("Sending the message.", context);
                         }
-                        reactive = Mono.from(reactivePublisher.publish(publishState))
+                        reactive = Mono.from(reactivePublisher.publish(message))
                                 .onErrorMap(throwable -> new NatsClientException(
                                         String.format("Failed to publish a message with subject: [%s]", subject),
-                                        throwable,
-                                        Collections.singletonList(publishState)));
+                                        throwable, Collections.singletonList(message)));
 
                 }
 
@@ -241,5 +286,16 @@ public class NatsIntroductionAdvice implements MethodInterceptor<Object, Object>
         return Arrays.stream(method.getArguments())
                 .filter(arg -> arg.getAnnotationMetadata().hasAnnotation(Subject.class)).map(Argument::getName)
                 .map(argumentValues::get).filter(Objects::nonNull).map(Object::toString).findFirst();
+    }
+
+    private Map.Entry<String, List<String>> getNameAndValue(Argument argument, AnnotationValue<?> annotationValue,
+            Map<String, Object> parameterValues) {
+        String argumentName = argument.getName();
+        String name = annotationValue.get("name", String.class)
+                                     .orElse(annotationValue.stringValue().orElse(argumentName));
+        Optional<List> value =
+                conversionService.convert(parameterValues.get(argumentName), Argument.of(List.class, String.class));
+
+        return new AbstractMap.SimpleEntry<>(name, value.orElse(Collections.emptyList()));
     }
 }

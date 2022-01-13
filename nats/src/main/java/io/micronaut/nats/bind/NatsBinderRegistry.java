@@ -38,6 +38,9 @@ import jakarta.inject.Singleton;
 public class NatsBinderRegistry implements ArgumentBinderRegistry<Message> {
 
     private final Map<Class<? extends Annotation>, ArgumentBinder<?, Message>> byAnnotation = new LinkedHashMap<>();
+
+    private final Map<Integer, ArgumentBinder<?, Message>> byType = new LinkedHashMap<>();
+
     private final NatsDefaultBinder defaultBinder;
 
     /**
@@ -56,6 +59,12 @@ public class NatsBinderRegistry implements ArgumentBinderRegistry<Message> {
                             annotatedBinder.getAnnotationType(),
                             binder
                     );
+                } else if (binder instanceof NatsTypeArgumentBinder) {
+                    NatsTypeArgumentBinder<?> typedBinder = (NatsTypeArgumentBinder<?>) binder;
+                    byType.put(
+                            typedBinder.argumentType().typeHashCode(),
+                            typedBinder
+                    );
                 }
             }
         }
@@ -68,6 +77,11 @@ public class NatsBinderRegistry implements ArgumentBinderRegistry<Message> {
         if (opt.isPresent()) {
             Class<? extends Annotation> annotationType = opt.get();
             ArgumentBinder binder = byAnnotation.get(annotationType);
+            if (binder != null) {
+                return Optional.of(binder);
+            }
+        } else {
+            ArgumentBinder binder = byType.get(argument.typeHashCode());
             if (binder != null) {
                 return Optional.of(binder);
             }

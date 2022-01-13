@@ -15,9 +15,9 @@ dependencies {
         exclude module:'groovy-all'
     }
     testImplementation "io.micronaut.test:micronaut-test-spock:$micronautTestVersion"
-    testCompileOnly "io.micronaut:micronaut-inject-groovy"
-    testAnnotationProcessor "io.micronaut:micronaut-inject-java"
-    testImplementation "org.testcontainers:spock:1.15.3"
+    testImplementation "io.micronaut:micronaut-inject-groovy"
+    testImplementation "io.micronaut:micronaut-inject-java"
+    testImplementation "org.testcontainers:spock:1.16.2"
     testImplementation "io.micronaut:micronaut-management"
 }
 

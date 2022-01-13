@@ -1,0 +1,26 @@
+A ann:configuration.nats.annotation.Subject[] annotation is required for a method to be a consumer of messages from Nats. Simply apply the annotation to the method and supply the name of the subject you would like to listen to.
+
+snippet::io.micronaut.nats.docs.parameters.ProductListener[tags="imports,clazz", project-base="docs-examples/example]
+
+<1> The subject annotation is set per method. Multiple methods may be defined with different subjects in the same class.
+
+
+=== Queue Support
+
+Subscribers may specify queue groups at subscription time. When a message is published to the group, NATS will deliver it to a one-and-only-one subscriber.
+
+snippet::io.micronaut.nats.docs.consumer.queue.ProductListener[tags="imports,clazz", project-base="docs-examples/example]
+
+<1> Defining a queue can be done in the ann:configuration.nats.annotation.Subject[]
+
+IMPORTANT: Queue groups do not persist messages. If no listeners are available, the message is discarded.
+
+=== Other Options
+
+If multiple Nats servers have been configured, the name of the server can be set in the ann:configuration.nats.annotation.Subject[] annotation to designate which connection should be used to listen for messages.
+
+snippet::io.micronaut.nats.docs.consumer.connection.ProductListener[tags="imports,clazz", project-base="docs-examples/example]
+
+<1> The connection is set on the subject annotation.
+
+NOTE: The `connection` option is also available to be set on the ann:configuration.nats.annotation.NatsListener[] annotation.
