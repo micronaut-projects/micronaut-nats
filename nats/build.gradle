@@ -8,7 +8,7 @@ dependencies {
 
     implementation "io.projectreactor:reactor-core"
 
-    compileOnly "io.micronaut.micrometer:micronaut-micrometer-core:4.0.0-RC2"
+    compileOnly "io.micronaut.micrometer:micronaut-micrometer-core:4.1.2-SNAPSHOT"
     compileOnly "io.micronaut:micronaut-management"
 
     testImplementation("org.spockframework:spock-core:${spockVersion}") {
