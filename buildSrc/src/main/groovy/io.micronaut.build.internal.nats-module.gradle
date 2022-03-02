@@ -11,11 +11,3 @@ dependencies {
 
     testRuntimeOnly 'ch.qos.logback:logback-classic:1.2.7'
 }
-
-test {
-    useJUnitPlatform()
-
-    jvmArgs '-Duser.country=US'
-    jvmArgs '-Duser.language=en'
-    failFast = true
-}
