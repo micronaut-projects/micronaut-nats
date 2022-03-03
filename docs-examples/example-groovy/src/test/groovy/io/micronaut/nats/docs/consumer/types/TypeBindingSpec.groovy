@@ -4,7 +4,7 @@ import io.micronaut.nats.AbstractNatsTest
 
 class TypeBindingSpec extends AbstractNatsTest {
 
-    void "test publishing and receiving rabbitmq types"() {
+    void "test publishing and receiving nats types"() {
         startContext()
 
         when:
