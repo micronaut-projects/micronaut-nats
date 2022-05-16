@@ -49,4 +49,12 @@ public @interface NatsListener {
      */
     String queue() default "";
 
+    /**
+     * Sets the client id of the Nats consumer. If not specified the client id is configured
+     * to be the value of {@link io.micronaut.runtime.ApplicationConfiguration#getName()}.
+     *
+     * @return The client id
+     */
+    String clientId() default "";
+
 }
