@@ -8,7 +8,7 @@ To create a NATS `Producer` that sends messages you can simply define an interfa
 
 For example the following is a trivial `@NatsClient` interface:
 
-snippet::io.micronaut.nats.docs.quickstart.ProductClient[tags="imports,clazz", project-base="docs-examples/example]
+snippet::io.micronaut.nats.docs.quickstart.ProductClient[tags="imports,clazz", project-base="docs-examples/example"]
 
 <1> The ann:nats.annotation.NatsClient[] annotation is used to designate this interface as a client
 <2> The ann:nats.annotation.Subject[] annotation indicates which subject the `Message` should be published to
@@ -16,7 +16,7 @@ snippet::io.micronaut.nats.docs.quickstart.ProductClient[tags="imports,clazz", p
 
 At compile time Micronaut will produce an implementation of the above interface. You can retrieve an instance of `ProductClient` either by looking up the bean from the api:context.ApplicationContext[] or by injecting the bean with `@Inject`:
 
-snippet::io.micronaut.nats.docs.quickstart.QuickstartSpec[tags="producer"] project-base="docs-examples/example]
+snippet::io.micronaut.nats.docs.quickstart.QuickstartSpec[tags="producer"] project-base="docs-examples/example"]
 
 
 === Creating a NATS Consumer with @NatsListener
@@ -25,7 +25,7 @@ To listen to NATS messages you can use the ann:nats.annotation.NatsListener[] an
 
 The following example will listen for messages published by the `ProductClient` in the previous section:
 
-snippet::io.micronaut.nats.docs.quickstart.ProductListener[tags="imports,clazz"] project-base="docs-examples/example]
+snippet::io.micronaut.nats.docs.quickstart.ProductListener[tags="imports,clazz"] project-base="docs-examples/example"]
 
 <1> The ann:nats.annotation.NatsListener[] is used to designate this class as a listener.
 <2> The ann:nats.annotation.Subject[] annotation is again used to indicate which subject to subscribe to.
