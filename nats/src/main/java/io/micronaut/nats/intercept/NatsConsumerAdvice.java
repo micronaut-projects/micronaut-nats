@@ -24,10 +24,13 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import javax.annotation.PreDestroy;
+
 import io.micronaut.context.BeanContext;
 import io.micronaut.context.processor.ExecutableMethodProcessor;
 import io.micronaut.core.annotation.AnnotationValue;
 import io.micronaut.core.annotation.NonNull;
+import io.micronaut.core.annotation.Nullable;
 import io.micronaut.core.bind.BoundExecutable;
 import io.micronaut.core.bind.DefaultExecutableBinder;
 import io.micronaut.core.naming.NameUtils;
@@ -42,6 +45,7 @@ import io.micronaut.nats.annotation.NatsConnection;
 import io.micronaut.nats.annotation.NatsListener;
 import io.micronaut.nats.annotation.Subject;
 import io.micronaut.nats.bind.NatsBinderRegistry;
+import io.micronaut.nats.connect.SingleNatsConnectionFactoryConfig;
 import io.micronaut.nats.exception.NatsListenerException;
 import io.micronaut.nats.exception.NatsListenerExceptionHandler;
 import io.micronaut.nats.serdes.NatsMessageSerDes;
@@ -116,7 +120,7 @@ public class NatsConsumerAdvice implements ExecutableMethodProcessor<Subject>, A
                   .flatMap(conn -> conn.get("connection", String.class))
                   .orElse(NatsConnection.DEFAULT_CONNECTION);
 
-        io.micronaut.context.Qualifier<Object> qualifer =
+        io.micronaut.context.Qualifier<Object> qualifier =
             beanDefinition.getAnnotationTypeByStereotype("javax.inject.Qualifier")
                           .map(type -> Qualifiers.byAnnotation(beanDefinition, type)).orElse(null);
 
@@ -125,7 +129,7 @@ public class NatsConsumerAdvice implements ExecutableMethodProcessor<Subject>, A
         Class<?> returnTypeClass = method.getReturnType().getType();
         boolean isVoid = returnTypeClass == Void.class || returnTypeClass == void.class;
 
-        Object bean = beanContext.findBean(beanType, qualifer).orElseThrow(
+        Object bean = beanContext.findBean(beanType, qualifier).orElseThrow(
             () -> new MessageListenerException(
                 "Could not find the bean to execute the method " + method));
 
@@ -165,7 +169,7 @@ public class NatsConsumerAdvice implements ExecutableMethodProcessor<Subject>, A
                 if (!isVoid && StringUtils.isNotEmpty(msg.getReplyTo())) {
                     byte[] converted = null;
                     if (returnedValue != null) {
-                        NatsMessageSerDes serDes =
+                        NatsMessageSerDes<Object> serDes =
                             serDesRegistry.findSerdes(method.getReturnType().asArgument())
                                           .map(NatsMessageSerDes.class::cast)
                                           .orElseThrow(() -> new NatsListenerException(
@@ -186,22 +190,20 @@ public class NatsConsumerAdvice implements ExecutableMethodProcessor<Subject>, A
             String subject = subjectAnnotation.getRequiredValue(String.class);
             Optional<String> queueOptional = subjectAnnotation.get("queue", String.class);
             if (queueOptional.isPresent() && !queueOptional.get().isEmpty()) {
-                ds.subscribe(subject, queueOptional.get(), messageHandler);
+                subscriptions.add(ds.subscribe(subject, queueOptional.get(), messageHandler));
             } else {
-                ds.subscribe(subject, messageHandler);
+                subscriptions.add(ds.subscribe(subject, messageHandler));
             }
         }
 
-        consumers.put(clientId, new ConsumerState(clientId, subscriptions, ds));
+        consumers.put(clientId, new ConsumerState(clientId, subscriptions, ds, connection));
     }
 
+    @PreDestroy
     @Override
     public void close() {
         for (ConsumerState consumerState : consumers.values()) {
-            Dispatcher dispatcher = consumerState.dispatcher;
-            for (Subscription subscription : consumerState.subscriptions) {
-                dispatcher.unsubscribe(subscription);
-            }
+            consumerState.connection.closeDispatcher(consumerState.dispatcher);
         }
         consumers.clear();
     }
@@ -221,7 +223,7 @@ public class NatsConsumerAdvice implements ExecutableMethodProcessor<Subject>, A
         ArgumentUtils.requireNonNull("id", id);
         Dispatcher dispatcher = getConsumerState(id).dispatcher;
         if (dispatcher == null) {
-            throw new IllegalArgumentException("No dispatcher found for ID:" + id);
+            throw new IllegalArgumentException("No consumer found for ID:" + id);
         }
         return dispatcher;
     }
@@ -252,6 +254,30 @@ public class NatsConsumerAdvice implements ExecutableMethodProcessor<Subject>, A
         return subscriptions;
     }
 
+    @Override
+    public Subscription newSubscription(@NonNull String subject, @Nullable String queue) {
+        Connection connection =
+            beanContext.getBean(Connection.class, Qualifiers.byName(
+                SingleNatsConnectionFactoryConfig.DEFAULT_NAME));
+        if (queue == null) {
+            return connection.subscribe(subject);
+        } else {
+            return connection.subscribe(subject, queue);
+        }
+    }
+
+    @Override
+    public Subscription newSubscription(@NonNull String connectionName, @NonNull String subject,
+        @Nullable String queue) {
+        Connection connection =
+            beanContext.getBean(Connection.class, Qualifiers.byName(connectionName));
+        if (queue == null) {
+            return connection.subscribe(subject);
+        } else {
+            return connection.subscribe(subject, queue);
+        }
+    }
+
     /**
      * The internal state of the consumer.
      *
@@ -265,11 +291,14 @@ public class NatsConsumerAdvice implements ExecutableMethodProcessor<Subject>, A
 
         final Dispatcher dispatcher;
 
+        final Connection connection;
+
         private ConsumerState(String clientId, Set<Subscription> subscriptions,
-            Dispatcher dispatcher) {
+            Dispatcher dispatcher, Connection connection) {
             this.clientId = clientId;
             this.subscriptions = subscriptions;
             this.dispatcher = dispatcher;
+            this.connection = connection;
         }
     }
 }

@@ -18,6 +18,7 @@ package io.micronaut.nats;
 import java.util.Set;
 
 import io.micronaut.core.annotation.NonNull;
+import io.micronaut.core.annotation.Nullable;
 import io.nats.client.Consumer;
 import io.nats.client.Subscription;
 
@@ -55,5 +56,25 @@ public interface ConsumerRegistry {
      */
     @NonNull
     Set<Subscription> getConsumerSubscription(@NonNull String id);
+
+    /**
+     * Create a new subscription with the default connection.
+     *
+     * @param subject {@link String}
+     * @param queue   {@link String} optional
+     * @return subscription {@link Subscription}
+     */
+    Subscription newSubscription(@NonNull String subject, @Nullable String queue);
+
+    /**
+     * Create a new subscription from the given connection name.
+     *
+     * @param connectionName {@link String}
+     * @param subject        {@link String}
+     * @param queue          {@link String} optional
+     * @return subscription {@link Subscription}
+     */
+    Subscription newSubscription(@NonNull String connectionName, @NonNull String subject,
+        @Nullable String queue);
 
 }

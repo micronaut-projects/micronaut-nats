@@ -17,15 +17,21 @@ package io.micronaut.nats
 
 import io.micronaut.context.ApplicationContext
 import io.micronaut.context.annotation.Requires
+import io.micronaut.context.exceptions.NoSuchBeanException
 import io.micronaut.nats.annotation.NatsClient
 import io.micronaut.nats.annotation.NatsListener
 import io.micronaut.nats.annotation.Subject
 import io.nats.client.Consumer
+import io.nats.client.Message
+import io.nats.client.Subscription
 import spock.util.concurrent.PollingConditions
+
+import java.nio.charset.StandardCharsets
+import java.time.Duration
 
 class ConsumerRegistrySpec extends AbstractNatsTest {
 
-    void "test consumer registry"() {
+    void "consumer registry"() {
         ApplicationContext applicationContext = startContext()
         PollingConditions conditions = new PollingConditions(timeout: 3)
         MyProducer producer = applicationContext.getBean(MyProducer)
@@ -38,6 +44,8 @@ class ConsumerRegistrySpec extends AbstractNatsTest {
         then:
         consumer
         consumer.deliveredCount == 0
+        registry.getConsumerIds().contains("person-client")
+        registry.getConsumerSubscription("person-client").size() == 1
 
         when:
         producer.go("abc")
@@ -53,6 +61,87 @@ class ConsumerRegistrySpec extends AbstractNatsTest {
         applicationContext.close()
     }
 
+    void "new temporary subscription"() {
+        ApplicationContext applicationContext = startContext()
+        MyProducer producer = applicationContext.getBean(MyProducer)
+        ConsumerRegistry registry = applicationContext.getBean(ConsumerRegistry)
+
+        when:
+        Subscription subscription = registry.newSubscription("temp", null)
+
+        then:
+        subscription
+
+        when:
+        producer.sendTemporary("abc")
+
+        then:
+        Message message = subscription.nextMessage(Duration.ofSeconds(1))
+        message != null
+        new String(message.data, StandardCharsets.UTF_8) == "abc"
+    }
+
+    void "new temporary subscription with queue"() {
+        ApplicationContext applicationContext = startContext()
+        MyProducer producer = applicationContext.getBean(MyProducer)
+        ConsumerRegistry registry = applicationContext.getBean(ConsumerRegistry)
+
+        when:
+        Subscription subscription1 = registry.newSubscription("temp", "queue")
+        Subscription subscription2 = registry.newSubscription("temp", "queue")
+
+        then:
+        subscription1
+        subscription2
+
+        when:
+        producer.sendTemporary("abc")
+
+        then:
+        Message message1 = subscription1.nextMessage(Duration.ofSeconds(1))
+        Message message2 = subscription2.nextMessage(Duration.ofSeconds(1))
+        message1 != null || message2 != null
+    }
+
+    void "new temporary subscription with unknown connection"() {
+        ApplicationContext applicationContext = startContext()
+        ConsumerRegistry registry = applicationContext.getBean(ConsumerRegistry)
+
+        when:
+        registry.newSubscription("unknown", "temp", "queue")
+
+        then:
+        thrown NoSuchBeanException
+
+        when:
+        registry.newSubscription("unknown", "temp", null)
+
+        then:
+        thrown NoSuchBeanException
+    }
+
+    void "get unknown consumer"() {
+        ApplicationContext applicationContext = startContext()
+        ConsumerRegistry registry = applicationContext.getBean(ConsumerRegistry)
+
+        when:
+        registry.getConsumer("unknown-client")
+
+        then:
+        thrown IllegalArgumentException
+    }
+
+    void "get unknown consumer subscriptions"() {
+        ApplicationContext applicationContext = startContext()
+        ConsumerRegistry registry = applicationContext.getBean(ConsumerRegistry)
+
+        when:
+        registry.getConsumerSubscription("unknown-client")
+
+        then:
+        thrown IllegalArgumentException
+    }
+
 
     @Requires(property = "spec.name", value = "ConsumerRegistrySpec")
     @NatsClient
@@ -60,6 +149,9 @@ class ConsumerRegistrySpec extends AbstractNatsTest {
 
         @Subject("pojo")
         void go(String person)
+
+        @Subject("temp")
+        void sendTemporary(String person)
 
     }
 
