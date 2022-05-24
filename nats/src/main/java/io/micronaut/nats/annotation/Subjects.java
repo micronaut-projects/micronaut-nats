@@ -26,6 +26,7 @@ import java.lang.annotation.Target;
  * Repeatable annotation for one or many {@link Subject} annotations.
  *
  * @author Joachim Grimm
+ * @since 3.1.0
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)

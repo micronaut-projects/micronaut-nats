@@ -116,8 +116,7 @@ public class NatsConsumerAdvice implements ExecutableMethodProcessor<Subject>, A
         }
 
         String connectionName =
-            method.findAnnotation(NatsConnection.class)
-                  .flatMap(conn -> conn.get("connection", String.class))
+            method.stringValue(NatsConnection.class, "connection")
                   .orElse(NatsConnection.DEFAULT_CONNECTION);
 
         io.micronaut.context.Qualifier<Object> qualifier =

@@ -54,6 +54,7 @@ public @interface NatsListener {
      * to be the value of {@link io.micronaut.runtime.ApplicationConfiguration#getName()}.
      *
      * @return The client id
+     * @since 3.1.0
      */
     String clientId() default "";
 

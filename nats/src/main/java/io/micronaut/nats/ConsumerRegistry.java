@@ -26,6 +26,7 @@ import io.nats.client.Subscription;
  * A registry for created Nats consumers.
  *
  * @author jgrimm
+ * @since 3.1.0
  */
 public interface ConsumerRegistry {
 
