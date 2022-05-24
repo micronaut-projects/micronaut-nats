@@ -1,0 +1,37 @@
+[
+  {
+    "type": "io.micronaut.nats.reactive.PublishState",
+    "member": "Class io.micronaut.nats.reactive.PublishState",
+    "reason": "PublishState has been removed"
+  },
+  {
+    "type": "io.micronaut.nats.reactive.PublishState",
+    "member": "Method io.micronaut.nats.reactive.PublishState.getBody()",
+    "reason": "PublishState has been removed"
+  },
+  {
+    "type": "io.micronaut.nats.reactive.PublishState",
+    "member": "Method io.micronaut.nats.reactive.PublishState.getSubject()",
+    "reason": "PublishState has been removed"
+  },
+  {
+    "type": "io.micronaut.nats.reactive.PublishState",
+    "member": "Constructor io.micronaut.nats.reactive.PublishState(java.lang.String,byte[])",
+    "reason": "PublishState has been removed"
+  },
+  {
+    "type": "io.micronaut.nats.reactive.ReactivePublisher",
+    "member": "Class io.micronaut.nats.reactive.ReactivePublisher",
+    "reason": "ReactivePublisher is only used internally"
+  },
+  {
+    "type": "io.micronaut.nats.reactive.ReactivePublisher",
+    "member": "Method io.micronaut.nats.reactive.ReactivePublisher.publish(io.micronaut.nats.reactive.PublishState)",
+    "reason": "ReactivePublisher is only used internally"
+  },
+  {
+    "type": "io.micronaut.nats.reactive.ReactivePublisher",
+    "member": "Method io.micronaut.nats.reactive.ReactivePublisher.publishAndReply(io.micronaut.nats.reactive.PublishState)",
+    "reason": "ReactivePublisher is only used internally"
+  }
+]
