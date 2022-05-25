@@ -1,3 +1,4 @@
+io.micronaut.nats
 io.micronaut.nats.annotation
 io.micronaut.nats.bind
 io.micronaut.nats.connect

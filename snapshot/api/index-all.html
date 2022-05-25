@@ -124,6 +124,10 @@
 </dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/nats/executor/ConsumerExecutorServiceConfig.html#ConsumerExecutorServiceConfig--">ConsumerExecutorServiceConfig()</a></span> - Constructor for class io.micronaut.nats.executor.<a href="io/micronaut/nats/executor/ConsumerExecutorServiceConfig.html" title="class in io.micronaut.nats.executor">ConsumerExecutorServiceConfig</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="io/micronaut/nats/ConsumerRegistry.html" title="interface in io.micronaut.nats"><span class="typeNameLink">ConsumerRegistry</span></a> - Interface in <a href="io/micronaut/nats/package-summary.html">io.micronaut.nats</a></dt>
+<dd>
+<div class="block">A registry for created Nats consumers.</div>
+</dd>
 </dl>
 <a name="I:D">
 <!--   -->
@@ -202,6 +206,24 @@
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/nats/connect/NatsConnectionFactoryConfig.html#getConnectionTimeout--">getConnectionTimeout()</a></span> - Method in class io.micronaut.nats.connect.<a href="io/micronaut/nats/connect/NatsConnectionFactoryConfig.html" title="class in io.micronaut.nats.connect">NatsConnectionFactoryConfig</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/nats/ConsumerRegistry.html#getConsumer-java.lang.String-">getConsumer(String)</a></span> - Method in interface io.micronaut.nats.<a href="io/micronaut/nats/ConsumerRegistry.html" title="interface in io.micronaut.nats">ConsumerRegistry</a></dt>
+<dd>
+<div class="block">Returns the subscription by given id.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/nats/intercept/NatsConsumerAdvice.html#getConsumer-java.lang.String-">getConsumer(String)</a></span> - Method in class io.micronaut.nats.intercept.<a href="io/micronaut/nats/intercept/NatsConsumerAdvice.html" title="class in io.micronaut.nats.intercept">NatsConsumerAdvice</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/nats/ConsumerRegistry.html#getConsumerIds--">getConsumerIds()</a></span> - Method in interface io.micronaut.nats.<a href="io/micronaut/nats/ConsumerRegistry.html" title="interface in io.micronaut.nats">ConsumerRegistry</a></dt>
+<dd>
+<div class="block">The IDs of the available consumers.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/nats/intercept/NatsConsumerAdvice.html#getConsumerIds--">getConsumerIds()</a></span> - Method in class io.micronaut.nats.intercept.<a href="io/micronaut/nats/intercept/NatsConsumerAdvice.html" title="class in io.micronaut.nats.intercept">NatsConsumerAdvice</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/nats/ConsumerRegistry.html#getConsumerSubscription-java.lang.String-">getConsumerSubscription(String)</a></span> - Method in interface io.micronaut.nats.<a href="io/micronaut/nats/ConsumerRegistry.html" title="interface in io.micronaut.nats">ConsumerRegistry</a></dt>
+<dd>
+<div class="block">Returns a managed Consumer's subscriptions.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/nats/intercept/NatsConsumerAdvice.html#getConsumerSubscription-java.lang.String-">getConsumerSubscription(String)</a></span> - Method in class io.micronaut.nats.intercept.<a href="io/micronaut/nats/intercept/NatsConsumerAdvice.html" title="class in io.micronaut.nats.intercept">NatsConsumerAdvice</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/nats/bind/NatsHeaderConvertibleValues.html#getConversionErrors--">getConversionErrors()</a></span> - Method in class io.micronaut.nats.bind.<a href="io/micronaut/nats/bind/NatsHeaderConvertibleValues.html" title="class in io.micronaut.nats.bind">NatsHeaderConvertibleValues</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/nats/connect/NatsConnectionFactoryConfig.html#getCredentials--">getCredentials()</a></span> - Method in class io.micronaut.nats.connect.<a href="io/micronaut/nats/connect/NatsConnectionFactoryConfig.html" title="class in io.micronaut.nats.connect">NatsConnectionFactoryConfig</a></dt>
@@ -272,6 +294,10 @@
 <dl>
 <dt><span class="memberNameLink"><a href="io/micronaut/nats/intercept/NatsIntroductionAdvice.html#intercept-io.micronaut.aop.MethodInvocationContext-">intercept(MethodInvocationContext&lt;Object, Object&gt;)</a></span> - Method in class io.micronaut.nats.intercept.<a href="io/micronaut/nats/intercept/NatsIntroductionAdvice.html" title="class in io.micronaut.nats.intercept">NatsIntroductionAdvice</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="io/micronaut/nats/package-summary.html">io.micronaut.nats</a> - package io.micronaut.nats</dt>
+<dd>
+<div class="block">Configuration for Nats.</div>
+</dd>
 <dt><a href="io/micronaut/nats/annotation/package-summary.html">io.micronaut.nats.annotation</a> - package io.micronaut.nats.annotation</dt>
 <dd>
 <div class="block">Annotations for creating Nats consumers and producers.</div>
@@ -427,9 +453,10 @@
 </dd>
 <dt><a href="io/micronaut/nats/intercept/NatsConsumerAdvice.html" title="class in io.micronaut.nats.intercept"><span class="typeNameLink">NatsConsumerAdvice</span></a> - Class in <a href="io/micronaut/nats/intercept/package-summary.html">io.micronaut.nats.intercept</a></dt>
 <dd>
-<div class="block">An <code>ExecutableMethodProcessor</code> that will process all beans annotated with <a href="io/micronaut/nats/annotation/NatsListener.html" title="annotation in io.micronaut.nats.annotation"><code>NatsListener</code></a>.</div>
+<div class="block">An <code>ExecutableMethodProcessor</code> that will process all beans annotated with
+ <a href="io/micronaut/nats/annotation/NatsListener.html" title="annotation in io.micronaut.nats.annotation"><code>NatsListener</code></a>.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="io/micronaut/nats/intercept/NatsConsumerAdvice.html#NatsConsumerAdvice-io.micronaut.context.BeanContext-io.micronaut.nats.bind.NatsBinderRegistry-io.micronaut.nats.serdes.NatsMessageSerDesRegistry-io.micronaut.nats.exception.NatsListenerExceptionHandler-">NatsConsumerAdvice(BeanContext, NatsBinderRegistry, NatsMessageSerDesRegistry, NatsListenerExceptionHandler)</a></span> - Constructor for class io.micronaut.nats.intercept.<a href="io/micronaut/nats/intercept/NatsConsumerAdvice.html" title="class in io.micronaut.nats.intercept">NatsConsumerAdvice</a></dt>
+<dt><span class="memberNameLink"><a href="io/micronaut/nats/intercept/NatsConsumerAdvice.html#NatsConsumerAdvice-io.micronaut.context.BeanContext-io.micronaut.nats.bind.NatsBinderRegistry-io.micronaut.nats.serdes.NatsMessageSerDesRegistry-io.micronaut.nats.exception.NatsListenerExceptionHandler-io.micronaut.runtime.ApplicationConfiguration-">NatsConsumerAdvice(BeanContext, NatsBinderRegistry, NatsMessageSerDesRegistry, NatsListenerExceptionHandler, ApplicationConfiguration)</a></span> - Constructor for class io.micronaut.nats.intercept.<a href="io/micronaut/nats/intercept/NatsConsumerAdvice.html" title="class in io.micronaut.nats.intercept">NatsConsumerAdvice</a></dt>
 <dd>
 <div class="block">Default constructor.</div>
 </dd>
@@ -524,6 +551,18 @@
 <dd>
 <div class="block">An interface for Nats argument binding based on argument type.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/nats/ConsumerRegistry.html#newSubscription-java.lang.String-java.lang.String-">newSubscription(String, String)</a></span> - Method in interface io.micronaut.nats.<a href="io/micronaut/nats/ConsumerRegistry.html" title="interface in io.micronaut.nats">ConsumerRegistry</a></dt>
+<dd>
+<div class="block">Create a new subscription with the default connection.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/nats/ConsumerRegistry.html#newSubscription-java.lang.String-java.lang.String-java.lang.String-">newSubscription(String, String, String)</a></span> - Method in interface io.micronaut.nats.<a href="io/micronaut/nats/ConsumerRegistry.html" title="interface in io.micronaut.nats">ConsumerRegistry</a></dt>
+<dd>
+<div class="block">Create a new subscription from the given connection name.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/nats/intercept/NatsConsumerAdvice.html#newSubscription-java.lang.String-java.lang.String-">newSubscription(String, String)</a></span> - Method in class io.micronaut.nats.intercept.<a href="io/micronaut/nats/intercept/NatsConsumerAdvice.html" title="class in io.micronaut.nats.intercept">NatsConsumerAdvice</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/nats/intercept/NatsConsumerAdvice.html#newSubscription-java.lang.String-java.lang.String-java.lang.String-">newSubscription(String, String, String)</a></span> - Method in class io.micronaut.nats.intercept.<a href="io/micronaut/nats/intercept/NatsConsumerAdvice.html" title="class in io.micronaut.nats.intercept">NatsConsumerAdvice</a></dt>
+<dd>&nbsp;</dd>
 </dl>
 <a name="I:O">
 <!--   -->
@@ -652,6 +691,10 @@
 <dt><a href="io/micronaut/nats/annotation/Subject.html" title="annotation in io.micronaut.nats.annotation"><span class="typeNameLink">Subject</span></a> - Annotation Type in <a href="io/micronaut/nats/annotation/package-summary.html">io.micronaut.nats.annotation</a></dt>
 <dd>
 <div class="block">Used to specify which subject should be used for messages.</div>
+</dd>
+<dt><a href="io/micronaut/nats/annotation/Subjects.html" title="annotation in io.micronaut.nats.annotation"><span class="typeNameLink">Subjects</span></a> - Annotation Type in <a href="io/micronaut/nats/annotation/package-summary.html">io.micronaut.nats.annotation</a></dt>
+<dd>
+<div class="block">Repeatable annotation for one or many <a href="io/micronaut/nats/annotation/Subject.html" title="annotation in io.micronaut.nats.annotation"><code>Subject</code></a> annotations.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/nats/serdes/JavaLangNatsMessageSerDes.html#supports-io.micronaut.core.type.Argument-">supports(Argument&lt;Object&gt;)</a></span> - Method in class io.micronaut.nats.serdes.<a href="io/micronaut/nats/serdes/JavaLangNatsMessageSerDes.html" title="class in io.micronaut.nats.serdes">JavaLangNatsMessageSerDes</a></dt>
 <dd>&nbsp;</dd>

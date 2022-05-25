@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10,"i1":10};
+var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -107,21 +107,22 @@ var activeTableTab = "activeTableTab";
 <li class="blockList">
 <dl>
 <dt>All Implemented Interfaces:</dt>
-<dd>io.micronaut.context.processor.AnnotationProcessor&lt;<a href="../../../../io/micronaut/nats/annotation/Subject.html" title="annotation in io.micronaut.nats.annotation">Subject</a>,io.micronaut.inject.ExecutableMethod&lt;?,?&gt;&gt;, io.micronaut.context.processor.ExecutableMethodProcessor&lt;<a href="../../../../io/micronaut/nats/annotation/Subject.html" title="annotation in io.micronaut.nats.annotation">Subject</a>&gt;, java.lang.AutoCloseable</dd>
+<dd>io.micronaut.context.processor.AnnotationProcessor&lt;<a href="../../../../io/micronaut/nats/annotation/Subject.html" title="annotation in io.micronaut.nats.annotation">Subject</a>,io.micronaut.inject.ExecutableMethod&lt;?,?&gt;&gt;, io.micronaut.context.processor.ExecutableMethodProcessor&lt;<a href="../../../../io/micronaut/nats/annotation/Subject.html" title="annotation in io.micronaut.nats.annotation">Subject</a>&gt;, <a href="../../../../io/micronaut/nats/ConsumerRegistry.html" title="interface in io.micronaut.nats">ConsumerRegistry</a>, java.lang.AutoCloseable</dd>
 </dl>
 <hr>
 <br>
 <pre>@Singleton
 public class <span class="typeNameLabel">NatsConsumerAdvice</span>
 extends java.lang.Object
-implements io.micronaut.context.processor.ExecutableMethodProcessor&lt;<a href="../../../../io/micronaut/nats/annotation/Subject.html" title="annotation in io.micronaut.nats.annotation">Subject</a>&gt;, java.lang.AutoCloseable</pre>
-<div class="block">An <code>ExecutableMethodProcessor</code> that will process all beans annotated with <a href="../../../../io/micronaut/nats/annotation/NatsListener.html" title="annotation in io.micronaut.nats.annotation"><code>NatsListener</code></a>.
+implements io.micronaut.context.processor.ExecutableMethodProcessor&lt;<a href="../../../../io/micronaut/nats/annotation/Subject.html" title="annotation in io.micronaut.nats.annotation">Subject</a>&gt;, java.lang.AutoCloseable, <a href="../../../../io/micronaut/nats/ConsumerRegistry.html" title="interface in io.micronaut.nats">ConsumerRegistry</a></pre>
+<div class="block">An <code>ExecutableMethodProcessor</code> that will process all beans annotated with
+ <a href="../../../../io/micronaut/nats/annotation/NatsListener.html" title="annotation in io.micronaut.nats.annotation"><code>NatsListener</code></a>.
  It creates and subscribes the relevant methods as consumers to Nats subjects.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>1.0.0</dd>
 <dt><span class="simpleTagLabel">Author:</span></dt>
-<dd>jgrimm</dd>
+<dd>Joachim Grimm</dd>
 </dl>
 </li>
 </ul>
@@ -141,10 +142,11 @@ implements io.micronaut.context.processor.ExecutableMethodProcessor&lt;<a href="
 <th class="colOne" scope="col">Constructor and Description</th>
 </tr>
 <tr class="altColor">
-<td class="colOne"><code><span class="memberNameLink"><a href="../../../../io/micronaut/nats/intercept/NatsConsumerAdvice.html#NatsConsumerAdvice-io.micronaut.context.BeanContext-io.micronaut.nats.bind.NatsBinderRegistry-io.micronaut.nats.serdes.NatsMessageSerDesRegistry-io.micronaut.nats.exception.NatsListenerExceptionHandler-">NatsConsumerAdvice</a></span>(io.micronaut.context.BeanContext&nbsp;beanContext,
+<td class="colOne"><code><span class="memberNameLink"><a href="../../../../io/micronaut/nats/intercept/NatsConsumerAdvice.html#NatsConsumerAdvice-io.micronaut.context.BeanContext-io.micronaut.nats.bind.NatsBinderRegistry-io.micronaut.nats.serdes.NatsMessageSerDesRegistry-io.micronaut.nats.exception.NatsListenerExceptionHandler-io.micronaut.runtime.ApplicationConfiguration-">NatsConsumerAdvice</a></span>(io.micronaut.context.BeanContext&nbsp;beanContext,
                   <a href="../../../../io/micronaut/nats/bind/NatsBinderRegistry.html" title="class in io.micronaut.nats.bind">NatsBinderRegistry</a>&nbsp;binderRegistry,
                   <a href="../../../../io/micronaut/nats/serdes/NatsMessageSerDesRegistry.html" title="interface in io.micronaut.nats.serdes">NatsMessageSerDesRegistry</a>&nbsp;serDesRegistry,
-                  <a href="../../../../io/micronaut/nats/exception/NatsListenerExceptionHandler.html" title="interface in io.micronaut.nats.exception">NatsListenerExceptionHandler</a>&nbsp;exceptionHandler)</code>
+                  <a href="../../../../io/micronaut/nats/exception/NatsListenerExceptionHandler.html" title="interface in io.micronaut.nats.exception">NatsListenerExceptionHandler</a>&nbsp;exceptionHandler,
+                  io.micronaut.runtime.ApplicationConfiguration&nbsp;applicationConfiguration)</code>
 <div class="block">Default constructor.</div>
 </td>
 </tr>
@@ -168,6 +170,39 @@ implements io.micronaut.context.processor.ExecutableMethodProcessor&lt;<a href="
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../io/micronaut/nats/intercept/NatsConsumerAdvice.html#close--">close</a></span>()</code>&nbsp;</td>
 </tr>
 <tr id="i1" class="rowColor">
+<td class="colFirst"><code>io.nats.client.Consumer</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../io/micronaut/nats/intercept/NatsConsumerAdvice.html#getConsumer-java.lang.String-">getConsumer</a></span>(java.lang.String&nbsp;id)</code>
+<div class="block">Returns the subscription by given id.</div>
+</td>
+</tr>
+<tr id="i2" class="altColor">
+<td class="colFirst"><code>java.util.Set&lt;java.lang.String&gt;</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../io/micronaut/nats/intercept/NatsConsumerAdvice.html#getConsumerIds--">getConsumerIds</a></span>()</code>
+<div class="block">The IDs of the available consumers.</div>
+</td>
+</tr>
+<tr id="i3" class="rowColor">
+<td class="colFirst"><code>java.util.Set&lt;io.nats.client.Subscription&gt;</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../io/micronaut/nats/intercept/NatsConsumerAdvice.html#getConsumerSubscription-java.lang.String-">getConsumerSubscription</a></span>(java.lang.String&nbsp;id)</code>
+<div class="block">Returns a managed Consumer's subscriptions.</div>
+</td>
+</tr>
+<tr id="i4" class="altColor">
+<td class="colFirst"><code>io.nats.client.Subscription</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../io/micronaut/nats/intercept/NatsConsumerAdvice.html#newSubscription-java.lang.String-java.lang.String-">newSubscription</a></span>(java.lang.String&nbsp;subject,
+               java.lang.String&nbsp;queue)</code>
+<div class="block">Create a new subscription with the default connection.</div>
+</td>
+</tr>
+<tr id="i5" class="rowColor">
+<td class="colFirst"><code>io.nats.client.Subscription</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../io/micronaut/nats/intercept/NatsConsumerAdvice.html#newSubscription-java.lang.String-java.lang.String-java.lang.String-">newSubscription</a></span>(java.lang.String&nbsp;connectionName,
+               java.lang.String&nbsp;subject,
+               java.lang.String&nbsp;queue)</code>
+<div class="block">Create a new subscription from the given connection name.</div>
+</td>
+</tr>
+<tr id="i6" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../io/micronaut/nats/intercept/NatsConsumerAdvice.html#process-io.micronaut.inject.BeanDefinition-io.micronaut.inject.ExecutableMethod-">process</a></span>(io.micronaut.inject.BeanDefinition&lt;?&gt;&nbsp;beanDefinition,
        io.micronaut.inject.ExecutableMethod&lt;?,?&gt;&nbsp;method)</code>&nbsp;</td>
@@ -194,7 +229,7 @@ implements io.micronaut.context.processor.ExecutableMethodProcessor&lt;<a href="
 <!--   -->
 </a>
 <h3>Constructor Detail</h3>
-<a name="NatsConsumerAdvice-io.micronaut.context.BeanContext-io.micronaut.nats.bind.NatsBinderRegistry-io.micronaut.nats.serdes.NatsMessageSerDesRegistry-io.micronaut.nats.exception.NatsListenerExceptionHandler-">
+<a name="NatsConsumerAdvice-io.micronaut.context.BeanContext-io.micronaut.nats.bind.NatsBinderRegistry-io.micronaut.nats.serdes.NatsMessageSerDesRegistry-io.micronaut.nats.exception.NatsListenerExceptionHandler-io.micronaut.runtime.ApplicationConfiguration-">
 <!--   -->
 </a>
 <ul class="blockListLast">
@@ -203,7 +238,8 @@ implements io.micronaut.context.processor.ExecutableMethodProcessor&lt;<a href="
 <pre>public&nbsp;NatsConsumerAdvice(io.micronaut.context.BeanContext&nbsp;beanContext,
                           <a href="../../../../io/micronaut/nats/bind/NatsBinderRegistry.html" title="class in io.micronaut.nats.bind">NatsBinderRegistry</a>&nbsp;binderRegistry,
                           <a href="../../../../io/micronaut/nats/serdes/NatsMessageSerDesRegistry.html" title="interface in io.micronaut.nats.serdes">NatsMessageSerDesRegistry</a>&nbsp;serDesRegistry,
-                          <a href="../../../../io/micronaut/nats/exception/NatsListenerExceptionHandler.html" title="interface in io.micronaut.nats.exception">NatsListenerExceptionHandler</a>&nbsp;exceptionHandler)</pre>
+                          <a href="../../../../io/micronaut/nats/exception/NatsListenerExceptionHandler.html" title="interface in io.micronaut.nats.exception">NatsListenerExceptionHandler</a>&nbsp;exceptionHandler,
+                          io.micronaut.runtime.ApplicationConfiguration&nbsp;applicationConfiguration)</pre>
 <div class="block">Default constructor.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -211,6 +247,7 @@ implements io.micronaut.context.processor.ExecutableMethodProcessor&lt;<a href="
 <dd><code>binderRegistry</code> - The registry to bind arguments to the method</dd>
 <dd><code>serDesRegistry</code> - The serialization/deserialization registry</dd>
 <dd><code>exceptionHandler</code> - The exception handler to use if the consumer isn't a handler</dd>
+<dd><code>applicationConfiguration</code> - The application configuration</dd>
 </dl>
 </li>
 </ul>
@@ -241,13 +278,123 @@ implements io.micronaut.context.processor.ExecutableMethodProcessor&lt;<a href="
 <a name="close--">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>close</h4>
-<pre>public&nbsp;void&nbsp;close()</pre>
+<pre>@PreDestroy
+public&nbsp;void&nbsp;close()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>close</code>&nbsp;in interface&nbsp;<code>java.lang.AutoCloseable</code></dd>
+</dl>
+</li>
+</ul>
+<a name="getConsumer-java.lang.String-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getConsumer</h4>
+<pre>@NonNull
+public&nbsp;io.nats.client.Consumer&nbsp;getConsumer(@NonNull
+                                                    java.lang.String&nbsp;id)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../io/micronaut/nats/ConsumerRegistry.html#getConsumer-java.lang.String-">ConsumerRegistry</a></code></span></div>
+<div class="block">Returns the subscription by given id.</div>
+<dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="../../../../io/micronaut/nats/ConsumerRegistry.html#getConsumer-java.lang.String-">getConsumer</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../io/micronaut/nats/ConsumerRegistry.html" title="interface in io.micronaut.nats">ConsumerRegistry</a></code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>id</code> - <code>String</code> The id of the listener</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>The consumer</dd>
+</dl>
+</li>
+</ul>
+<a name="getConsumerIds--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getConsumerIds</h4>
+<pre>@NonNull
+public&nbsp;java.util.Set&lt;java.lang.String&gt;&nbsp;getConsumerIds()</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../io/micronaut/nats/ConsumerRegistry.html#getConsumerIds--">ConsumerRegistry</a></code></span></div>
+<div class="block">The IDs of the available consumers.</div>
+<dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="../../../../io/micronaut/nats/ConsumerRegistry.html#getConsumerIds--">getConsumerIds</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../io/micronaut/nats/ConsumerRegistry.html" title="interface in io.micronaut.nats">ConsumerRegistry</a></code></dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>The consumers</dd>
+</dl>
+</li>
+</ul>
+<a name="getConsumerSubscription-java.lang.String-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getConsumerSubscription</h4>
+<pre>@NonNull
+public&nbsp;java.util.Set&lt;io.nats.client.Subscription&gt;&nbsp;getConsumerSubscription(@NonNull
+                                                                                   java.lang.String&nbsp;id)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../io/micronaut/nats/ConsumerRegistry.html#getConsumerSubscription-java.lang.String-">ConsumerRegistry</a></code></span></div>
+<div class="block">Returns a managed Consumer's subscriptions.</div>
+<dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="../../../../io/micronaut/nats/ConsumerRegistry.html#getConsumerSubscription-java.lang.String-">getConsumerSubscription</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../io/micronaut/nats/ConsumerRegistry.html" title="interface in io.micronaut.nats">ConsumerRegistry</a></code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>id</code> - The id of the producer.</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>The consumer subscription</dd>
+</dl>
+</li>
+</ul>
+<a name="newSubscription-java.lang.String-java.lang.String-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>newSubscription</h4>
+<pre>public&nbsp;io.nats.client.Subscription&nbsp;newSubscription(@NonNull
+                                                   java.lang.String&nbsp;subject,
+                                                   @Nullable
+                                                   java.lang.String&nbsp;queue)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../io/micronaut/nats/ConsumerRegistry.html#newSubscription-java.lang.String-java.lang.String-">ConsumerRegistry</a></code></span></div>
+<div class="block">Create a new subscription with the default connection.</div>
+<dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="../../../../io/micronaut/nats/ConsumerRegistry.html#newSubscription-java.lang.String-java.lang.String-">newSubscription</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../io/micronaut/nats/ConsumerRegistry.html" title="interface in io.micronaut.nats">ConsumerRegistry</a></code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>subject</code> - <code>String</code></dd>
+<dd><code>queue</code> - <code>String</code> optional</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>subscription <code>Subscription</code></dd>
+</dl>
+</li>
+</ul>
+<a name="newSubscription-java.lang.String-java.lang.String-java.lang.String-">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>newSubscription</h4>
+<pre>public&nbsp;io.nats.client.Subscription&nbsp;newSubscription(@NonNull
+                                                   java.lang.String&nbsp;connectionName,
+                                                   @NonNull
+                                                   java.lang.String&nbsp;subject,
+                                                   @Nullable
+                                                   java.lang.String&nbsp;queue)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../io/micronaut/nats/ConsumerRegistry.html#newSubscription-java.lang.String-java.lang.String-java.lang.String-">ConsumerRegistry</a></code></span></div>
+<div class="block">Create a new subscription from the given connection name.</div>
+<dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="../../../../io/micronaut/nats/ConsumerRegistry.html#newSubscription-java.lang.String-java.lang.String-java.lang.String-">newSubscription</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../io/micronaut/nats/ConsumerRegistry.html" title="interface in io.micronaut.nats">ConsumerRegistry</a></code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>connectionName</code> - <code>String</code></dd>
+<dd><code>subject</code> - <code>String</code></dd>
+<dd><code>queue</code> - <code>String</code> optional</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>subscription <code>Subscription</code></dd>
 </dl>
 </li>
 </ul>
