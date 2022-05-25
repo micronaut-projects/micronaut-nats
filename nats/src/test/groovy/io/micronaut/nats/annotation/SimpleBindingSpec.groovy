@@ -25,7 +25,7 @@ import spock.util.concurrent.PollingConditions
 class SimpleBindingSpec extends AbstractNatsTest {
 
     void "test simple producing and consuming with a boolean"() {
-        ApplicationContext applicationContext = startContext()
+        ApplicationContext applicationContext = startContext('micronaut.application.name': 'test-application')
         PollingConditions conditions = new PollingConditions(timeout: 3)
         MyProducer producer = applicationContext.getBean(MyProducer)
         MyConsumer consumer = applicationContext.getBean(MyConsumer)

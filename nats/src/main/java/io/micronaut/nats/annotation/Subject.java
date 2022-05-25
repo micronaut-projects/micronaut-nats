@@ -17,6 +17,8 @@ package io.micronaut.nats.annotation;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
+import java.lang.annotation.Inherited;
+import java.lang.annotation.Repeatable;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
@@ -34,10 +36,12 @@ import io.micronaut.messaging.annotation.MessageMapping;
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.METHOD, ElementType.PARAMETER})
+@Target({ ElementType.METHOD, ElementType.PARAMETER, ElementType.TYPE })
 @Bindable
+@Repeatable(Subjects.class)
 @Executable
 @MessageMapping
+@Inherited
 public @interface Subject {
 
     /**
