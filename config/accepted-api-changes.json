@@ -33,5 +33,15 @@
     "type": "io.micronaut.nats.reactive.ReactivePublisher",
     "member": "Method io.micronaut.nats.reactive.ReactivePublisher.publishAndReply(io.micronaut.nats.reactive.PublishState)",
     "reason": "ReactivePublisher is only used internally"
+  },
+  {
+    "type": "io.micronaut.nats.intercept.NatsConsumerAdvice",
+    "member": "Class io.micronaut.nats.intercept.NatsConsumerAdvice",
+    "reason": "Nothing changed here - this was just missing"
+  },
+  {
+    "type": "io.micronaut.nats.intercept.NatsConsumerAdvice",
+    "member": "Constructor io.micronaut.nats.intercept.NatsConsumerAdvice(io.micronaut.context.BeanContext,io.micronaut.nats.bind.NatsBinderRegistry,io.micronaut.nats.serdes.NatsMessageSerDesRegistry,io.micronaut.nats.exception.NatsListenerExceptionHandler)",
+    "reason": "Nothing changed here - this was just missing"
   }
 ]
