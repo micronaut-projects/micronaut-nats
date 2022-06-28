@@ -1,5 +1,4 @@
 plugins {
-    id 'io.micronaut.build.internal.nats-module'
     id "groovy"
 }
 
@@ -8,7 +7,7 @@ repositories {
 }
 
 dependencies {
-    testImplementation projects.nats
+    testImplementation project(":nats")
 
     testCompileOnly mn.micronaut.inject.groovy
     testImplementation libs.testcontainers

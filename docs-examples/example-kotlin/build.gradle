@@ -1,5 +1,4 @@
 plugins {
-    id 'io.micronaut.build.internal.nats-module'
     alias libs.plugins.kotlin.jvm
     alias libs.plugins.kotlin.kapt
 }
@@ -9,10 +8,9 @@ repositories {
 }
 
 dependencies {
-    kaptTest enforcedPlatform("io.micronaut:micronaut-bom:$micronautVersion")
-    kaptTest mn.micronaut.inject.java
+    kaptTest(mn.micronaut.inject.java)
 
-    testImplementation projects.nats
+    testImplementation project(':nats')
     testImplementation libs.kotest
     testImplementation libs.kotlin.reflect
     testImplementation libs.kotlin.stdlib
@@ -20,15 +18,14 @@ dependencies {
     testImplementation mn.reactor
 }
 
-test {
-    systemProperties['junit.jupiter.execution.parallel.enabled'] = true
-    maxParallelForks = Runtime.runtime.availableProcessors().intdiv(2) ?: 1
-    forkEvery = 1
-}
-
 compileTestKotlin {
     kotlinOptions {
         jvmTarget = '1.8'
         javaParameters = true
     }
+}
+
+java {
+    sourceCompatibility = JavaVersion.toVersion("1.8")
+    targetCompatibility = JavaVersion.toVersion("1.8")
 }
