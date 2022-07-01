@@ -32,7 +32,9 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManagerFactory;
 import javax.validation.constraints.NotNull;
 
+import io.micronaut.context.annotation.EachProperty;
 import io.micronaut.context.annotation.Parameter;
+import io.micronaut.context.annotation.Requires;
 import io.micronaut.core.annotation.Nullable;
 import io.nats.client.Nats;
 import io.nats.client.Options;
@@ -51,7 +53,11 @@ import static io.nats.client.Options.DEFAULT_URL;
  * @author jgrimm
  * @since 1.0.0
  */
-public abstract class NatsConnectionFactoryConfig {
+@Requires(property = NatsConnectionFactoryConfig.PREFIX)
+@EachProperty(NatsConnectionFactoryConfig.PREFIX)
+public class NatsConnectionFactoryConfig {
+
+    public static final String PREFIX = "nats";
 
     private final String name;
 

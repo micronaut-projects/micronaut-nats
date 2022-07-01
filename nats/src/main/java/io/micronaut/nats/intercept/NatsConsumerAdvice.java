@@ -34,7 +34,6 @@ import io.micronaut.nats.annotation.NatsConnection;
 import io.micronaut.nats.annotation.NatsListener;
 import io.micronaut.nats.annotation.Subject;
 import io.micronaut.nats.bind.NatsBinderRegistry;
-import io.micronaut.nats.connect.SingleNatsConnectionFactoryConfig;
 import io.micronaut.nats.exception.NatsListenerException;
 import io.micronaut.nats.exception.NatsListenerExceptionHandler;
 import io.micronaut.nats.serdes.NatsMessageSerDes;
@@ -254,8 +253,7 @@ public class NatsConsumerAdvice implements ExecutableMethodProcessor<Subject>, A
     @Override
     public Subscription newSubscription(@NonNull String subject, @Nullable String queue) {
         Connection connection =
-            beanContext.getBean(Connection.class, Qualifiers.byName(
-                SingleNatsConnectionFactoryConfig.DEFAULT_NAME));
+            beanContext.getBean(Connection.class, Qualifiers.byName(NatsConnection.DEFAULT_CONNECTION));
         if (queue == null) {
             return connection.subscribe(subject);
         } else {

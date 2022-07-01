@@ -30,8 +30,8 @@ class MultipleServerSpec extends Specification {
         def natsAddressContainer2 = "nats://localhost:${natsContainer2.getMappedPort(4222)}".toString()
         ApplicationContext context = ApplicationContext.run(
                 ["spec.name"                : getClass().simpleName,
-                 "nats.servers.one.addresses": [natsAddressContainer1],
-                 "nats.servers.two.addresses": [natsAddressContainer2]
+                 "nats.one.addresses": [natsAddressContainer1],
+                 "nats.two.addresses": [natsAddressContainer2]
                 ])
 
         expect:

@@ -37,7 +37,7 @@ abstract class AbstractNatsTest extends Specification {
 
     protected ApplicationContext startContext(Map additionalConfig = [:]) {
         ApplicationContext.run(
-                ["nats.addresses": ["nats://localhost:${natsContainer.getMappedPort(4222)}"],
+                ["nats.default.addresses": ["nats://localhost:${natsContainer.getMappedPort(4222)}"],
                  "spec.name": getClass().simpleName] << additionalConfig, "test")
     }
 }
