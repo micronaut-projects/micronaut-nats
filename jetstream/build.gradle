@@ -1,0 +1,22 @@
+plugins {
+    id 'io.micronaut.build.internal.module'
+}
+
+dependencies {
+    api projects.nats
+
+    testImplementation libs.testcontainers.spock
+    testImplementation mn.micronaut.inject.groovy
+    testImplementation mn.micronaut.inject.java
+    testImplementation mn.micronaut.management
+    testImplementation mn.micronaut.test.spock
+    testImplementation mn.spock
+}
+
+test {
+    testLogging {
+        showStandardStreams = true
+        exceptionFormat = 'full'
+    }
+}
+

@@ -54,7 +54,7 @@ import static io.nats.client.Options.DEFAULT_URL;
  * @since 1.0.0
  */
 @Requires(property = NatsConnectionFactoryConfig.PREFIX)
-@EachProperty(NatsConnectionFactoryConfig.PREFIX)
+@EachProperty(value = NatsConnectionFactoryConfig.PREFIX, primary = "default")
 public class NatsConnectionFactoryConfig {
 
     public static final String PREFIX = "nats";
