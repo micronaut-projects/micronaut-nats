@@ -5,6 +5,8 @@ plugins {
 dependencies {
     api projects.nats
 
+    implementation mn.reactor
+
     testImplementation libs.testcontainers.spock
     testImplementation mn.micronaut.inject.groovy
     testImplementation mn.micronaut.inject.java

@@ -33,108 +33,109 @@ import io.nats.client.impl.Headers;
  * @since 1.0.0
  */
 @Internal
-class StaticPublisherState {
+public class StaticPublisherState {
 
     private final String subject;
+
     private final Argument bodyArgument;
+
     private final Headers headers;
-    private final ReturnType<?> returnType;
+
     private final String connection;
+
     private final NatsMessageSerDes<?> serDes;
+
     private final Argument<?> dataType;
+
     private final ReactivePublisher reactivePublisher;
-    private final boolean reactive;
 
     /**
      * Default constructor.
-     * @param subject      The subject to publish to
-     * @param bodyArgument The argument representing the body
-     * @param methodHeaders The methods headers
-     * @param returnType   The return type of the method
-     * @param connection   The connection name
-     * @param serDes       The body serializer
+     *
+     * @param subject           The subject to publish to
+     * @param bodyArgument      The argument representing the body
+     * @param methodHeaders     The methods headers
+     * @param returnType        The return type of the method
+     * @param connection        The connection to use
+     * @param serDes            The body serializer
      * @param reactivePublisher The reactive publisher
      */
-    StaticPublisherState(String subject, Argument bodyArgument, Headers methodHeaders, ReturnType<?> returnType, String connection,
-            NatsMessageSerDes<?> serDes, ReactivePublisher reactivePublisher) {
+    protected StaticPublisherState(String subject, Argument bodyArgument, Headers methodHeaders,
+        ReturnType<?> returnType, String connection,
+        NatsMessageSerDes<?> serDes, ReactivePublisher reactivePublisher) {
         this.subject = subject;
         this.bodyArgument = bodyArgument;
         this.headers = methodHeaders;
-        this.connection = connection;
         this.serDes = serDes;
+        this.connection = connection;
         this.reactivePublisher = reactivePublisher;
         Class<?> javaReturnType = returnType.getType();
-        this.reactive = Publishers.isConvertibleToPublisher(javaReturnType);
-        if (this.reactive) {
+        boolean reactive = Publishers.isConvertibleToPublisher(javaReturnType);
+        if (reactive) {
             this.dataType = returnType.getFirstTypeVariable()
-                    .orElse(Argument.VOID);
+                                      .orElse(Argument.VOID);
         } else {
             this.dataType = returnType.asArgument();
         }
-        this.returnType = returnType;
+    }
+
+    protected StaticPublisherState(StaticPublisherState other) {
+        this.subject = other.subject;
+        this.bodyArgument = other.bodyArgument;
+        this.headers = other.headers;
+        this.serDes = other.serDes;
+        this.reactivePublisher = other.reactivePublisher;
+        this.dataType = other.dataType;
+        this.connection = other.connection;
     }
 
     /**
      * @return The subject
      */
-    Optional<String> getSubject() {
+    public Optional<String> getSubject() {
         return Optional.ofNullable(subject);
     }
 
     /**
      * @return The body argument
      */
-    Argument getBodyArgument() {
+    public Argument getBodyArgument() {
         return bodyArgument;
     }
 
     /**
      * @return the method headers
      */
-    Headers getHeaders() {
+    public Headers getHeaders() {
         return headers;
     }
 
     /**
      * @return The type of data being requested
      */
-    Argument<?> getDataType() {
+    public Argument getDataType() {
         return dataType;
-    }
-
-    /**
-     * @return The return type
-     */
-    ReturnType<?> getReturnType() {
-        return returnType;
-    }
-
-    /**
-     * @return the connection name
-     */
-    String getConnection() {
-        return connection;
     }
 
     /**
      * @return The serializer
      */
-    NatsMessageSerDes<Object> getSerDes() {
+    public NatsMessageSerDes<Object> getSerDes() {
         return (NatsMessageSerDes) serDes;
-    }
-
-    /**
-     * @return True if the method returns a reactive type
-     */
-    boolean isReactive() {
-        return reactive;
     }
 
     /**
      * @return The reactive publisher
      */
-    ReactivePublisher getReactivePublisher() {
+    public ReactivePublisher getReactivePublisher() {
         return reactivePublisher;
+    }
+
+    /**
+     * @return the connection name
+     */
+    public String getConnection() {
+        return connection;
     }
 
 }

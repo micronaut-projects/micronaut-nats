@@ -13,45 +13,44 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.micronaut.nats.reactive;
+package io.micronaut.nats.jetstream.reactive;
 
 import io.micronaut.context.annotation.EachBean;
 import io.micronaut.context.annotation.Parameter;
 import io.micronaut.core.annotation.Internal;
-import io.nats.client.Connection;
+import io.nats.client.JetStream;
 import io.nats.client.Message;
+import io.nats.client.PublishOptions;
+import io.nats.client.api.PublishAck;
 import org.reactivestreams.Publisher;
 import reactor.core.publisher.Mono;
 
 /**
- * @author jgrimm
+ * @author Joachim Grimm
+ * @since 4.0.0
  */
-
 @Internal
-@EachBean(Connection.class)
-public class ReactorReactivePublisher implements ReactivePublisher {
+@EachBean(JetStream.class)
+class ReactorReactivePublisher implements ReactivePublisher {
 
-    private final Mono<Connection> connection;
+    private final Mono<JetStream> jetStream;
 
     /**
      * Constructor.
-     * @param connection The given connection
+     *
+     * @param jetStream The given connection
      */
-    public ReactorReactivePublisher(@Parameter Connection connection) {
-        this.connection = Mono.just(connection);
+    public ReactorReactivePublisher(@Parameter JetStream jetStream) {
+        this.jetStream = Mono.just(jetStream);
     }
 
     @Override
-    public Publisher<Void> publish(Message message) {
-        return connection.flatMap(con -> Mono.create(subscriber -> {
-            con.publish(message);
-            subscriber.success();
-        }));
+    public Publisher<PublishAck> publish(Message message) {
+        return jetStream.flatMap(js -> Mono.fromFuture(js.publishAsync(message)));
     }
 
     @Override
-    public Publisher<Message> publishAndReply(Message message) {
-        return connection.flatMap(con -> Mono.fromFuture(con.request(message)));
+    public Publisher<PublishAck> publish(Message message, PublishOptions options) {
+        return jetStream.flatMap(js -> Mono.fromFuture(js.publishAsync(message, options)));
     }
-
 }
