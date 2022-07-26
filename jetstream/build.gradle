@@ -22,3 +22,6 @@ test {
     }
 }
 
+tasks.named("japiCmp", me.champeau.gradle.japicmp.JapicmpTask) {
+    enabled false
+}
