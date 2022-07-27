@@ -8,6 +8,5 @@ jetstream:
       widgets:
         storage-type: Memory
         subjects:
-          - subject.one
-          - subject.two
+          - subject.>
 

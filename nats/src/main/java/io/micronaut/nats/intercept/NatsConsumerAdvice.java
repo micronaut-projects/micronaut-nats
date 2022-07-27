@@ -16,6 +16,8 @@
 package io.micronaut.nats.intercept;
 
 import io.micronaut.context.BeanContext;
+import io.micronaut.context.Qualifier;
+import io.micronaut.context.annotation.Bean;
 import io.micronaut.context.processor.ExecutableMethodProcessor;
 import io.micronaut.core.annotation.AnnotationValue;
 import io.micronaut.core.annotation.NonNull;
@@ -66,6 +68,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @since 1.0.0
  */
 @Singleton
+@Bean(preDestroy = "close")
 public class NatsConsumerAdvice implements ExecutableMethodProcessor<Subject>, AutoCloseable,
     ConsumerRegistry {
 
@@ -117,7 +120,7 @@ public class NatsConsumerAdvice implements ExecutableMethodProcessor<Subject>, A
             method.stringValue(NatsConnection.class, "connection")
                   .orElse(NatsConnection.DEFAULT_CONNECTION);
 
-        io.micronaut.context.Qualifier<Object> qualifier =
+        Qualifier<Object> qualifier =
             beanDefinition.getAnnotationTypeByStereotype("javax.inject.Qualifier")
                           .map(type -> Qualifiers.byAnnotation(beanDefinition, type)).orElse(null);
 
@@ -172,8 +175,7 @@ public class NatsConsumerAdvice implements ExecutableMethodProcessor<Subject>, A
                                           .orElseThrow(() -> new NatsListenerException(
                                               String.format(
                                                   "Could not find a serializer for the "
-                                                      + "body "
-                                                      + "argument of type [%s]",
+                                                      + "body argument of type [%s]",
                                                   returnedValue.getClass().getName()), bean,
                                               msg));
                         converted = serDes.serialize(returnedValue);
@@ -200,7 +202,9 @@ public class NatsConsumerAdvice implements ExecutableMethodProcessor<Subject>, A
     @Override
     public void close() {
         for (ConsumerState consumerState : consumers.values()) {
-            consumerState.connection.closeDispatcher(consumerState.dispatcher);
+            if (consumerState.connection.getStatus() != Connection.Status.CLOSED) {
+                consumerState.connection.closeDispatcher(consumerState.dispatcher);
+            }
         }
         consumers.clear();
     }
