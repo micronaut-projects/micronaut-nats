@@ -20,12 +20,11 @@ import java.util.Optional;
 import io.micronaut.core.annotation.Internal;
 import io.micronaut.core.type.Argument;
 import io.micronaut.nats.intercept.StaticPublisherState;
-import io.micronaut.nats.jetstream.annotation.JetStreamClient;
 import io.micronaut.nats.jetstream.reactive.ReactivePublisher;
 
 /**
  * Stores the static state for publishing messages with
- * {@link JetStreamClient}.
+ * {@link io.micronaut.nats.jetstream.annotation.JetStreamClient}.
  *
  * @author jgrimm
  * @since 4.0.0

@@ -19,14 +19,8 @@
  * @author Joachim Grimm
  * @since 4.0.0
  */
-@Configuration
-@Requires(property = "jetstream")
-@Requires(property = "nats")
-@Requires(property = "nats.enabled", notEquals = StringUtils.FALSE)
-@Requires(beans = Connection.class)
+//@Configuration
+//@Requires(property = "nats")
+//@Requires(property = "nats.enabled", notEquals = StringUtils.FALSE)
 package io.micronaut.nats.jetstream;
 
-import io.micronaut.context.annotation.Configuration;
-import io.micronaut.context.annotation.Requires;
-import io.micronaut.core.util.StringUtils;
-import io.nats.client.Connection;

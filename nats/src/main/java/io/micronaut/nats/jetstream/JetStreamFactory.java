@@ -22,6 +22,7 @@ import io.micronaut.context.BeanContext;
 import io.micronaut.context.annotation.EachBean;
 import io.micronaut.context.annotation.Factory;
 import io.micronaut.inject.qualifiers.Qualifiers;
+import io.micronaut.nats.connect.NatsConnectionFactoryConfig;
 import io.nats.client.Connection;
 import io.nats.client.JetStream;
 import io.nats.client.JetStreamApiException;
@@ -48,48 +49,54 @@ public class JetStreamFactory {
     }
 
     /**
-     * @param jetStreamConfiguration The jetstream configuration
+     * @param config The jetstream configuration
      * @return The jetstream management
      * @throws IOException           in case of communication issue
      * @throws JetStreamApiException the request had an error related to the data
      */
     @Singleton
-    @EachBean(JetStreamConfiguration.class)
-    JetStreamManagement jetStreamManagement(JetStreamConfiguration jetStreamConfiguration)
+    @EachBean(NatsConnectionFactoryConfig.class)
+    JetStreamManagement jetStreamManagement(NatsConnectionFactoryConfig config)
         throws IOException, JetStreamApiException {
-        final JetStreamManagement jetStreamManagement = getConnectionByName(
-            jetStreamConfiguration.getConnectionName()).jetStreamManagement(
-            jetStreamConfiguration.toJetStreamOptions());
+        if (config.getJetstream() != null) {
+            final JetStreamManagement jetStreamManagement =
+                getConnectionByName(config.getName()).jetStreamManagement(
+                    config.getJetstream().toJetStreamOptions());
 
-        // initialize the given stream configurations
-        for (Map.Entry<String, JetStreamConfiguration.StreamConfiguration> streamEntry :
-            jetStreamConfiguration.getStreams().entrySet()) {
-            final StreamConfiguration streamConfiguration =
-                streamEntry.getValue().toStreamConfiguration(streamEntry.getKey());
-            if (jetStreamManagement.getStreamNames().contains(streamEntry.getKey())) {
-                StreamInfo streamInfo = jetStreamManagement.getStreamInfo(streamEntry.getKey());
-                if (!streamInfo.getConfiguration().equals(streamConfiguration)) {
-                    jetStreamManagement.updateStream(streamConfiguration);
+            // initialize the given stream configurations
+            for (Map.Entry<String,
+                NatsConnectionFactoryConfig.JetStreamConfiguration.StreamConfiguration> streamEntry :
+                config.getJetstream().getStreams().entrySet()) {
+                final StreamConfiguration streamConfiguration =
+                    streamEntry.getValue().toStreamConfiguration(streamEntry.getKey());
+                if (jetStreamManagement.getStreamNames().contains(streamEntry.getKey())) {
+                    StreamInfo streamInfo = jetStreamManagement.getStreamInfo(streamEntry.getKey());
+                    if (!streamInfo.getConfiguration().equals(streamConfiguration)) {
+                        jetStreamManagement.updateStream(streamConfiguration);
+                    }
+                } else {
+                    jetStreamManagement.addStream(streamConfiguration);
                 }
-            } else {
-                jetStreamManagement.addStream(streamConfiguration);
             }
-        }
 
-        return jetStreamManagement;
+            return jetStreamManagement;
+        }
+        return null;
     }
 
     /**
-     * @param jetStreamConfiguration The jetstream configuration
+     * @param config The jetstream configuration
      * @return The jetstream
      * @throws IOException in case of communication issue
      */
     @Singleton
-    @EachBean(JetStreamConfiguration.class)
-    JetStream jetStream(JetStreamConfiguration jetStreamConfiguration)
-        throws IOException {
-        return getConnectionByName(jetStreamConfiguration.getConnectionName())
-            .jetStream(jetStreamConfiguration.toJetStreamOptions());
+    @EachBean(NatsConnectionFactoryConfig.class)
+    JetStream jetStream(NatsConnectionFactoryConfig config) throws IOException {
+        if (config.getJetstream() != null) {
+            return getConnectionByName(config.getName()).jetStream(
+                config.getJetstream().toJetStreamOptions());
+        }
+        return null;
     }
 
     private Connection getConnectionByName(String connectionName) {

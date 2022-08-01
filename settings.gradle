@@ -12,7 +12,6 @@ plugins {
 rootProject.name = 'nats-parent'
 
 include 'nats'
-include 'jetstream'
 include 'nats-bom'
 include 'docs-examples:example-groovy'
 include 'docs-examples:example-java'

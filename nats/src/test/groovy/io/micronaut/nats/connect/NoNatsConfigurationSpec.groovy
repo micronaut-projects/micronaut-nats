@@ -24,7 +24,7 @@ class NoNatsConfigurationSpec extends Specification {
 
     void "no nats configuration"() {
         given:
-        ApplicationContext context = ApplicationContext.run()
+        ApplicationContext context = ApplicationContext.builder().deduceEnvironment(false).start()
 
         expect:
         context.getBeansOfType(Connection).isEmpty()

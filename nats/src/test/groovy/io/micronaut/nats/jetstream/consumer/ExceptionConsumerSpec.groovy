@@ -44,8 +44,8 @@ class ExceptionConsumerSpec extends AbstractJetstreamTest {
     @JetStreamListener
     static class MyConsumer {
 
-        @Stream("widgets")
-        @Subject("subject.>")
+        @Stream("errorTest")
+        @Subject("errorTest.>")
         @ConsumerConfiguration("test")
         void listen(byte[] data) {
             throw new IOException()
@@ -56,9 +56,8 @@ class ExceptionConsumerSpec extends AbstractJetstreamTest {
     @JetStreamClient
     static interface MyProducer {
 
-        @Subject("subject.one")
+        @Subject("errorTest.test")
         PublishAck one(@MessageBody byte[] data)
-
 
     }
 

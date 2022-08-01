@@ -34,10 +34,10 @@ import org.slf4j.LoggerFactory;
  */
 @Singleton
 @Primary
-public class DefaultNatsListenerExceptionHandler implements JetStreamListenerExceptionHandler {
+public class DefaultJetStreamListenerExceptionHandler implements JetStreamListenerExceptionHandler {
 
     private static final Logger LOG =
-        LoggerFactory.getLogger(DefaultNatsListenerExceptionHandler.class);
+        LoggerFactory.getLogger(DefaultJetStreamListenerExceptionHandler.class);
 
     @Override
     public void handle(JetStreamListenerException exception) {

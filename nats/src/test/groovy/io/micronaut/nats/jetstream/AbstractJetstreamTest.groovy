@@ -28,7 +28,7 @@ abstract class AbstractJetstreamTest extends Specification {
 
     static GenericContainer natsContainer =
             new GenericContainer("nats:latest")
-                    .withCommand("--js", "--sd", "/data")
+                    .withCommand("--js")
                     .withExposedPorts(4222)
                     .waitingFor(new LogMessageWaitStrategy().withRegEx("(?s).*Server is ready.*"))
 
