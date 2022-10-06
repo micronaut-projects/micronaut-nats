@@ -11,7 +11,7 @@ junit = '5.9.1'
 kotest = '5.5.4'
 kotlin = '1.7.21'
 testcontainers = '1.17.5'
-nats = '2.16.0'
+nats = '2.16.4'
 
 
 [libraries]
