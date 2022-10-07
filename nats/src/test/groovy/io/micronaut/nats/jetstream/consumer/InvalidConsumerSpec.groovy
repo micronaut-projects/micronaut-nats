@@ -21,9 +21,8 @@ import io.micronaut.inject.qualifiers.Qualifiers
 import io.micronaut.messaging.exceptions.MessageListenerException
 import io.micronaut.nats.annotation.Subject
 import io.micronaut.nats.jetstream.AbstractJetstreamTest
-import io.micronaut.nats.jetstream.annotation.ConsumerConfiguration
 import io.micronaut.nats.jetstream.annotation.JetStreamListener
-import io.micronaut.nats.jetstream.annotation.Stream
+import io.micronaut.nats.jetstream.annotation.PushConsumer
 import spock.lang.Unroll
 
 class InvalidConsumerSpec extends AbstractJetstreamTest {
@@ -37,7 +36,7 @@ class InvalidConsumerSpec extends AbstractJetstreamTest {
         thrown MessageListenerException
 
         where:
-        consumer << ["invalidSubject", "invalidConfiguration", "emptyDurable", "emptySubject", "emptyStream"]
+        consumer << ["invalidSubject", "emptySubject", "emptyStream"]
     }
 
     void "no @JetstreamListener annotation"() {
@@ -56,31 +55,8 @@ class InvalidConsumerSpec extends AbstractJetstreamTest {
     @JetStreamListener
     static class InvalidSubjectConsumer {
 
-        @Stream("widgets")
-        @ConsumerConfiguration("test")
-        void listen(byte[] data) {
-        }
-    }
+        @PushConsumer("widgets")
 
-    @Requires(property = "spec.name", value = "InvalidConsumerSpec")
-    @Requires(property = "consumer", value = "invalidConfiguration")
-    @JetStreamListener
-    static class InvalidConfigurationConsumer {
-
-        @Stream("widgets")
-        @Subject("subject.>")
-        void listen(byte[] data) {
-        }
-    }
-
-    @Requires(property = "spec.name", value = "InvalidConsumerSpec")
-    @Requires(property = "consumer", value = "emptyDurable")
-    @JetStreamListener
-    static class EmptyDurableConsumer {
-
-        @Stream("widgets")
-        @Subject("subject.>")
-        @ConsumerConfiguration("")
         void listen(byte[] data) {
         }
     }
@@ -90,9 +66,8 @@ class InvalidConsumerSpec extends AbstractJetstreamTest {
     @JetStreamListener
     static class EmptySubjectConsumer {
 
-        @Stream("widgets")
+        @PushConsumer("widgets")
         @Subject("")
-        @ConsumerConfiguration("test")
         void listen(byte[] data) {
         }
     }
@@ -102,9 +77,8 @@ class InvalidConsumerSpec extends AbstractJetstreamTest {
     @JetStreamListener
     static class EmptyStreamConsumer {
 
-        @Stream("")
+        @PushConsumer("")
         @Subject("subject.>")
-        @ConsumerConfiguration("test")
         void listen(byte[] data) {
         }
     }
@@ -113,9 +87,8 @@ class InvalidConsumerSpec extends AbstractJetstreamTest {
     @Requires(property = "consumer", value = "noListener")
     static class NoListenerConsumer {
 
-        @Stream("widgets")
+        @PushConsumer("widgets")
         @Subject("subject.>")
-        @ConsumerConfiguration("test")
         void listen(byte[] data) {
         }
     }

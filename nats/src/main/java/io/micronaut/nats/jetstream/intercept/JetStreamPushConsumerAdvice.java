@@ -42,7 +42,7 @@ import io.micronaut.nats.annotation.NatsConnection;
 import io.micronaut.nats.annotation.Subject;
 import io.micronaut.nats.bind.NatsBinderRegistry;
 import io.micronaut.nats.jetstream.annotation.JetStreamListener;
-import io.micronaut.nats.jetstream.annotation.Stream;
+import io.micronaut.nats.jetstream.annotation.PushConsumer;
 import io.micronaut.nats.jetstream.exception.JetStreamListenerException;
 import io.micronaut.nats.jetstream.exception.JetStreamListenerExceptionHandler;
 import io.micronaut.runtime.ApplicationConfiguration;
@@ -50,7 +50,6 @@ import io.nats.client.Connection;
 import io.nats.client.Dispatcher;
 import io.nats.client.JetStream;
 import io.nats.client.JetStreamApiException;
-import io.nats.client.JetStreamManagement;
 import io.nats.client.Message;
 import io.nats.client.MessageHandler;
 import io.nats.client.PushSubscribeOptions;
@@ -73,7 +72,7 @@ import jakarta.inject.Singleton;
  */
 @Singleton
 @Bean(preDestroy = "close")
-public class JetStreamConsumerAdvice implements ExecutableMethodProcessor<Stream>, AutoCloseable {
+public class JetStreamPushConsumerAdvice implements ExecutableMethodProcessor<PushConsumer>, AutoCloseable {
 
     private final BeanContext beanContext;
 
@@ -95,9 +94,9 @@ public class JetStreamConsumerAdvice implements ExecutableMethodProcessor<Stream
      * @param exceptionHandler         The exception handler to use if the consumer isn't a handler
      * @param applicationConfiguration The application configuration
      */
-    public JetStreamConsumerAdvice(BeanContext beanContext, NatsBinderRegistry binderRegistry,
-        JetStreamListenerExceptionHandler exceptionHandler,
-        ApplicationConfiguration applicationConfiguration) {
+    public JetStreamPushConsumerAdvice(BeanContext beanContext, NatsBinderRegistry binderRegistry,
+            JetStreamListenerExceptionHandler exceptionHandler,
+            ApplicationConfiguration applicationConfiguration) {
         this.beanContext = beanContext;
         this.binderRegistry = binderRegistry;
         this.exceptionHandler = exceptionHandler;
@@ -107,51 +106,42 @@ public class JetStreamConsumerAdvice implements ExecutableMethodProcessor<Stream
     @Override
     public void process(BeanDefinition<?> beanDefinition, ExecutableMethod<?, ?> method) {
         final Optional<AnnotationValue<JetStreamListener>> listenerAnnotation =
-            method.findAnnotation(JetStreamListener.class);
-        final Optional<AnnotationValue<Stream>> streamAnnotation =
-            method.findAnnotation(Stream.class);
-        final Optional<AnnotationValue<Subject>> subjectAnnotation =
-            method.findAnnotation(Subject.class);
-        final Optional<AnnotationValue<io.micronaut.nats.jetstream.annotation.ConsumerConfiguration>>
-            consumerConfigurationAnnotationValue = method.findAnnotation(
-            io.micronaut.nats.jetstream.annotation.ConsumerConfiguration.class);
-
+                method.findAnnotation(JetStreamListener.class);
         if (!listenerAnnotation.isPresent()) {
             // Nothing to do if no consumer or subject annotation is present
             return;
         }
 
-        if (streamAnnotation.isPresent() && !subjectAnnotation.isPresent()) {
-            throw new MessageListenerException(
-                "The @Subject Annotation is missing for the method " + method);
-        }
+        final Optional<AnnotationValue<PushConsumer>> pushConsumerAnnotation =
+                method.findAnnotation(PushConsumer.class);
+        final Optional<AnnotationValue<Subject>> subjectAnnotation =
+                method.findAnnotation(Subject.class);
 
-        String durable = consumerConfigurationAnnotationValue.flatMap(a -> a.getValue(String.class))
-                                                             .filter(StringUtils::isNotEmpty)
-                                                             .orElseThrow(
-                                                                 () -> new MessageListenerException(
-                                                                     "In the @ConsumerConfiguration Annotation is the value attribute "
-                                                                         + "missing for the method "
-                                                                         + method));
+        if (!pushConsumerAnnotation.isPresent()) {
+            // Ignore the current method
+            return;
+        }
 
         String subject = subjectAnnotation.flatMap(a -> a.getValue(String.class))
                                           .filter(StringUtils::isNotEmpty)
                                           .orElseThrow(() -> new MessageListenerException(
-                                              "In the @Subject Annotation is the value attribute "
-                                                  + "missing for the " + "method " + method));
-        String streamName = streamAnnotation.flatMap(a -> a.getValue(String.class))
-                                            .filter(StringUtils::isNotEmpty)
-                                            .orElseThrow(() -> new MessageListenerException(
-                                                "In the @Stream Annotation is the value attribute"
-                                                    + " missing for the method " + method));
+                                              "In the @PushConsumer Annotation is the subject"
+                                                  + " attribute "
+                                                  + "missing for the method " + method));
+        String streamName = pushConsumerAnnotation.flatMap(a -> a.getValue(String.class))
+                                                  .filter(StringUtils::isNotEmpty)
+                                                  .orElseThrow(() -> new MessageListenerException(
+                                                      "In the @PushConsumer Annotation is the "
+                                                          + "value attribute"
+                                                          + " missing for the method " + method));
 
         String connectionName = method.stringValue(NatsConnection.class, "connection")
                                       .orElse(NatsConnection.DEFAULT_CONNECTION);
 
         Qualifier<Object> qualifier =
-            beanDefinition.getAnnotationTypeByStereotype("javax.inject.Qualifier")
-                          .map(type -> Qualifiers.byAnnotation(beanDefinition, type))
-                          .orElse(null);
+                beanDefinition.getAnnotationTypeByStereotype("javax.inject.Qualifier")
+                              .map(type -> Qualifiers.byAnnotation(beanDefinition, type))
+                              .orElse(null);
 
         Class<Object> beanType = (Class<Object>) beanDefinition.getBeanType();
 
@@ -168,14 +158,11 @@ public class JetStreamConsumerAdvice implements ExecutableMethodProcessor<Stream
                                                                                             + NameUtils.hyphenate(
                                                                                             beanType.getSimpleName()))
                                                                                     .orElse(
-                                                                                        "nats-consumer-"
+                                                                                            "jetstream-consumer-"
                                                                                             + clientIdGenerator.incrementAndGet()));
 
         JetStream jetStream =
             beanContext.getBean(JetStream.class, Qualifiers.byName(connectionName));
-
-        //TODO @Requires is not working
-        beanContext.getBean(JetStreamManagement.class, Qualifiers.byName(connectionName));
 
         Connection connection =
             beanContext.getBean(Connection.class, Qualifiers.byName(connectionName));
@@ -190,44 +177,52 @@ public class JetStreamConsumerAdvice implements ExecutableMethodProcessor<Stream
                 if (boundExecutable != null) {
                     boundExecutable.invoke(bean);
                 }
-            } catch (Throwable e) {
+            } catch (Exception e) {
                 handleException(new JetStreamListenerException(
-                    "An error occurred binding the message to the method", e, bean, msg));
+                        "An error occurred binding the message to the method", e, bean, msg));
             }
 
         };
 
         Set<Subscription> subscriptions = new HashSet<>();
         try {
-            PushSubscribeOptions options =
-                buildConsumerConfiguration(streamName, durable,
-                    consumerConfigurationAnnotationValue.get());
+            AnnotationValue<PushConsumer> pushConsumer = pushConsumerAnnotation.get();
+            PushSubscribeOptions options = buildConsumerConfiguration(streamName, pushConsumer);
 
-            subscriptions.add(jetStream.subscribe(subject, ds, messageHandler, true, options));
-
-            //TODO handle autoAck
+            Optional<String> queueOptional = pushConsumer.get("queue", String.class);
+            if (queueOptional.isPresent() && !queueOptional.get().isEmpty()) {
+                subscriptions.add(
+                    jetStream.subscribe(subject, queueOptional.get(), ds, messageHandler, false,
+                        options));
+            } else {
+                subscriptions.add(jetStream.subscribe(subject, ds, messageHandler, false, options));
+            }
 
         } catch (IOException | JetStreamApiException e) {
             handleException(new JetStreamListenerException(
-                "An error occurred binding the message to the method", e, bean));
+                    "An error occurred binding the message to the method", e, bean));
         }
 
         consumers.put(clientId, new ConsumerState(clientId, subscriptions, ds, connection));
     }
 
-    private PushSubscribeOptions buildConsumerConfiguration(String streamName, String durable,
-        @NonNull AnnotationValue<io.micronaut.nats.jetstream.annotation.ConsumerConfiguration> annotationValue) {
+    private PushSubscribeOptions buildConsumerConfiguration(String streamName,
+            @NonNull AnnotationValue<PushConsumer> annotationValue) {
 
-        ConsumerConfiguration.Builder builder = ConsumerConfiguration.builder().durable(durable);
+        ConsumerConfiguration.Builder builder = ConsumerConfiguration.builder();
+        final Optional<String> durable = annotationValue.stringValue("durable");
+        if (durable.isPresent()) {
+            builder = builder.durable(durable.get());
+        }
 
         final Optional<DeliverPolicy> deliverPolicy =
-            annotationValue.enumValue("deliverPolicy", DeliverPolicy.class);
+                annotationValue.enumValue("deliverPolicy", DeliverPolicy.class);
         if (deliverPolicy.isPresent()) {
             builder = builder.deliverPolicy(deliverPolicy.get());
         }
 
         final Optional<String> deliverSubject =
-            annotationValue.stringValue("deliverSubject").filter(StringUtils::isNotEmpty);
+                annotationValue.stringValue("deliverSubject").filter(StringUtils::isNotEmpty);
         if (deliverSubject.isPresent()) {
             builder = builder.deliverSubject(deliverSubject.get());
         }
@@ -296,16 +291,6 @@ public class JetStreamConsumerAdvice implements ExecutableMethodProcessor<Stream
             builder = builder.headersOnly(headersOnly.get());
         }
 
-        final OptionalLong maxBatch = annotationValue.longValue("maxBatch");
-        if (maxBatch.isPresent()) {
-            builder = builder.maxBatch(maxBatch.getAsLong());
-        }
-
-        final OptionalLong maxBytes = annotationValue.longValue("maxBytes");
-        if (maxBytes.isPresent()) {
-            builder = builder.maxBytes(maxBytes.getAsLong());
-        }
-
         final OptionalLong maxAckPending = annotationValue.longValue("maxAckPending");
         if (maxAckPending.isPresent()) {
             builder = builder.maxAckPending(maxAckPending.getAsLong());
@@ -328,15 +313,11 @@ public class JetStreamConsumerAdvice implements ExecutableMethodProcessor<Stream
             builder = builder.description(description.get());
         }
 
-        final OptionalLong inactiveThreshold = annotationValue.longValue("inactiveThreshold");
-        if (inactiveThreshold.isPresent()) {
-            builder = builder.inactiveThreshold(inactiveThreshold.getAsLong());
-        }
-
+        ConsumerConfiguration cc = builder.build();
         return PushSubscribeOptions.builder()
                                    .stream(streamName)
-                                   .durable(durable)
-                                   .configuration(builder.build())
+                                   .durable(cc.getDurable())
+                                   .configuration(cc)
                                    .build();
     }
 

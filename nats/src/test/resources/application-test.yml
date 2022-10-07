@@ -10,7 +10,3 @@ nats:
           storage-type: Memory
           subjects:
             - subject.>
-        errorTest:
-          storage-type: Memory
-          subjects:
-            - errorTest.>

@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2022 original authors
+ * Copyright 2017-2020 original authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,32 +23,50 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 import io.micronaut.context.annotation.AliasFor;
-import io.micronaut.core.annotation.NonNull;
+import io.micronaut.context.annotation.Executable;
+import io.micronaut.core.bind.annotation.Bindable;
+import io.micronaut.messaging.annotation.MessageMapping;
+import io.micronaut.nats.annotation.NatsConnection;
+import io.micronaut.nats.annotation.Subject;
 import io.nats.client.api.AckPolicy;
 import io.nats.client.api.DeliverPolicy;
 import io.nats.client.api.ReplayPolicy;
 
 /**
- * @author jgrimm
+ * Used to specify which stream should be used for messages.
+ *
+ * @author Joachim Grimm
+ * @since 4.0.0
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ ElementType.METHOD, ElementType.TYPE })
+@Target({ ElementType.METHOD, ElementType.PARAMETER, ElementType.TYPE })
+@Bindable
+@Executable
+@MessageMapping
 @Inherited
-public @interface ConsumerConfiguration {
+public @interface PushConsumer {
+
+    /**
+     * @return The subject to subscribe to.
+     */
+    @AliasFor(annotation = MessageMapping.class, member = "value")
+    String value() default "";
+
+    /**
+     * @return The connection to use
+     * @see NatsConnection#connection()
+     */
+    @AliasFor(annotation = NatsConnection.class, member = "connection")
+    String connection() default "";
+
+    @AliasFor(annotation = Subject.class, member = "value")
+    String subject();
 
     /**
      * @return the durable name
      * @see io.nats.client.api.ConsumerConfiguration.Builder#durable(String)
      */
-    @NonNull
-    String value();
-
-    /**
-     * @return the durable name
-     * @see io.nats.client.api.ConsumerConfiguration.Builder#durable(String)
-     */
-    @AliasFor(member = "value")
     String durable();
 
     /**
@@ -154,40 +172,7 @@ public @interface ConsumerConfiguration {
     String description();
 
     /**
-     * @return the max batch size
-     * @see io.nats.client.api.ConsumerConfiguration.Builder#maxBatch(long)
-     * TODO only pull subscribers
+     * @return the queue of the consumer
      */
-    long maxBatch();
-
-    /**
-     * @return the max bytes
-     * @see io.nats.client.api.ConsumerConfiguration.Builder#maxBytes(long)
-     * TODO only pull subscribers
-     */
-    long maxBytes();
-
-    /**
-     * @return the max expires
-     * @see io.nats.client.api.ConsumerConfiguration.Builder#maxExpires(long)
-     * TODO only pull subscribers
-     */
-    long maxExpires();
-
-    /**
-     * @return the inactive threshold
-     * @see io.nats.client.api.ConsumerConfiguration.Builder#inactiveThreshold(long)
-     * TODO only pull subscribers
-     */
-    long inactiveThreshold();
-
-    /**
-     * @return the max pull waiting
-     * @see io.nats.client.api.ConsumerConfiguration.Builder#maxPullWaiting(long)
-     * TODO only pull subscribers
-     */
-    long maxPullWaiting();
-
-    //TODO ZonedDateTime startTime();
-
+    String queue() default "";
 }

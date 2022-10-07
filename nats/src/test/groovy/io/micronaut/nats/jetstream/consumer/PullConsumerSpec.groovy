@@ -20,42 +20,48 @@ import io.micronaut.context.annotation.Requires
 import io.micronaut.messaging.annotation.MessageBody
 import io.micronaut.nats.annotation.Subject
 import io.micronaut.nats.jetstream.AbstractJetstreamTest
+import io.micronaut.nats.jetstream.PullConsumerRegistry
 import io.micronaut.nats.jetstream.annotation.JetStreamClient
-import io.micronaut.nats.jetstream.annotation.JetStreamListener
-import io.micronaut.nats.jetstream.annotation.PushConsumer
+import io.nats.client.JetStreamManagement
+import io.nats.client.PullSubscribeOptions
 import io.nats.client.api.PublishAck
 
-class ExceptionConsumerSpec extends AbstractJetstreamTest {
+import java.time.Duration
 
-    void "throw exception in consumer"() {
-        when:
+class PullConsumerSpec extends AbstractJetstreamTest {
+
+    void "simple pulling"() {
+        given:
         ApplicationContext context = startContext()
         MyProducer producer = context.getBean(MyProducer)
+        PullConsumerRegistry pullConsumerRegistry = context.getBean(PullConsumerRegistry)
+        JetStreamManagement jsm = context.getBean(JetStreamManagement)
 
-        then:
+        when:
         producer.one("abc".bytes)
 
+        then:
+        def configuration = PullSubscribeOptions.builder()
+                .stream("widgets")
+                .durable("test1")
+                .configuration(io.nats.client.api.ConsumerConfiguration.builder().ackWait(Duration.ofMillis(2500)).build())
+        def streamSubscription = pullConsumerRegistry.newConsumer("subject.three", configuration.build())
+        def fetch = streamSubscription.fetch(1, Duration.ofSeconds(3l))
+        fetch.forEach { it.ack() }
+        fetch.size() == 1
+
+        streamSubscription.fetch(1, Duration.ofSeconds(3l)).size() == 0
+
         cleanup:
+        jsm.purgeStream("widgets")
         context.close()
     }
 
-    @Requires(property = "spec.name", value = "ExceptionConsumerSpec")
-    @JetStreamListener
-    static class MyConsumer {
-
-        @PushConsumer("widgets")
-        @Subject("subject.>")
-
-        void listen(byte[] data) {
-            throw new IOException()
-        }
-    }
-
-    @Requires(property = "spec.name", value = "ExceptionConsumerSpec")
+    @Requires(property = "spec.name", value = "PullConsumerSpec")
     @JetStreamClient
     static interface MyProducer {
 
-        @Subject("subject.test")
+        @Subject("subject.three")
         PublishAck one(@MessageBody byte[] data)
 
     }

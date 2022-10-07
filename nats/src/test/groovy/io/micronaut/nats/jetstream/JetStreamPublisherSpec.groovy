@@ -17,14 +17,11 @@ package io.micronaut.nats.jetstream
 
 import io.micronaut.context.ApplicationContext
 import io.micronaut.context.annotation.Requires
-import io.micronaut.inject.qualifiers.Qualifiers
 import io.micronaut.messaging.annotation.MessageBody
-import io.micronaut.nats.annotation.NatsConnection
 import io.micronaut.nats.annotation.Subject
-import io.micronaut.nats.jetstream.annotation.ConsumerConfiguration
 import io.micronaut.nats.jetstream.annotation.JetStreamClient
 import io.micronaut.nats.jetstream.annotation.JetStreamListener
-import io.micronaut.nats.jetstream.annotation.Stream
+import io.micronaut.nats.jetstream.annotation.PushConsumer
 import io.nats.client.JetStreamManagement
 import io.nats.client.PublishOptions
 import io.nats.client.api.PublishAck
@@ -39,7 +36,7 @@ class JetStreamPublisherSpec extends AbstractJetstreamTest {
         MyProducer producer = context.getBean(MyProducer)
         MyConsumer consumer = context.getBean(MyConsumer)
         PollingConditions conditions = new PollingConditions(timeout: 3)
-        JetStreamManagement jsm = context.getBean(JetStreamManagement, Qualifiers.byName(NatsConnection.DEFAULT_CONNECTION))
+        JetStreamManagement jsm = context.getBean(JetStreamManagement)
 
         when:
         producer.one("abc".bytes, null)
@@ -53,6 +50,7 @@ class JetStreamPublisherSpec extends AbstractJetstreamTest {
         }
 
         cleanup:
+        jsm.purgeStream("widgets")
         context.close()
     }
 
@@ -62,7 +60,7 @@ class JetStreamPublisherSpec extends AbstractJetstreamTest {
         MyProducer producer = context.getBean(MyProducer)
         MyConsumer consumer = context.getBean(MyConsumer)
         PollingConditions conditions = new PollingConditions(timeout: 3)
-        JetStreamManagement jsm = context.getBean(JetStreamManagement, Qualifiers.byName(NatsConnection.DEFAULT_CONNECTION))
+        JetStreamManagement jsm = context.getBean(JetStreamManagement)
 
         when:
         PublishAck pa = producer.two("ghi".bytes, PublishOptions.builder()
@@ -81,11 +79,12 @@ class JetStreamPublisherSpec extends AbstractJetstreamTest {
         then:
         conditions.eventually {
             StreamInfo streamInfo = jsm.getStreamInfo("widgets")
-            streamInfo.streamState.msgCount == 4
-            consumer.messages.size() == 4
+            streamInfo.streamState.msgCount == 2
+            consumer.messages.size() == 2
         }
 
         cleanup:
+        jsm.purgeStream("widgets")
         context.close()
     }
 
@@ -107,9 +106,7 @@ class JetStreamPublisherSpec extends AbstractJetstreamTest {
 
         public static List<byte[]> messages = []
 
-        @Stream("widgets")
-        @Subject("subject.>")
-        @ConsumerConfiguration("test")
+        @PushConsumer(value = "widgets", subject = "subject.>", durable = "test")
         void listen(byte[] data) {
             messages.add(data)
         }
