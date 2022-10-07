@@ -24,6 +24,7 @@ import io.micronaut.nats.jetstream.annotation.JetStreamListener
 import io.micronaut.nats.jetstream.annotation.PushConsumer
 import io.nats.client.JetStreamManagement
 import io.nats.client.PublishOptions
+import io.nats.client.api.AckPolicy
 import io.nats.client.api.PublishAck
 import io.nats.client.api.StreamInfo
 import spock.util.concurrent.PollingConditions
@@ -80,7 +81,7 @@ class JetStreamPublisherSpec extends AbstractJetstreamTest {
         conditions.eventually {
             StreamInfo streamInfo = jsm.getStreamInfo("widgets")
             streamInfo.streamState.msgCount == 2
-            consumer.messages.size() == 2
+            consumer.messages.size() == 4
         }
 
         cleanup:
@@ -106,7 +107,7 @@ class JetStreamPublisherSpec extends AbstractJetstreamTest {
 
         public static List<byte[]> messages = []
 
-        @PushConsumer(value = "widgets", subject = "subject.>", durable = "test")
+        @PushConsumer(value = "widgets", subject = "subject.>", durable = "test", ackPolicy = AckPolicy.All)
         void listen(byte[] data) {
             messages.add(data)
         }

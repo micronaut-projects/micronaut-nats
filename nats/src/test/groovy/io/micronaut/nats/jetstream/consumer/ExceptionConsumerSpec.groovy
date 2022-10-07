@@ -45,7 +45,6 @@ class ExceptionConsumerSpec extends AbstractJetstreamTest {
 
         @PushConsumer("widgets")
         @Subject("subject.>")
-
         void listen(byte[] data) {
             throw new IOException()
         }

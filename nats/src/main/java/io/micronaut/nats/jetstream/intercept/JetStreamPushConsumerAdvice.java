@@ -16,6 +16,7 @@
 package io.micronaut.nats.jetstream.intercept;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Optional;
@@ -37,6 +38,7 @@ import io.micronaut.core.util.StringUtils;
 import io.micronaut.inject.BeanDefinition;
 import io.micronaut.inject.ExecutableMethod;
 import io.micronaut.inject.qualifiers.Qualifiers;
+import io.micronaut.messaging.Acknowledgement;
 import io.micronaut.messaging.exceptions.MessageListenerException;
 import io.micronaut.nats.annotation.NatsConnection;
 import io.micronaut.nats.annotation.Subject;
@@ -121,6 +123,7 @@ public class JetStreamPushConsumerAdvice implements ExecutableMethodProcessor<Pu
             // Ignore the current method
             return;
         }
+        AnnotationValue<PushConsumer> pushConsumer = pushConsumerAnnotation.get();
 
         String subject = subjectAnnotation.flatMap(a -> a.getValue(String.class))
                                           .filter(StringUtils::isNotEmpty)
@@ -128,20 +131,37 @@ public class JetStreamPushConsumerAdvice implements ExecutableMethodProcessor<Pu
                                               "In the @PushConsumer Annotation is the subject"
                                                   + " attribute "
                                                   + "missing for the method " + method));
-        String streamName = pushConsumerAnnotation.flatMap(a -> a.getValue(String.class))
-                                                  .filter(StringUtils::isNotEmpty)
-                                                  .orElseThrow(() -> new MessageListenerException(
-                                                      "In the @PushConsumer Annotation is the "
-                                                          + "value attribute"
-                                                          + " missing for the method " + method));
+        String streamName = pushConsumer.getValue(String.class)
+                                        .filter(StringUtils::isNotEmpty)
+                                        .orElseThrow(() -> new MessageListenerException(
+                                            "In the @PushConsumer Annotation is the "
+                                                + "value attribute"
+                                                + " missing for the method " + method));
+
+        final Optional<AckPolicy> ackPolicy = pushConsumer.enumValue("ackPolicy", AckPolicy.class);
+
+        boolean autoAck = true;
+        if (ackPolicy.isPresent()) {
+            AckPolicy policy = ackPolicy.get();
+            if (policy != AckPolicy.All) {
+                autoAck = false;
+            }
+            if (policy == AckPolicy.Explicit && Arrays.stream(method.getArguments())
+                                                      .noneMatch(
+                                                          a -> Acknowledgement.class.isAssignableFrom(
+                                                              a.getType()))) {
+                throw new MessageListenerException("The ackPolicy for method " + method
+                    + " is explicit. The method must have a argument of type Achnowledgement");
+            }
+        }
 
         String connectionName = method.stringValue(NatsConnection.class, "connection")
                                       .orElse(NatsConnection.DEFAULT_CONNECTION);
 
         Qualifier<Object> qualifier =
-                beanDefinition.getAnnotationTypeByStereotype("javax.inject.Qualifier")
-                              .map(type -> Qualifiers.byAnnotation(beanDefinition, type))
-                              .orElse(null);
+            beanDefinition.getAnnotationTypeByStereotype("javax.inject.Qualifier")
+                          .map(type -> Qualifiers.byAnnotation(beanDefinition, type))
+                          .orElse(null);
 
         Class<Object> beanType = (Class<Object>) beanDefinition.getBeanType();
 
@@ -186,16 +206,16 @@ public class JetStreamPushConsumerAdvice implements ExecutableMethodProcessor<Pu
 
         Set<Subscription> subscriptions = new HashSet<>();
         try {
-            AnnotationValue<PushConsumer> pushConsumer = pushConsumerAnnotation.get();
             PushSubscribeOptions options = buildConsumerConfiguration(streamName, pushConsumer);
 
             Optional<String> queueOptional = pushConsumer.get("queue", String.class);
             if (queueOptional.isPresent() && !queueOptional.get().isEmpty()) {
                 subscriptions.add(
-                    jetStream.subscribe(subject, queueOptional.get(), ds, messageHandler, false,
+                    jetStream.subscribe(subject, queueOptional.get(), ds, messageHandler, autoAck,
                         options));
             } else {
-                subscriptions.add(jetStream.subscribe(subject, ds, messageHandler, false, options));
+                subscriptions.add(
+                    jetStream.subscribe(subject, ds, messageHandler, autoAck, options));
             }
 
         } catch (IOException | JetStreamApiException e) {
