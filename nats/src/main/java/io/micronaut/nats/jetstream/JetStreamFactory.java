@@ -51,24 +51,39 @@ public class JetStreamFactory {
     /**
      * @param config The jetstream configuration
      * @return The jetstream management
+     * @throws IOException in case of communication issue
+     */
+    @Singleton
+    @EachBean(NatsConnectionFactoryConfig.class)
+    JetStreamManagement jetStreamManagement(NatsConnectionFactoryConfig config) throws IOException {
+        if (config.getJetstream() != null) {
+            return getConnectionByName(config.getName()).jetStreamManagement(
+                    config.getJetstream().toJetStreamOptions());
+        }
+        return null;
+    }
+
+    /**
+     * @param config The jetstream configuration
+     * @return The jetstream
      * @throws IOException           in case of communication issue
      * @throws JetStreamApiException the request had an error related to the data
      */
     @Singleton
     @EachBean(NatsConnectionFactoryConfig.class)
-    JetStreamManagement jetStreamManagement(NatsConnectionFactoryConfig config)
-        throws IOException, JetStreamApiException {
+    JetStream jetStream(NatsConnectionFactoryConfig config) throws IOException, JetStreamApiException {
         if (config.getJetstream() != null) {
-            final JetStreamManagement jetStreamManagement =
-                getConnectionByName(config.getName()).jetStreamManagement(
+            Connection connection = getConnectionByName(config.getName());
+
+            final JetStreamManagement jetStreamManagement = getConnectionByName(config.getName()).jetStreamManagement(
                     config.getJetstream().toJetStreamOptions());
 
             // initialize the given stream configurations
-            for (Map.Entry<String,
-                NatsConnectionFactoryConfig.JetStreamConfiguration.StreamConfiguration> streamEntry :
-                config.getJetstream().getStreams().entrySet()) {
+            for (Map.Entry<String, NatsConnectionFactoryConfig.JetStreamConfiguration.StreamConfiguration> streamEntry : config.getJetstream()
+                                                                                                                               .getStreams()
+                                                                                                                               .entrySet()) {
                 final StreamConfiguration streamConfiguration =
-                    streamEntry.getValue().toStreamConfiguration(streamEntry.getKey());
+                        streamEntry.getValue().toStreamConfiguration(streamEntry.getKey());
                 if (jetStreamManagement.getStreamNames().contains(streamEntry.getKey())) {
                     StreamInfo streamInfo = jetStreamManagement.getStreamInfo(streamEntry.getKey());
                     if (!streamInfo.getConfiguration().equals(streamConfiguration)) {
@@ -79,22 +94,7 @@ public class JetStreamFactory {
                 }
             }
 
-            return jetStreamManagement;
-        }
-        return null;
-    }
-
-    /**
-     * @param config The jetstream configuration
-     * @return The jetstream
-     * @throws IOException in case of communication issue
-     */
-    @Singleton
-    @EachBean(NatsConnectionFactoryConfig.class)
-    JetStream jetStream(NatsConnectionFactoryConfig config) throws IOException {
-        if (config.getJetstream() != null) {
-            return getConnectionByName(config.getName()).jetStream(
-                config.getJetstream().toJetStreamOptions());
+            return connection.jetStream(config.getJetstream().toJetStreamOptions());
         }
         return null;
     }
