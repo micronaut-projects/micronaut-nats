@@ -15,12 +15,12 @@
  */
 package io.micronaut.nats.jetstream;
 
-import java.io.Closeable;
 import java.io.IOException;
 
-import io.micronaut.context.annotation.EachBean;
-import io.micronaut.context.annotation.Parameter;
+import io.micronaut.context.BeanContext;
 import io.micronaut.core.annotation.NonNull;
+import io.micronaut.inject.qualifiers.Qualifiers;
+import io.micronaut.nats.annotation.NatsConnection;
 import io.nats.client.JetStream;
 import io.nats.client.JetStreamApiException;
 import io.nats.client.JetStreamSubscription;
@@ -33,18 +33,18 @@ import jakarta.inject.Singleton;
  * @author Joachim Grimm
  * @since 4.0.0
  */
-@EachBean(JetStream.class)
 @Singleton
-public class PullConsumerRegistry implements Closeable {
+public class PullConsumerRegistry {
 
-    private final JetStream jetStream;
+    private final BeanContext beanContext;
 
-    public PullConsumerRegistry(@Parameter JetStream jetStream) {
-        this.jetStream = jetStream;
+    public PullConsumerRegistry(BeanContext beanContext) {
+        this.beanContext = beanContext;
     }
 
     /**
-     * create a new pull consumer subscription.
+     * create a new pull consumer subscription for the default connection.
+     * the subscription is not managed by micronaut and needs to be closed manually
      *
      * @param subject              {@link String}
      * @param pullSubscribeOptions {@link PullSubscribeOptions}
@@ -52,14 +52,32 @@ public class PullConsumerRegistry implements Closeable {
      * @throws JetStreamApiException in case of a jetstream error
      * @throws IOException           in case of a connection error
      */
-    public JetStreamSubscription newConsumer(@NonNull String subject,
+    public JetStreamSubscription newPullConsumer(@NonNull String subject,
         @NonNull PullSubscribeOptions pullSubscribeOptions)
         throws JetStreamApiException, IOException {
+        JetStream jetStream = beanContext.getBean(JetStream.class,
+            Qualifiers.byName(NatsConnection.DEFAULT_CONNECTION));
         return jetStream.subscribe(subject, pullSubscribeOptions);
     }
 
-    @Override
-    public void close() throws IOException {
+    /**
+     * create a new pull consumer subscription for the default connection.
+     * the subscription is not managed by micronaut and needs to be closed manually
+     *
+     * @param connectionName       {@link String}
+     * @param subject              {@link String}
+     * @param pullSubscribeOptions {@link PullSubscribeOptions}
+     * @return jetStreamSubcription {@link JetStreamSubscription}
+     * @throws JetStreamApiException in case of a jetstream error
+     * @throws IOException           in case of a connection error
+     */
+    public JetStreamSubscription newPullConsumer(@NonNull String connectionName,
+        @NonNull String subject, @NonNull PullSubscribeOptions pullSubscribeOptions)
+        throws JetStreamApiException, IOException {
 
+        JetStream jetStream =
+            beanContext.getBean(JetStream.class, Qualifiers.byName(connectionName));
+        return jetStream.subscribe(subject, pullSubscribeOptions);
     }
+
 }

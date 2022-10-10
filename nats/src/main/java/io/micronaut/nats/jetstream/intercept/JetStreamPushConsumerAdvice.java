@@ -43,6 +43,7 @@ import io.micronaut.messaging.exceptions.MessageListenerException;
 import io.micronaut.nats.annotation.NatsConnection;
 import io.micronaut.nats.annotation.Subject;
 import io.micronaut.nats.bind.NatsBinderRegistry;
+import io.micronaut.nats.jetstream.PushConsumerRegistry;
 import io.micronaut.nats.jetstream.annotation.JetStreamListener;
 import io.micronaut.nats.jetstream.annotation.PushConsumer;
 import io.micronaut.nats.jetstream.exception.JetStreamListenerException;
@@ -52,6 +53,7 @@ import io.nats.client.Connection;
 import io.nats.client.Dispatcher;
 import io.nats.client.JetStream;
 import io.nats.client.JetStreamApiException;
+import io.nats.client.JetStreamSubscription;
 import io.nats.client.Message;
 import io.nats.client.MessageHandler;
 import io.nats.client.PushSubscribeOptions;
@@ -74,7 +76,9 @@ import jakarta.inject.Singleton;
  */
 @Singleton
 @Bean(preDestroy = "close")
-public class JetStreamPushConsumerAdvice implements ExecutableMethodProcessor<PushConsumer>, AutoCloseable {
+public class JetStreamPushConsumerAdvice
+    implements ExecutableMethodProcessor<PushConsumer>, AutoCloseable,
+    PushConsumerRegistry {
 
     private final BeanContext beanContext;
 
@@ -358,6 +362,34 @@ public class JetStreamPushConsumerAdvice implements ExecutableMethodProcessor<Pu
             ((JetStreamListenerExceptionHandler) bean).handle(exception);
         } else {
             exceptionHandler.handle(exception);
+        }
+    }
+
+    @Override
+    public JetStreamSubscription newSubscription(String subject,
+        PushSubscribeOptions pushSubscribeOptions, String queue)
+        throws JetStreamApiException, IOException {
+        JetStream jetStream =
+            beanContext.getBean(JetStream.class,
+                Qualifiers.byName(NatsConnection.DEFAULT_CONNECTION));
+
+        if (queue == null) {
+            return jetStream.subscribe(subject, pushSubscribeOptions);
+        } else {
+            return jetStream.subscribe(subject, queue, pushSubscribeOptions);
+        }
+    }
+
+    @Override
+    public JetStreamSubscription newSubscription(String connectionName, String subject,
+        PushSubscribeOptions pushSubscribeOptions, String queue)
+        throws JetStreamApiException, IOException {
+        JetStream jetStream =
+            beanContext.getBean(JetStream.class, Qualifiers.byName(connectionName));
+        if (queue == null) {
+            return jetStream.subscribe(subject, pushSubscribeOptions);
+        } else {
+            return jetStream.subscribe(subject, queue, pushSubscribeOptions);
         }
     }
 

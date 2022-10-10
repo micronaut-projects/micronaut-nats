@@ -45,7 +45,7 @@ class PullConsumerSpec extends AbstractJetstreamTest {
                 .stream("widgets")
                 .durable("test1")
                 .configuration(io.nats.client.api.ConsumerConfiguration.builder().ackWait(Duration.ofMillis(2500)).build())
-        def streamSubscription = pullConsumerRegistry.newConsumer("subject.three", configuration.build())
+        def streamSubscription = pullConsumerRegistry.newPullConsumer("subject.three", configuration.build())
         def fetch = streamSubscription.fetch(1, Duration.ofSeconds(3l))
         fetch.forEach { it.ack() }
         fetch.size() == 1
