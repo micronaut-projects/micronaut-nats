@@ -32,7 +32,7 @@ import io.micronaut.nats.jetstream.reactive.ReactivePublisher;
 @Internal
 class JetStreamPublisherState extends StaticPublisherState {
 
-    private final Optional<Argument> publishOptions;
+    private final Optional<Argument<?>> publishOptions;
 
     private final ReactivePublisher reactivePublisher;
 
@@ -45,7 +45,7 @@ class JetStreamPublisherState extends StaticPublisherState {
      */
     JetStreamPublisherState(StaticPublisherState publisherState,
         ReactivePublisher reactivePublisher,
-        Optional<Argument> publishOptions) {
+        Optional<Argument<?>> publishOptions) {
         super(publisherState);
         this.publishOptions = publishOptions;
         this.reactivePublisher = reactivePublisher;
@@ -54,7 +54,7 @@ class JetStreamPublisherState extends StaticPublisherState {
     /**
      * @return The PublishOptions argument
      */
-    Optional<Argument> getPublishOptions() {
+    Optional<Argument<?>> getPublishOptions() {
         return publishOptions;
     }
 

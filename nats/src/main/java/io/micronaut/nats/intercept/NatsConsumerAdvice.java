@@ -156,7 +156,7 @@ public class NatsConsumerAdvice implements ExecutableMethodProcessor<Subject>, A
             BoundExecutable boundExecutable = null;
             try {
                 boundExecutable = binder.bind(method, binderRegistry, msg);
-            } catch (Throwable e) {
+            } catch (Exception e) {
                 handleException(
                     new NatsListenerException(
                         "An error occurred binding the message to the method",

@@ -37,7 +37,7 @@ public class StaticPublisherState {
 
     private final String subject;
 
-    private final Argument bodyArgument;
+    private final Argument<?> bodyArgument;
 
     private final Headers headers;
 
@@ -60,7 +60,7 @@ public class StaticPublisherState {
      * @param serDes            The body serializer
      * @param reactivePublisher The reactive publisher
      */
-    protected StaticPublisherState(String subject, Argument bodyArgument, Headers methodHeaders,
+    protected StaticPublisherState(String subject, Argument<?> bodyArgument, Headers methodHeaders,
         ReturnType<?> returnType, String connection,
         NatsMessageSerDes<?> serDes, ReactivePublisher reactivePublisher) {
         this.subject = subject;

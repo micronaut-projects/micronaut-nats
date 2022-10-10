@@ -208,7 +208,7 @@ public class NatsIntroductionAdvice implements MethodInterceptor<Object, Object>
      * @param method the executable method
      * @return the publisher state
      */
-    protected StaticPublisherState buildPublisherState(ExecutableMethod method) {
+    protected StaticPublisherState buildPublisherState(ExecutableMethod<?, ?> method) {
         Optional<String> subject =
             method.findAnnotation(Subject.class).flatMap(AnnotationValue::stringValue);
 
@@ -247,7 +247,7 @@ public class NatsIntroductionAdvice implements MethodInterceptor<Object, Object>
         try {
             reactivePublisher = beanContext.getBean(ReactivePublisher.class,
                 Qualifiers.byName(connection));
-        } catch (Throwable e) {
+        } catch (Exception e) {
             throw new NatsClientException(
                 String.format(
                     "Failed to retrieve a publisher named [%s] to publish messages",
@@ -271,11 +271,12 @@ public class NatsIntroductionAdvice implements MethodInterceptor<Object, Object>
      */
     protected Message buildNatsMessage(MethodInvocationContext<Object, Object> context,
                                        Headers headers,
-                                       Argument bodyArgument, NatsMessageSerDes serDes, Optional<String> subjectOptional) {
+                                       Argument<?> bodyArgument, NatsMessageSerDes<Object> serDes,
+        Optional<String> subjectOptional) {
         NatsMessage.Builder builder = NatsMessage.builder();
-        Argument[] arguments = context.getArguments();
+        Argument<?>[] arguments = context.getArguments();
         Map<String, Object> parameterValues = context.getParameterValueMap();
-        for (Argument argument : arguments) {
+        for (Argument<?> argument : arguments) {
             AnnotationValue<MessageHeader> headerAnn = argument.getAnnotation(MessageHeader.class);
             boolean headersObject = argument.getType() == Headers.class;
             if (headerAnn != null) {
@@ -309,7 +310,8 @@ public class NatsIntroductionAdvice implements MethodInterceptor<Object, Object>
         return builder.build();
     }
 
-    private Object deserialize(Message message, Argument dataType, Argument returnType) {
+    private Object deserialize(Message message, Argument<Object> dataType,
+        Argument<Object> returnType) {
         Optional<NatsMessageSerDes<Object>> serDes = serDesRegistry.findSerdes(dataType);
         if (serDes.isPresent()) {
             return serDes.get().deserialize(message, returnType);
@@ -341,7 +343,7 @@ public class NatsIntroductionAdvice implements MethodInterceptor<Object, Object>
             .findFirst();
     }
 
-    private Map.Entry<String, List<String>> getNameAndValue(Argument argument,
+    private Map.Entry<String, List<String>> getNameAndValue(Argument<?> argument,
                                                             AnnotationValue<?> annotationValue,
                                                             Map<String, Object> parameterValues) {
         String argumentName = argument.getName();

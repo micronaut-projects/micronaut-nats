@@ -58,7 +58,7 @@ public class JetStreamIntroductionAdvice extends NatsIntroductionAdvice {
 
     private static final Logger LOG = LoggerFactory.getLogger(JetStreamIntroductionAdvice.class);
 
-    private final Cache<ExecutableMethod, JetStreamPublisherState> publisherCache =
+    private final Cache<ExecutableMethod<?, ?>, JetStreamPublisherState> publisherCache =
         Caffeine.newBuilder().build();
 
     /**
@@ -92,7 +92,7 @@ public class JetStreamIntroductionAdvice extends NatsIntroductionAdvice {
                         reactivePublisher = beanContext.getBean(
                             ReactivePublisher.class,
                             Qualifiers.byName(staticPublisherState.getConnection()));
-                    } catch (Throwable e) {
+                    } catch (Exception e) {
                         throw new NatsClientException(
                             String.format(
                                 "Failed to retrieve a publisher named [%s] to publish messages",
@@ -100,11 +100,12 @@ public class JetStreamIntroductionAdvice extends NatsIntroductionAdvice {
                             e);
                     }
 
-                    final Optional<Argument> publishOptions = Arrays.stream(method.getArguments())
-                                                                    .filter(
-                                                                        arg -> PublishOptions.class.isAssignableFrom(
-                                                                            arg.getType()))
-                                                                    .findFirst();
+                    final Optional<Argument<?>> publishOptions =
+                        Arrays.stream(method.getArguments())
+                              .filter(
+                                  arg -> PublishOptions.class.isAssignableFrom(
+                                      arg.getType()))
+                              .findFirst();
 
                     return new JetStreamPublisherState(staticPublisherState, reactivePublisher,
                         publishOptions);
@@ -121,7 +122,7 @@ public class JetStreamIntroductionAdvice extends NatsIntroductionAdvice {
                 if (LOG.isDebugEnabled()) {
                     LOG.debug("Sending the message from context {}.", context);
                 }
-                final Optional<Argument> publishOptionsOptional =
+                final Optional<Argument<?>> publishOptionsOptional =
                     publisherState.getPublishOptions();
                 if (publishOptionsOptional.isPresent()) {
                     final PublishOptions publishOptions = (PublishOptions)
