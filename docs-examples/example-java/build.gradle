@@ -23,4 +23,8 @@ java {
 }
 test {
     useJUnitPlatform()
+
+    jvmArgs '-Duser.country=US'
+    jvmArgs '-Duser.language=en'
+    failFast = true
 }

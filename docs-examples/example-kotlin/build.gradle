@@ -12,6 +12,15 @@ dependencies {
     testImplementation libs.kotlin.stdlib
     testImplementation libs.testcontainers
     testImplementation mn.reactor
+    testRuntimeOnly libs.junit.jupiter.engine
+}
+
+test {
+    useJUnitPlatform()
+
+    jvmArgs '-Duser.country=US'
+    jvmArgs '-Duser.language=en'
+    failFast = true
 }
 
 compileTestKotlin {
