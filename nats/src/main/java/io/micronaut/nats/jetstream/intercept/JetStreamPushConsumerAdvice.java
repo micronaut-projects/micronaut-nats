@@ -240,7 +240,8 @@ public class JetStreamPushConsumerAdvice
         @NonNull AnnotationValue<PushConsumer> annotationValue) {
 
         ConsumerConfiguration.Builder builder = ConsumerConfiguration.builder();
-        final Optional<String> durable = annotationValue.stringValue("durable");
+        final Optional<String> durable =
+            annotationValue.stringValue("durable").filter(StringUtils::isNotEmpty);
         if (durable.isPresent()) {
             builder = builder.durable(durable.get());
         }
@@ -258,7 +259,7 @@ public class JetStreamPushConsumerAdvice
         }
 
         final OptionalLong startSequence = annotationValue.longValue("startSequence");
-        if (startSequence.isPresent()) {
+        if (startSequence.isPresent() && startSequence.getAsLong() != Long.MIN_VALUE) {
             builder.startSequence(startSequence.getAsLong());
         }
 
@@ -269,7 +270,7 @@ public class JetStreamPushConsumerAdvice
         }
 
         final OptionalLong ackWait = annotationValue.longValue("ackWait");
-        if (ackWait.isPresent()) {
+        if (ackWait.isPresent() && ackWait.getAsLong() != Long.MIN_VALUE) {
             builder = builder.ackWait(ackWait.getAsLong());
         }
 
@@ -280,7 +281,7 @@ public class JetStreamPushConsumerAdvice
         }
 
         final OptionalLong maxDeliver = annotationValue.longValue("maxDeliver");
-        if (maxDeliver.isPresent()) {
+        if (maxDeliver.isPresent() && maxDeliver.getAsLong() != Long.MIN_VALUE) {
             builder = builder.maxDeliver(maxDeliver.getAsLong());
         }
 
@@ -291,7 +292,7 @@ public class JetStreamPushConsumerAdvice
         }
 
         final OptionalLong rateLimit = annotationValue.longValue("rateLimit");
-        if (rateLimit.isPresent()) {
+        if (rateLimit.isPresent() && rateLimit.getAsLong() != Long.MIN_VALUE) {
             builder = builder.rateLimit(rateLimit.getAsLong());
         }
 
@@ -302,17 +303,17 @@ public class JetStreamPushConsumerAdvice
         }
 
         final OptionalLong idleHeartbeat = annotationValue.longValue("idleHeartbeat");
-        if (idleHeartbeat.isPresent()) {
+        if (idleHeartbeat.isPresent() && idleHeartbeat.getAsLong() != Long.MIN_VALUE) {
             builder = builder.idleHeartbeat(idleHeartbeat.getAsLong());
         }
 
         final OptionalLong flowControl = annotationValue.longValue("flowControl");
-        if (flowControl.isPresent()) {
+        if (flowControl.isPresent() && flowControl.getAsLong() != Long.MIN_VALUE) {
             builder = builder.flowControl(flowControl.getAsLong());
         }
 
         final long[] backoff = annotationValue.longValues("backoff");
-        if (backoff.length > 0) {
+        if (backoff.length > 0 && backoff[0] != Long.MIN_VALUE) {
             builder = builder.backoff(backoff);
         }
 
@@ -322,13 +323,8 @@ public class JetStreamPushConsumerAdvice
         }
 
         final OptionalLong maxAckPending = annotationValue.longValue("maxAckPending");
-        if (maxAckPending.isPresent()) {
+        if (maxAckPending.isPresent() && maxAckPending.getAsLong() != Long.MIN_VALUE) {
             builder = builder.maxAckPending(maxAckPending.getAsLong());
-        }
-
-        final OptionalLong maxExpires = annotationValue.longValue("maxExpires");
-        if (maxExpires.isPresent()) {
-            builder = builder.maxExpires(maxExpires.getAsLong());
         }
 
         final Optional<String> deliverGroup =

@@ -61,13 +61,13 @@ public @interface PushConsumer {
     String connection() default "";
 
     @AliasFor(annotation = Subject.class, member = "value")
-    String subject();
+    String subject() default "";
 
     /**
      * @return the durable name
      * @see io.nats.client.api.ConsumerConfiguration.Builder#durable(String)
      */
-    String durable();
+    String durable() default "";
 
     /**
      * @return the deliver policy
@@ -79,97 +79,97 @@ public @interface PushConsumer {
      * @return the start sequence
      * @see io.nats.client.api.ConsumerConfiguration.Builder#startSequence(Long)
      */
-    long startSequence();
+    long startSequence() default Long.MIN_VALUE;
 
     /**
      * @return the deliver subject
      * @see io.nats.client.api.ConsumerConfiguration.Builder#deliverSubject(String)
      */
-    String deliverSubject();
+    String deliverSubject() default "";
 
     /**
      * @return the acknowledgment policy
      * @see io.nats.client.api.ConsumerConfiguration.Builder#ackPolicy(AckPolicy)
      */
-    AckPolicy ackPolicy();
+    AckPolicy ackPolicy() default AckPolicy.Explicit;
 
     /**
      * @return the acknowledgment wait time in millis
      * @see io.nats.client.api.ConsumerConfiguration.Builder#ackWait(long)
      */
-    long ackWait();
+    long ackWait() default Long.MIN_VALUE;
 
     /**
      * @return the replay policy
      * @see io.nats.client.api.ConsumerConfiguration.Builder#replayPolicy(ReplayPolicy)
      */
-    ReplayPolicy replayPolicy();
+    ReplayPolicy replayPolicy() default ReplayPolicy.Instant;
 
     /**
      * @return the max deliver
      * @see io.nats.client.api.ConsumerConfiguration.Builder#maxDeliver(long)
      */
-    long maxDeliver();
+    long maxDeliver() default Long.MIN_VALUE;
 
     /**
      * @return the filter subject
      * @see io.nats.client.api.ConsumerConfiguration.Builder#filterSubject(String)
      */
-    String filterSubject();
+    String filterSubject() default "";
 
     /**
      * @return the rate limit
      * @see io.nats.client.api.ConsumerConfiguration.Builder#rateLimit(long)
      */
-    long rateLimit();
+    long rateLimit() default Long.MIN_VALUE;
 
     /**
      * @return the sample frequency
      * @see io.nats.client.api.ConsumerConfiguration.Builder#sampleFrequency(String)
      */
-    String sampleFrequency();
+    String sampleFrequency() default "";
 
     /**
      * @return the idle heartbeat in millis
      * @see io.nats.client.api.ConsumerConfiguration.Builder#idleHeartbeat(long)
      */
-    long idleHeartbeat();
+    long idleHeartbeat() default Long.MIN_VALUE;
 
     /**
      * @return the flow control in millis
      * @see io.nats.client.api.ConsumerConfiguration.Builder#flowControl(long)
      */
-    long flowControl();
+    long flowControl() default Long.MIN_VALUE;
 
     /**
      * @return the back off in millis
      * @see io.nats.client.api.ConsumerConfiguration.Builder#backoff(long...)
      */
-    long[] backoff();
+    long[] backoff() default Long.MIN_VALUE;
 
     /**
      * @return the header only
      * @see io.nats.client.api.ConsumerConfiguration.Builder#headersOnly(Boolean)
      */
-    boolean headersOnly();
+    boolean headersOnly() default false;
 
     /**
      * @return the max acknowledgment pending
      * @see io.nats.client.api.ConsumerConfiguration.Builder#maxAckPending(long)
      */
-    long maxAckPending();
+    long maxAckPending() default Long.MIN_VALUE;
 
     /**
      * @return the deliver group
      * @see io.nats.client.api.ConsumerConfiguration.Builder#deliverGroup(String)
      */
-    String deliverGroup();
+    String deliverGroup() default "";
 
     /**
      * @return the description
      * @see io.nats.client.api.ConsumerConfiguration.Builder#description(String)
      */
-    String description();
+    String description() default "";
 
     /**
      * @return the queue of the consumer
