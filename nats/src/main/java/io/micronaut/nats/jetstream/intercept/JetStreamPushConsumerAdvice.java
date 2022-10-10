@@ -43,6 +43,7 @@ import io.micronaut.messaging.exceptions.MessageListenerException;
 import io.micronaut.nats.annotation.NatsConnection;
 import io.micronaut.nats.annotation.Subject;
 import io.micronaut.nats.bind.NatsBinderRegistry;
+import io.micronaut.nats.intercept.StaticConsumerState;
 import io.micronaut.nats.jetstream.PushConsumerRegistry;
 import io.micronaut.nats.jetstream.annotation.JetStreamListener;
 import io.micronaut.nats.jetstream.annotation.PushConsumer;
@@ -88,7 +89,7 @@ public class JetStreamPushConsumerAdvice
 
     private final ApplicationConfiguration applicationConfiguration;
 
-    private final Map<String, ConsumerState> consumers = new ConcurrentHashMap<>();
+    private final Map<String, StaticConsumerState> consumers = new ConcurrentHashMap<>();
 
     private final AtomicInteger clientIdGenerator = new AtomicInteger(10);
 
@@ -144,20 +145,7 @@ public class JetStreamPushConsumerAdvice
 
         final Optional<AckPolicy> ackPolicy = pushConsumer.enumValue("ackPolicy", AckPolicy.class);
 
-        boolean autoAck = true;
-        if (ackPolicy.isPresent()) {
-            AckPolicy policy = ackPolicy.get();
-            if (policy != AckPolicy.All) {
-                autoAck = false;
-            }
-            if (policy == AckPolicy.Explicit && Arrays.stream(method.getArguments())
-                                                      .noneMatch(
-                                                          a -> Acknowledgement.class.isAssignableFrom(
-                                                              a.getType()))) {
-                throw new MessageListenerException("The ackPolicy for method " + method
-                    + " is explicit. The method must have a argument of type Achnowledgement");
-            }
-        }
+        boolean autoAck = determineAckMode(method, ackPolicy);
 
         String connectionName = method.stringValue(NatsConnection.class, "connection")
                                       .orElse(NatsConnection.DEFAULT_CONNECTION);
@@ -224,14 +212,32 @@ public class JetStreamPushConsumerAdvice
 
         } catch (IOException | JetStreamApiException e) {
             handleException(new JetStreamListenerException(
-                    "An error occurred binding the message to the method", e, bean));
+                "An error occurred binding the message to the method", e, bean));
         }
 
-        consumers.put(clientId, new ConsumerState(clientId, subscriptions, ds, connection));
+        consumers.put(clientId, new StaticConsumerState(clientId, subscriptions, ds, connection));
+    }
+
+    private boolean determineAckMode(ExecutableMethod<?, ?> method, Optional<AckPolicy> ackPolicy) {
+        boolean autoAck = true;
+        if (ackPolicy.isPresent()) {
+            AckPolicy policy = ackPolicy.get();
+            if (policy != AckPolicy.All) {
+                autoAck = false;
+            }
+            if (policy == AckPolicy.Explicit && Arrays.stream(method.getArguments())
+                                                      .noneMatch(
+                                                          a -> Acknowledgement.class.isAssignableFrom(
+                                                              a.getType()))) {
+                throw new MessageListenerException("The ackPolicy for method " + method
+                    + " is explicit. The method must have a argument of type Achnowledgement");
+            }
+        }
+        return autoAck;
     }
 
     private PushSubscribeOptions buildConsumerConfiguration(String streamName,
-            @NonNull AnnotationValue<PushConsumer> annotationValue) {
+        @NonNull AnnotationValue<PushConsumer> annotationValue) {
 
         ConsumerConfiguration.Builder builder = ConsumerConfiguration.builder();
         final Optional<String> durable = annotationValue.stringValue("durable");
@@ -240,7 +246,7 @@ public class JetStreamPushConsumerAdvice
         }
 
         final Optional<DeliverPolicy> deliverPolicy =
-                annotationValue.enumValue("deliverPolicy", DeliverPolicy.class);
+            annotationValue.enumValue("deliverPolicy", DeliverPolicy.class);
         if (deliverPolicy.isPresent()) {
             builder = builder.deliverPolicy(deliverPolicy.get());
         }
@@ -348,9 +354,9 @@ public class JetStreamPushConsumerAdvice
     @PreDestroy
     @Override
     public void close() {
-        for (ConsumerState consumerState : consumers.values()) {
-            if (consumerState.connection.getStatus() != Connection.Status.CLOSED) {
-                consumerState.connection.closeDispatcher(consumerState.dispatcher);
+        for (StaticConsumerState consumerState : consumers.values()) {
+            if (consumerState.getConnection().getStatus() != Connection.Status.CLOSED) {
+                consumerState.getConnection().closeDispatcher(consumerState.getDispatcher());
             }
         }
         consumers.clear();
@@ -393,27 +399,4 @@ public class JetStreamPushConsumerAdvice
         }
     }
 
-    /**
-     * The internal state of the consumer.
-     *
-     * @author Joachim Grimm
-     */
-    private static final class ConsumerState {
-
-        final String clientId;
-
-        final Set<Subscription> subscriptions;
-
-        final Dispatcher dispatcher;
-
-        final Connection connection;
-
-        private ConsumerState(String clientId, Set<Subscription> subscriptions,
-            Dispatcher dispatcher, Connection connection) {
-            this.clientId = clientId;
-            this.subscriptions = subscriptions;
-            this.dispatcher = dispatcher;
-            this.connection = connection;
-        }
-    }
 }
