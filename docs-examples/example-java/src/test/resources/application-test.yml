@@ -1,0 +1,12 @@
+micronaut:
+  application:
+    name: test-application
+
+nats:
+  default:
+    jetstream:
+      streams:
+        widgets:
+          storage-type: Memory
+          subjects:
+            - subject.>

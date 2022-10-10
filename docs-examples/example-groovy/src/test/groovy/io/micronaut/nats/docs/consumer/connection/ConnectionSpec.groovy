@@ -27,6 +27,6 @@ class ConnectionSpec extends AbstractNatsTest {
     }
 
     protected Map<String, Object> getConfiguration() {
-        super.configuration + ["nats.servers.product-cluster.addresses": super.configuration.remove("nats.addresses")]
+        super.configuration + ["nats.product-cluster.addresses": super.configuration.remove("nats.default.addresses")]
     }
 }

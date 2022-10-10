@@ -11,6 +11,7 @@ abstract class AbstractNatsTest extends Specification {
     static GenericContainer natsContainer =
             new GenericContainer("nats:latest")
                     .withExposedPorts(4222)
+                    .withCommand("--js")
                     .waitingFor(new LogMessageWaitStrategy().withRegEx("(?s).*Server is ready.*"))
 
     static {
@@ -25,8 +26,8 @@ abstract class AbstractNatsTest extends Specification {
     }
 
     protected Map<String, Object> getConfiguration() {
-        ["nats.addresses": "nats://localhost:" + natsContainer.getMappedPort(4222),
-         "spec.name": getClass().simpleName] as Map
+        ["nats.default.addresses": "nats://localhost:" + natsContainer.getMappedPort(4222),
+         "spec.name"             : getClass().simpleName] as Map
     }
 
     protected void waitFor(Closure<?> conditionEvaluator) {

@@ -15,7 +15,8 @@ import static org.awaitility.Awaitility.await;
 public abstract class AbstractNatsTest {
 
     protected static GenericContainer<?> natsContainer = new GenericContainer<>("nats:latest")
-            .withExposedPorts(4222)
+        .withExposedPorts(4222)
+        .withCommand("--js")
             .waitingFor(new LogMessageWaitStrategy().withRegEx("(?s).*Server is ready.*"));
 
     static {
@@ -30,7 +31,8 @@ public abstract class AbstractNatsTest {
 
     protected Map<String, Object> getConfiguration() {
         Map<String, Object> config = new HashMap<>();
-        config.put("nats.addresses", "nats://localhost:" + natsContainer.getMappedPort(4222));
+        config.put("nats.default.addresses",
+            "nats://localhost:" + natsContainer.getMappedPort(4222));
         config.put("spec.name", getClass().getSimpleName());
         return config;
     }
