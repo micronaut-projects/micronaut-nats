@@ -51,7 +51,8 @@ class JetStreamPublisherSpec extends AbstractJetstreamTest {
         }
 
         cleanup:
-        jsm.purgeStream("widgets")
+        consumer.messages.clear()
+        jsm.deleteStream("widgets")
         context.close()
     }
 
@@ -81,11 +82,12 @@ class JetStreamPublisherSpec extends AbstractJetstreamTest {
         conditions.eventually {
             StreamInfo streamInfo = jsm.getStreamInfo("widgets")
             streamInfo.streamState.msgCount == 2
-            consumer.messages.size() == 4
+            consumer.messages.size() == 2
         }
 
         cleanup:
-        jsm.purgeStream("widgets")
+        consumer.messages.clear()
+        jsm.deleteStream("widgets")
         context.close()
     }
 
