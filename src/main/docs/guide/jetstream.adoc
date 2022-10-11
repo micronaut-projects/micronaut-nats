@@ -1,0 +1,8 @@
+Jetstream is built-in distributed persistence system built into Nats.io which enables new functionalities like
+
+- fault-tolerance
+- replication
+- exactly-once semantics
+- replay policies
+- retention policy and limits
+- streaming

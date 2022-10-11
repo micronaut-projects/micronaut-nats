@@ -16,16 +16,16 @@ It is possible to configure multiple connections to the same server, different s
 [source,yaml]
 ----
 nats:
-    server1:
-      addresses:
-        - "nats://localhost:4222"
-      username: guest
-      password: guest
-    server2:
-      addresses:
-        - "nats://randomServer:4222"
-      username: guest
-      password: guest
+  server1:
+    addresses:
+      - "nats://localhost:4222"
+    username: guest
+    password: guest
+  server2:
+    addresses:
+      - "nats://randomServer:4222"
+    username: guest
+    password: guest
 ----
 
 NATS also supports a fail over connection strategy where the first server that connects successfully will be used among a list of servers. To use this option in Micronaut, simply supply a list of `host:port` addresses.
@@ -33,6 +33,7 @@ NATS also supports a fail over connection strategy where the first server that c
 [source,yaml]
 ----
 nats:
+  default:
     addresses:
       - "nats://localhost:4222"
       - "nats://randomServer:4222"
@@ -47,6 +48,7 @@ If you need to setup TLS, it can be configured this way:
 [source,yaml]
 ----
 nats:
+  default:
     addresses:
       - "nats://localhost:4222" // <1>
     tls:

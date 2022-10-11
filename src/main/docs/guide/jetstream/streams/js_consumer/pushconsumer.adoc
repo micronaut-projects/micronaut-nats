@@ -1,0 +1,8 @@
+A push consumer is where the server is in control and sends messages to the client. It can be made durable or ephemeral based on your use case.
+
+Push consumers are very similiar to the already known `@NatsListener`. Let's look at a quick example.
+
+snippet::io.micronaut.nats.docs.jetstream.ProductListener[tags="imports,clazz",project-base="docs-examples/example"]
+
+<1> The class needs to be annotated with ann:configuration.nats.jetstream.annotation.JetstreamListener[].
+<2> The ann:configuration.nats.jetstream.annotation.PushConsumer[] configures the stream(`value`) and the `subject` to listen for. It is possible to use all known values from link:{apinats}{natsVersion}/io/nats/client/SubscribeOptions.html[SubscribeOptions] and link:{apinats}{natsVersion}/io/nats/client/PushSubscribeOptions.html[PushSubscribeOptions] such as `durable`.

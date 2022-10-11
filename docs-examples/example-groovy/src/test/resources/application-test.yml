@@ -6,7 +6,7 @@ nats:
   default:
     jetstream:
       streams:
-        widgets:
+        events:
           storage-type: Memory
           subjects:
-            - subject.>
+            - events.>
