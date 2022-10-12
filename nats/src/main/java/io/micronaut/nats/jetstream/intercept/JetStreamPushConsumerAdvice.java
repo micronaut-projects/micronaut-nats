@@ -20,7 +20,6 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Optional;
-import java.util.OptionalLong;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -240,110 +239,99 @@ public class JetStreamPushConsumerAdvice
         @NonNull AnnotationValue<PushConsumer> annotationValue) {
 
         ConsumerConfiguration.Builder builder = ConsumerConfiguration.builder();
-        final Optional<String> durable =
-            annotationValue.stringValue("durable").filter(StringUtils::isNotEmpty);
-        if (durable.isPresent()) {
-            builder = builder.durable(durable.get());
-        }
 
-        final Optional<DeliverPolicy> deliverPolicy =
-            annotationValue.enumValue("deliverPolicy", DeliverPolicy.class);
-        if (deliverPolicy.isPresent()) {
-            builder = builder.deliverPolicy(deliverPolicy.get());
-        }
+        builder = annotationValue.stringValue("durable")
+                                 .filter(StringUtils::isNotEmpty)
+                                 .map(builder::durable)
+                                 .orElse(builder);
 
-        final Optional<String> deliverSubject =
-                annotationValue.stringValue("deliverSubject").filter(StringUtils::isNotEmpty);
-        if (deliverSubject.isPresent()) {
-            builder = builder.deliverSubject(deliverSubject.get());
-        }
+        builder = annotationValue.enumValue("deliverPolicy", DeliverPolicy.class)
+                                 .map(builder::deliverPolicy)
+                                 .orElse(builder);
 
-        final OptionalLong startSequence = annotationValue.longValue("startSequence");
-        if (startSequence.isPresent() && startSequence.getAsLong() != Long.MIN_VALUE) {
-            builder.startSequence(startSequence.getAsLong());
-        }
+        builder = annotationValue.stringValue("deliverSubject")
+                                 .filter(StringUtils::isNotEmpty)
+                                 .map(builder::deliverSubject)
+                                 .orElse(builder);
 
-        final Optional<AckPolicy> ackPolicy =
-            annotationValue.enumValue("ackPolicy", AckPolicy.class);
-        if (ackPolicy.isPresent()) {
-            builder = builder.ackPolicy(ackPolicy.get());
-        }
+        builder = annotationValue.get("startSequence", Long.class)
+                                 .filter(value -> value != Long.MIN_VALUE)
+                                 .map(builder::startSequence)
+                                 .orElse(builder);
 
-        final OptionalLong ackWait = annotationValue.longValue("ackWait");
-        if (ackWait.isPresent() && ackWait.getAsLong() != Long.MIN_VALUE) {
-            builder = builder.ackWait(ackWait.getAsLong());
-        }
+        builder = annotationValue.enumValue("ackPolicy", AckPolicy.class)
+                                 .map(builder::ackPolicy)
+                                 .orElse(builder);
 
-        final Optional<ReplayPolicy> replayPolicy =
-            annotationValue.enumValue("replayPolicy", ReplayPolicy.class);
-        if (replayPolicy.isPresent()) {
-            builder = builder.replayPolicy(replayPolicy.get());
-        }
+        builder = annotationValue.get("ackWait", Long.class)
+                                 .filter(value -> value != Long.MIN_VALUE)
+                                 .map(builder::ackWait)
+                                 .orElse(builder);
 
-        final OptionalLong maxDeliver = annotationValue.longValue("maxDeliver");
-        if (maxDeliver.isPresent() && maxDeliver.getAsLong() != Long.MIN_VALUE) {
-            builder = builder.maxDeliver(maxDeliver.getAsLong());
-        }
+        builder = annotationValue.enumValue("replayPolicy", ReplayPolicy.class)
+                                 .map(builder::replayPolicy)
+                                 .orElse(builder);
 
-        final Optional<String> filterSubject =
-            annotationValue.stringValue("filterSubject").filter(StringUtils::isNotEmpty);
-        if (filterSubject.isPresent()) {
-            builder = builder.filterSubject(filterSubject.get());
-        }
+        builder = annotationValue.get("maxDeliver", Long.class)
+                                 .filter(value -> value != Long.MIN_VALUE)
+                                 .map(builder::maxDeliver)
+                                 .orElse(builder);
 
-        final OptionalLong rateLimit = annotationValue.longValue("rateLimit");
-        if (rateLimit.isPresent() && rateLimit.getAsLong() != Long.MIN_VALUE) {
-            builder = builder.rateLimit(rateLimit.getAsLong());
-        }
+        builder = annotationValue.stringValue("filterSubject")
+                                 .filter(StringUtils::isNotEmpty)
+                                 .map(builder::filterSubject)
+                                 .orElse(builder);
 
-        final Optional<String> sampleFrequency =
-            annotationValue.stringValue("sampleFrequency").filter(StringUtils::isNotEmpty);
-        if (sampleFrequency.isPresent()) {
-            builder = builder.sampleFrequency(sampleFrequency.get());
-        }
+        builder = annotationValue.get("rateLimit", Long.class)
+                                 .filter(value -> value != Long.MIN_VALUE)
+                                 .map(builder::rateLimit)
+                                 .orElse(builder);
 
-        final OptionalLong idleHeartbeat = annotationValue.longValue("idleHeartbeat");
-        if (idleHeartbeat.isPresent() && idleHeartbeat.getAsLong() != Long.MIN_VALUE) {
-            builder = builder.idleHeartbeat(idleHeartbeat.getAsLong());
-        }
+        builder = annotationValue.stringValue("sampleFrequency")
+                                 .filter(StringUtils::isNotEmpty)
+                                 .map(builder::sampleFrequency)
+                                 .orElse(builder);
 
-        final OptionalLong flowControl = annotationValue.longValue("flowControl");
-        if (flowControl.isPresent() && flowControl.getAsLong() != Long.MIN_VALUE) {
-            builder = builder.flowControl(flowControl.getAsLong());
-        }
+        builder = annotationValue.get("idleHeartbeat", Long.class)
+                                 .filter(value -> value != Long.MIN_VALUE)
+                                 .map(builder::idleHeartbeat)
+                                 .orElse(builder);
+
+        builder = annotationValue.get("flowControl", Long.class)
+                                 .filter(value -> value != Long.MIN_VALUE)
+                                 .map(builder::flowControl)
+                                 .orElse(builder);
 
         final long[] backoff = annotationValue.longValues("backoff");
         if (backoff.length > 0 && backoff[0] != Long.MIN_VALUE) {
             builder = builder.backoff(backoff);
         }
 
-        final Optional<Boolean> headersOnly = annotationValue.booleanValue("headersOnly");
-        if (headersOnly.isPresent()) {
-            builder = builder.headersOnly(headersOnly.get());
-        }
+        builder = annotationValue.booleanValue("headersOnly")
+                                 .map(builder::headersOnly)
+                                 .orElse(builder);
 
-        final OptionalLong maxAckPending = annotationValue.longValue("maxAckPending");
-        if (maxAckPending.isPresent() && maxAckPending.getAsLong() != Long.MIN_VALUE) {
-            builder = builder.maxAckPending(maxAckPending.getAsLong());
-        }
+        builder = annotationValue.get("maxAckPending", Long.class)
+                                 .filter(value -> value != Long.MIN_VALUE)
+                                 .map(builder::maxAckPending)
+                                 .orElse(builder);
 
-        final Optional<String> deliverGroup =
-            annotationValue.stringValue("deliverGroup").filter(StringUtils::isNotEmpty);
-        if (deliverGroup.isPresent()) {
-            builder = builder.deliverGroup(deliverGroup.get());
-        }
+        builder = annotationValue.stringValue("deliverGroup")
+                                 .filter(StringUtils::isNotEmpty)
+                                 .map(builder::deliverGroup)
+                                 .orElse(builder);
 
-        final Optional<String> description =
-            annotationValue.stringValue("description").filter(StringUtils::isNotEmpty);
-        if (description.isPresent()) {
-            builder = builder.description(description.get());
-        }
+        builder = annotationValue.stringValue("description")
+                                 .filter(StringUtils::isNotEmpty)
+                                 .map(builder::description)
+                                 .orElse(builder);
 
         ConsumerConfiguration cc = builder.build();
         return PushSubscribeOptions.builder()
                                    .stream(streamName)
                                    .durable(cc.getDurable())
                                    .configuration(cc)
+                                   .ordered(annotationValue.booleanValue("ordered").orElse(false))
                                    .build();
     }
 

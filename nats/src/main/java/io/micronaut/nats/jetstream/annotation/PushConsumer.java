@@ -175,4 +175,10 @@ public @interface PushConsumer {
      * @return the queue of the consumer
      */
     String queue() default "";
+
+    /**
+     * @return flag indicating whether this subscription should be ordered
+     * @see io.nats.client.PushSubscribeOptions.Builder#ordered(boolean)
+     */
+    boolean ordered() default false;
 }
