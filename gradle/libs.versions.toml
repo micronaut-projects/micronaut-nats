@@ -1,14 +1,16 @@
 [versions]
 awaitility = '4.1.1'
+caffeine =  '3.1.1'
 junit = '5.8.2'
 kotest = '4.6.4'
-kotlin = '1.6.21'
+kotlin = '1.7.20'
 testcontainers = '1.17.2'
 nats = '2.11.4'
 
 [libraries]
 jnats = { module = 'io.nats:jnats', version.ref = 'nats'}
 awaitility = { module = 'org.awaitility:awaitility', version.ref = 'awaitility' }
+caffeine = { module = 'com.github.ben-manes.caffeine:caffeine', version.ref = 'caffeine' }
 junit-jupiter-api = { module = 'org.junit.jupiter:junit-jupiter-api', version.ref = 'junit' }
 kotest = { module = 'io.kotest:kotest-runner-junit5', version.ref = 'kotest' }
 kotlin-reflect = { module = 'org.jetbrains.kotlin:kotlin-reflect', version.ref = 'kotlin' }
