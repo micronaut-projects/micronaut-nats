@@ -10,6 +10,7 @@ dependencies {
     api libs.jnats
 
     implementation mn.reactor
+    implementation libs.caffeine
 
     compileOnly mn.micronaut.management
     compileOnly libs.micronaut.micrometer.core
