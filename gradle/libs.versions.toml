@@ -4,7 +4,7 @@ junit = '5.9.1'
 kotest = '4.6.4'
 kotlin = '1.6.21'
 testcontainers = '1.17.2'
-nats = '2.11.4'
+nats = '2.16.0'
 
 [libraries]
 jnats = { module = 'io.nats:jnats', version.ref = 'nats'}
