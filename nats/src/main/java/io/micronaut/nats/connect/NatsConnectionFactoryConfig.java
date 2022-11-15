@@ -15,6 +15,18 @@
  */
 package io.micronaut.nats.connect;
 
+import io.micronaut.context.annotation.ConfigurationBuilder;
+import io.micronaut.context.annotation.ConfigurationProperties;
+import io.micronaut.context.annotation.EachProperty;
+import io.micronaut.context.annotation.Parameter;
+import io.micronaut.context.annotation.Requires;
+import io.micronaut.core.annotation.Nullable;
+import io.nats.client.JetStreamOptions;
+import io.nats.client.Nats;
+import io.nats.client.Options;
+
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManagerFactory;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -30,20 +42,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.TrustManagerFactory;
-
-import io.micronaut.context.annotation.ConfigurationBuilder;
-import io.micronaut.context.annotation.ConfigurationProperties;
-import io.micronaut.context.annotation.EachProperty;
-import io.micronaut.context.annotation.Parameter;
-import io.micronaut.context.annotation.Requires;
-import io.micronaut.core.annotation.Introspected;
-import io.micronaut.core.annotation.Nullable;
-import io.nats.client.JetStreamOptions;
-import io.nats.client.Nats;
-import io.nats.client.Options;
 
 import static io.nats.client.Options.Builder;
 import static io.nats.client.Options.DEFAULT_INBOX_PREFIX;
@@ -471,7 +469,6 @@ public class NatsConnectionFactoryConfig {
      * @author Joachim Grimm
      * @since 4.0.0
      */
-    @Introspected
     @ConfigurationProperties("jetstream")
     public static class JetStreamConfiguration {
 
@@ -520,7 +517,6 @@ public class NatsConnectionFactoryConfig {
         /**
          * Manages a single stream configuration.
          */
-        @Introspected
         @EachProperty(value = "streams")
         public static class StreamConfiguration {
 

@@ -15,28 +15,26 @@
  */
 package io.micronaut.nats.jetstream.annotation;
 
+import io.micronaut.aop.Introduction;
+import io.micronaut.context.annotation.AliasFor;
+import io.micronaut.messaging.annotation.MessageProducer;
+import io.micronaut.nats.annotation.NatsConnection;
+import jakarta.inject.Scope;
+import jakarta.inject.Singleton;
+
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import io.micronaut.aop.Introduction;
-import io.micronaut.context.annotation.AliasFor;
-import io.micronaut.context.annotation.Type;
-import io.micronaut.messaging.annotation.MessageProducer;
-import io.micronaut.nats.annotation.NatsConnection;
-import io.micronaut.nats.jetstream.intercept.JetStreamIntroductionAdvice;
-import io.micronaut.retry.annotation.Recoverable;
-import jakarta.inject.Scope;
-import jakarta.inject.Singleton;
 
 /**
  * An introduction advice that automatically implemnts interfaces and abstract classes and
  * publishes jetstream messages.
  *
  * @author Joachim Grimm
- * @see JetStreamIntroductionAdvice
+ * @see io.micronaut.nats.jetstream.intercept.JetStreamIntroductionAdvice
  * @since 4.0.0
  */
 @Documented
@@ -44,8 +42,6 @@ import jakarta.inject.Singleton;
 @Target({ ElementType.TYPE })
 @Scope
 @Introduction
-@Type(JetStreamIntroductionAdvice.class)
-@Recoverable
 @Singleton
 @MessageProducer
 public @interface JetStreamClient {

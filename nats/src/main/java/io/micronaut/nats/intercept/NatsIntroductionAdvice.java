@@ -212,8 +212,7 @@ public class NatsIntroductionAdvice implements MethodInterceptor<Object, Object>
         Optional<String> subject =
             method.findAnnotation(Subject.class).flatMap(AnnotationValue::stringValue);
 
-        String connection = method.findAnnotation(NatsConnection.class)
-            .flatMap(conn -> conn.get("connection", String.class))
+        String connection = method.stringValue(NatsConnection.class, "connection")
             .orElse(NatsConnection.DEFAULT_CONNECTION);
 
         Argument<?> bodyArgument = findBodyArgument(method).orElseThrow(

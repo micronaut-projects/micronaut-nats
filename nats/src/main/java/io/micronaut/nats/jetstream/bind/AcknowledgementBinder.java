@@ -15,9 +15,8 @@
  */
 package io.micronaut.nats.jetstream.bind;
 
-import java.time.Duration;
-import java.util.Optional;
-
+import io.micronaut.core.annotation.Internal;
+import io.micronaut.core.annotation.NonNull;
 import io.micronaut.core.convert.ArgumentConversionContext;
 import io.micronaut.core.type.Argument;
 import io.micronaut.messaging.Acknowledgement;
@@ -25,6 +24,9 @@ import io.micronaut.messaging.exceptions.MessageAcknowledgementException;
 import io.micronaut.nats.bind.NatsTypeArgumentBinder;
 import io.nats.client.Message;
 import jakarta.inject.Singleton;
+
+import java.time.Duration;
+import java.util.Optional;
 
 /**
  * Binds an argument of type {@link Acknowledgement} from the {@link Message}.
@@ -34,6 +36,7 @@ import jakarta.inject.Singleton;
  * @since 4.0.0
  */
 @Singleton
+@Internal
 public class AcknowledgementBinder<T extends Acknowledgement>
     implements NatsTypeArgumentBinder<T> {
     @Override
@@ -55,7 +58,7 @@ public class AcknowledgementBinder<T extends Acknowledgement>
             }
 
             @Override
-            public void nackWithDelay(Duration duration) {
+            public void nackWithDelay(@NonNull Duration duration) {
                 source.nakWithDelay(duration);
             }
         };

@@ -15,9 +15,10 @@
  */
 package io.micronaut.nats.jetstream.bind;
 
-import java.time.Duration;
-
+import io.micronaut.core.annotation.NonNull;
 import io.micronaut.messaging.Acknowledgement;
+
+import java.time.Duration;
 
 /**
  * A contract for acknowleding or rejecting messages.
@@ -27,6 +28,11 @@ import io.micronaut.messaging.Acknowledgement;
  */
 public interface NatsAcknowledgement extends Acknowledgement {
 
-    void nackWithDelay(Duration duration);
+    /**
+     * nak acknowledges a JetStream message has been received but indicates that the message is not completely processed and should be sent again later, after at least the delay amount.
+     *
+     * @param duration {@link Duration}
+     */
+    void nackWithDelay(@NonNull Duration duration);
 
 }
