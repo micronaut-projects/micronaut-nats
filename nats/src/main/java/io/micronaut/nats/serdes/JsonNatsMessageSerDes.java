@@ -15,18 +15,16 @@
  */
 package io.micronaut.nats.serdes;
 
-import java.io.IOException;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micronaut.core.annotation.Nullable;
 import io.micronaut.core.reflect.ClassUtils;
 import io.micronaut.core.serialize.exceptions.SerializationException;
 import io.micronaut.core.type.Argument;
-import io.micronaut.jackson.databind.JacksonDatabindMapper;
 import io.micronaut.json.JsonMapper;
 import io.nats.client.Message;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
+
+import java.io.IOException;
 
 /**
  * Serializes and deserializes objects as JSON using Jackson.
@@ -43,17 +41,6 @@ public class JsonNatsMessageSerDes implements NatsMessageSerDes<Object> {
     public static final Integer ORDER = 200;
 
     private final JsonMapper jsonMapper;
-
-    /**
-     * Legacy jackson constructor.
-     *
-     * @param objectMapper The jackson object mapper
-     * @deprecated Use {@link #JsonNatsMessageSerDes(JsonMapper)} instead
-     */
-    @Deprecated
-    public JsonNatsMessageSerDes(ObjectMapper objectMapper) {
-        this(new JacksonDatabindMapper(objectMapper));
-    }
 
     /**
      * Default constructor.

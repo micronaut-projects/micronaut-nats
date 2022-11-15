@@ -21,9 +21,9 @@ import jakarta.inject.Singleton;
 @Singleton // <1>
 public class ProductInfoTypeBinder implements NatsTypeArgumentBinder<ProductInfo> { //<2>
 
-    private final ConversionService<?> conversionService;
+    private final ConversionService conversionService;
 
-    ProductInfoTypeBinder(ConversionService<?> conversionService) { //<3>
+    ProductInfoTypeBinder(ConversionService conversionService) { //<3>
         this.conversionService = conversionService;
     }
 

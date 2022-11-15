@@ -14,9 +14,9 @@ import jakarta.inject.Singleton;
 @Singleton // <1>
 public class SIDAnnotationBinder implements NatsAnnotatedArgumentBinder<SID> { // <2>
 
-    private final ConversionService<?> conversionService;
+    private final ConversionService conversionService;
 
-    public SIDAnnotationBinder(ConversionService<?> conversionService) { // <3>
+    public SIDAnnotationBinder(ConversionService conversionService) { // <3>
         this.conversionService = conversionService;
     }
 

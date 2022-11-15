@@ -2,15 +2,11 @@ plugins {
     id "java-library"
 }
 
-repositories {
-    mavenCentral()
-}
-
 dependencies {
     testImplementation projects.nats
 
     testAnnotationProcessor mn.micronaut.inject.java
-    testImplementation mn.micronaut.inject
+
     testImplementation mn.reactor
     testImplementation libs.awaitility
     testImplementation libs.testcontainers
@@ -20,3 +16,7 @@ dependencies {
 compileJava.options.compilerArgs += '-parameters'
 compileTestJava.options.compilerArgs += '-parameters'
 
+java {
+    sourceCompatibility = JavaVersion.toVersion("17")
+    targetCompatibility = JavaVersion.toVersion("17")
+}

@@ -9,8 +9,8 @@ repositories {
 dependencies {
     testImplementation projects.nats
 
-    testCompileOnly mn.micronaut.inject.groovy
-    testImplementation libs.testcontainers
+    testAnnotationProcessor mn.micronaut.inject.groovy
+    testImplementation libs.testcontainers.spock
     testImplementation mn.micronaut.inject
     testImplementation mn.reactor
     testImplementation mn.spock
@@ -19,4 +19,9 @@ dependencies {
 
 tasks.withType(GroovyCompile) {
     groovyOptions.forkOptions.jvmArgs.add('-Dgroovy.parameters=true')
+}
+
+java {
+    sourceCompatibility = JavaVersion.toVersion("17")
+    targetCompatibility = JavaVersion.toVersion("17")
 }

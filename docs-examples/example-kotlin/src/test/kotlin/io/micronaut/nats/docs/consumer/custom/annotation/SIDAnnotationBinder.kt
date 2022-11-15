@@ -13,7 +13,7 @@ import jakarta.inject.Singleton
 @Requires(property = "spec.name", value = "SIDSpec")
 // tag::clazz[]
 @Singleton // <1>
-class SIDAnnotationBinder(private val conversionService: ConversionService<*>) // <3>
+class SIDAnnotationBinder(private val conversionService: ConversionService) // <3>
     : NatsAnnotatedArgumentBinder<SID> { // <2>
 
     override fun getAnnotationType(): Class<SID> {
