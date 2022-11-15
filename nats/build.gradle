@@ -3,11 +3,12 @@ plugins {
 }
 
 dependencies {
+    annotationProcessor mn.micronaut.inject.java
+
     api mn.micronaut.messaging
     api libs.jnats
 
     implementation mn.micronaut.serde.jackson
-    implementation mn.micronaut.jackson.core
     implementation mn.micronaut.reactor
 
     compileOnly mn.micronaut.management

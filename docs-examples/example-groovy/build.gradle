@@ -9,10 +9,11 @@ repositories {
 dependencies {
     testImplementation projects.nats
 
-    testAnnotationProcessor mn.micronaut.inject.groovy
+    testCompileOnly mn.micronaut.inject.groovy
     testImplementation libs.testcontainers.spock
     testImplementation mn.micronaut.inject
     testImplementation mn.reactor
+    testImplementation mn.micronaut.test.spock
     testImplementation mn.spock
 
 }
@@ -24,4 +25,12 @@ tasks.withType(GroovyCompile) {
 java {
     sourceCompatibility = JavaVersion.toVersion("17")
     targetCompatibility = JavaVersion.toVersion("17")
+}
+
+test {
+    useJUnitPlatform()
+    testLogging {
+        showStandardStreams = true
+        exceptionFormat = 'full'
+    }
 }

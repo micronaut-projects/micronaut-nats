@@ -11,6 +11,7 @@ dependencies {
     testImplementation libs.awaitility
     testImplementation libs.testcontainers
     testImplementation libs.junit.jupiter.api
+    testRuntimeOnly libs.junit.jupiter.engine
 }
 
 compileJava.options.compilerArgs += '-parameters'
@@ -19,4 +20,7 @@ compileTestJava.options.compilerArgs += '-parameters'
 java {
     sourceCompatibility = JavaVersion.toVersion("17")
     targetCompatibility = JavaVersion.toVersion("17")
+}
+test {
+    useJUnitPlatform()
 }
