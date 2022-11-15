@@ -15,8 +15,6 @@
  */
 package io.micronaut.nats.intercept;
 
-import com.github.benmanes.caffeine.cache.Cache;
-import com.github.benmanes.caffeine.cache.Caffeine;
 import io.micronaut.aop.InterceptedMethod;
 import io.micronaut.aop.InterceptorBean;
 import io.micronaut.aop.MethodInterceptor;
@@ -59,6 +57,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 
 /**
@@ -80,7 +79,7 @@ public class NatsIntroductionAdvice implements MethodInterceptor<Object, Object>
 
     private final NatsMessageSerDesRegistry serDesRegistry;
 
-    private final Cache<ExecutableMethod, StaticPublisherState> publisherCache = Caffeine.newBuilder().build();
+    private final Map<ExecutableMethod, StaticPublisherState> publisherCache = new ConcurrentHashMap<>();
 
     /**
      * Default constructor.
@@ -100,15 +99,15 @@ public class NatsIntroductionAdvice implements MethodInterceptor<Object, Object>
     @Override
     public Object intercept(MethodInvocationContext<Object, Object> context) {
         if (context.hasAnnotation(NatsClient.class)) {
-            StaticPublisherState publisherState = publisherCache.get(context.getExecutableMethod(), method -> {
+            StaticPublisherState publisherState = publisherCache.computeIfAbsent(context.getExecutableMethod(), method -> {
                 if (!method.findAnnotation(NatsClient.class).isPresent()) {
                     throw new IllegalStateException("No @NatsClient annotation present on method: " + method);
                 }
                 Optional<String> subject = method.findAnnotation(Subject.class).flatMap(AnnotationValue::stringValue);
 
                 String connection = method.findAnnotation(NatsConnection.class)
-                        .flatMap(conn -> conn.get("connection", String.class))
-                        .orElse(NatsConnection.DEFAULT_CONNECTION);
+                    .flatMap(conn -> conn.get("connection", String.class))
+                    .orElse(NatsConnection.DEFAULT_CONNECTION);
 
                 Argument<?> bodyArgument = findBodyArgument(method).orElseThrow(
                         () -> new NatsClientException("No valid message body argument found for method: " + method));

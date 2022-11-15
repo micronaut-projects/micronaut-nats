@@ -9,7 +9,6 @@ dependencies {
     implementation mn.micronaut.serde.jackson
     implementation mn.micronaut.jackson.core
     implementation mn.micronaut.reactor
-    implementation mn.micronaut.cache.caffeine
 
     compileOnly mn.micronaut.management
     compileOnly mn.micronaut.micrometer.core
