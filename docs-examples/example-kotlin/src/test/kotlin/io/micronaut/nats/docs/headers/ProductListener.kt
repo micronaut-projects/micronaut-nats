@@ -16,6 +16,8 @@ import java.util.Collections
 class ProductListener {
 
     var messageProperties: MutableList<String> = Collections.synchronizedList(ArrayList())
+    private var datas: MutableList<ByteArray> = Collections.synchronizedList(ArrayList())
+
 
     @Subject("product")
     fun receive(data: ByteArray,
@@ -23,6 +25,7 @@ class ProductListener {
                 @MessageHeader("x-product-count") count: Long, // <2>
                 @MessageHeader productSize: String?) { // <3>
         messageProperties.add(sealed.toString() + "|" + count + "|" + productSize)
+        datas.add(data)
     }
 
     @Subject("products")
@@ -33,11 +36,13 @@ class ProductListener {
         productSizes?.forEach {
             messageProperties.add("${sealed}|${count}|${it}")
         }
+        datas.add(data)
     }
 
     @Subject("productHeader")
     fun receive(@MessageBody data: ByteArray, headers: Headers) { // <5>
         messageProperties.add("${headers["x-product-sealed"][0]}|${headers["x-product-count"][0]}|${headers["productSize"][0]}")
+        datas.add(data)
     }
 }
 // end::clazz[]

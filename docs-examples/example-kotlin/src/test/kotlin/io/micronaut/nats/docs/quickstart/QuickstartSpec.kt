@@ -4,6 +4,7 @@ import io.kotest.assertions.timing.eventually
 import io.kotest.matchers.shouldBe
 import io.micronaut.nats.AbstractNatsTest
 import kotlin.time.Duration
+import kotlin.time.Duration.Companion.seconds
 import kotlin.time.ExperimentalTime
 
 @OptIn(ExperimentalTime::class)
@@ -23,7 +24,7 @@ productClient.send("quickstart".toByteArray())
 // end::producer[]
 
             then("the message is consumed") {
-                eventually(Duration.seconds(10)) {
+                eventually(10.seconds) {
                     productListener.messageLengths.size shouldBe 1
                     productListener.messageLengths[0] shouldBe "quickstart"
                 }

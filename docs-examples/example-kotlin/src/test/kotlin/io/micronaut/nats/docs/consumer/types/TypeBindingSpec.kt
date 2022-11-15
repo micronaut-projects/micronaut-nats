@@ -5,6 +5,7 @@ import io.kotest.matchers.collections.shouldContain
 import io.kotest.matchers.shouldBe
 import io.micronaut.nats.AbstractNatsTest
 import kotlin.time.Duration
+import kotlin.time.Duration.Companion.seconds
 import kotlin.time.ExperimentalTime
 
 @OptIn(ExperimentalTime::class)
@@ -26,7 +27,7 @@ class TypeBindingSpec : AbstractNatsTest({
 // end::producer[]
 
             then("the message is consumed") {
-                eventually(Duration.seconds(10)) {
+                eventually(10.seconds) {
                     productListener.messages.size shouldBe 3
                     productListener.messages shouldContain "subject: [product], maxPayload: [1048576], pendingMessageCount: [0], x-productCount: [20]"
                     productListener.messages shouldContain "subject: [product], maxPayload: [1048576], pendingMessageCount: [0], x-productCount: [30]"

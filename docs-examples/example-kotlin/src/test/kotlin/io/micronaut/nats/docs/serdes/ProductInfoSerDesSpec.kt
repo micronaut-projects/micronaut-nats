@@ -7,6 +7,7 @@ import io.micronaut.nats.AbstractNatsTest
 import io.micronaut.nats.docs.serdes.ProductClient
 import io.micronaut.nats.docs.serdes.ProductListener
 import kotlin.time.Duration
+import kotlin.time.Duration.Companion.seconds
 import kotlin.time.ExperimentalTime
 
 @OptIn(ExperimentalTime::class)
@@ -28,7 +29,7 @@ class ProductInfoSerDesSpec: AbstractNatsTest({
 // end::producer[]
 
             then("the message is consumed") {
-                eventually(Duration.seconds(10)) {
+                eventually(10.seconds) {
                     listener.messages.size shouldBe 3
                     listener.messages shouldExist { p -> p.size == "small" && p.count == 10L && p.sealed }
                     listener.messages shouldExist { p -> p.size == "medium" && p.count == 20L && p.sealed }
