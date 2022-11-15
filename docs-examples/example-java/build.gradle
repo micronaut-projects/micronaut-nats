@@ -7,7 +7,7 @@ repositories {
 }
 
 dependencies {
-    testImplementation project(':nats')
+    testImplementation projects.nats
 
     testAnnotationProcessor mn.micronaut.inject.java
     testImplementation mn.micronaut.inject

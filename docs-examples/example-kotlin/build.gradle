@@ -10,7 +10,7 @@ repositories {
 dependencies {
     kaptTest(mn.micronaut.inject.java)
 
-    testImplementation project(':nats')
+    testImplementation projects.nats
     testImplementation libs.kotest
     testImplementation libs.kotlin.reflect
     testImplementation libs.kotlin.stdlib
