@@ -1,11 +1,11 @@
 package io.micronaut.nats.docs.consumer.connection;
 
-import java.util.Map;
-
 import io.micronaut.nats.AbstractNatsTest;
 import org.junit.jupiter.api.Test;
 
-public class ConnectionSpec extends AbstractNatsTest {
+import java.util.Map;
+
+class ConnectionSpec extends AbstractNatsTest {
 
     @Test
     void testProductClientAndListener() {

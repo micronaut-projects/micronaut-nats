@@ -3,7 +3,7 @@ package io.micronaut.nats.docs.quickstart;
 import io.micronaut.nats.AbstractNatsTest;
 import org.junit.jupiter.api.Test;
 
-public class QuickstartSpec extends AbstractNatsTest {
+class QuickstartSpec extends AbstractNatsTest {
 
     @Test
     void testProductClientAndListener() {

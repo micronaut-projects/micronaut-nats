@@ -3,7 +3,7 @@ package io.micronaut.nats.docs.consumer.queue;
 import io.micronaut.nats.AbstractNatsTest;
 import org.junit.jupiter.api.Test;
 
-public class QueueSpec extends AbstractNatsTest {
+class QueueSpec extends AbstractNatsTest {
 
     @Test
     void testProductClientAndListener() {

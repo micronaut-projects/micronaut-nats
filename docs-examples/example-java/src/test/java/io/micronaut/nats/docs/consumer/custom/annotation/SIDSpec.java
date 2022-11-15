@@ -3,7 +3,7 @@ package io.micronaut.nats.docs.consumer.custom.annotation;
 import io.micronaut.nats.AbstractNatsTest;
 import org.junit.jupiter.api.Test;
 
-public class SIDSpec extends AbstractNatsTest {
+class SIDSpec extends AbstractNatsTest {
 
     @Test
     void testUsingACustomAnnotationBinder() {

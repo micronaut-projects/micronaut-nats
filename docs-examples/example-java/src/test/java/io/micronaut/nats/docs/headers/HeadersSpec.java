@@ -1,12 +1,12 @@
 package io.micronaut.nats.docs.headers;
 
-import java.util.Arrays;
-
 import io.micronaut.nats.AbstractNatsTest;
 import io.nats.client.impl.Headers;
 import org.junit.jupiter.api.Test;
 
-public class HeadersSpec extends AbstractNatsTest {
+import java.util.Arrays;
+
+class HeadersSpec extends AbstractNatsTest {
 
     @Test
     void testPublishingAndReceivingHeaders() {
