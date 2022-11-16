@@ -1,0 +1,10 @@
+io.micronaut.nats
+io.micronaut.nats.annotation
+io.micronaut.nats.bind
+io.micronaut.nats.connect
+io.micronaut.nats.exception
+io.micronaut.nats.executor
+io.micronaut.nats.health
+io.micronaut.nats.intercept
+io.micronaut.nats.reactive
+io.micronaut.nats.serdes
