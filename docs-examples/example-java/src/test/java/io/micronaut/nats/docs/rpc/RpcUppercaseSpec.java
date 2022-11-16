@@ -6,7 +6,7 @@ import reactor.core.publisher.Mono;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class RpcUppercaseSpec extends AbstractNatsTest {
+class RpcUppercaseSpec extends AbstractNatsTest {
 
     @Test
     void testProductClientAndListener() {

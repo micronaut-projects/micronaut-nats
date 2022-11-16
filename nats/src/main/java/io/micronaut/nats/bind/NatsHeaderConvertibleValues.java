@@ -15,6 +15,12 @@
  */
 package io.micronaut.nats.bind;
 
+import io.micronaut.core.convert.ArgumentConversionContext;
+import io.micronaut.core.convert.ConversionError;
+import io.micronaut.core.convert.ConversionService;
+import io.micronaut.core.convert.value.ConvertibleValues;
+import io.nats.client.impl.Headers;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -22,12 +28,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
-
-import io.micronaut.core.convert.ArgumentConversionContext;
-import io.micronaut.core.convert.ConversionError;
-import io.micronaut.core.convert.ConversionService;
-import io.micronaut.core.convert.value.ConvertibleValues;
-import io.nats.client.impl.Headers;
 
 /**
  * Converts Nats header values to the requested type.
@@ -39,7 +39,7 @@ import io.nats.client.impl.Headers;
 public class NatsHeaderConvertibleValues implements ConvertibleValues<Object> {
 
     private final Headers headers;
-    private final ConversionService<?> conversionService;
+    private final ConversionService conversionService;
     private final List<ConversionError> conversionErrors = new ArrayList<>();
 
     /**
@@ -47,7 +47,7 @@ public class NatsHeaderConvertibleValues implements ConvertibleValues<Object> {
      *  @param headers The Nats headers
      * @param conversionService The conversion service
      */
-    public NatsHeaderConvertibleValues(Headers headers, ConversionService<?> conversionService) {
+    public NatsHeaderConvertibleValues(Headers headers, ConversionService conversionService) {
         this.headers = headers == null ? new Headers() : headers;
         this.conversionService = conversionService;
     }

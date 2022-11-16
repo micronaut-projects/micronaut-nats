@@ -3,7 +3,7 @@ package io.micronaut.nats.docs.consumer.types;
 import io.micronaut.nats.AbstractNatsTest;
 import org.junit.jupiter.api.Test;
 
-public class TypeBindingSpec extends AbstractNatsTest {
+class TypeBindingSpec extends AbstractNatsTest {
 
     @Test
     void testBindingByType() {

@@ -6,6 +6,7 @@ import io.kotest.matchers.shouldBe
 import io.micronaut.nats.AbstractNatsTest
 import io.nats.client.impl.Headers
 import kotlin.time.Duration
+import kotlin.time.Duration.Companion.seconds
 import kotlin.time.ExperimentalTime
 
 @OptIn(ExperimentalTime::class)
@@ -33,7 +34,7 @@ class HeadersSpec : AbstractNatsTest({
             // end::producer[]
 
             then("The messages are received") {
-                eventually(Duration.seconds(10)) {
+                eventually(10.seconds) {
                     productListener.messageProperties.size shouldBe 6
                     productListener.messageProperties shouldContain "true|10|small"
                     productListener.messageProperties shouldContain "true|20|medium"

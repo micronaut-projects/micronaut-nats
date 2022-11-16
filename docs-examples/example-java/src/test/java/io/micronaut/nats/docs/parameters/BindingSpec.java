@@ -3,7 +3,7 @@ package io.micronaut.nats.docs.parameters;
 import io.micronaut.nats.AbstractNatsTest;
 import org.junit.jupiter.api.Test;
 
-public class BindingSpec extends AbstractNatsTest {
+class BindingSpec extends AbstractNatsTest {
 
     @Test
     void testDynamicBinding() {

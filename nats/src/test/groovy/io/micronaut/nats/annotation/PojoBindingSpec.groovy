@@ -19,6 +19,7 @@ package io.micronaut.nats.annotation
 import io.micronaut.context.ApplicationContext
 import io.micronaut.context.annotation.Requires
 import io.micronaut.nats.AbstractNatsTest
+import io.micronaut.serde.annotation.Serdeable
 import spock.util.concurrent.PollingConditions
 
 class PojoBindingSpec extends AbstractNatsTest {
@@ -62,6 +63,7 @@ class PojoBindingSpec extends AbstractNatsTest {
         applicationContext.close()
     }
 
+    @Serdeable
     static class Person {
         String name
     }

@@ -7,16 +7,30 @@ repositories {
 }
 
 dependencies {
-    testImplementation project(":nats")
+    testImplementation projects.nats
 
     testCompileOnly mn.micronaut.inject.groovy
-    testImplementation libs.testcontainers
+    testImplementation libs.testcontainers.spock
     testImplementation mn.micronaut.inject
     testImplementation mn.reactor
+    testImplementation mn.micronaut.test.spock
     testImplementation mn.spock
 
 }
 
 tasks.withType(GroovyCompile) {
     groovyOptions.forkOptions.jvmArgs.add('-Dgroovy.parameters=true')
+}
+
+java {
+    sourceCompatibility = JavaVersion.toVersion("17")
+    targetCompatibility = JavaVersion.toVersion("17")
+}
+
+test {
+    useJUnitPlatform()
+    testLogging {
+        showStandardStreams = true
+        exceptionFormat = 'full'
+    }
 }

@@ -15,14 +15,14 @@
  */
 package io.micronaut.nats.bind;
 
-import java.util.Optional;
-
 import io.micronaut.core.convert.ArgumentConversionContext;
 import io.micronaut.core.convert.ConversionService;
 import io.micronaut.messaging.annotation.MessageHeader;
 import io.nats.client.Message;
 import io.nats.client.impl.Headers;
 import jakarta.inject.Singleton;
+
+import java.util.Optional;
 
 /**
  * Binds an argument of with the {@link MessageHeader} annotation from the {@link Message}.
@@ -33,13 +33,13 @@ import jakarta.inject.Singleton;
 @Singleton
 public class NatsHeaderBinder implements NatsAnnotatedArgumentBinder<MessageHeader> {
 
-    private final ConversionService<?> conversionService;
+    private final ConversionService conversionService;
 
     /**
      * Default constructor.
      * @param conversionService The conversation service
      */
-    public NatsHeaderBinder(ConversionService<?> conversionService) {
+    public NatsHeaderBinder(ConversionService conversionService) {
         this.conversionService = conversionService;
     }
 

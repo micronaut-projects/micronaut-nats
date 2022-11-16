@@ -15,22 +15,10 @@
  */
 package io.micronaut.nats.intercept;
 
-import java.util.AbstractMap;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutorService;
-
 import io.micronaut.aop.InterceptedMethod;
 import io.micronaut.aop.InterceptorBean;
 import io.micronaut.aop.MethodInterceptor;
 import io.micronaut.aop.MethodInvocationContext;
-import io.micronaut.caffeine.cache.Cache;
-import io.micronaut.caffeine.cache.Caffeine;
 import io.micronaut.context.BeanContext;
 import io.micronaut.core.annotation.AnnotationValue;
 import io.micronaut.core.convert.ConversionService;
@@ -61,6 +49,17 @@ import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Scheduler;
 import reactor.core.scheduler.Schedulers;
 
+import java.util.AbstractMap;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutorService;
+
 /**
  * Implementation of the {@link NatsClient} advice annotation.
  * @author jgrimm
@@ -76,11 +75,11 @@ public class NatsIntroductionAdvice implements MethodInterceptor<Object, Object>
 
     private final Scheduler scheduler;
 
-    private final ConversionService<?> conversionService;
+    private final ConversionService conversionService;
 
     private final NatsMessageSerDesRegistry serDesRegistry;
 
-    private final Cache<ExecutableMethod, StaticPublisherState> publisherCache = Caffeine.newBuilder().build();
+    private final Map<ExecutableMethod, StaticPublisherState> publisherCache = new ConcurrentHashMap<>();
 
     /**
      * Default constructor.
@@ -89,7 +88,7 @@ public class NatsIntroductionAdvice implements MethodInterceptor<Object, Object>
      * @param serDesRegistry    The serialization/deserialization registry
      * @param executorService   The executor to execute reactive operations on
      */
-    public NatsIntroductionAdvice(BeanContext beanContext, ConversionService<?> conversionService,
+    public NatsIntroductionAdvice(BeanContext beanContext, ConversionService conversionService,
             NatsMessageSerDesRegistry serDesRegistry, @Named(TaskExecutors.MESSAGE_CONSUMER) ExecutorService executorService) {
         this.beanContext = beanContext;
         this.conversionService = conversionService;
@@ -100,15 +99,15 @@ public class NatsIntroductionAdvice implements MethodInterceptor<Object, Object>
     @Override
     public Object intercept(MethodInvocationContext<Object, Object> context) {
         if (context.hasAnnotation(NatsClient.class)) {
-            StaticPublisherState publisherState = publisherCache.get(context.getExecutableMethod(), method -> {
+            StaticPublisherState publisherState = publisherCache.computeIfAbsent(context.getExecutableMethod(), method -> {
                 if (!method.findAnnotation(NatsClient.class).isPresent()) {
                     throw new IllegalStateException("No @NatsClient annotation present on method: " + method);
                 }
                 Optional<String> subject = method.findAnnotation(Subject.class).flatMap(AnnotationValue::stringValue);
 
                 String connection = method.findAnnotation(NatsConnection.class)
-                        .flatMap(conn -> conn.get("connection", String.class))
-                        .orElse(NatsConnection.DEFAULT_CONNECTION);
+                    .flatMap(conn -> conn.get("connection", String.class))
+                    .orElse(NatsConnection.DEFAULT_CONNECTION);
 
                 Argument<?> bodyArgument = findBodyArgument(method).orElseThrow(
                         () -> new NatsClientException("No valid message body argument found for method: " + method));

@@ -15,20 +15,19 @@
  */
 package io.micronaut.nats.annotation;
 
-import java.lang.annotation.Documented;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
-
 import io.micronaut.aop.Introduction;
 import io.micronaut.context.annotation.AliasFor;
 import io.micronaut.context.annotation.Type;
 import io.micronaut.messaging.annotation.MessageProducer;
 import io.micronaut.nats.intercept.NatsIntroductionAdvice;
-import io.micronaut.retry.annotation.Recoverable;
 import jakarta.inject.Scope;
 import jakarta.inject.Singleton;
+
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
  * An introduction advice that automatically implemnts interfaces and abstract classes and publishes nats messages.
@@ -42,7 +41,6 @@ import jakarta.inject.Singleton;
 @Scope
 @Introduction
 @Type(NatsIntroductionAdvice.class)
-@Recoverable
 @Singleton
 @MessageProducer
 public @interface NatsClient {

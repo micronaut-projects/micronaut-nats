@@ -13,7 +13,7 @@ import java.nio.charset.Charset
 @Requires(property = "spec.name", value = "ProductInfoSerDesSpec")
 // tag::clazz[]
 @Singleton // <1>
-class ProductInfoSerDes(private val conversionService: ConversionService<*>)// <3>
+class ProductInfoSerDes(private val conversionService: ConversionService)// <3>
     : NatsMessageSerDes<ProductInfo> { // <2>
 
     override fun deserialize(message: Message, argument: Argument<ProductInfo>): ProductInfo? { // <4>

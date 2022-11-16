@@ -18,10 +18,10 @@ import java.util.Collections
 class ProductListener {
 
     var messages: MutableList<String> = Collections.synchronizedList(ArrayList())
+    private var datas: MutableList<ByteArray> = Collections.synchronizedList(ArrayList())
 
     @Subject(value = "product")
-    fun receive(data: ByteArray,
-                message: Message,
+    fun receive(message: Message,
                 connection: Connection,
                 subscription: Subscription,
                 headers: Headers) { // <1>

@@ -3,7 +3,7 @@ package io.micronaut.nats.docs.serdes;
 import io.micronaut.nats.AbstractNatsTest;
 import org.junit.jupiter.api.Test;
 
-public class ProductInfoSerDesSpec extends AbstractNatsTest {
+class ProductInfoSerDesSpec extends AbstractNatsTest {
 
     @Test
     void testUsingACustomSerDes() {

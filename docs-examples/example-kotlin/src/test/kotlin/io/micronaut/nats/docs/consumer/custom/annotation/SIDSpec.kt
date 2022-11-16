@@ -4,6 +4,7 @@ import io.kotest.assertions.timing.eventually
 import io.kotest.matchers.shouldBe
 import io.micronaut.nats.AbstractNatsTest
 import kotlin.time.Duration
+import kotlin.time.Duration.Companion.seconds
 import kotlin.time.ExperimentalTime
 
 @OptIn(ExperimentalTime::class)
@@ -25,7 +26,7 @@ class SIDSpec : AbstractNatsTest({
             // end::producer[]
 
             then("The messages are received") {
-                eventually(Duration.seconds(10)) {
+                eventually(10.seconds) {
                     productListener.messages.size shouldBe 3
                 }
             }

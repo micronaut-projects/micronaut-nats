@@ -6,13 +6,13 @@ dependencies {
     annotationProcessor mn.micronaut.inject.java
 
     api mn.micronaut.messaging
-    api mn.micronaut.inject
     api libs.jnats
 
-    implementation mn.reactor
+    implementation mn.micronaut.serde.jackson
+    implementation mn.micronaut.reactor
 
     compileOnly mn.micronaut.management
-    compileOnly libs.micronaut.micrometer.core
+    compileOnly mn.micronaut.micrometer.core
 
     testImplementation libs.testcontainers.spock
     testImplementation mn.micronaut.inject.groovy

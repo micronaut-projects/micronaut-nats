@@ -2,21 +2,25 @@ plugins {
     id "java-library"
 }
 
-repositories {
-    mavenCentral()
-}
-
 dependencies {
-    testImplementation project(':nats')
+    testImplementation projects.nats
 
     testAnnotationProcessor mn.micronaut.inject.java
-    testImplementation mn.micronaut.inject
+
     testImplementation mn.reactor
     testImplementation libs.awaitility
     testImplementation libs.testcontainers
     testImplementation libs.junit.jupiter.api
+    testRuntimeOnly libs.junit.jupiter.engine
 }
 
 compileJava.options.compilerArgs += '-parameters'
 compileTestJava.options.compilerArgs += '-parameters'
 
+java {
+    sourceCompatibility = JavaVersion.toVersion("17")
+    targetCompatibility = JavaVersion.toVersion("17")
+}
+test {
+    useJUnitPlatform()
+}

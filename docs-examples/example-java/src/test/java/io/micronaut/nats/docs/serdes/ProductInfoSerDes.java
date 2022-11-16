@@ -1,15 +1,14 @@
 package io.micronaut.nats.docs.serdes;
 
-import java.nio.charset.StandardCharsets;
-import java.util.Optional;
-
 import io.micronaut.context.annotation.Requires;
-// tag::imports[]
 import io.micronaut.core.convert.ConversionService;
 import io.micronaut.core.type.Argument;
 import io.micronaut.nats.serdes.NatsMessageSerDes;
 import io.nats.client.Message;
 import jakarta.inject.Singleton;
+
+import java.nio.charset.StandardCharsets;
+import java.util.Optional;
 // end::imports[]
 
 @Requires(property = "spec.name", value = "ProductInfoSerDesSpec")
@@ -17,9 +16,9 @@ import jakarta.inject.Singleton;
 @Singleton // <1>
 public class ProductInfoSerDes implements NatsMessageSerDes<ProductInfo> { // <2>
 
-    private final ConversionService<?> conversionService;
+    private final ConversionService conversionService;
 
-    public ProductInfoSerDes(ConversionService<?> conversionService) { // <3>
+    public ProductInfoSerDes(ConversionService conversionService) { // <3>
         this.conversionService = conversionService;
     }
 
