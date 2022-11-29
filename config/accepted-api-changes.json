@@ -216,5 +216,85 @@
   "type": "io.micronaut.nats.connect.$ClusterNatsConnectionFactoryConfig$Definition$Reference",
   "member": "Constructor io.micronaut.nats.connect.$ClusterNatsConnectionFactoryConfig$Definition$Reference()",
   "reason": "Provide nats configurations in a generic way"
+},{
+  "type": "io.micronaut.nats.connect.$ClusterNatsConnectionFactoryConfig$DefaultTlsConfiguration$Definition$Reference",
+  "member": "Implemented interface io.micronaut.core.annotation.AnnotationSource",
+  "reason": "Provide nats configurations in a generic way"
+},{
+  "type": "io.micronaut.nats.connect.$ClusterNatsConnectionFactoryConfig$DefaultTlsConfiguration$Definition$Reference",
+  "member": "Implemented interface io.micronaut.inject.BeanContextConditional",
+  "reason": "Provide nats configurations in a generic way"
+},{
+  "type": "io.micronaut.nats.connect.$ClusterNatsConnectionFactoryConfig$DefaultTlsConfiguration$Definition$Reference",
+  "member": "Implemented interface io.micronaut.core.annotation.AnnotationMetadataProvider",
+  "reason": "Provide nats configurations in a generic way"
+},{
+  "type": "io.micronaut.nats.connect.$ClusterNatsConnectionFactoryConfig$DefaultTlsConfiguration$Definition$Reference",
+  "member": "Implemented interface io.micronaut.inject.BeanType",
+  "reason": "Provide nats configurations in a generic way"
+},{
+  "type": "io.micronaut.nats.connect.$ClusterNatsConnectionFactoryConfig$DefaultTlsConfiguration$Definition$Reference",
+  "member": "Implemented interface io.micronaut.inject.BeanDefinitionReference",
+  "reason": "Provide nats configurations in a generic way"
+},{
+  "type": "io.micronaut.nats.connect.$ClusterNatsConnectionFactoryConfig$Definition$Reference",
+  "member": "Implemented interface io.micronaut.core.annotation.AnnotationSource",
+  "reason": "Provide nats configurations in a generic way"
+},{
+  "type": "io.micronaut.nats.connect.$ClusterNatsConnectionFactoryConfig$Definition$Reference",
+  "member": "Implemented interface io.micronaut.inject.BeanContextConditional",
+  "reason": "Provide nats configurations in a generic way"
+},{
+  "type": "io.micronaut.nats.connect.$ClusterNatsConnectionFactoryConfig$Definition$Reference",
+  "member": "Implemented interface io.micronaut.core.annotation.AnnotationMetadataProvider",
+  "reason": "Provide nats configurations in a generic way"
+},{
+  "type": "io.micronaut.nats.connect.$ClusterNatsConnectionFactoryConfig$Definition$Reference",
+  "member": "Implemented interface io.micronaut.inject.BeanType",
+  "reason": "Provide nats configurations in a generic way"
+},{
+  "type": "io.micronaut.nats.connect.$ClusterNatsConnectionFactoryConfig$Definition$Reference",
+  "member": "Implemented interface io.micronaut.inject.BeanDefinitionReference",
+  "reason": "Provide nats configurations in a generic way"
+},{
+  "type": "io.micronaut.nats.connect.$SingleNatsConnectionFactoryConfig$DefaultTlsConfiguration$Definition$Reference",
+  "member": "Implemented interface io.micronaut.core.annotation.AnnotationSource",
+  "reason": "Provide nats configurations in a generic way"
+},{
+  "type": "io.micronaut.nats.connect.$SingleNatsConnectionFactoryConfig$DefaultTlsConfiguration$Definition$Reference",
+  "member": "Implemented interface io.micronaut.inject.BeanContextConditional",
+  "reason": "Provide nats configurations in a generic way"
+},{
+  "type": "io.micronaut.nats.connect.$SingleNatsConnectionFactoryConfig$DefaultTlsConfiguration$Definition$Reference",
+  "member": "Implemented interface io.micronaut.core.annotation.AnnotationMetadataProvider",
+  "reason": "Provide nats configurations in a generic way"
+},{
+  "type": "io.micronaut.nats.connect.$SingleNatsConnectionFactoryConfig$DefaultTlsConfiguration$Definition$Reference",
+  "member": "Implemented interface io.micronaut.inject.BeanType",
+  "reason": "Provide nats configurations in a generic way"
+},{
+  "type": "io.micronaut.nats.connect.$SingleNatsConnectionFactoryConfig$DefaultTlsConfiguration$Definition$Reference",
+  "member": "Implemented interface io.micronaut.inject.BeanDefinitionReference",
+  "reason": "Provide nats configurations in a generic way"
+},{
+  "type": "io.micronaut.nats.connect.$SingleNatsConnectionFactoryConfig$Definition$Reference",
+  "member": "Implemented interface io.micronaut.core.annotation.AnnotationSource",
+  "reason": "Provide nats configurations in a generic way"
+},{
+  "type": "io.micronaut.nats.connect.$SingleNatsConnectionFactoryConfig$Definition$Reference",
+  "member": "Implemented interface io.micronaut.inject.BeanContextConditional",
+  "reason": "Provide nats configurations in a generic way"
+},{
+  "type": "io.micronaut.nats.connect.$SingleNatsConnectionFactoryConfig$Definition$Reference",
+  "member": "Implemented interface io.micronaut.core.annotation.AnnotationMetadataProvider",
+  "reason": "Provide nats configurations in a generic way"
+},{
+  "type": "io.micronaut.nats.connect.$SingleNatsConnectionFactoryConfig$Definition$Reference",
+  "member": "Implemented interface io.micronaut.inject.BeanType",
+  "reason": "Provide nats configurations in a generic way"
+},{
+  "type": "io.micronaut.nats.connect.$SingleNatsConnectionFactoryConfig$Definition$Reference",
+  "member": "Implemented interface io.micronaut.inject.BeanDefinitionReference",
+  "reason": "Provide nats configurations in a generic way"
 }
 ]

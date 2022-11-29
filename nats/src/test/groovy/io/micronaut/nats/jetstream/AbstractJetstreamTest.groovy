@@ -39,6 +39,8 @@ abstract class AbstractJetstreamTest extends Specification {
     protected ApplicationContext startContext(Map additionalConfig = [:]) {
         ApplicationContext.run(
                 ["nats.default.addresses": ["nats://localhost:${natsContainer.getMappedPort(4222)}"],
-                 "spec.name"             : getClass().simpleName] << additionalConfig, "test")
+                 "spec.name"             : getClass().simpleName,
+                 "nats.default.jetstream.streams.widgets.storage-type": "Memory",
+                 "nats.default.jetstream.streams.widgets.subjects": ['subject.>']] << additionalConfig, "test")
     }
 }

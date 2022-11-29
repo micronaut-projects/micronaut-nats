@@ -15,23 +15,17 @@
  */
 package io.micronaut.nats.jetstream.intercept;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Optional;
-import java.util.concurrent.ExecutorService;
-
 import io.micronaut.aop.InterceptedMethod;
 import io.micronaut.aop.InterceptorBean;
+import io.micronaut.aop.MethodInterceptor;
 import io.micronaut.aop.MethodInvocationContext;
-import io.micronaut.caffeine.cache.Cache;
-import io.micronaut.caffeine.cache.Caffeine;
 import io.micronaut.context.BeanContext;
 import io.micronaut.core.convert.ConversionService;
 import io.micronaut.core.type.Argument;
 import io.micronaut.inject.ExecutableMethod;
 import io.micronaut.inject.qualifiers.Qualifiers;
 import io.micronaut.nats.exception.NatsClientException;
-import io.micronaut.nats.intercept.NatsIntroductionAdvice;
+import io.micronaut.nats.intercept.AbstractIntroductionAdvice;
 import io.micronaut.nats.intercept.StaticPublisherState;
 import io.micronaut.nats.jetstream.annotation.JetStreamClient;
 import io.micronaut.nats.jetstream.reactive.ReactivePublisher;
@@ -46,6 +40,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import reactor.core.publisher.Mono;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Map;
+import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutorService;
+
 /**
  * Implementation of the {@link JetStreamClient} advice annotation.
  *
@@ -54,12 +55,12 @@ import reactor.core.publisher.Mono;
  */
 @Singleton
 @InterceptorBean(JetStreamClient.class)
-public class JetStreamIntroductionAdvice extends NatsIntroductionAdvice {
+public class JetStreamIntroductionAdvice extends AbstractIntroductionAdvice implements MethodInterceptor<Object, Object> {
 
     private static final Logger LOG = LoggerFactory.getLogger(JetStreamIntroductionAdvice.class);
 
-    private final Cache<ExecutableMethod<?, ?>, JetStreamPublisherState> publisherCache =
-        Caffeine.newBuilder().build();
+    private final Map<ExecutableMethod<?, ?>, JetStreamPublisherState> publisherCache =
+        new ConcurrentHashMap<>();
 
     /**
      * Default constructor.
@@ -70,22 +71,17 @@ public class JetStreamIntroductionAdvice extends NatsIntroductionAdvice {
      * @param executorService   The executor to execute reactive operations on
      */
     public JetStreamIntroductionAdvice(BeanContext beanContext,
-        ConversionService<?> conversionService,
-        NatsMessageSerDesRegistry serDesRegistry,
-        @Named(TaskExecutors.MESSAGE_CONSUMER) ExecutorService executorService) {
-        super(beanContext, conversionService, serDesRegistry, executorService);
+                                       ConversionService conversionService,
+                                       NatsMessageSerDesRegistry serDesRegistry,
+                                       @Named(TaskExecutors.MESSAGE_CONSUMER) ExecutorService executorService) {
+        super(beanContext, executorService, conversionService, serDesRegistry);
     }
 
     @Override
     public Object intercept(MethodInvocationContext<Object, Object> context) {
         if (context.hasAnnotation(JetStreamClient.class)) {
             JetStreamPublisherState publisherState =
-                publisherCache.get(context.getExecutableMethod(), method -> {
-                    if (!method.findAnnotation(JetStreamClient.class).isPresent()) {
-                        throw new IllegalStateException(
-                            "No @JetstreamClient annotation present on method: " + method);
-                    }
-
+                publisherCache.computeIfAbsent(context.getExecutableMethod(), method -> {
                     final StaticPublisherState staticPublisherState = buildPublisherState(method);
                     ReactivePublisher reactivePublisher;
                     try {

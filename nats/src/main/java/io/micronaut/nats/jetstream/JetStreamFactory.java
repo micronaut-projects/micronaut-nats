@@ -15,9 +15,6 @@
  */
 package io.micronaut.nats.jetstream;
 
-import java.io.IOException;
-import java.util.Map;
-
 import io.micronaut.context.BeanContext;
 import io.micronaut.context.annotation.EachBean;
 import io.micronaut.context.annotation.Factory;
@@ -31,6 +28,8 @@ import io.nats.client.api.StreamConfiguration;
 import io.nats.client.api.StreamInfo;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
+
+import java.io.IOException;
 
 /**
  * JetStreamFactory.
@@ -76,16 +75,15 @@ public class JetStreamFactory {
             Connection connection = getConnectionByName(config.getName());
 
             final JetStreamManagement jetStreamManagement = getConnectionByName(config.getName()).jetStreamManagement(
-                    config.getJetstream().toJetStreamOptions());
+                config.getJetstream().toJetStreamOptions());
 
             // initialize the given stream configurations
-            for (Map.Entry<String, NatsConnectionFactoryConfig.JetStreamConfiguration.StreamConfiguration> streamEntry : config.getJetstream()
-                                                                                                                               .getStreams()
-                                                                                                                               .entrySet()) {
+            for (NatsConnectionFactoryConfig.JetStreamConfiguration.StreamConfiguration stream : config.getJetstream()
+                .getStreams()) {
                 final StreamConfiguration streamConfiguration =
-                        streamEntry.getValue().toStreamConfiguration(streamEntry.getKey());
-                if (jetStreamManagement.getStreamNames().contains(streamEntry.getKey())) {
-                    StreamInfo streamInfo = jetStreamManagement.getStreamInfo(streamEntry.getKey());
+                    stream.toStreamConfiguration();
+                if (jetStreamManagement.getStreamNames().contains(streamConfiguration.getName())) {
+                    StreamInfo streamInfo = jetStreamManagement.getStreamInfo(streamConfiguration.getName());
                     if (!streamInfo.getConfiguration().equals(streamConfiguration)) {
                         jetStreamManagement.updateStream(streamConfiguration);
                     }

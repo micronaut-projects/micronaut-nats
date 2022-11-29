@@ -6,6 +6,7 @@ import io.micronaut.nats.AbstractNatsTest
 import io.nats.client.JetStreamManagement
 import io.nats.client.PublishOptions
 import kotlin.time.Duration
+import kotlin.time.Duration.Companion.seconds
 import kotlin.time.ExperimentalTime
 
 @OptIn(ExperimentalTime::class)
@@ -44,7 +45,7 @@ class JetstreamSpec : AbstractNatsTest({
             // end::producer[]
 
             then("The messages are received with pull consumer") {
-                eventually(Duration.seconds(10)) {
+                eventually(10.seconds) {
                     productListener.messageLengths.size shouldBe 2
                     jsm.getStreamInfo("events").streamState.msgCount shouldBe 2
                 }
@@ -86,7 +87,7 @@ class JetstreamSpec : AbstractNatsTest({
 
 
             then("The messages are received") {
-                eventually(Duration.seconds(10)) {
+                eventually(10.seconds) {
                     pullConsumerHelper.pullMessages().size shouldBe 2
                 }
             }

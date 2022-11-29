@@ -27,7 +27,9 @@ abstract class AbstractNatsTest extends Specification {
 
     protected Map<String, Object> getConfiguration() {
         ["nats.default.addresses": "nats://localhost:" + natsContainer.getMappedPort(4222),
-         "spec.name"             : getClass().simpleName] as Map
+         "spec.name"             : getClass().simpleName,
+         "nats.default.jetstream.streams.events.storage-type": "Memory",
+         "nats.default.jetstream.streams.events.subjects": ["events.>"]] as Map
     }
 
     protected void waitFor(Closure<?> conditionEvaluator) {

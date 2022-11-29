@@ -37,10 +37,9 @@ import java.security.SecureRandom;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 import static io.nats.client.Options.Builder;
@@ -474,9 +473,9 @@ public class NatsConnectionFactoryConfig {
 
         @ConfigurationBuilder(prefixes = "")
         private JetStreamOptions.Builder builder =
-            JetStreamOptions.builder(JetStreamOptions.defaultOptions());
+                JetStreamOptions.builder(JetStreamOptions.defaultOptions());
 
-        private Map<String, StreamConfiguration> streams = new HashMap<>();
+        private List<StreamConfiguration> streams = new ArrayList<>();
 
         /**
          * get the jetstream options builder.
@@ -501,7 +500,7 @@ public class NatsConnectionFactoryConfig {
          *
          * @return list of streamConfigurations
          */
-        public Map<String, StreamConfiguration> getStreams() {
+        public List<StreamConfiguration> getStreams() {
             return streams;
         }
 
@@ -510,7 +509,7 @@ public class NatsConnectionFactoryConfig {
          *
          * @param streams the stream configurations
          */
-        public void setStreams(Map<String, StreamConfiguration> streams) {
+        public void setStreams(List<StreamConfiguration> streams) {
             this.streams = streams;
         }
 
@@ -525,7 +524,13 @@ public class NatsConnectionFactoryConfig {
             private io.nats.client.api.StreamConfiguration.Builder builder =
                 io.nats.client.api.StreamConfiguration.builder();
 
+            private final String name;
+
             private List<String> subjects;
+
+            public StreamConfiguration(@Parameter String name) {
+                this.name = name;
+            }
 
             /**
              * get the stream configuration builder.
@@ -540,11 +545,10 @@ public class NatsConnectionFactoryConfig {
              * return the configuration as
              * {@link io.nats.client.api.StreamConfiguration}.
              *
-             * @param streamName the stream name
              * @return nats stream configuration
              */
-            public io.nats.client.api.StreamConfiguration toStreamConfiguration(String streamName) {
-                return builder.name(streamName).subjects(subjects).build();
+            public io.nats.client.api.StreamConfiguration toStreamConfiguration() {
+                return builder.name(name).subjects(subjects).build();
             }
 
             /**
@@ -554,6 +558,14 @@ public class NatsConnectionFactoryConfig {
              */
             public List<String> getSubjects() {
                 return subjects;
+            }
+
+            /**
+             * set the subjects.
+             * @param subjects list of subjects
+             */
+            public void setSubjects(List<String> subjects) {
+                this.subjects = subjects;
             }
         }
     }

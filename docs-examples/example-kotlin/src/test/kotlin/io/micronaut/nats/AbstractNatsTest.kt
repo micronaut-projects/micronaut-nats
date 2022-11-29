@@ -25,7 +25,9 @@ abstract class AbstractNatsTest(body: BehaviorSpec.() -> Unit) : BehaviorSpec(bo
         fun getDefaultConfig(specName: String): MutableMap<String, Any> =
             mutableMapOf(
                 "nats.default.addresses" to "nats://localhost:" + natsContainer.getMappedPort(4222),
-                "spec.name" to specName
+                "spec.name" to specName,
+                "nats.default.jetstream.streams.events.storage-type" to "Memory",
+                "nats.default.jetstream.streams.events.subjects" to "events.>"
             )
     }
 
