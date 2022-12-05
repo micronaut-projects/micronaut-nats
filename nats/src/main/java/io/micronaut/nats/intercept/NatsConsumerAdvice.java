@@ -16,6 +16,8 @@
 package io.micronaut.nats.intercept;
 
 import io.micronaut.context.BeanContext;
+import io.micronaut.context.Qualifier;
+import io.micronaut.context.annotation.Bean;
 import io.micronaut.context.processor.ExecutableMethodProcessor;
 import io.micronaut.core.annotation.AnnotationValue;
 import io.micronaut.core.annotation.NonNull;
@@ -34,7 +36,6 @@ import io.micronaut.nats.annotation.NatsConnection;
 import io.micronaut.nats.annotation.NatsListener;
 import io.micronaut.nats.annotation.Subject;
 import io.micronaut.nats.bind.NatsBinderRegistry;
-import io.micronaut.nats.connect.SingleNatsConnectionFactoryConfig;
 import io.micronaut.nats.exception.NatsListenerException;
 import io.micronaut.nats.exception.NatsListenerExceptionHandler;
 import io.micronaut.nats.serdes.NatsMessageSerDes;
@@ -67,6 +68,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @since 1.0.0
  */
 @Singleton
+@Bean(preDestroy = "close")
 public class NatsConsumerAdvice implements ExecutableMethodProcessor<Subject>, AutoCloseable,
     ConsumerRegistry {
 
@@ -80,7 +82,7 @@ public class NatsConsumerAdvice implements ExecutableMethodProcessor<Subject>, A
 
     private final ApplicationConfiguration applicationConfiguration;
 
-    private final Map<String, ConsumerState> consumers = new ConcurrentHashMap<>();
+    private final Map<String, StaticConsumerState> consumers = new ConcurrentHashMap<>();
 
     private final AtomicInteger clientIdGenerator = new AtomicInteger(10);
 
@@ -118,7 +120,7 @@ public class NatsConsumerAdvice implements ExecutableMethodProcessor<Subject>, A
             method.stringValue(NatsConnection.class, "connection")
                   .orElse(NatsConnection.DEFAULT_CONNECTION);
 
-        io.micronaut.context.Qualifier<Object> qualifier =
+        Qualifier<Object> qualifier =
             beanDefinition.getAnnotationTypeByStereotype("javax.inject.Qualifier")
                           .map(type -> Qualifiers.byAnnotation(beanDefinition, type)).orElse(null);
 
@@ -154,7 +156,7 @@ public class NatsConsumerAdvice implements ExecutableMethodProcessor<Subject>, A
             BoundExecutable boundExecutable = null;
             try {
                 boundExecutable = binder.bind(method, binderRegistry, msg);
-            } catch (Throwable e) {
+            } catch (Exception e) {
                 handleException(
                     new NatsListenerException(
                         "An error occurred binding the message to the method",
@@ -173,8 +175,7 @@ public class NatsConsumerAdvice implements ExecutableMethodProcessor<Subject>, A
                                           .orElseThrow(() -> new NatsListenerException(
                                               String.format(
                                                   "Could not find a serializer for the "
-                                                      + "body "
-                                                      + "argument of type [%s]",
+                                                      + "body argument of type [%s]",
                                                   returnedValue.getClass().getName()), bean,
                                               msg));
                         converted = serDes.serialize(returnedValue);
@@ -194,14 +195,14 @@ public class NatsConsumerAdvice implements ExecutableMethodProcessor<Subject>, A
             }
         }
 
-        consumers.put(clientId, new ConsumerState(clientId, subscriptions, ds, connection));
+        consumers.put(clientId, new StaticConsumerState(clientId, subscriptions, ds, connection));
     }
 
     @PreDestroy
     @Override
     public void close() {
-        for (ConsumerState consumerState : consumers.values()) {
-            consumerState.connection.closeDispatcher(consumerState.dispatcher);
+        for (StaticConsumerState consumerState : consumers.values()) {
+            consumerState.close();
         }
         consumers.clear();
     }
@@ -218,7 +219,7 @@ public class NatsConsumerAdvice implements ExecutableMethodProcessor<Subject>, A
     @Override
     public Consumer getConsumer(@NonNull String id) {
         ArgumentUtils.requireNonNull("id", id);
-        Dispatcher dispatcher = getConsumerState(id).dispatcher;
+        Dispatcher dispatcher = getConsumerState(id).getDispatcher();
         if (dispatcher == null) {
             throw new IllegalArgumentException("No consumer found for ID:" + id);
         }
@@ -232,8 +233,8 @@ public class NatsConsumerAdvice implements ExecutableMethodProcessor<Subject>, A
     }
 
     @NonNull
-    private ConsumerState getConsumerState(@NonNull String id) {
-        ConsumerState consumerState = consumers.get(id);
+    private StaticConsumerState getConsumerState(@NonNull String id) {
+        StaticConsumerState consumerState = consumers.get(id);
         if (consumerState == null) {
             throw new IllegalArgumentException("No consumer found for ID: " + id);
         }
@@ -244,7 +245,7 @@ public class NatsConsumerAdvice implements ExecutableMethodProcessor<Subject>, A
     @Override
     public Set<Subscription> getConsumerSubscription(@NonNull final String id) {
         ArgumentUtils.requireNonNull("id", id);
-        final Set<Subscription> subscriptions = getConsumerState(id).subscriptions;
+        final Set<Subscription> subscriptions = getConsumerState(id).getSubscriptions();
         if (subscriptions == null || subscriptions.isEmpty()) {
             throw new IllegalArgumentException("No consumer subscription found for ID: " + id);
         }
@@ -254,8 +255,7 @@ public class NatsConsumerAdvice implements ExecutableMethodProcessor<Subject>, A
     @Override
     public Subscription newSubscription(@NonNull String subject, @Nullable String queue) {
         Connection connection =
-            beanContext.getBean(Connection.class, Qualifiers.byName(
-                SingleNatsConnectionFactoryConfig.DEFAULT_NAME));
+            beanContext.getBean(Connection.class, Qualifiers.byName(NatsConnection.DEFAULT_CONNECTION));
         if (queue == null) {
             return connection.subscribe(subject);
         } else {
@@ -272,30 +272,6 @@ public class NatsConsumerAdvice implements ExecutableMethodProcessor<Subject>, A
             return connection.subscribe(subject);
         } else {
             return connection.subscribe(subject, queue);
-        }
-    }
-
-    /**
-     * The internal state of the consumer.
-     *
-     * @author Joachim Grimm
-     */
-    private static final class ConsumerState {
-
-        final String clientId;
-
-        final Set<Subscription> subscriptions;
-
-        final Dispatcher dispatcher;
-
-        final Connection connection;
-
-        private ConsumerState(String clientId, Set<Subscription> subscriptions,
-            Dispatcher dispatcher, Connection connection) {
-            this.clientId = clientId;
-            this.subscriptions = subscriptions;
-            this.dispatcher = dispatcher;
-            this.connection = connection;
         }
     }
 }

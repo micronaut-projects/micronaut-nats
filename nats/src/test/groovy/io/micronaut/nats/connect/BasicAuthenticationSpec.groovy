@@ -18,6 +18,7 @@ package io.micronaut.nats.connect
 
 import io.micronaut.context.ApplicationContext
 import io.micronaut.inject.qualifiers.Qualifiers
+import io.micronaut.nats.annotation.NatsConnection
 import io.nats.client.Connection
 import org.testcontainers.containers.GenericContainer
 import org.testcontainers.containers.wait.strategy.LogMessageWaitStrategy
@@ -46,12 +47,12 @@ class BasicAuthenticationSpec extends Specification {
         String address = "nats://localhost:${usernamePasswordContainer.getMappedPort(4222)}"
         ApplicationContext context = ApplicationContext.run(
                 ["spec.name"   : getClass().simpleName,
-                 "nats.addresses": [address],
-                 "nats.username": "test",
-                 "nats.password": "test"])
+                 "nats.default.addresses": [address],
+                 "nats.default.username": "test",
+                 "nats.default.password": "test"])
 
         expect:
-        context.getBean(Connection, Qualifiers.byName(SingleNatsConnectionFactoryConfig.DEFAULT_NAME)).getStatus() == Connection.Status.CONNECTED
+        context.getBean(Connection, Qualifiers.byName(NatsConnection.DEFAULT_CONNECTION)).getStatus() == Connection.Status.CONNECTED
 
         cleanup:
         context.stop()
@@ -65,11 +66,11 @@ class BasicAuthenticationSpec extends Specification {
         String address = "nats://localhost:${authContainer.getMappedPort(4222)}"
         ApplicationContext context = ApplicationContext.run(
                 ["spec.name"   : getClass().simpleName,
-                 "nats.addresses": [address],
-                 "nats.token": "randomToken"])
+                 "nats.default.addresses": [address],
+                 "nats.default.token": "randomToken"])
 
         expect:
-        context.getBean(Connection, Qualifiers.byName(SingleNatsConnectionFactoryConfig.DEFAULT_NAME)).getStatus() == Connection.Status.CONNECTED
+        context.getBean(Connection, Qualifiers.byName(NatsConnection.DEFAULT_CONNECTION)).getStatus() == Connection.Status.CONNECTED
 
         cleanup:
         context.stop()

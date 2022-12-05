@@ -31,35 +31,27 @@ import reactor.core.publisher.Mono;
 @EachBean(Connection.class)
 public class ReactorReactivePublisher implements ReactivePublisher {
 
-    private final Connection connection;
+    private final Mono<Connection> connection;
 
     /**
      * Constructor.
      * @param connection The given connection
      */
     public ReactorReactivePublisher(@Parameter Connection connection) {
-        this.connection = connection;
+        this.connection = Mono.just(connection);
     }
 
     @Override
     public Publisher<Void> publish(Message message) {
-        return getConnection().flatMap(con -> publishInternal(message, con));
-    }
-
-    private Mono<Void> publishInternal(Message message, Connection con) {
-        return Mono.create(subscriber -> {
+        return connection.flatMap(con -> Mono.create(subscriber -> {
             con.publish(message);
             subscriber.success();
-        });
+        }));
     }
 
     @Override
     public Publisher<Message> publishAndReply(Message message) {
-        return getConnection()
-                .flatMap(con -> Mono.fromFuture(con.request(message)));
+        return connection.flatMap(con -> Mono.fromFuture(con.request(message)));
     }
 
-    private Mono<Connection> getConnection() {
-        return Mono.just(connection);
-    }
 }

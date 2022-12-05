@@ -15,27 +15,32 @@
  */
 package io.micronaut.nats.connect;
 
+import io.micronaut.context.annotation.ConfigurationBuilder;
+import io.micronaut.context.annotation.ConfigurationProperties;
+import io.micronaut.context.annotation.EachProperty;
+import io.micronaut.context.annotation.Parameter;
+import io.micronaut.context.annotation.Requires;
+import io.micronaut.core.annotation.Nullable;
+import io.nats.client.JetStreamOptions;
+import io.nats.client.Nats;
+import io.nats.client.Options;
+
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManagerFactory;
 import java.io.BufferedInputStream;
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.security.GeneralSecurityException;
 import java.security.KeyStore;
 import java.security.SecureRandom;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.TrustManagerFactory;
-import javax.validation.constraints.NotNull;
-
-import io.micronaut.context.annotation.Parameter;
-import io.micronaut.core.annotation.Nullable;
-import io.nats.client.Nats;
-import io.nats.client.Options;
 
 import static io.nats.client.Options.Builder;
 import static io.nats.client.Options.DEFAULT_INBOX_PREFIX;
@@ -51,7 +56,11 @@ import static io.nats.client.Options.DEFAULT_URL;
  * @author jgrimm
  * @since 1.0.0
  */
-public abstract class NatsConnectionFactoryConfig {
+@Requires(property = NatsConnectionFactoryConfig.PREFIX)
+@EachProperty(value = NatsConnectionFactoryConfig.PREFIX, primary = "default")
+public class NatsConnectionFactoryConfig {
+
+    public static final String PREFIX = "nats";
 
     private final String name;
 
@@ -83,8 +92,12 @@ public abstract class NatsConnectionFactoryConfig {
 
     private TLS tls;
 
+    @Nullable
+    private JetStreamConfiguration jetstream;
+
     /**
      * Default constructor.
+     *
      * @param name The name of the configuration
      */
     public NatsConnectionFactoryConfig(@Parameter String name) {
@@ -283,7 +296,7 @@ public abstract class NatsConnectionFactoryConfig {
     /**
      * @param tls The tls configuration
      */
-    public void setTls(@NotNull NatsConnectionFactoryConfig.TLS tls) {
+    public void setTls(@Nullable NatsConnectionFactoryConfig.TLS tls) {
         this.tls = tls;
     }
 
@@ -316,7 +329,7 @@ public abstract class NatsConnectionFactoryConfig {
         if (this.credentials != null && !this.credentials.isEmpty()) {
             builder = builder.authHandler(Nats.credentials(this.credentials));
         } else if (this.token != null && !this.token.isEmpty()) {
-            builder = builder.token(this.token);
+            builder = builder.token(this.token.toCharArray());
         } else if (this.username != null && !this.username.isEmpty()) {
             builder = builder.userInfo(this.username, this.password);
         }
@@ -329,8 +342,26 @@ public abstract class NatsConnectionFactoryConfig {
     }
 
     /**
+     * get the optional jetstream configuration.
+     *
+     * @return the jetstream configuration
+     */
+    @Nullable
+    public JetStreamConfiguration getJetstream() {
+        return jetstream;
+    }
+
+    /**
+     * @param jetstream the jestream configuration
+     */
+    public void setJetstream(@Nullable JetStreamConfiguration jetstream) {
+        this.jetstream = jetstream;
+    }
+
+    /**
      * TLS Configuration.
      */
+    @ConfigurationProperties("tls")
     public static class TLS {
 
         private String trustStorePath;
@@ -377,9 +408,10 @@ public abstract class NatsConnectionFactoryConfig {
         }
 
         /**
-         * @param trustStoreType generally the default, but available for special trust store formats/types
+         * @param trustStoreType generally the default, but available for special trust store
+         *                       formats/types
          */
-        public void setTrustStoreType(String trustStoreType) {
+        public void setTrustStoreType(@Nullable String trustStoreType) {
             this.trustStoreType = trustStoreType;
         }
 
@@ -401,17 +433,22 @@ public abstract class NatsConnectionFactoryConfig {
             SSLContext ctx = SSLContext.getInstance(DEFAULT_SSL_PROTOCOL);
 
             TrustManagerFactory factory =
-                    TrustManagerFactory.getInstance(Optional.ofNullable(trustStoreType).orElse("SunX509"));
+                TrustManagerFactory.getInstance(
+                    Optional.ofNullable(trustStoreType).orElse("SunX509"));
             KeyStore ks = KeyStore.getInstance(KeyStore.getDefaultType());
             if (trustStorePath != null && !trustStorePath.isEmpty()) {
-                try (BufferedInputStream in = new BufferedInputStream(new FileInputStream(trustStorePath))) {
-                    ks.load(in, Optional.ofNullable(trustStorePassword).map(String::toCharArray).orElse(new char[0]));
+                try (BufferedInputStream in = new BufferedInputStream(
+                    Files.newInputStream(Paths.get(trustStorePath)))) {
+                    ks.load(in, Optional.ofNullable(trustStorePassword)
+                                        .map(String::toCharArray)
+                                        .orElse(new char[0]));
                 }
             } else {
                 ks.load(null);
             }
             if (certificatePath != null && !certificatePath.isEmpty()) {
-                try (BufferedInputStream in = new BufferedInputStream(new FileInputStream(certificatePath))) {
+                try (BufferedInputStream in = new BufferedInputStream(
+                    Files.newInputStream(Paths.get(certificatePath)))) {
                     CertificateFactory cf = CertificateFactory.getInstance("X.509");
                     X509Certificate cert = (X509Certificate) cf.generateCertificate(in);
                     ks.setCertificateEntry("nats", cert);
@@ -423,5 +460,113 @@ public abstract class NatsConnectionFactoryConfig {
             return ctx;
         }
 
+    }
+
+    /**
+     * Manages the jetstream configuration.
+     *
+     * @author Joachim Grimm
+     * @since 4.0.0
+     */
+    @ConfigurationProperties("jetstream")
+    public static class JetStreamConfiguration {
+
+        @ConfigurationBuilder(prefixes = "")
+        private JetStreamOptions.Builder builder =
+                JetStreamOptions.builder(JetStreamOptions.defaultOptions());
+
+        private List<StreamConfiguration> streams = new ArrayList<>();
+
+        /**
+         * get the jetstream options builder.
+         *
+         * @return options builder
+         */
+        public JetStreamOptions.Builder getBuilder() {
+            return builder;
+        }
+
+        /**
+         * return the configuration as {@link JetStreamOptions}.
+         *
+         * @return jetstream options
+         */
+        public JetStreamOptions toJetStreamOptions() {
+            return builder.build();
+        }
+
+        /**
+         * get the stream configurations.
+         *
+         * @return list of streamConfigurations
+         */
+        public List<StreamConfiguration> getStreams() {
+            return streams;
+        }
+
+        /**
+         * set the stream configurations for the jetstream.
+         *
+         * @param streams the stream configurations
+         */
+        public void setStreams(List<StreamConfiguration> streams) {
+            this.streams = streams;
+        }
+
+        /**
+         * Manages a single stream configuration.
+         */
+        @EachProperty(value = "streams")
+        public static class StreamConfiguration {
+
+            @ConfigurationBuilder(prefixes = "", excludes = { "addSubjects", "addSources", "name",
+                "subjects" })
+            private io.nats.client.api.StreamConfiguration.Builder builder =
+                io.nats.client.api.StreamConfiguration.builder();
+
+            private final String name;
+
+            private List<String> subjects;
+
+            public StreamConfiguration(@Parameter String name) {
+                this.name = name;
+            }
+
+            /**
+             * get the stream configuration builder.
+             *
+             * @return stream configuration builder
+             */
+            public io.nats.client.api.StreamConfiguration.Builder getBuilder() {
+                return builder;
+            }
+
+            /**
+             * return the configuration as
+             * {@link io.nats.client.api.StreamConfiguration}.
+             *
+             * @return nats stream configuration
+             */
+            public io.nats.client.api.StreamConfiguration toStreamConfiguration() {
+                return builder.name(name).subjects(subjects).build();
+            }
+
+            /**
+             * get the subjects of the stream.
+             *
+             * @return the subjects
+             */
+            public List<String> getSubjects() {
+                return subjects;
+            }
+
+            /**
+             * set the subjects.
+             * @param subjects list of subjects
+             */
+            public void setSubjects(List<String> subjects) {
+                this.subjects = subjects;
+            }
+        }
     }
 }

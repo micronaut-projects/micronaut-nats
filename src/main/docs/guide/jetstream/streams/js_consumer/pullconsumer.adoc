@@ -1,0 +1,12 @@
+A pull consumer allows you to control when the server sends the client messages.
+
+For creating a new pull subscription you need to inject api:nats.jetstream.PullConsumerRegistrey[].
+
+Let's look at a quick example.
+
+snippet::io.micronaut.nats.docs.jetstream.PullConsumerHelper[tags="imports,clazz",project-base="docs-examples/example"]
+
+<1> For creating a new pull subscription you need to inject api:nats.jetstream.PullConsumerRegistry[].
+<2> Create a new link:{apinats}{natsVersion}/io/nats/client/JetStreamSubscription.html[JetStreamSubscription] with the `subjects` you want to subscribe to and the necessary link:{apinats}{natsVersion}/io/nats/client/PullSubscribeOptions.html[PullSubscribeOptions].
+<3> Fetch the messages from the subscription.
+<4> Acknowledge the fetched messages.

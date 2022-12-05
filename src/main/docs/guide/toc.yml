@@ -28,4 +28,15 @@ serdes:
   title: Message Serialization/Deserialization (SerDes)
   custom: Custom SerDes
 health: NATS Health Indicator
+jetstream:
+  title: Jetstream
+  streams:
+    title: Streams
+    configuration: Configuration
+    js_producer: Producer
+    js_consumer:
+      title: Consumer
+      pushconsumer: Push based
+      pullconsumer: Pull based
+
 repository: Repository

@@ -1,0 +1,20 @@
+All properties on the link:{apinats}{natsVersion}/io/nats/client/JetStreamOptions.Builder.html[JetStreamOptions.Builder] and link:{apinats}{natsVersion}/io/nats/client/api/StreamConfiguration.Builder.html[StreamConfiguration.Builder] are available to be modified, either through configuration or a link:{apimicronaut}context/event/BeanCreatedEventListener.html[BeanCreatedEventListener].
+
+The following properties are available for a stream configuration:
+
+include::{includedir}configurationProperties/io.micronaut.nats.connect.NatsConnectionFactoryConfig.JetStreamConfiguration.StreamConfiguration.adoc[]
+
+A simple configuration for jetstream and a single stream can look like:
+
+[source,yaml]
+----
+nats:
+  default:
+    jetstream:
+      streams:
+        events:
+          storage-type: Memory
+          subjects:
+            - events.>
+----
+

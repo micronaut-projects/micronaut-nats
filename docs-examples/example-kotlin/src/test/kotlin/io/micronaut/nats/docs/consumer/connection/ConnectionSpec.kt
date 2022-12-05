@@ -14,7 +14,7 @@ class ConnectionSpec : AbstractNatsTest({
 
     given("A basic producer and consumer") {
         val config = AbstractNatsTest.getDefaultConfig(specName)
-        config["nats.servers.product-cluster.addresses"] = config.remove("nats.addresses")!!
+        config["nats.product-cluster.addresses"] = config.remove("nats.default.addresses")!!
 
         val ctx = startContext(config)
 

@@ -9,6 +9,7 @@ abstract class AbstractNatsTest(body: BehaviorSpec.() -> Unit) : BehaviorSpec(bo
     companion object {
         val natsContainer = KGenericContainer("nats:latest")
             .withExposedPorts(4222)
+            .withCommand("--js")
             .waitingFor(LogMessageWaitStrategy().withRegEx("(?s).*Server is ready.*"))
 
         init {
@@ -23,8 +24,10 @@ abstract class AbstractNatsTest(body: BehaviorSpec.() -> Unit) : BehaviorSpec(bo
 
         fun getDefaultConfig(specName: String): MutableMap<String, Any> =
             mutableMapOf(
-                "nats.addresses" to "nats://localhost:" + natsContainer.getMappedPort(4222),
-                "spec.name" to specName
+                "nats.default.addresses" to "nats://localhost:" + natsContainer.getMappedPort(4222),
+                "spec.name" to specName,
+                "nats.default.jetstream.streams.events.storage-type" to "Memory",
+                "nats.default.jetstream.streams.events.subjects" to "events.>"
             )
     }
 

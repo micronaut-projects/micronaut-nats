@@ -18,8 +18,6 @@ package io.micronaut.nats.annotation;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Target;
 
-import io.micronaut.nats.connect.SingleNatsConnectionFactoryConfig;
-
 /**
  * Stores the options surrounding a Nats connection.
  *
@@ -29,7 +27,7 @@ import io.micronaut.nats.connect.SingleNatsConnectionFactoryConfig;
 @Target({ ElementType.TYPE, ElementType.METHOD})
 public @interface NatsConnection {
 
-    String DEFAULT_CONNECTION = SingleNatsConnectionFactoryConfig.DEFAULT_NAME;
+    String DEFAULT_CONNECTION = "default";
 
     /**
      * @return The connection to use

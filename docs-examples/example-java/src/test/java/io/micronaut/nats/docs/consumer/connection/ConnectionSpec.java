@@ -27,7 +27,8 @@ productClient.send("connection-test".getBytes());
     @Override
     protected Map<String, Object> getConfiguration() {
         Map<String, Object> configuration = super.getConfiguration();
-        configuration.put("nats.servers.product-cluster.addresses", configuration.remove("nats.addresses"));
+        configuration.put("nats.product-cluster.addresses",
+            configuration.remove("nats.default.addresses"));
         return configuration;
     }
 }

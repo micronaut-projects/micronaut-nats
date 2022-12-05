@@ -17,9 +17,7 @@ package io.micronaut.nats.annotation;
 
 import io.micronaut.aop.Introduction;
 import io.micronaut.context.annotation.AliasFor;
-import io.micronaut.context.annotation.Type;
 import io.micronaut.messaging.annotation.MessageProducer;
-import io.micronaut.nats.intercept.NatsIntroductionAdvice;
 import jakarta.inject.Scope;
 import jakarta.inject.Singleton;
 
@@ -31,8 +29,9 @@ import java.lang.annotation.Target;
 
 /**
  * An introduction advice that automatically implemnts interfaces and abstract classes and publishes nats messages.
+ *
  * @author jgrimm
- * @see NatsIntroductionAdvice
+ * @see io.micronaut.nats.intercept.NatsIntroductionAdvice
  * @since 1.0.0
  */
 @Documented
@@ -40,7 +39,6 @@ import java.lang.annotation.Target;
 @Target({ ElementType.TYPE })
 @Scope
 @Introduction
-@Type(NatsIntroductionAdvice.class)
 @Singleton
 @MessageProducer
 public @interface NatsClient {

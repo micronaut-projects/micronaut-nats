@@ -1,0 +1,13 @@
+The example in the quick start presented a trivial definition of an interface that be implemented automatically for you using the ann:nats.jetstream.annotation.JetstreamClient[] annotation.
+
+The implementation that powers `@JetstreamClient` (defined by the api:nats.jetstream.intercept.JetStreamIntroductionAdvice[] class) is, however, very flexible and offers a range of options for defining Jetstream clients.
+
+The `@JetstreamClient` extends the default `@NatsClient` and is based on the same methods.
+So you can still use all header and subject functionalities as you already know.
+
+
+`@JetstreamClient` have a special extension for the options you want to publish.
+
+snippet::io.micronaut.nats.docs.jetstream.ProductClient[tags="imports,clazz",project-base="docs-examples/example"]
+
+<1> With link:{apinats}{natsVersion}/io/nats/client/PublishOptions.html[PublishOptions] you can define additional options for publishing message with jetstream. You can also retrieve a link:{apinats}{natsVersion}/io/nats/client/api/PublishAck.html[PublishAck] object representing a JetStream enabled server acknowledgment.
