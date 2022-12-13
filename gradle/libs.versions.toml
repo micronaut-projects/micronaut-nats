@@ -17,6 +17,7 @@ nats = '2.16.5'
 [libraries]
 jnats = { module = 'io.nats:jnats', version.ref = 'nats'}
 awaitility = { module = 'org.awaitility:awaitility', version.ref = 'awaitility' }
+caffeine = { module = 'com.github.ben-manes.caffeine:caffeine', version.ref = 'caffeine' }
 junit-jupiter-api = { module = 'org.junit.jupiter:junit-jupiter-api', version.ref = 'junit' }
 junit-jupiter-engine = { module = 'org.junit.jupiter:junit-jupiter-engine', version.ref = 'junit' }
 kotest = { module = 'io.kotest:kotest-runner-junit5', version.ref = 'kotest' }
