@@ -75,15 +75,12 @@ loadScripts(document, 'script');</script>
 </div>
 <section class="class-description" id="class-description">
 <dl class="notes">
-<dt>Direct Known Subclasses:</dt>
-<dd><code><a href="ClusterNatsConnectionFactoryConfig.DefaultTlsConfiguration.html" title="class in io.micronaut.nats.connect">ClusterNatsConnectionFactoryConfig.DefaultTlsConfiguration</a></code>, <code><a href="SingleNatsConnectionFactoryConfig.DefaultTlsConfiguration.html" title="class in io.micronaut.nats.connect">SingleNatsConnectionFactoryConfig.DefaultTlsConfiguration</a></code></dd>
-</dl>
-<dl class="notes">
 <dt>Enclosing class:</dt>
 <dd><a href="NatsConnectionFactoryConfig.html" title="class in io.micronaut.nats.connect">NatsConnectionFactoryConfig</a></dd>
 </dl>
 <hr>
-<div class="type-signature"><span class="modifiers">public static class </span><span class="element-name type-name-label">NatsConnectionFactoryConfig.TLS</span>
+<div class="type-signature"><span class="annotations">@ConfigurationProperties("tls")
+</span><span class="modifiers">public static class </span><span class="element-name type-name-label">NatsConnectionFactoryConfig.TLS</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
 <div class="block">TLS Configuration.</div>
 </section>
@@ -221,10 +218,12 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="setTrustStoreType(java.lang.String)">
 <h3>setTrustStoreType</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setTrustStoreType</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;trustStoreType)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setTrustStoreType</span><wbr><span class="parameters">(@Nullable
+ <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;trustStoreType)</span></div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>trustStoreType</code> - generally the default, but available for special trust store formats/types</dd>
+<dd><code>trustStoreType</code> - generally the default, but available for special trust store
+                       formats/types</dd>
 </dl>
 </section>
 </li>

@@ -80,6 +80,7 @@ loadScripts(document, 'script');</script>
 </dl>
 <hr>
 <div class="type-signature"><span class="annotations">@Singleton
+@Bean(preDestroy="close")
 </span><span class="modifiers">public class </span><span class="element-name type-name-label">NatsConsumerAdvice</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>
 implements io.micronaut.context.processor.ExecutableMethodProcessor&lt;<a href="../annotation/Subject.html" title="annotation interface in io.micronaut.nats.annotation">Subject</a>&gt;, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/AutoCloseable.html" title="class or interface in java.lang" class="external-link">AutoCloseable</a>, <a href="../ConsumerRegistry.html" title="interface in io.micronaut.nats">ConsumerRegistry</a></span></div>

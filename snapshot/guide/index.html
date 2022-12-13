@@ -64,7 +64,9 @@
                                 
                                 <div class="toc-item" style="margin-left:0"><a href="#health"><strong>10</strong><span>NATS Health Indicator</span></a></div>
                                 
-                                <div class="toc-item" style="margin-left:0"><a href="#repository"><strong>11</strong><span>Repository</span></a></div>
+                                <div class="toc-item" style="margin-left:0"><a href="#jetstream"><strong>11</strong><span>Jetstream</span></a></div>
+                                
+                                <div class="toc-item" style="margin-left:0"><a href="#repository"><strong>12</strong><span>Repository</span></a></div>
                                 
                             </div>
                         </div>
@@ -141,7 +143,21 @@
         
         <div class="toc-item" style="margin-left:0px" id="toc-item-health"><a href="#health"><strong>10</strong><span>NATS Health Indicator</span></a></div>
         
-        <div class="toc-item" style="margin-left:0px" id="toc-item-repository"><a href="#repository"><strong>11</strong><span>Repository</span></a></div>
+        <div class="toc-item" style="margin-left:0px" id="toc-item-jetstream"><a href="#jetstream"><strong>11</strong><span>Jetstream</span></a></div>
+        
+        <div class="toc-item" style="margin-left:10px" id="toc-item-streams"><a href="#streams"><strong>11.1</strong><span>Streams</span></a></div>
+        
+        <div class="toc-item" style="margin-left:20px" id="toc-item-configuration"><a href="#configuration"><strong>11.1.1</strong><span>Configuration</span></a></div>
+        
+        <div class="toc-item" style="margin-left:20px" id="toc-item-js_producer"><a href="#js_producer"><strong>11.1.2</strong><span>Producer</span></a></div>
+        
+        <div class="toc-item" style="margin-left:20px" id="toc-item-js_consumer"><a href="#js_consumer"><strong>11.1.3</strong><span>Consumer</span></a></div>
+        
+        <div class="toc-item" style="margin-left:30px" id="toc-item-pushconsumer"><a href="#pushconsumer"><strong>11.1.3.1</strong><span>Push based</span></a></div>
+        
+        <div class="toc-item" style="margin-left:30px" id="toc-item-pullconsumer"><a href="#pullconsumer"><strong>11.1.3.2</strong><span>Pull based</span></a></div>
+        
+        <div class="toc-item" style="margin-left:0px" id="toc-item-repository"><a href="#repository"><strong>12</strong><span>Repository</span></a></div>
         
         </div>
     </div>
@@ -369,9 +385,9 @@ interface ProductClient {
 <div class="paragraph">
 <p>The properties that can be converted from the string values in a configuration file can be configured directly.</p>
 </div>
-<a id="io.micronaut.nats.connect.SingleNatsConnectionFactoryConfig" href="#io.micronaut.nats.connect.SingleNatsConnectionFactoryConfig">&#128279;</a>
+<a id="io.micronaut.nats.connect.NatsConnectionFactoryConfig" href="#io.micronaut.nats.connect.NatsConnectionFactoryConfig">&#128279;</a>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 1. Configuration Properties for <a href="../api/io/micronaut/nats/connect/SingleNatsConnectionFactoryConfig.html">SingleNatsConnectionFactoryConfig</a></caption>
+<caption class="title">Table 1. Configuration Properties for <a href="../api/io/micronaut/nats/connect/NatsConnectionFactoryConfig.html">NatsConnectionFactoryConfig</a></caption>
 <colgroup>
 <col style="width: 33.3333%;">
 <col style="width: 33.3333%;">
@@ -386,150 +402,67 @@ interface ProductClient {
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.addresses</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.addresses</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">java.util.List</p></td>
 <td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.username</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.username</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
 <td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.password</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.password</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
 <td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.token</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.token</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
 <td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.max-reconnect</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.max-reconnect</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">int</p></td>
 <td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.reconnect-wait</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.reconnect-wait</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">java.time.Duration</p></td>
 <td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.connection-timeout</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.connection-timeout</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">java.time.Duration</p></td>
 <td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.ping-interval</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.ping-interval</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">java.time.Duration</p></td>
 <td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.reconnect-buffer-size</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.reconnect-buffer-size</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">long</p></td>
 <td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.inbox-prefix</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.inbox-prefix</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
 <td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.no-echo</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.no-echo</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
 <td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.utf8-support</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.utf8-support</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
 <td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.credentials</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-</tbody>
-</table>
-<a id="io.micronaut.nats.connect.ClusterNatsConnectionFactoryConfig" href="#io.micronaut.nats.connect.ClusterNatsConnectionFactoryConfig">&#128279;</a>
-<table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 2. Configuration Properties for <a href="../api/io/micronaut/nats/connect/ClusterNatsConnectionFactoryConfig.html">ClusterNatsConnectionFactoryConfig</a></caption>
-<colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Property</th>
-<th class="tableblock halign-left valign-top">Type</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.servers.*.addresses</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.util.List</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.servers.*.username</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.servers.*.password</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.servers.*.token</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.servers.*.max-reconnect</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">int</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.servers.*.reconnect-wait</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.time.Duration</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.servers.*.connection-timeout</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.time.Duration</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.servers.*.ping-interval</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.time.Duration</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.servers.*.reconnect-buffer-size</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">long</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.servers.*.inbox-prefix</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.servers.*.no-echo</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.servers.*.utf8-support</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.servers.*.credentials</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.credentials</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
 <td class="tableblock halign-left valign-top"></td>
 </tr>
@@ -568,16 +501,16 @@ It is also possible to disable the integration entirely with <code>nats.enabled:
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">nats:
-    server1:
-      addresses:
-        - "nats://localhost:4222"
-      username: guest
-      password: guest
-    server2:
-      addresses:
-        - "nats://randomServer:4222"
-      username: guest
-      password: guest</code></pre>
+  server1:
+    addresses:
+      - "nats://localhost:4222"
+    username: guest
+    password: guest
+  server2:
+    addresses:
+      - "nats://randomServer:4222"
+    username: guest
+    password: guest</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -586,6 +519,7 @@ It is also possible to disable the integration entirely with <code>nats.enabled:
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">nats:
+  default:
     addresses:
       - "nats://localhost:4222"
       - "nats://randomServer:4222"
@@ -611,6 +545,7 @@ When the configuration option <code>nats.servers</code> is used, no other option
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">nats:
+  default:
     addresses:
       - "nats://localhost:4222" <i class="conum" data-value="1"></i><b>(1)</b>
     tls:
@@ -2684,7 +2619,571 @@ To disable the NATS health indicator entirely, add <code>endpoints.health.nats.e
 </table>
 </div>
 
-<h1 id="repository"><a class="anchor" href="#repository"></a>11 Repository</h1>
+<h1 id="jetstream"><a class="anchor" href="#jetstream"></a>11 Jetstream</h1>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/master/src/main/docs/guide/jetstream.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="paragraph">
+<p>Jetstream is built-in distributed persistence system built into Nats.io which enables new functionalities like</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>fault-tolerance</p>
+</li>
+<li>
+<p>replication</p>
+</li>
+<li>
+<p>exactly-once semantics</p>
+</li>
+<li>
+<p>replay policies</p>
+</li>
+<li>
+<p>retention policy and limits</p>
+</li>
+<li>
+<p>streaming</p>
+</li>
+</ul>
+</div>
+
+<h2 id="streams"><a class="anchor" href="#streams"></a>11.1 Streams</h2>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/master/src/main/docs/guide/jetstream/streams.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="paragraph">
+<p>Streams are 'message stores', each stream defines how messages are stored and what the limits (duration, size, interest) of the retention are.
+Streams consume normal NATS subjects, any message published on those subjects will be captured in the defined storage system.
+You can do a normal publish to the subject for unacknowledged delivery, though it&#8217;s better to use the JetStream publish calls instead as the JetStream server will reply with an acknowledgement that it was successfully stored.</p>
+</div>
+<div class="paragraph">
+<p>For further information have a look at <a href="https://docs.nats.io/using-nats/developer/develop_jetstream/model_deep_dive">JetStream Model Deep Dive</a>.</p>
+</div>
+
+<h2 id="configuration"><a class="anchor" href="#configuration"></a>11.1.1 Configuration</h2>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/master/src/main/docs/guide/jetstream/streams/configuration.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="paragraph">
+<p>All properties on the <a href="https://javadoc.io/doc/io.nats/jnats/{natsVersion}/io/nats/client/JetStreamOptions.Builder.html">JetStreamOptions.Builder</a> and <a href="https://javadoc.io/doc/io.nats/jnats/{natsVersion}/io/nats/client/api/StreamConfiguration.Builder.html">StreamConfiguration.Builder</a> are available to be modified, either through configuration or a <a href="https://docs.micronaut.io/latest/api/io/micronaut/context/event/BeanCreatedEventListener.html">BeanCreatedEventListener</a>.</p>
+</div>
+<div class="paragraph">
+<p>The following properties are available for a stream configuration:</p>
+</div>
+<a id="io.micronaut.nats.connect.NatsConnectionFactoryConfig$JetStreamConfiguration$StreamConfiguration" href="#io.micronaut.nats.connect.NatsConnectionFactoryConfig$JetStreamConfiguration$StreamConfiguration">&#128279;</a>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. Configuration Properties for <a href="../api/io/micronaut/nats/connect/NatsConnectionFactoryConfig.JetStreamConfiguration.StreamConfiguration.html">NatsConnectionFactoryConfig$JetStreamConfiguration$StreamConfiguration</a></caption>
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Property</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.description</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.retention-policy</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">io.nats.client.api.RetentionPolicy</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.max-consumers</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">long</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.max-messages</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">long</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.max-messages-per-subject</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">long</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.max-bytes</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">long</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.max-age</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.time.Duration</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.max-msg-size</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">long</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.storage-type</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">io.nats.client.api.StorageType</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.replicas</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">int</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.no-ack</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.template-owner</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.discard-policy</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">io.nats.client.api.DiscardPolicy</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.duplicate-window</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.time.Duration</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.placement</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">io.nats.client.api.Placement</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.republish</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">io.nats.client.api.Republish</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.mirror</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">io.nats.client.api.Mirror</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.sources</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">io.nats.client.api.Source</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.add-source</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">io.nats.client.api.Source</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.allow-rollup</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.allow-direct</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.mirror-direct</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.deny-delete</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.deny-purge</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.discard-new-per-subject</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.seal</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.build</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.subjects</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.util.List</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">get the subjects of the stream.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>A simple configuration for jetstream and a single stream can look like:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">nats:
+  default:
+    jetstream:
+      streams:
+        events:
+          storage-type: Memory
+          subjects:
+            - events.&gt;</code></pre>
+</div>
+</div>
+
+<h2 id="js_producer"><a class="anchor" href="#js_producer"></a>11.1.2 Producer</h2>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/master/src/main/docs/guide/jetstream/streams/js_producer.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="paragraph">
+<p>The example in the quick start presented a trivial definition of an interface that be implemented automatically for you using the <a href="../api/io/micronaut/nats/jetstream/annotation/JetstreamClient.html">@JetstreamClient</a> annotation.</p>
+</div>
+<div class="paragraph">
+<p>The implementation that powers <code>@JetstreamClient</code> (defined by the <a href="../api/io/micronaut/nats/jetstream/intercept/JetStreamIntroductionAdvice.html">JetStreamIntroductionAdvice</a> class) is, however, very flexible and offers a range of options for defining Jetstream clients.</p>
+</div>
+<div class="paragraph">
+<p>The <code>@JetstreamClient</code> extends the default <code>@NatsClient</code> and is based on the same methods.
+So you can still use all header and subject functionalities as you already know.</p>
+</div>
+<div class="paragraph">
+<p><code>@JetstreamClient</code> have a special extension for the options you want to publish.</p>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">@JetStreamClient
+public interface ProductClient {
+
+    PublishAck send(@Subject String subject, @MessageBody byte[] data, PublishOptions publishOptions); // <b class="conum">(1)</b>
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">import io.micronaut.messaging.annotation.MessageBody
+import io.micronaut.nats.annotation.Subject
+import io.micronaut.nats.jetstream.annotation.JetStreamClient
+import io.nats.client.PublishOptions
+import io.nats.client.api.PublishAck
+
+@JetStreamClient
+interface ProductClient {
+
+    PublishAck send(@Subject String subject, @MessageBody byte[] data, PublishOptions publishOptions); // <b class="conum">(2)</b>
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">import io.micronaut.messaging.annotation.MessageBody
+import io.micronaut.nats.annotation.Subject
+import io.micronaut.nats.jetstream.annotation.JetStreamClient
+import io.nats.client.PublishOptions
+import io.nats.client.api.PublishAck
+
+@JetStreamClient
+interface ProductClient {
+
+    fun send(@Subject subject: String, @MessageBody data: ByteArray, publishOptions: PublishOptions): PublishAck // <b class="conum">(1)</b>
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>With <a href="https://javadoc.io/doc/io.nats/jnats/{natsVersion}/io/nats/client/PublishOptions.html">PublishOptions</a> you can define additional options for publishing message with jetstream. You can also retrieve a <a href="https://javadoc.io/doc/io.nats/jnats/{natsVersion}/io/nats/client/api/PublishAck.html">PublishAck</a> object representing a JetStream enabled server acknowledgment.</td>
+</tr>
+</table>
+</div>
+
+<h2 id="js_consumer"><a class="anchor" href="#js_consumer"></a>11.1.3 Consumer</h2>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/master/src/main/docs/guide/jetstream/streams/js_consumer.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="paragraph">
+<p>A consumer is a stateful view of a stream. It acts as interface for clients to consume a subset of messages stored in a stream and will keep track of which messages were delivered and acknowledged by clients.</p>
+</div>
+<div class="paragraph">
+<p>Unlike with core NATS which provides an at most once delivery guarantee of a message, a consumer can provide an at least once delivery guarantee. This is achieved by the combination of published messages being persisted to the stream as well as the consumer tracking delivery and acknowledgement of each individual message as clients receive and process them. JetStream consumers support multiple kinds of acknowledgements and multiple acknowledgement policies. They will take care of automatically re-deliver un-acked (or 'nacked') messages up to a user specified maximum number of delivery attempts (there is an advisory being emitted when a message reaches this limit).</p>
+</div>
+<div class="paragraph">
+<p>Consumers can be push-based where messages will be delivered to a specified subject or pull-based which allows clients to request batches of messages on demand. The choice of what kind of consumer to use depends on the use-case but typically in the case of a client application that needs to get their own individual replay of messages from a stream you would use an 'ordered push consumer'. If there is a need to process messages and easily scale horizontally, you would use a 'pull consumer'.</p>
+</div>
+<div class="paragraph">
+<p>In addition to the choice of being push or pull, a consumer can also be ephemeral or durable. A consumer is considered durable when an explicit name is set on the Durable field when creating the consumer, otherwise it is considered ephemeral. Durables and ephemeral behave exactly the same except that an ephemeral will be automatically cleaned up (deleted) after a period of inactivity, specifically when there are no subscriptions bound to the consumer. By default, durables will remain even when there are periods of inactivity (unless InactiveThreshold is set explicitly).</p>
+</div>
+
+<h2 id="pushconsumer"><a class="anchor" href="#pushconsumer"></a>11.1.3.1 Push based</h2>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/master/src/main/docs/guide/jetstream/streams/js_consumer/pushconsumer.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="paragraph">
+<p>A push consumer is where the server is in control and sends messages to the client. It can be made durable or ephemeral based on your use case.</p>
+</div>
+<div class="paragraph">
+<p>Push consumers are very similiar to the already known <code>@NatsListener</code>. Let&#8217;s look at a quick example.</p>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">import io.micronaut.nats.jetstream.annotation.JetStreamListener;
+import io.micronaut.nats.jetstream.annotation.PushConsumer;
+
+@JetStreamListener // <b class="conum">(1)</b>
+public class ProductListener {
+
+    List&lt;byte[]&gt; messageLengths = Collections.synchronizedList(new ArrayList&lt;&gt;());
+
+    @PushConsumer(value = "events", subject = "events.&gt;", durable = "test") // <b class="conum">(2)</b>
+    public void receive(byte[] data) {
+        messageLengths.add(data);
+    }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">import io.micronaut.nats.jetstream.annotation.JetStreamListener
+import io.micronaut.nats.jetstream.annotation.PushConsumer
+
+@JetStreamListener // <b class="conum">(1)</b>
+class ProductListener {
+
+    CopyOnWriteArrayList&lt;byte[]&gt; messageLengths = []
+
+    @PushConsumer(value = "events", subject = "events.&gt;", durable = "test") // <b class="conum">(2)</b>
+    void receive(byte[] data) {
+        messageLengths &lt;&lt; data
+    }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">import io.micronaut.nats.jetstream.annotation.JetStreamListener
+import io.micronaut.nats.jetstream.annotation.PushConsumer
+
+@JetStreamListener // <b class="conum">(1)</b>
+class ProductListener {
+
+    val messageLengths: MutableList&lt;ByteArray&gt; = Collections.synchronizedList(ArrayList())
+
+    @PushConsumer(value = "events", subject = "events.&gt;", durable = "test") // <b class="conum">(2)</b>
+    fun receive(data: ByteArray) {
+        messageLengths.add(data)
+    }
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The class needs to be annotated with <a href="../api/io/micronaut/configuration/nats/jetstream/annotation/JetstreamListener.html">@JetstreamListener</a>.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>The <a href="../api/io/micronaut/configuration/nats/jetstream/annotation/PushConsumer.html">@PushConsumer</a> configures the stream(<code>value</code>) and the <code>subject</code> to listen for. It is possible to use all known values from <a href="https://javadoc.io/doc/io.nats/jnats/{natsVersion}/io/nats/client/SubscribeOptions.html">SubscribeOptions</a> and <a href="https://javadoc.io/doc/io.nats/jnats/{natsVersion}/io/nats/client/PushSubscribeOptions.html">PushSubscribeOptions</a> such as <code>durable</code>.</td>
+</tr>
+</table>
+</div>
+
+<h2 id="pullconsumer"><a class="anchor" href="#pullconsumer"></a>11.1.3.2 Pull based</h2>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/master/src/main/docs/guide/jetstream/streams/js_consumer/pullconsumer.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="paragraph">
+<p>A pull consumer allows you to control when the server sends the client messages.</p>
+</div>
+<div class="paragraph">
+<p>For creating a new pull subscription you need to inject <a href="../api/io/micronaut/nats/jetstream/PullConsumerRegistrey.html">PullConsumerRegistrey</a>.</p>
+</div>
+<div class="paragraph">
+<p>Let&#8217;s look at a quick example.</p>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">import io.micronaut.nats.jetstream.PullConsumerRegistry;
+import io.nats.client.JetStreamApiException;
+import io.nats.client.JetStreamSubscription;
+import io.nats.client.Message;
+import io.nats.client.PullSubscribeOptions;
+import io.nats.client.api.ConsumerConfiguration;
+
+@Singleton
+public class PullConsumerHelper {
+
+    private final PullConsumerRegistry pullConsumerRegistry;
+
+    public PullConsumerHelper(PullConsumerRegistry pullConsumerRegistry) { // <b class="conum">(1)</b>
+        this.pullConsumerRegistry = pullConsumerRegistry;
+    }
+
+    public List&lt;Message&gt; pullMessages() throws JetStreamApiException, IOException {
+        PullSubscribeOptions pullSubscribeOptions =
+            PullSubscribeOptions.builder()
+                                .stream("events")
+                                .configuration(
+                                    ConsumerConfiguration
+                                        .builder()
+                                        .ackWait(
+                                            Duration.ofMillis(
+                                                2500))
+                                        .build())
+                                .build();
+        JetStreamSubscription jetStreamSubscription =
+            pullConsumerRegistry.newPullConsumer("events.&gt;", pullSubscribeOptions); // <b class="conum">(2)</b>
+
+        List&lt;Message&gt; messages = jetStreamSubscription.fetch(2, Duration.ofSeconds(2L)); // <b class="conum">(3)</b>
+        messages.forEach(Message::ack); // <b class="conum">(4)</b>
+        return messages;
+    }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">import io.micronaut.nats.jetstream.PullConsumerRegistry
+import io.nats.client.JetStreamApiException
+import io.nats.client.JetStreamSubscription
+import io.nats.client.Message
+import io.nats.client.PullSubscribeOptions
+import io.nats.client.api.ConsumerConfiguration
+
+@Singleton
+class PullConsumerHelper {
+
+    private final PullConsumerRegistry pullConsumerRegistry;
+
+    PullConsumerHelper(PullConsumerRegistry pullConsumerRegistry) {  // <b class="conum">(1)</b>
+        this.pullConsumerRegistry = pullConsumerRegistry
+    }
+
+    List&lt;Message&gt; pullMessages() throws JetStreamApiException, IOException {
+        JetStreamSubscription jetStreamSubscription =
+                pullConsumerRegistry.newPullConsumer("events.&gt;",
+                        PullSubscribeOptions.builder()
+                                .stream("events")
+                                .configuration(
+                                        ConsumerConfiguration.builder().ackWait(Duration.ofMillis(2500)).build())
+                                .build()) // <b class="conum">(2)</b>
+
+        List&lt;Message&gt; messages = jetStreamSubscription.fetch(2, Duration.ofSeconds(2L)) // <b class="conum">(3)</b>
+        messages.forEach(Message::ack) // <b class="conum">(4)</b>
+        return messages
+    }
+
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">import io.micronaut.nats.jetstream.PullConsumerRegistry
+import io.nats.client.JetStreamSubscription
+import io.nats.client.Message
+import io.nats.client.PullSubscribeOptions
+import io.nats.client.api.ConsumerConfiguration
+
+@Singleton
+class PullConsumerHelper(private val pullConsumerRegistry: PullConsumerRegistry) { // <b class="conum">(1)</b>
+
+    fun pullMessages(): List&lt;Message&gt; {
+        val pullSubscribeOptions: PullSubscribeOptions =
+            PullSubscribeOptions.builder()
+                .stream("events")
+                .configuration(
+                    ConsumerConfiguration
+                        .builder()
+                        .ackWait(
+                            Duration.ofMillis(
+                                2500
+                            )
+                        )
+                        .build()
+                )
+                .build()
+        val jetStreamSubscription: JetStreamSubscription =
+            pullConsumerRegistry.newPullConsumer("events.&gt;", pullSubscribeOptions) // <b class="conum">(2)</b>
+
+        val messages: List&lt;Message&gt; = jetStreamSubscription.fetch(2, Duration.ofSeconds(2L)) // <b class="conum">(3)</b>
+        messages.forEach(Message::ack) // <b class="conum">(4)</b>
+        return messages
+    }
+
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>For creating a new pull subscription you need to inject <a href="../api/io/micronaut/nats/jetstream/PullConsumerRegistry.html">PullConsumerRegistry</a>.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Create a new <a href="https://javadoc.io/doc/io.nats/jnats/{natsVersion}/io/nats/client/JetStreamSubscription.html">JetStreamSubscription</a> with the <code>subjects</code> you want to subscribe to and the necessary <a href="https://javadoc.io/doc/io.nats/jnats/{natsVersion}/io/nats/client/PullSubscribeOptions.html">PullSubscribeOptions</a>.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Fetch the messages from the subscription.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>Acknowledge the fetched messages.</td>
+</tr>
+</table>
+</div>
+
+<h1 id="repository"><a class="anchor" href="#repository"></a>12 Repository</h1>
 
 <div class='contribute-btn'>
     <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/master/src/main/docs/guide/repository.adoc"'>
