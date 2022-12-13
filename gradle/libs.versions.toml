@@ -10,7 +10,7 @@ awaitility = '4.2.0'
 junit = '5.9.1'
 kotest = '5.5.4'
 kotlin = '1.7.22'
-testcontainers = '1.17.5'
+testcontainers = '1.17.6'
 nats = '2.16.5'
 
 
