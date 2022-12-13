@@ -3,23 +3,18 @@ plugins {
 }
 
 dependencies {
-    annotationProcessor mn.micronaut.inject.java
-
     api mn.micronaut.messaging
     api libs.jnats
 
-    implementation mn.micronaut.serde.jackson
-    implementation mn.micronaut.reactor
+    implementation mnSerde.micronaut.serde.jackson
+    implementation mnReactor.micronaut.reactor
 
     compileOnly mn.micronaut.management
-    compileOnly mn.micronaut.micrometer.core
+    compileOnly mnMicrometer.micronaut.micrometer.core
 
     testImplementation libs.testcontainers.spock
-    testImplementation mn.micronaut.inject.groovy
-    testImplementation mn.micronaut.inject.java
     testImplementation mn.micronaut.management
-    testImplementation mn.micronaut.test.spock
-    testImplementation mn.spock
+    testImplementation mnTest.micronaut.test.spock
 }
 
 test {
