@@ -1,5 +1,6 @@
 plugins {
     id "java-library"
+    id 'io.micronaut.build.internal.nats-tests'
 }
 
 dependencies {
@@ -12,6 +13,7 @@ dependencies {
     testImplementation libs.testcontainers
     testImplementation libs.junit.jupiter.api
     testRuntimeOnly libs.junit.jupiter.engine
+    testRuntimeOnly mn.snakeyaml
 }
 
 compileJava.options.compilerArgs += '-parameters'

@@ -3,9 +3,8 @@ plugins {
     id 'io.micronaut.build.internal.quality-reporting'
 }
 
-allprojects {
-    repositories {
-        mavenCentral()
-        maven { url "https://s01.oss.sonatype.org/content/repositories/snapshots/" }
-    }
+repositories {
+    mavenCentral()
+    maven { url "https://s01.oss.sonatype.org/content/repositories/snapshots/" }
 }
+

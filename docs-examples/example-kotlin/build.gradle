@@ -1,18 +1,18 @@
 plugins {
     alias libs.plugins.kotlin.jvm
     alias libs.plugins.kotlin.kapt
+    id 'io.micronaut.build.internal.nats-tests'
 }
 
 dependencies {
     kaptTest(mn.micronaut.inject.java)
 
     testImplementation projects.nats
-    testImplementation libs.kotest
-    testImplementation libs.kotlin.reflect
-    testImplementation libs.kotlin.stdlib
+    testImplementation mnTest.micronaut.test.kotest5
     testImplementation libs.testcontainers
     testImplementation mn.reactor
     testRuntimeOnly libs.junit.jupiter.engine
+    testRuntimeOnly mn.snakeyaml
 }
 
 test {
@@ -27,18 +27,5 @@ compileTestKotlin {
     kotlinOptions {
         jvmTarget = '17'
         javaParameters = true
-    }
-}
-
-java {
-    sourceCompatibility = JavaVersion.toVersion("17")
-    targetCompatibility = JavaVersion.toVersion("17")
-}
-
-test {
-    useJUnitPlatform()
-    testLogging {
-        showStandardStreams = true
-        exceptionFormat = 'full'
     }
 }
