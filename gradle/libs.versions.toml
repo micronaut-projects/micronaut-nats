@@ -9,7 +9,7 @@ awaitility = '4.2.0'
 junit = '5.9.1'
 kotlin = '1.7.22'
 testcontainers = '1.17.6'
-nats = '2.16.5'
+nats = '2.16.6'
 
 micronaut-micrometer = "4.6.1" # TODO update once 5.0.0-SNAPSHOT is out
 micronaut-reactor = "3.0.0-SNAPSHOT"
