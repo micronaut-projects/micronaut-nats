@@ -38,7 +38,7 @@ class HeadersSpec : AbstractNatsTest({
                     productListener.messageProperties.size shouldBe 6
                     productListener.messageProperties shouldContain "true|10|small"
                     productListener.messageProperties shouldContain "true|20|medium"
-                    productListener.messageProperties shouldContain "true|30|medium"
+                    productListener.messageProperties shouldContain "true|30|null"
                     productListener.messageProperties shouldContain "true|40|large"
                     productListener.messageProperties shouldContain "true|20|xtra-small"
                     productListener.messageProperties shouldContain "true|20|xtra-large"

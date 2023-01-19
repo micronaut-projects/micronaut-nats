@@ -4,6 +4,6 @@ snippet::io.micronaut.nats.docs.headers.ProductClient[tags="imports,clazz", proj
 
 <1> Headers can be defined at the class level and will apply to all methods. If a header is defined on the method with the same name as one on the class, the value on the method will be used.
 <2> Multiple annotations can be used to set multiple headers on the method or class level.
-<3> Headers can be set per execution. The name is inferred from the argument if the annotation value is not set. Null values will be ignored.
-<4> You can also use a List as header.
-<5> A `Headers` argument can be used to pass custom headers.
+<3> Headers can be set per execution. The name is inferred from the argument if the annotation value is not set. A null value results in the header not being set.
+<4> You can also use a List as header. An empty list or a null value do not set the header.
+<5> A `Headers` argument can be used to pass custom headers. Note: if the `@MessageHeader` is used on a method argument, the `Headers` argument will be ignored.
