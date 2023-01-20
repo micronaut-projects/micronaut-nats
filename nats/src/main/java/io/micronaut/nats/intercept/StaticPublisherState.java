@@ -107,7 +107,7 @@ public class StaticPublisherState {
      * @return the method headers
      */
     public Headers getHeaders() {
-        return headers;
+        return new Headers(headers);
     }
 
     /**

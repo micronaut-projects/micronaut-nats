@@ -149,7 +149,11 @@ public abstract class AbstractIntroductionAdvice {
                     getNameAndValue(argument, headerAnn, parameterValues);
                 String name = entry.getKey();
                 List<String> value = entry.getValue();
-                headers.put(name, value);
+                if (value.isEmpty() && headers.containsKey(name)) {
+                    headers.remove(name);
+                } else {
+                    headers.put(name, value);
+                }
             } else if (headersObject) {
                 Headers dynamicHeaders = (Headers) parameterValues.get(argument.getName());
                 dynamicHeaders.forEach(headers::put);

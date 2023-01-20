@@ -37,10 +37,14 @@ class HeaderSpec extends AbstractNatsTest {
         producer.go(true, "myHeader1")
         producer.go(true, "myHeader2")
 
-        Headers headers = new Headers();
-        headers.put("test", "1","2","3","4")
-        headers.put("test1", "5");
-        producer.testHeaders(false, headers)
+        Headers headersFirst = new Headers()
+        headersFirst.put("test", "1","2","3","4")
+        headersFirst.put("test1", "5")
+        producer.testHeaders(false, headersFirst)
+
+        Headers headersSecond = new Headers()
+        headersSecond.put("test1", "6")
+        producer.testHeaders(false, headersSecond)
 
         producer.testHeadersList(false, ["test1", "test2"])
 
@@ -50,8 +54,8 @@ class HeaderSpec extends AbstractNatsTest {
             singleTokenConsumer.simpleHeaders[0] == 'myHeader1'
             singleTokenConsumer.simpleHeaders[1] == 'myHeader2'
 
-            singleTokenConsumer.natsHeaders.size() == 5
-            singleTokenConsumer.natsHeaders == ["1", "2", "3", "4", "5"]
+            singleTokenConsumer.natsHeaders.size() == 6
+            singleTokenConsumer.natsHeaders == ["1", "2", "3", "4", "5", "6"]
 
             singleTokenConsumer.headerList.size() == 2
             singleTokenConsumer.headerList == ["test1", "test2"]
