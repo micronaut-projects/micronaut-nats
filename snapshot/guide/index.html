@@ -943,15 +943,15 @@ interface ProductClient {
 </tr>
 <tr>
 <td><i class="conum" data-value="3"></i><b>3</b></td>
-<td>Headers can be set per execution. The name is inferred from the argument if the annotation value is not set. Null values will be ignored.</td>
+<td>Headers can be set per execution. The name is inferred from the argument if the annotation value is not set. A null value results in the header not being set.</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="4"></i><b>4</b></td>
-<td>You can also use a List as header.</td>
+<td>You can also use a List as header. An empty list or a null value do not set the header.</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="5"></i><b>5</b></td>
-<td>A <code>Headers</code> argument can be used to pass custom headers.</td>
+<td>A <code>Headers</code> argument can be used to pass custom headers. Note: if the <code>@MessageHeader</code> is used on a method argument, the <code>Headers</code> argument will be ignored.</td>
 </tr>
 </table>
 </div>
