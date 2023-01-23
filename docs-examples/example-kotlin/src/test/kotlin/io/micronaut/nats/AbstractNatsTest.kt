@@ -27,7 +27,9 @@ abstract class AbstractNatsTest(body: BehaviorSpec.() -> Unit) : BehaviorSpec(bo
                 "nats.default.addresses" to "nats://localhost:" + natsContainer.getMappedPort(4222),
                 "spec.name" to specName,
                 "nats.default.jetstream.streams.events.storage-type" to "Memory",
-                "nats.default.jetstream.streams.events.subjects" to "events.>"
+                "nats.default.jetstream.streams.events.subjects" to "events.>",
+                "nats.default.jetstream.keyvalue.examplebucket.storage-type" to "Memory",
+                "nats.default.jetstream.keyvalue.examplebucket.max-history-per-key" to 5
             )
     }
 

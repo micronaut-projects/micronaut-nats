@@ -1,0 +1,19 @@
+All properties on the link:{apinats}{natsVersion}/io/nats/client/JetStreamOptions.Builder.html[JetStreamOptions.Builder] and link:{apinats}{natsVersion}/io/nats/client/api/KeyValueConfiguration.Builder.html[KeyValueConfiguration.Builder] are available to be modified, either through configuration or a link:{apimicronaut}context/event/BeanCreatedEventListener.html[BeanCreatedEventListener].
+
+The following properties are available for a stream configuration:
+
+include::{includedir}configurationProperties/io.micronaut.nats.connect.NatsConnectionFactoryConfig$JetStreamConfiguration$KeyValueConfiguration.adoc[]
+
+A simple configuration for key value can look like:
+
+[configuration]
+----
+nats:
+  default:
+    jetstream:
+      keyvalue:
+        examplebucket:
+          storage-type: Memory
+          max-history-per-key: 5
+----
+

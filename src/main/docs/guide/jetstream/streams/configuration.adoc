@@ -6,7 +6,7 @@ include::{includedir}configurationProperties/io.micronaut.nats.connect.NatsConne
 
 A simple configuration for jetstream and a single stream can look like:
 
-[source,yaml]
+[configuration]
 ----
 nats:
   default:

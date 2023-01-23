@@ -2,7 +2,7 @@ This library comes with a health indicator for applications that are using the `
 
 The information reported from the health indicator is under the `nats` key.
 
-[source,yaml]
+[configuration]
 ----
 "nats": {
   "status": "UP",
