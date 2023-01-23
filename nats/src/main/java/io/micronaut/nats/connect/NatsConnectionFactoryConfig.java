@@ -473,9 +473,11 @@ public class NatsConnectionFactoryConfig {
 
         @ConfigurationBuilder(prefixes = "")
         private JetStreamOptions.Builder builder =
-                JetStreamOptions.builder(JetStreamOptions.defaultOptions());
+            JetStreamOptions.builder(JetStreamOptions.defaultOptions());
 
         private List<StreamConfiguration> streams = new ArrayList<>();
+
+        private List<KeyValueConfiguration> keyvalue = new ArrayList<>();
 
         /**
          * get the jetstream options builder.
@@ -514,13 +516,31 @@ public class NatsConnectionFactoryConfig {
         }
 
         /**
+         * get the key value configurations.
+         *
+         * @return list of key value configurations
+         */
+        public List<KeyValueConfiguration> getKeyvalue() {
+            return keyvalue;
+        }
+
+        /**
+         * set the keyvalue configurations.
+         *
+         * @param keyvalue list of key value configurations
+         */
+        public void setKeyvalue(List<KeyValueConfiguration> keyvalue) {
+            this.keyvalue = keyvalue;
+        }
+
+        /**
          * Manages a single stream configuration.
          */
         @EachProperty(value = "streams")
         public static class StreamConfiguration {
 
-            @ConfigurationBuilder(prefixes = "", excludes = { "addSubjects", "addSources", "name",
-                "subjects" })
+            @ConfigurationBuilder(prefixes = "", excludes = {"addSubjects", "addSources", "addSource", "name",
+                "subjects", "build"})
             private io.nats.client.api.StreamConfiguration.Builder builder =
                 io.nats.client.api.StreamConfiguration.builder();
 
@@ -562,10 +582,48 @@ public class NatsConnectionFactoryConfig {
 
             /**
              * set the subjects.
+             *
              * @param subjects list of subjects
              */
             public void setSubjects(List<String> subjects) {
                 this.subjects = subjects;
+            }
+        }
+
+
+        /**
+         * Manages a single key value configuration.
+         */
+        @EachProperty(value = "keyvalue")
+        public static class KeyValueConfiguration {
+
+            private final String name;
+            @ConfigurationBuilder(prefixes = "", excludes = {"addSources", "addSource", "name",
+                "sources", "build"})
+            private io.nats.client.api.KeyValueConfiguration.Builder builder =
+                io.nats.client.api.KeyValueConfiguration.builder();
+
+            public KeyValueConfiguration(@Parameter String name) {
+                this.name = name;
+            }
+
+            /**
+             * get the key value configuration builder.
+             *
+             * @return key value configuration builder
+             */
+            public io.nats.client.api.KeyValueConfiguration.Builder getBuilder() {
+                return builder;
+            }
+
+            /**
+             * return the configuration as
+             * {@link io.nats.client.api.KeyValueConfiguration}.
+             *
+             * @return nats key value configuration
+             */
+            public io.nats.client.api.KeyValueConfiguration toKeyValueConfiguration() {
+                return builder.name(name).build();
             }
         }
     }
