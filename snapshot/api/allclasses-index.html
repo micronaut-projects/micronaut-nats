@@ -129,6 +129,14 @@ loadScripts(document, 'script');</script>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
 <div class="block">Serializes and deserializes objects as JSON using Jackson.</div>
 </div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/nats/jetstream/KeyValueFactory.html" title="class in io.micronaut.nats.jetstream">KeyValueFactory</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
+<div class="block">KeyValueFactory.</div>
+</div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab7"><a href="io/micronaut/nats/jetstream/annotation/KeyValueStore.html" title="annotation interface in io.micronaut.nats.jetstream.annotation">KeyValueStore</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab7">
+<div class="block">Used to specify which key value bucket should be used.</div>
+</div>
 <div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/nats/jetstream/bind/NatsAcknowledgement.html" title="interface in io.micronaut.nats.jetstream.bind">NatsAcknowledgement</a></div>
 <div class="col-last even-row-color all-classes-table all-classes-table-tab1">
 <div class="block">A contract for acknowleding or rejecting messages.</div>
@@ -181,113 +189,117 @@ loadScripts(document, 'script');</script>
 <div class="col-last even-row-color all-classes-table all-classes-table-tab2">
 <div class="block">Manages the jetstream configuration.</div>
 </div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/nats/connect/NatsConnectionFactoryConfig.JetStreamConfiguration.StreamConfiguration.html" title="class in io.micronaut.nats.connect">NatsConnectionFactoryConfig.JetStreamConfiguration.StreamConfiguration</a></div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/nats/connect/NatsConnectionFactoryConfig.JetStreamConfiguration.KeyValueConfiguration.html" title="class in io.micronaut.nats.connect">NatsConnectionFactoryConfig.JetStreamConfiguration.KeyValueConfiguration</a></div>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
+<div class="block">Manages a single key value configuration.</div>
+</div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/nats/connect/NatsConnectionFactoryConfig.JetStreamConfiguration.StreamConfiguration.html" title="class in io.micronaut.nats.connect">NatsConnectionFactoryConfig.JetStreamConfiguration.StreamConfiguration</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
 <div class="block">Manages a single stream configuration.</div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/nats/connect/NatsConnectionFactoryConfig.TLS.html" title="class in io.micronaut.nats.connect">NatsConnectionFactoryConfig.TLS</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/nats/connect/NatsConnectionFactoryConfig.TLS.html" title="class in io.micronaut.nats.connect">NatsConnectionFactoryConfig.TLS</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
 <div class="block">TLS Configuration.</div>
 </div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/nats/intercept/NatsConsumerAdvice.html" title="class in io.micronaut.nats.intercept">NatsConsumerAdvice</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/nats/intercept/NatsConsumerAdvice.html" title="class in io.micronaut.nats.intercept">NatsConsumerAdvice</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
 <div class="block">An <code>ExecutableMethodProcessor</code> that will process all beans annotated with
  <a href="io/micronaut/nats/annotation/NatsListener.html" title="annotation interface in io.micronaut.nats.annotation"><code>NatsListener</code></a>.</div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/nats/bind/NatsDefaultBinder.html" title="class in io.micronaut.nats.bind">NatsDefaultBinder</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/nats/bind/NatsDefaultBinder.html" title="class in io.micronaut.nats.bind">NatsDefaultBinder</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
 <div class="block">The default binder for binding an argument from the <code>Message</code>
  that is used if no other binder supports the argument.</div>
 </div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/nats/bind/NatsHeaderBinder.html" title="class in io.micronaut.nats.bind">NatsHeaderBinder</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/nats/bind/NatsHeaderBinder.html" title="class in io.micronaut.nats.bind">NatsHeaderBinder</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
 <div class="block">Binds an argument of with the <code>MessageHeader</code> annotation from the <code>Message</code>.</div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/nats/bind/NatsHeaderConvertibleValues.html" title="class in io.micronaut.nats.bind">NatsHeaderConvertibleValues</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/nats/bind/NatsHeaderConvertibleValues.html" title="class in io.micronaut.nats.bind">NatsHeaderConvertibleValues</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
 <div class="block">Converts Nats header values to the requested type.</div>
 </div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/nats/bind/NatsHeadersBinder.html" title="class in io.micronaut.nats.bind">NatsHeadersBinder</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/nats/bind/NatsHeadersBinder.html" title="class in io.micronaut.nats.bind">NatsHeadersBinder</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
 <div class="block">Binds an argument of type <code>Headers</code> from the <code>Message</code>.</div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/nats/health/NatsHealthIndicator.html" title="class in io.micronaut.nats.health">NatsHealthIndicator</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/nats/health/NatsHealthIndicator.html" title="class in io.micronaut.nats.health">NatsHealthIndicator</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
 <div class="block">A <code>HealthIndicator</code> for Nats.</div>
 </div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/nats/intercept/NatsIntroductionAdvice.html" title="class in io.micronaut.nats.intercept">NatsIntroductionAdvice</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/nats/intercept/NatsIntroductionAdvice.html" title="class in io.micronaut.nats.intercept">NatsIntroductionAdvice</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
 <div class="block">Implementation of the <a href="io/micronaut/nats/annotation/NatsClient.html" title="annotation interface in io.micronaut.nats.annotation"><code>NatsClient</code></a> advice annotation.</div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab7"><a href="io/micronaut/nats/annotation/NatsListener.html" title="annotation interface in io.micronaut.nats.annotation">NatsListener</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab7">
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab7"><a href="io/micronaut/nats/annotation/NatsListener.html" title="annotation interface in io.micronaut.nats.annotation">NatsListener</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab7">
 <div class="block">Class level annotation to indicate that a bean will be consumer of messages.</div>
 </div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab5"><a href="io/micronaut/nats/exception/NatsListenerException.html" title="class in io.micronaut.nats.exception">NatsListenerException</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab5">
+<div class="col-first even-row-color all-classes-table all-classes-table-tab5"><a href="io/micronaut/nats/exception/NatsListenerException.html" title="class in io.micronaut.nats.exception">NatsListenerException</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab5">
 <div class="block">Exception thrown when an error occurs processing a Nats message via a <a href="io/micronaut/nats/annotation/NatsListener.html" title="annotation interface in io.micronaut.nats.annotation"><code>NatsListener</code></a>.</div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/nats/exception/NatsListenerExceptionHandler.html" title="interface in io.micronaut.nats.exception">NatsListenerExceptionHandler</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab1">
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/nats/exception/NatsListenerExceptionHandler.html" title="interface in io.micronaut.nats.exception">NatsListenerExceptionHandler</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab1">
 <div class="block">Interface that <a href="io/micronaut/nats/exception/NatsListenerException.html" title="class in io.micronaut.nats.exception"><code>NatsListenerException</code></a> beans can implement to handle exceptions.</div>
 </div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/nats/bind/NatsMessageBinder.html" title="class in io.micronaut.nats.bind">NatsMessageBinder</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/nats/bind/NatsMessageBinder.html" title="class in io.micronaut.nats.bind">NatsMessageBinder</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
 <div class="block">Binds an argument type <code>Message</code>.</div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/nats/serdes/NatsMessageSerDes.html" title="interface in io.micronaut.nats.serdes">NatsMessageSerDes</a>&lt;<a href="io/micronaut/nats/serdes/NatsMessageSerDes.html" title="type parameter in NatsMessageSerDes">T</a>&gt;</div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab1">
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/nats/serdes/NatsMessageSerDes.html" title="interface in io.micronaut.nats.serdes">NatsMessageSerDes</a>&lt;<a href="io/micronaut/nats/serdes/NatsMessageSerDes.html" title="type parameter in NatsMessageSerDes">T</a>&gt;</div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab1">
 <div class="block">Responsible for serializing and deserializing Nats message bodies.</div>
 </div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/nats/serdes/NatsMessageSerDesRegistry.html" title="interface in io.micronaut.nats.serdes">NatsMessageSerDesRegistry</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab1">
+<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/nats/serdes/NatsMessageSerDesRegistry.html" title="interface in io.micronaut.nats.serdes">NatsMessageSerDesRegistry</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab1">
 <div class="block">A registry of <a href="io/micronaut/nats/serdes/NatsMessageSerDes.html" title="interface in io.micronaut.nats.serdes"><code>NatsMessageSerDes</code></a> instances.</div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/nats/bind/NatsSubscriptionBinder.html" title="class in io.micronaut.nats.bind">NatsSubscriptionBinder</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/nats/bind/NatsSubscriptionBinder.html" title="class in io.micronaut.nats.bind">NatsSubscriptionBinder</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
 <div class="block">Binds an argument of type <code>Subscription</code> from the <code>Message</code>.</div>
 </div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/nats/bind/NatsTypeArgumentBinder.html" title="interface in io.micronaut.nats.bind">NatsTypeArgumentBinder</a>&lt;<a href="io/micronaut/nats/bind/NatsTypeArgumentBinder.html" title="type parameter in NatsTypeArgumentBinder">T</a>&gt;</div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab1">
+<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/nats/bind/NatsTypeArgumentBinder.html" title="interface in io.micronaut.nats.bind">NatsTypeArgumentBinder</a>&lt;<a href="io/micronaut/nats/bind/NatsTypeArgumentBinder.html" title="type parameter in NatsTypeArgumentBinder">T</a>&gt;</div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab1">
 <div class="block">An interface for Nats argument binding based on argument type.</div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/nats/jetstream/PullConsumerRegistry.html" title="class in io.micronaut.nats.jetstream">PullConsumerRegistry</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/nats/jetstream/PullConsumerRegistry.html" title="class in io.micronaut.nats.jetstream">PullConsumerRegistry</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
 <div class="block">handles new pull subscriptions.</div>
 </div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab7"><a href="io/micronaut/nats/jetstream/annotation/PushConsumer.html" title="annotation interface in io.micronaut.nats.jetstream.annotation">PushConsumer</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab7">
+<div class="col-first even-row-color all-classes-table all-classes-table-tab7"><a href="io/micronaut/nats/jetstream/annotation/PushConsumer.html" title="annotation interface in io.micronaut.nats.jetstream.annotation">PushConsumer</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab7">
 <div class="block">Used to specify which stream should be used for messages.</div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/nats/jetstream/PushConsumerRegistry.html" title="interface in io.micronaut.nats.jetstream">PushConsumerRegistry</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab1">
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/nats/jetstream/PushConsumerRegistry.html" title="interface in io.micronaut.nats.jetstream">PushConsumerRegistry</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab1">
 <div class="block">A registry for jetstream push consumers.</div>
 </div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/nats/jetstream/reactive/ReactivePublisher.html" title="interface in io.micronaut.nats.jetstream.reactive">ReactivePublisher</a></div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/nats/jetstream/reactive/ReactivePublisher.html" title="interface in io.micronaut.nats.jetstream.reactive">ReactivePublisher</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab1">
+<div class="block">A generic contract publishing message reactively.</div>
+</div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/nats/reactive/ReactivePublisher.html" title="interface in io.micronaut.nats.reactive">ReactivePublisher</a></div>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab1">
 <div class="block">A generic contract publishing message reactively.</div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/nats/reactive/ReactivePublisher.html" title="interface in io.micronaut.nats.reactive">ReactivePublisher</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab1">
-<div class="block">A generic contract publishing message reactively.</div>
-</div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/nats/reactive/ReactorReactivePublisher.html" title="class in io.micronaut.nats.reactive">ReactorReactivePublisher</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/nats/intercept/StaticConsumerState.html" title="class in io.micronaut.nats.intercept">StaticConsumerState</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/nats/reactive/ReactorReactivePublisher.html" title="class in io.micronaut.nats.reactive">ReactorReactivePublisher</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/nats/intercept/StaticConsumerState.html" title="class in io.micronaut.nats.intercept">StaticConsumerState</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
 <div class="block">Manages the consumer state for nats and jetstream.</div>
 </div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/nats/intercept/StaticPublisherState.html" title="class in io.micronaut.nats.intercept">StaticPublisherState</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/nats/intercept/StaticPublisherState.html" title="class in io.micronaut.nats.intercept">StaticPublisherState</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
 <div class="block">Stores the static state for publishing messages with
  <a href="io/micronaut/nats/annotation/NatsClient.html" title="annotation interface in io.micronaut.nats.annotation"><code>NatsClient</code></a>.</div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab7"><a href="io/micronaut/nats/annotation/Subject.html" title="annotation interface in io.micronaut.nats.annotation">Subject</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab7">
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab7"><a href="io/micronaut/nats/annotation/Subject.html" title="annotation interface in io.micronaut.nats.annotation">Subject</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab7">
 <div class="block">Used to specify which subject should be used for messages.</div>
 </div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab7"><a href="io/micronaut/nats/annotation/Subjects.html" title="annotation interface in io.micronaut.nats.annotation">Subjects</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab7">
+<div class="col-first even-row-color all-classes-table all-classes-table-tab7"><a href="io/micronaut/nats/annotation/Subjects.html" title="annotation interface in io.micronaut.nats.annotation">Subjects</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab7">
 <div class="block">Repeatable annotation for one or many <a href="io/micronaut/nats/annotation/Subject.html" title="annotation interface in io.micronaut.nats.annotation"><code>Subject</code></a> annotations.</div>
 </div>
 </div>

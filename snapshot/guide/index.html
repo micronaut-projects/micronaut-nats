@@ -157,6 +157,12 @@
         
         <div class="toc-item" style="margin-left:30px" id="toc-item-pullconsumer"><a href="#pullconsumer"><strong>11.1.3.2</strong><span>Pull based</span></a></div>
         
+        <div class="toc-item" style="margin-left:10px" id="toc-item-keyvalue"><a href="#keyvalue"><strong>11.2</strong><span>Key/Value Store</span></a></div>
+        
+        <div class="toc-item" style="margin-left:20px" id="toc-item-kv_configuration"><a href="#kv_configuration"><strong>11.2.1</strong><span>Configuration</span></a></div>
+        
+        <div class="toc-item" style="margin-left:20px" id="toc-item-usage"><a href="#usage"><strong>11.2.2</strong><span>Usage</span></a></div>
+        
         <div class="toc-item" style="margin-left:0px" id="toc-item-repository"><a href="#repository"><strong>12</strong><span>Repository</span></a></div>
         
         </div>
@@ -498,7 +504,19 @@ It is also possible to disable the integration entirely with <code>nats.enabled:
 <div class="paragraph">
 <p>It is possible to configure multiple connections to the same server, different servers, or a single connection to one of a list of servers.</p>
 </div>
-<div class="listingblock">
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">nats.server1.addresses[0]=nats://localhost:4222
+nats.server1.username=guest
+nats.server1.password=guest
+nats.server2.addresses[0]=nats://randomServer:4222
+nats.server2.username=guest
+nats.server2.password=guest</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">nats:
   server1:
@@ -513,10 +531,73 @@ It is also possible to disable the integration entirely with <code>nats.enabled:
     password: guest</code></pre>
 </div>
 </div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[nats]
+  [nats.server1]
+    addresses=[
+      "nats://localhost:4222"
+    ]
+    username="guest"
+    password="guest"
+  [nats.server2]
+    addresses=[
+      "nats://randomServer:4222"
+    ]
+    username="guest"
+    password="guest"</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">nats {
+  server1 {
+    addresses = ["nats://localhost:4222"]
+    username = "guest"
+    password = "guest"
+  }
+  server2 {
+    addresses = ["nats://randomServer:4222"]
+    username = "guest"
+    password = "guest"
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  nats {
+    server1 {
+      addresses = ["nats://localhost:4222"]
+      username = "guest"
+      password = "guest"
+    }
+    server2 {
+      addresses = ["nats://randomServer:4222"]
+      username = "guest"
+      password = "guest"
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
 <div class="paragraph">
 <p>NATS also supports a fail over connection strategy where the first server that connects successfully will be used among a list of servers. To use this option in Micronaut, simply supply a list of <code>host:port</code> addresses.</p>
 </div>
-<div class="listingblock">
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">nats.default.addresses[0]=nats://localhost:4222
+nats.default.addresses[1]=nats://randomServer:4222
+nats.default.username=guest
+nats.default.password=guest</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">nats:
   default:
@@ -525,6 +606,44 @@ It is also possible to disable the integration entirely with <code>nats.enabled:
       - "nats://randomServer:4222"
     username: guest
     password: guest</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[nats]
+  [nats.default]
+    addresses=[
+      "nats://localhost:4222",
+      "nats://randomServer:4222"
+    ]
+    username="guest"
+    password="guest"</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">nats {
+  'default' {
+    addresses = ["nats://localhost:4222", "nats://randomServer:4222"]
+    username = "guest"
+    password = "guest"
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  nats {
+    default {
+      addresses = ["nats://localhost:4222", "nats://randomServer:4222"]
+      username = "guest"
+      password = "guest"
+    }
+  }
+}</code></pre>
+</div>
+</div>
 </div>
 </div>
 <div class="admonitionblock important">
@@ -542,16 +661,71 @@ When the configuration option <code>nats.servers</code> is used, no other option
 <div class="paragraph">
 <p>If you need to setup TLS, it can be configured this way:</p>
 </div>
-<div class="listingblock">
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">nats.default.addresses[0]=nats://localhost:4222
+nats.default.tls.trust-store-path=/path/to/client.truststore.jks
+nats.default.tls.trust-store-password=secret
+nats.default.tls.certificate-path=/path/to/certificate.crt</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">nats:
   default:
     addresses:
-      - "nats://localhost:4222" <i class="conum" data-value="1"></i><b>(1)</b>
+      - "nats://localhost:4222" # <b class="conum">(1)</b>
     tls:
-      trust-store-path:  /path/to/client.truststore.jks <i class="conum" data-value="2"></i><b>(2)</b>
+      trust-store-path:  /path/to/client.truststore.jks # <b class="conum">(2)</b>
       trust-store-password: secret
-      certificate-path: /path/to/certificate.crt <i class="conum" data-value="3"></i><b>(3)</b></code></pre>
+      certificate-path: /path/to/certificate.crt # <b class="conum">(3)</b></code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[nats]
+  [nats.default]
+    addresses=[
+      "nats://localhost:4222"
+    ]
+    [nats.default.tls]
+      trust-store-path="/path/to/client.truststore.jks"
+      trust-store-password="secret"
+      certificate-path="/path/to/certificate.crt"</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">nats {
+  'default' {
+    addresses = ["nats://localhost:4222"]
+    tls {
+      trustStorePath = "/path/to/client.truststore.jks"
+      trustStorePassword = "secret"
+      certificatePath = "/path/to/certificate.crt"
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  nats {
+    default {
+      addresses = ["nats://localhost:4222"]
+      tls {
+        trust-store-path = "/path/to/client.truststore.jks"
+        trust-store-password = "secret"
+        certificate-path = "/path/to/certificate.crt"
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
 </div>
 </div>
 <div class="colist arabic">
@@ -2596,7 +2770,15 @@ Because the <code>getOrder</code> method was not overridden, the default order o
 <div class="paragraph">
 <p>The information reported from the health indicator is under the <code>nats</code> key.</p>
 </div>
-<div class="listingblock">
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">nats.status=UP
+nats.details.servers[0]=nats://localhost:4222</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">"nats": {
   "status": "UP",
@@ -2604,6 +2786,40 @@ Because the <code>getOrder</code> method was not overridden, the default order o
     "servers": ["nats://localhost:4222"]
   }
 }</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[nats]
+  status="UP"
+  [nats.details]
+    servers=[
+      "nats://localhost:4222"
+    ]</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">nats {
+  status = "UP"
+  details {
+    servers = ["nats://localhost:4222"]
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  nats {
+    status = "UP"
+    details {
+      servers = ["nats://localhost:4222"]
+    }
+  }
+}</code></pre>
+</div>
+</div>
 </div>
 </div>
 <div class="admonitionblock tip">
@@ -2794,11 +3010,6 @@ You can do a normal publish to the subject for unacknowledged delivery, though i
 <td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.add-source</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">io.nats.client.api.Source</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.allow-rollup</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
 <td class="tableblock halign-left valign-top"></td>
@@ -2834,11 +3045,6 @@ You can do a normal publish to the subject for unacknowledged delivery, though i
 <td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.build</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.subjects</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">java.util.List</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">get the subjects of the stream.</p></td>
@@ -2848,7 +3054,15 @@ You can do a normal publish to the subject for unacknowledged delivery, though i
 <div class="paragraph">
 <p>A simple configuration for jetstream and a single stream can look like:</p>
 </div>
-<div class="listingblock">
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">nats.default.jetstream.streams.events.storage-type=Memory
+nats.default.jetstream.streams.events.subjects[0]=events.&gt;</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">nats:
   default:
@@ -2858,6 +3072,55 @@ You can do a normal publish to the subject for unacknowledged delivery, though i
           storage-type: Memory
           subjects:
             - events.&gt;</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[nats]
+  [nats.default]
+    [nats.default.jetstream]
+      [nats.default.jetstream.streams]
+        [nats.default.jetstream.streams.events]
+          storage-type="Memory"
+          subjects=[
+            "events.&gt;"
+          ]</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">nats {
+  'default' {
+    jetstream {
+      streams {
+        events {
+          storageType = "Memory"
+          subjects = ["events.&gt;"]
+        }
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  nats {
+    default {
+      jetstream {
+        streams {
+          events {
+            storage-type = "Memory"
+            subjects = ["events.&gt;"]
+          }
+        }
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
 </div>
 </div>
 
@@ -3179,6 +3442,306 @@ class PullConsumerHelper(private val pullConsumerRegistry: PullConsumerRegistry)
 <tr>
 <td><i class="conum" data-value="4"></i><b>4</b></td>
 <td>Acknowledge the fetched messages.</td>
+</tr>
+</table>
+</div>
+
+<h2 id="keyvalue"><a class="anchor" href="#keyvalue"></a>11.2 Key/Value Store</h2>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/master/src/main/docs/guide/jetstream/keyvalue.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="paragraph">
+<p>JetSteam, the persistence layer of NATS, doesn&#8217;t just allow for higher qualities of service and features associated with 'streaming', but it also enables some functionalities not found in messaging systems.</p>
+</div>
+<div class="paragraph">
+<p>One such feature is the Key/Value store functionality, which allows client applications to create 'buckets' and use them as immediately consistent, persistent associative arrays.</p>
+</div>
+<div class="paragraph">
+<p>You can use KV buckets to perform the typical operations you would expect from an immediately consistent key/value store:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>put: associate a value with a key</p>
+</li>
+<li>
+<p>get: retrieve the value associated with a key</p>
+</li>
+<li>
+<p>delete: clear any value associated with a key</p>
+</li>
+<li>
+<p>purge: clear all the values associated with all keys</p>
+</li>
+<li>
+<p>create: associate the value with a key only if there is currently no value associated with that key (i.e. compare to null and set)</p>
+</li>
+<li>
+<p>update: compare and set (aka compare and swap) the value for a key</p>
+</li>
+<li>
+<p>keys: get a copy of all the keys (with a value or operation associated to it)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>You can set limits for your buckets, such as:
+- the maximum size of the bucket
+- the maximum size for any single value
+- a TTL: how long the store will keep values for</p>
+</div>
+<div class="paragraph">
+<p>Finally, you can even do things that typically can not be done with a Key/Value Store:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>watch: watch for changes happening for a key, which is similar to subscribing (in the publish/subscribe sense) to the key: the watcher receives updates due to put or delete operations on the key pushed to it in real-time as they happen</p>
+</li>
+<li>
+<p>watch all: watch for all the changes happening on all the keys in the bucket</p>
+</li>
+<li>
+<p>history: retrieve a history of the values (and delete operations) associated with each key over time (by default the history of buckets is set to 1, meaning that only the latest value/operation is stored)</p>
+</li>
+</ul>
+</div>
+
+<h2 id="kv_configuration"><a class="anchor" href="#kv_configuration"></a>11.2.1 Configuration</h2>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/master/src/main/docs/guide/jetstream/keyvalue/kv_configuration.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="paragraph">
+<p>All properties on the <a href="https://javadoc.io/doc/io.nats/jnats/{natsVersion}/io/nats/client/JetStreamOptions.Builder.html">JetStreamOptions.Builder</a> and <a href="https://javadoc.io/doc/io.nats/jnats/{natsVersion}/io/nats/client/api/KeyValueConfiguration.Builder.html">KeyValueConfiguration.Builder</a> are available to be modified, either through configuration or a <a href="https://docs.micronaut.io/latest/api/io/micronaut/context/event/BeanCreatedEventListener.html">BeanCreatedEventListener</a>.</p>
+</div>
+<div class="paragraph">
+<p>The following properties are available for a stream configuration:</p>
+</div>
+<a id="io.micronaut.nats.connect.NatsConnectionFactoryConfig$JetStreamConfiguration$KeyValueConfiguration" href="#io.micronaut.nats.connect.NatsConnectionFactoryConfig$JetStreamConfiguration$KeyValueConfiguration">&#128279;</a>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. Configuration Properties for <a href="../api/io/micronaut/nats/connect/NatsConnectionFactoryConfig.JetStreamConfiguration.KeyValueConfiguration.html">NatsConnectionFactoryConfig$JetStreamConfiguration$KeyValueConfiguration</a></caption>
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Property</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.keyvalue.*.description</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.keyvalue.*.max-history-per-key</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">int</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.keyvalue.*.max-bucket-size</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">long</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.keyvalue.*.max-value-size</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">long</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.keyvalue.*.ttl</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.time.Duration</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.keyvalue.*.storage-type</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">io.nats.client.api.StorageType</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.keyvalue.*.replicas</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">int</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.keyvalue.*.placement</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">io.nats.client.api.Placement</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.keyvalue.*.republish</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">io.nats.client.api.Republish</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.keyvalue.*.mirror</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">io.nats.client.api.Mirror</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>A simple configuration for key value can look like:</p>
+</div>
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">nats.default.jetstream.keyvalue.examplebucket.storage-type=Memory
+nats.default.jetstream.keyvalue.examplebucket.max-history-per-key=5</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">nats:
+  default:
+    jetstream:
+      keyvalue:
+        examplebucket:
+          storage-type: Memory
+          max-history-per-key: 5</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[nats]
+  [nats.default]
+    [nats.default.jetstream]
+      [nats.default.jetstream.keyvalue]
+        [nats.default.jetstream.keyvalue.examplebucket]
+          storage-type="Memory"
+          max-history-per-key=5</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">nats {
+  'default' {
+    jetstream {
+      keyvalue {
+        examplebucket {
+          storageType = "Memory"
+          maxHistoryPerKey = 5
+        }
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  nats {
+    default {
+      jetstream {
+        keyvalue {
+          examplebucket {
+            storage-type = "Memory"
+            max-history-per-key = 5
+          }
+        }
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+
+<h2 id="usage"><a class="anchor" href="#usage"></a>11.2.2 Usage</h2>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/master/src/main/docs/guide/jetstream/keyvalue/usage.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="paragraph">
+<p>Nats.io provides an <a href="https://javadoc.io/doc/io.nats/jnats/{natsVersion}/io/nats/client/api/KeyValue.html">KeyValue</a> interface for the usage of Key/Value Stores.</p>
+</div>
+<div class="paragraph">
+<p>To use it, just inject your Key/Value Store as follows:</p>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">@Singleton
+public class KeyValueStoreHolder {
+
+    @Inject
+    @KeyValueStore("examplebucket")
+    KeyValue store; // <b class="conum">(1)</b>
+
+    public void put(String key, String value) throws JetStreamApiException, IOException {
+        store.put(key, value);
+    }
+
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">import io.micronaut.nats.jetstream.annotation.KeyValueStore
+import io.nats.client.KeyValue
+import jakarta.inject.Inject
+import jakarta.inject.Singleton
+
+@Singleton
+class KeyValueStoreHolder {
+
+    @Inject
+    @KeyValueStore("examplebucket")
+    KeyValue store // <b class="conum">(1)</b>
+
+    void put(String key, String value) {
+        store.put(key, value)
+    }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">import io.micronaut.nats.jetstream.annotation.KeyValueStore
+import io.nats.client.KeyValue
+import jakarta.inject.Inject
+import jakarta.inject.Singleton
+
+@Singleton
+class KeyValueStoreHolder {
+
+    @Inject
+    @field:KeyValueStore("examplebucket")
+    lateinit var store: KeyValue // <b class="conum">(1)</b>
+
+    fun put(key: String, value:String) {
+        store.put(key, value)
+    }
+
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Simply inject the key/value store via the <a href="../api/io/micronaut/nats/jetstream/annotation/KeyValueStore.html">@KeyValueStore</a> annotation.</td>
 </tr>
 </table>
 </div>
