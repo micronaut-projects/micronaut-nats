@@ -111,7 +111,7 @@ public class JetStreamIntroductionAdvice extends AbstractIntroductionAdvice impl
                 publisherState.getBodyArgument(),
                 publisherState.getSerDes(), publisherState.getSubject());
             ReactivePublisher reactivePublisher = publisherState.getJetstreanReactivePublisher();
-            InterceptedMethod interceptedMethod = InterceptedMethod.of(context);
+            InterceptedMethod interceptedMethod = InterceptedMethod.of(context, conversionService);
 
             try {
                 Mono<PublishAck> reactive;

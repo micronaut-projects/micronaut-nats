@@ -68,7 +68,7 @@ public abstract class AbstractIntroductionAdvice {
 
     protected final NatsMessageSerDesRegistry serDesRegistry;
 
-    private final ConversionService conversionService;
+    protected final ConversionService conversionService;
 
     /**
      * Default constructor.
