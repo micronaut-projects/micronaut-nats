@@ -43,7 +43,8 @@ abstract class AbstractJetstreamTest extends Specification {
                  "nats.default.jetstream.streams.widgets.storage-type": "Memory",
                  "nats.default.jetstream.streams.widgets.subjects": ['subject.>'],
                  "nats.default.jetstream.keyvalue.examplebucket.storage-type": "Memory",
-                 "nats.default.jetstream.keyvalue.examplebucket.max-history-per-key": 5
+                 "nats.default.jetstream.keyvalue.examplebucket.max-history-per-key": 5,
+                 "nats.default.jetstream.objectstore.examplestore.storage-type": "Memory"
                 ] << additionalConfig, "test")
     }
 }
