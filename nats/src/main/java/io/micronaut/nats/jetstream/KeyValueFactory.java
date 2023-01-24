@@ -18,7 +18,6 @@ package io.micronaut.nats.jetstream;
 import io.micronaut.context.BeanContext;
 import io.micronaut.context.annotation.EachBean;
 import io.micronaut.context.annotation.Factory;
-import io.micronaut.context.annotation.Prototype;
 import io.micronaut.core.annotation.AnnotationMetadata;
 import io.micronaut.core.annotation.Nullable;
 import io.micronaut.inject.InjectionPoint;
@@ -33,7 +32,6 @@ import io.nats.client.KeyValueManagement;
 import io.nats.client.KeyValueOptions;
 import io.nats.client.api.KeyValueConfiguration;
 import io.nats.client.api.KeyValueStatus;
-import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 
 import java.io.IOException;
@@ -49,11 +47,13 @@ public class KeyValueFactory {
 
     private final BeanContext beanContext;
 
-    @Inject
     public KeyValueFactory(BeanContext beanContext) {
         this.beanContext = beanContext;
     }
 
+    private static KeyValueOptions buildKeyValueOptions(NatsConnectionFactoryConfig config) {
+        return KeyValueOptions.builder().jetStreamOptions(config.getJetstream().toJetStreamOptions()).build();
+    }
 
     /**
      * @param config The nats connection configuration
@@ -61,11 +61,11 @@ public class KeyValueFactory {
      * @throws IOException           in case of communication issue
      * @throws JetStreamApiException the request had an error related to the data
      */
-    @Singleton
     @EachBean(NatsConnectionFactoryConfig.class)
     KeyValueManagement keyValueManagement(NatsConnectionFactoryConfig config) throws IOException, JetStreamApiException {
         if (config.getJetstream() != null) {
-            KeyValueManagement keyValueManagement = getConnectionByName(config.getName()).keyValueManagement(KeyValueOptions.builder().jetStreamOptions(config.getJetstream().toJetStreamOptions()).build());
+            KeyValueManagement keyValueManagement = getConnectionByName(config.getName())
+                    .keyValueManagement(buildKeyValueOptions(config));
 
             // initialize the given keyvalue configurations
             for (NatsConnectionFactoryConfig.JetStreamConfiguration.KeyValueConfiguration keyValue : config.getJetstream().getKeyvalue()) {
@@ -90,8 +90,8 @@ public class KeyValueFactory {
      * @return The key value bucket
      * @throws IOException in case of communication issue
      */
-    @Prototype
-    KeyValue keyvalue(@Nullable InjectionPoint<?> injectionPoint) throws IOException, JetStreamApiException {
+    @Singleton
+    KeyValue keyvalue(@Nullable InjectionPoint<?> injectionPoint) throws IOException {
         if (injectionPoint == null) {
             return null;
         }
@@ -100,22 +100,25 @@ public class KeyValueFactory {
 
         if (annotationMetadata.hasAnnotation(KeyValueStore.class)) {
             String bucketName = annotationMetadata.getAnnotation(KeyValueStore.class)
-                .getRequiredValue(String.class);
+                    .getRequiredValue(String.class);
             String connectionName = annotationMetadata.stringValue(NatsConnection.class, "connection")
-                .orElse(NatsConnection.DEFAULT_CONNECTION);
+                    .orElse(NatsConnection.DEFAULT_CONNECTION);
 
-            NatsConnectionFactoryConfig natsConnectionFactoryConfig = beanContext.getBean(NatsConnectionFactoryConfig.class, Qualifiers.byName(connectionName));
+            NatsConnectionFactoryConfig natsConnectionFactoryConfig = beanContext
+                    .getBean(NatsConnectionFactoryConfig.class, Qualifiers.byName(connectionName));
+
             // Initialize key value management before accessing the key store
-            keyValueManagement(natsConnectionFactoryConfig);
-            return getConnectionByName(connectionName).keyValue(bucketName,
-                KeyValueOptions.builder().jetStreamOptions(natsConnectionFactoryConfig.getJetstream().toJetStreamOptions()).build());
+            beanContext.getBean(KeyValueManagement.class, Qualifiers.byName(connectionName));
+
+            KeyValueOptions keyValueOptions = buildKeyValueOptions(natsConnectionFactoryConfig);
+            return getConnectionByName(connectionName).keyValue(bucketName, keyValueOptions);
         }
         return null;
     }
 
     private Connection getConnectionByName(String connectionName) {
         return beanContext.findBean(Connection.class, Qualifiers.byName(connectionName))
-            .orElseThrow(() -> new IllegalStateException(
-                "No nats connection found for " + connectionName));
+                .orElseThrow(() -> new IllegalStateException(
+                        "No nats connection found for " + connectionName));
     }
 }
