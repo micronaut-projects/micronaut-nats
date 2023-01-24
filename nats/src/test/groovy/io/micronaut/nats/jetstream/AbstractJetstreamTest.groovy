@@ -41,6 +41,9 @@ abstract class AbstractJetstreamTest extends Specification {
                 ["nats.default.addresses": ["nats://localhost:${natsContainer.getMappedPort(4222)}"],
                  "spec.name"             : getClass().simpleName,
                  "nats.default.jetstream.streams.widgets.storage-type": "Memory",
-                 "nats.default.jetstream.streams.widgets.subjects": ['subject.>']] << additionalConfig, "test")
+                 "nats.default.jetstream.streams.widgets.subjects": ['subject.>'],
+                 "nats.default.jetstream.keyvalue.examplebucket.storage-type": "Memory",
+                 "nats.default.jetstream.keyvalue.examplebucket.max-history-per-key": 5
+                ] << additionalConfig, "test")
     }
 }

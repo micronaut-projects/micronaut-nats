@@ -80,7 +80,7 @@ public class NatsIntroductionAdvice extends AbstractIntroductionAdvice implement
                 publisherState.getBodyArgument(),
                 publisherState.getSerDes(), publisherState.getSubject());
             ReactivePublisher reactivePublisher = publisherState.getReactivePublisher();
-            InterceptedMethod interceptedMethod = InterceptedMethod.of(context);
+            InterceptedMethod interceptedMethod = InterceptedMethod.of(context, conversionService);
 
             try {
                 boolean rpc = !interceptedMethod.returnTypeValue().isVoid();
