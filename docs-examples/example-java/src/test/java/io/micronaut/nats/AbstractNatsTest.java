@@ -39,6 +39,7 @@ public abstract class AbstractNatsTest {
         config.put("nats.default.jetstream.streams.events.subjects", List.of("events.>"));
         config.put("nats.default.jetstream.keyvalue.examplebucket.storage-type", "Memory");
         config.put("nats.default.jetstream.keyvalue.examplebucket.max-history-per-key", 5);
+        config.put("nats.default.jetstream.objectstore.examplebucket.storage-type", "Memory");
         return config;
     }
 

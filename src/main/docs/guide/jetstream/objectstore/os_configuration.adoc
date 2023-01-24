@@ -1,0 +1,15 @@
+All properties on the link:{apinats}/io/nats/client/JetStreamOptions.Builder.html[JetStreamOptions.Builder] and link:{apinats}/io/nats/client/api/ObjectStoreConfiguration.Builder.html[ObjectStoreConfiguration.Builder] are available to be modified, either through configuration or a link:{apimicronaut}context/event/BeanCreatedEventListener.html[BeanCreatedEventListener].
+
+include::{includedir}configurationProperties/io.micronaut.nats.connect.NatsConnectionFactoryConfig$JetStreamConfiguration$ObjectStoreConfiguration.adoc[]
+
+A simple configuration for key value can look like:
+
+[configuration]
+----
+nats:
+  default:
+    jetstream:
+      objectstore:
+        examplebucket:
+          storage-type: Memory
+----
