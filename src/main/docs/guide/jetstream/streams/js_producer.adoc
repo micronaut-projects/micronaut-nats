@@ -10,4 +10,4 @@ So you can still use all header and subject functionalities as you already know.
 
 snippet::io.micronaut.nats.docs.jetstream.ProductClient[tags="imports,clazz",project-base="docs-examples/example"]
 
-<1> With link:{apinats}{natsVersion}/io/nats/client/PublishOptions.html[PublishOptions] you can define additional options for publishing message with jetstream. You can also retrieve a link:{apinats}{natsVersion}/io/nats/client/api/PublishAck.html[PublishAck] object representing a JetStream enabled server acknowledgment.
+<1> With link:{apinats}/io/nats/client/PublishOptions.html[PublishOptions] you can define additional options for publishing message with jetstream. You can also retrieve a link:{apinats}/io/nats/client/api/PublishAck.html[PublishAck] object representing a JetStream enabled server acknowledgment.

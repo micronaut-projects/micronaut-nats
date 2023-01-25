@@ -1,3 +1,3 @@
-The link:{apinats}{natsVersion}/io/nats/client/Connection.html#createDispatcher-io.nats.client.MessageHandler-[createDispatcher] method is used by the api:configuration.nats.intercept.NatsConsumerAdvice[] to consume messages. Some of the options can be directly configured through annotations.
+The link:{apinats}/io/nats/client/Connection.html#createDispatcher-io.nats.client.MessageHandler-[createDispatcher] method is used by the api:configuration.nats.intercept.NatsConsumerAdvice[] to consume messages. Some of the options can be directly configured through annotations.
 
 IMPORTANT: In order for the consumer method to be invoked, all arguments must be satisfied. To allow execution of the method with a null value, the argument *must* be declared as nullable. If the arguments cannot be satisfied, the message will be rejected.

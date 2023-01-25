@@ -1,10 +1,10 @@
-All properties on the link:{apinats}{natsVersion}/io/nats/client/Options.html[Options] are available to be modified, either through configuration or a link:{apimicronaut}context/event/BeanCreatedEventListener.html[BeanCreatedEventListener].
+All properties on the link:{apinats}/io/nats/client/Options.html[Options] are available to be modified, either through configuration or a link:{apimicronaut}context/event/BeanCreatedEventListener.html[BeanCreatedEventListener].
 
 The properties that can be converted from the string values in a configuration file can be configured directly.
 
 include::{includedir}configurationProperties/io.micronaut.nats.connect.NatsConnectionFactoryConfig.adoc[]
 
-NOTE: Without any configuration the defaults in the link:{apinats}{natsVersion}/io/nats/client/Options.html[Options] will be used.
+NOTE: Without any configuration the defaults in the link:{apinats}/io/nats/client/Options.html[Options] will be used.
 
 TIP: It is also possible to disable the integration entirely with `nats.enabled: false`
 

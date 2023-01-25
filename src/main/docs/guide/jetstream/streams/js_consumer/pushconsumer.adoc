@@ -5,4 +5,4 @@ Push consumers are very similiar to the already known `@NatsListener`. Let's loo
 snippet::io.micronaut.nats.docs.jetstream.ProductListener[tags="imports,clazz",project-base="docs-examples/example"]
 
 <1> The class needs to be annotated with ann:configuration.nats.jetstream.annotation.JetstreamListener[].
-<2> The ann:configuration.nats.jetstream.annotation.PushConsumer[] configures the stream(`value`) and the `subject` to listen for. It is possible to use all known values from link:{apinats}{natsVersion}/io/nats/client/SubscribeOptions.html[SubscribeOptions] and link:{apinats}{natsVersion}/io/nats/client/PushSubscribeOptions.html[PushSubscribeOptions] such as `durable`.
+<2> The ann:configuration.nats.jetstream.annotation.PushConsumer[] configures the stream(`value`) and the `subject` to listen for. It is possible to use all known values from link:{apinats}/io/nats/client/SubscribeOptions.html[SubscribeOptions] and link:{apinats}io/nats/client/PushSubscribeOptions.html[PushSubscribeOptions] such as `durable`.
