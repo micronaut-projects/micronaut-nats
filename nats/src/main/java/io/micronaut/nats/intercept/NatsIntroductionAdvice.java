@@ -44,6 +44,7 @@ import java.util.concurrent.ExecutorService;
 
 /**
  * Implementation of the {@link NatsClient} advice annotation.
+ *
  * @author jgrimm
  * @since 1.0.0
  */
@@ -83,7 +84,16 @@ public class NatsIntroductionAdvice extends AbstractIntroductionAdvice implement
             InterceptedMethod interceptedMethod = InterceptedMethod.of(context, conversionService);
 
             try {
-                boolean rpc = !interceptedMethod.returnTypeValue().isVoid();
+                boolean rpc = false;
+
+                if (interceptedMethod.resultType() == InterceptedMethod.ResultType.SYNCHRONOUS) {
+                    rpc = !interceptedMethod.returnTypeValue().isVoid();
+                } else {
+                    Optional<Argument<?>> firstTypeVariable = context.getReturnType().asArgument().getFirstTypeVariable();
+                    if (firstTypeVariable.isPresent()) {
+                        rpc = !firstTypeVariable.get().isVoid();
+                    }
+                }
 
                 Mono<?> reactive;
                 if (rpc) {
@@ -138,7 +148,7 @@ public class NatsIntroductionAdvice extends AbstractIntroductionAdvice implement
     }
 
     private Object deserialize(Message message, Argument<Object> dataType,
-        Argument<Object> returnType) {
+                               Argument<Object> returnType) {
         Optional<NatsMessageSerDes<Object>> serDes = serDesRegistry.findSerdes(dataType);
         if (serDes.isPresent()) {
             return serDes.get().deserialize(message, returnType);

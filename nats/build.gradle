@@ -14,6 +14,7 @@ dependencies {
 
     testImplementation libs.testcontainers.spock
     testImplementation mn.micronaut.management
+    testImplementation libs.micronaut.rxjava3
     testImplementation mnTest.micronaut.test.spock
 }
 

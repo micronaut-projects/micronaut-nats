@@ -3,7 +3,6 @@ package io.micronaut.nats.rpc
 import io.micronaut.context.ApplicationContext
 import io.micronaut.nats.AbstractNatsTest
 import reactor.core.publisher.Mono
-
 /**
  *
  * @author jgrimm
@@ -17,6 +16,7 @@ class RpcSpec extends AbstractNatsTest {
         expect:
         Mono.from(producer.rpcCall("hello")).block() == "HELLO"
         Mono.from(producer.rpcCall(null)).block() == null
+        producer.rpcCallAsCompletable("hello")
 
         cleanup:
         context.close()
