@@ -163,6 +163,12 @@
         
         <div class="toc-item" style="margin-left:20px" id="toc-item-usage"><a href="#usage"><strong>11.2.2</strong><span>Usage</span></a></div>
         
+        <div class="toc-item" style="margin-left:10px" id="toc-item-objectstore"><a href="#objectstore"><strong>11.3</strong><span>Object Store (Experimental)</span></a></div>
+        
+        <div class="toc-item" style="margin-left:20px" id="toc-item-os_configuration"><a href="#os_configuration"><strong>11.3.1</strong><span>Configuration</span></a></div>
+        
+        <div class="toc-item" style="margin-left:20px" id="toc-item-os_usage"><a href="#os_usage"><strong>11.3.2</strong><span>Usage</span></a></div>
+        
         <div class="toc-item" style="margin-left:0px" id="toc-item-repository"><a href="#repository"><strong>12</strong><span>Repository</span></a></div>
         
         </div>
@@ -386,7 +392,7 @@ interface ProductClient {
 
 
 <div class="paragraph">
-<p>All properties on the <a href="https://javadoc.io/doc/io.nats/jnats/{natsVersion}/io/nats/client/Options.html">Options</a> are available to be modified, either through configuration or a <a href="https://docs.micronaut.io/latest/api/io/micronaut/context/event/BeanCreatedEventListener.html">BeanCreatedEventListener</a>.</p>
+<p>All properties on the <a href="https://javadoc.io/doc/io.nats/jnats/latest/io/nats/client/Options.html">Options</a> are available to be modified, either through configuration or a <a href="https://docs.micronaut.io/latest/api/io/micronaut/context/event/BeanCreatedEventListener.html">BeanCreatedEventListener</a>.</p>
 </div>
 <div class="paragraph">
 <p>The properties that can be converted from the string values in a configuration file can be configured directly.</p>
@@ -481,7 +487,7 @@ interface ProductClient {
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-Without any configuration the defaults in the <a href="https://javadoc.io/doc/io.nats/jnats/{natsVersion}/io/nats/client/Options.html">Options</a> will be used.
+Without any configuration the defaults in the <a href="https://javadoc.io/doc/io.nats/jnats/latest/io/nats/client/Options.html">Options</a> will be used.
 </td>
 </tr>
 </table>
@@ -835,7 +841,7 @@ Unless a reactive type is returned from the publishing method, the action is blo
 
 
 <div class="paragraph">
-<p>All options are available to be set for publishing messages. The <a href="https://javadoc.io/doc/io.nats/jnats/{natsVersion}/io/nats/client/Connection.html#publish-io.nats.client.Message-">publish</a> method is used by the <a href="../api/io/micronaut/configuration/nats/intercept/NatsIntroductionAdvice.html">NatsIntroductionAdvice</a> to publish messages and all arguments can be set through annotations or method arguments.</p>
+<p>All options are available to be set for publishing messages. The <a href="https://javadoc.io/doc/io.nats/jnats/latest/io/nats/client/Connection.html#publish-io.nats.client.Message-">publish</a> method is used by the <a href="../api/io/micronaut/configuration/nats/intercept/NatsIntroductionAdvice.html">NatsIntroductionAdvice</a> to publish messages and all arguments can be set through annotations or method arguments.</p>
 </div>
 
 <h2 id="producerSubject"><a class="anchor" href="#producerSubject"></a>6.1.1.1 Subject</h2>
@@ -1205,7 +1211,7 @@ If your application was created with the Micronaut CLI, then that has already be
 
 
 <div class="paragraph">
-<p>The <a href="https://javadoc.io/doc/io.nats/jnats/{natsVersion}/io/nats/client/Connection.html#createDispatcher-io.nats.client.MessageHandler-">createDispatcher</a> method is used by the <a href="../api/io/micronaut/configuration/nats/intercept/NatsConsumerAdvice.html">NatsConsumerAdvice</a> to consume messages. Some of the options can be directly configured through annotations.</p>
+<p>The <a href="https://javadoc.io/doc/io.nats/jnats/latest/io/nats/client/Connection.html#createDispatcher-io.nats.client.MessageHandler-">createDispatcher</a> method is used by the <a href="../api/io/micronaut/configuration/nats/intercept/NatsConsumerAdvice.html">NatsConsumerAdvice</a> to consume messages. Some of the options can be directly configured through annotations.</p>
 </div>
 <div class="admonitionblock important">
 <table>
@@ -1653,7 +1659,7 @@ class ProductListener {
 <p>Arguments can also be bound based on their type. Several types are supported by default and each type has a corresponding <a href="../api/io/micronaut/configuration/nats/bind/NatsTypeArgumentBinder.html">NatsTypeArgumentBinder</a>. The argument binders are covered in detail in the section on <a href="#consumerCustom">Custom Parameter Binding</a>.</p>
 </div>
 <div class="paragraph">
-<p>There is only type that is supported for retrieving data about the <a href="https://javadoc.io/doc/io.nats/jnats/{natsVersion}/io/nats/client/Message.html">Message</a>.</p>
+<p>There is only type that is supported for retrieving data about the <a href="https://javadoc.io/doc/io.nats/jnats/latest/io/nats/client/Message.html">Message</a>.</p>
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
@@ -1745,7 +1751,7 @@ class ProductListener {
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>The arguments are bound from the <a href="https://javadoc.io/doc/io.nats/jnats/{natsVersion}/io/nats/client/Message.html">Message</a>.</td>
+<td>The arguments are bound from the <a href="https://javadoc.io/doc/io.nats/jnats/latest/io/nats/client/Message.html">Message</a>.</td>
 </tr>
 </table>
 </div>
@@ -1781,7 +1787,7 @@ class ProductListener {
 <p>The registry supports argument binders that are used based on an annotation applied to the argument or the argument type. All argument binders must implement either <a href="../api/io/micronaut/configuration/nats/bind/NatsAnnotatedArgumentBinder.html">NatsAnnotatedArgumentBinder</a> or <a href="../api/io/micronaut/configuration/nats/bind/NatsTypeArgumentBinder.html">NatsTypeArgumentBinder</a>. The exception to that rule is the <a href="../api/io/micronaut/configuration/nats/bind/NatsDefaultBinder.html">NatsDefaultBinder</a> which is used when no other binders support a given argument.</p>
 </div>
 <div class="paragraph">
-<p>When an argument needs bound, the <a href="https://javadoc.io/doc/io.nats/jnats/{natsVersion}/io/nats/client/Message.html">Message</a> is used as the source of all of the available data. The binder registry follows a small sequence of steps to attempt to find a binder that supports the argument.</p>
+<p>When an argument needs bound, the <a href="https://javadoc.io/doc/io.nats/jnats/latest/io/nats/client/Message.html">Message</a> is used as the source of all of the available data. The binder registry follows a small sequence of steps to attempt to find a binder that supports the argument.</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
@@ -1808,7 +1814,7 @@ class ProductListener {
 <div class="sect3">
 <h4 id="_annotation_binding">Annotation Binding</h4>
 <div class="paragraph">
-<p>A custom annotation can be created to bind consumer arguments. A custom binder can then be created to use that annotation and the <a href="https://javadoc.io/doc/io.nats/jnats/{natsVersion}/io/nats/client/Message.html">Message</a> to supply a value for the argument. The value may in fact come from anywhere, however for the purposes of this documentation, the replyTo in the message is used.</p>
+<p>A custom annotation can be created to bind consumer arguments. A custom binder can then be created to use that annotation and the <a href="https://javadoc.io/doc/io.nats/jnats/latest/io/nats/client/Message.html">Message</a> to supply a value for the argument. The value may in fact come from anywhere, however for the purposes of this documentation, the replyTo in the message is used.</p>
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
@@ -2898,7 +2904,7 @@ You can do a normal publish to the subject for unacknowledged delivery, though i
 
 
 <div class="paragraph">
-<p>All properties on the <a href="https://javadoc.io/doc/io.nats/jnats/{natsVersion}/io/nats/client/JetStreamOptions.Builder.html">JetStreamOptions.Builder</a> and <a href="https://javadoc.io/doc/io.nats/jnats/{natsVersion}/io/nats/client/api/StreamConfiguration.Builder.html">StreamConfiguration.Builder</a> are available to be modified, either through configuration or a <a href="https://docs.micronaut.io/latest/api/io/micronaut/context/event/BeanCreatedEventListener.html">BeanCreatedEventListener</a>.</p>
+<p>All properties on the <a href="https://javadoc.io/doc/io.nats/jnats/latest/io/nats/client/JetStreamOptions.Builder.html">JetStreamOptions.Builder</a> and <a href="https://javadoc.io/doc/io.nats/jnats/latest/io/nats/client/api/StreamConfiguration.Builder.html">StreamConfiguration.Builder</a> are available to be modified, either through configuration or a <a href="https://docs.micronaut.io/latest/api/io/micronaut/context/event/BeanCreatedEventListener.html">BeanCreatedEventListener</a>.</p>
 </div>
 <div class="paragraph">
 <p>The following properties are available for a stream configuration:</p>
@@ -3189,7 +3195,7 @@ interface ProductClient {
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>With <a href="https://javadoc.io/doc/io.nats/jnats/{natsVersion}/io/nats/client/PublishOptions.html">PublishOptions</a> you can define additional options for publishing message with jetstream. You can also retrieve a <a href="https://javadoc.io/doc/io.nats/jnats/{natsVersion}/io/nats/client/api/PublishAck.html">PublishAck</a> object representing a JetStream enabled server acknowledgment.</td>
+<td>With <a href="https://javadoc.io/doc/io.nats/jnats/latest/io/nats/client/PublishOptions.html">PublishOptions</a> you can define additional options for publishing message with jetstream. You can also retrieve a <a href="https://javadoc.io/doc/io.nats/jnats/latest/io/nats/client/api/PublishAck.html">PublishAck</a> object representing a JetStream enabled server acknowledgment.</td>
 </tr>
 </table>
 </div>
@@ -3290,7 +3296,7 @@ class ProductListener {
 </tr>
 <tr>
 <td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>The <a href="../api/io/micronaut/configuration/nats/jetstream/annotation/PushConsumer.html">@PushConsumer</a> configures the stream(<code>value</code>) and the <code>subject</code> to listen for. It is possible to use all known values from <a href="https://javadoc.io/doc/io.nats/jnats/{natsVersion}/io/nats/client/SubscribeOptions.html">SubscribeOptions</a> and <a href="https://javadoc.io/doc/io.nats/jnats/{natsVersion}/io/nats/client/PushSubscribeOptions.html">PushSubscribeOptions</a> such as <code>durable</code>.</td>
+<td>The <a href="../api/io/micronaut/configuration/nats/jetstream/annotation/PushConsumer.html">@PushConsumer</a> configures the stream(<code>value</code>) and the <code>subject</code> to listen for. It is possible to use all known values from <a href="https://javadoc.io/doc/io.nats/jnats/latest/io/nats/client/SubscribeOptions.html">SubscribeOptions</a> and <a href="https://javadoc.io/doc/io.nats/jnats/latestio/nats/client/PushSubscribeOptions.html">PushSubscribeOptions</a> such as <code>durable</code>.</td>
 </tr>
 </table>
 </div>
@@ -3433,7 +3439,7 @@ class PullConsumerHelper(private val pullConsumerRegistry: PullConsumerRegistry)
 </tr>
 <tr>
 <td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>Create a new <a href="https://javadoc.io/doc/io.nats/jnats/{natsVersion}/io/nats/client/JetStreamSubscription.html">JetStreamSubscription</a> with the <code>subjects</code> you want to subscribe to and the necessary <a href="https://javadoc.io/doc/io.nats/jnats/{natsVersion}/io/nats/client/PullSubscribeOptions.html">PullSubscribeOptions</a>.</td>
+<td>Create a new <a href="https://javadoc.io/doc/io.nats/jnats/latest/io/nats/client/JetStreamSubscription.html">JetStreamSubscription</a> with the <code>subjects</code> you want to subscribe to and the necessary <a href="https://javadoc.io/doc/io.nats/jnats/latest/io/nats/client/PullSubscribeOptions.html">PullSubscribeOptions</a>.</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="3"></i><b>3</b></td>
@@ -3522,7 +3528,7 @@ class PullConsumerHelper(private val pullConsumerRegistry: PullConsumerRegistry)
 
 
 <div class="paragraph">
-<p>All properties on the <a href="https://javadoc.io/doc/io.nats/jnats/{natsVersion}/io/nats/client/JetStreamOptions.Builder.html">JetStreamOptions.Builder</a> and <a href="https://javadoc.io/doc/io.nats/jnats/{natsVersion}/io/nats/client/api/KeyValueConfiguration.Builder.html">KeyValueConfiguration.Builder</a> are available to be modified, either through configuration or a <a href="https://docs.micronaut.io/latest/api/io/micronaut/context/event/BeanCreatedEventListener.html">BeanCreatedEventListener</a>.</p>
+<p>All properties on the <a href="https://javadoc.io/doc/io.nats/jnats/latest/io/nats/client/JetStreamOptions.Builder.html">JetStreamOptions.Builder</a> and <a href="https://javadoc.io/doc/io.nats/jnats/latest/io/nats/client/api/KeyValueConfiguration.Builder.html">KeyValueConfiguration.Builder</a> are available to be modified, either through configuration or a <a href="https://docs.micronaut.io/latest/api/io/micronaut/context/event/BeanCreatedEventListener.html">BeanCreatedEventListener</a>.</p>
 </div>
 <div class="paragraph">
 <p>The following properties are available for a stream configuration:</p>
@@ -3675,7 +3681,7 @@ nats.default.jetstream.keyvalue.examplebucket.max-history-per-key=5</code></pre>
 
 
 <div class="paragraph">
-<p>Nats.io provides an <a href="https://javadoc.io/doc/io.nats/jnats/{natsVersion}/io/nats/client/api/KeyValue.html">KeyValue</a> interface for the usage of Key/Value Stores.</p>
+<p>Nats.io provides an <a href="https://javadoc.io/doc/io.nats/jnats/latest/io/nats/client/api/KeyValue.html">KeyValue</a> interface for the usage of Key/Value Stores.</p>
 </div>
 <div class="paragraph">
 <p>To use it, just inject your Key/Value Store as follows:</p>
@@ -3742,6 +3748,246 @@ class KeyValueStoreHolder {
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
 <td>Simply inject the key/value store via the <a href="../api/io/micronaut/nats/jetstream/annotation/KeyValueStore.html">@KeyValueStore</a> annotation.</td>
+</tr>
+</table>
+</div>
+
+<h2 id="objectstore"><a class="anchor" href="#objectstore"></a>11.3 Object Store (Experimental)</h2>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/master/src/main/docs/guide/jetstream/objectstore.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+Experimental Preview
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The Object Store allows you to store data of any (i.e. large) size by implementing a chunking mechanism, allowing you to for example store and retrieve files (i.e. the object) of any size by associating them with a path and a file name (i.e. the key). You obtain a ObjectStoreManager object from your JetStream context.</p>
+</div>
+
+<h2 id="os_configuration"><a class="anchor" href="#os_configuration"></a>11.3.1 Configuration</h2>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/master/src/main/docs/guide/jetstream/objectstore/os_configuration.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="paragraph">
+<p>All properties on the <a href="https://javadoc.io/doc/io.nats/jnats/latest/io/nats/client/JetStreamOptions.Builder.html">JetStreamOptions.Builder</a> and <a href="https://javadoc.io/doc/io.nats/jnats/latest/io/nats/client/api/ObjectStoreConfiguration.Builder.html">ObjectStoreConfiguration.Builder</a> are available to be modified, either through configuration or a <a href="https://docs.micronaut.io/latest/api/io/micronaut/context/event/BeanCreatedEventListener.html">BeanCreatedEventListener</a>.</p>
+</div>
+<a id="io.micronaut.nats.connect.NatsConnectionFactoryConfig$JetStreamConfiguration$ObjectStoreConfiguration" href="#io.micronaut.nats.connect.NatsConnectionFactoryConfig$JetStreamConfiguration$ObjectStoreConfiguration">&#128279;</a>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. Configuration Properties for <a href="../api/io/micronaut/nats/connect/NatsConnectionFactoryConfig.JetStreamConfiguration.ObjectStoreConfiguration.html">NatsConnectionFactoryConfig$JetStreamConfiguration$ObjectStoreConfiguration</a></caption>
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Property</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.objectstore.*.description</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.objectstore.*.max-bucket-size</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">long</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.objectstore.*.ttl</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.time.Duration</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.objectstore.*.storage-type</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">io.nats.client.api.StorageType</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.objectstore.*.replicas</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">int</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.objectstore.*.placement</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">io.nats.client.api.Placement</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>A simple configuration for key value can look like:</p>
+</div>
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">nats.default.jetstream.objectstore.examplebucket.storage-type=Memory</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">nats:
+  default:
+    jetstream:
+      objectstore:
+        examplebucket:
+          storage-type: Memory</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[nats]
+  [nats.default]
+    [nats.default.jetstream]
+      [nats.default.jetstream.objectstore]
+        [nats.default.jetstream.objectstore.examplebucket]
+          storage-type="Memory"</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">nats {
+  'default' {
+    jetstream {
+      objectstore {
+        examplebucket {
+          storageType = "Memory"
+        }
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  nats {
+    default {
+      jetstream {
+        objectstore {
+          examplebucket {
+            storage-type = "Memory"
+          }
+        }
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+
+<h2 id="os_usage"><a class="anchor" href="#os_usage"></a>11.3.2 Usage</h2>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/master/src/main/docs/guide/jetstream/objectstore/os_usage.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="paragraph">
+<p>Nats.io provides an <a href="https://javadoc.io/doc/io.nats/jnats/latest/io/nats/client/api/ObjectStore.html">ObjectStore</a> interface for the usage of Object Stores.</p>
+</div>
+<div class="paragraph">
+<p>To use it, just inject your Object Store as follows:</p>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">import io.micronaut.nats.jetstream.annotation.ObjectStore;
+import io.nats.client.JetStreamApiException;
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.security.NoSuchAlgorithmException;
+
+@Singleton
+public class ObjectStoreHolder {
+
+    @Inject
+    @ObjectStore("examplebucket")
+    io.nats.client.ObjectStore store; // <b class="conum">(1)</b>
+
+    public void put(String key, InputStream inputStream) throws JetStreamApiException, IOException, NoSuchAlgorithmException {
+        store.put(key, inputStream);
+    }
+
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">import io.micronaut.nats.jetstream.annotation.ObjectStore
+import jakarta.inject.Inject
+import jakarta.inject.Singleton
+
+@Singleton
+class ObjectStoreHolder {
+
+    @Inject
+    @ObjectStore("examplebucket")
+    io.nats.client.ObjectStore store // <b class="conum">(1)</b>
+
+    void put(String key, InputStream value) {
+        store.put(key, value)
+    }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">import io.micronaut.nats.jetstream.annotation.ObjectStore
+import jakarta.inject.Inject
+import jakarta.inject.Singleton
+import java.io.InputStream
+
+
+@Singleton
+class ObjectStoreHolder {
+
+    @Inject
+    @field:ObjectStore("examplebucket")
+    lateinit var store: io.nats.client.ObjectStore // <b class="conum">(1)</b>
+
+    fun put(key: String, value:InputStream) {
+        store.put(key, value)
+    }
+
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Simply inject the object store via the <a href="../api/io/micronaut/nats/jetstream/annotation/ObjectStore.html">@ObjectStore</a> annotation.</td>
 </tr>
 </table>
 </div>
