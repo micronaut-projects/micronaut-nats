@@ -1,4 +1,4 @@
-All properties on the link:{apinats}{natsVersion}/io/nats/client/JetStreamOptions.Builder.html[JetStreamOptions.Builder] and link:{apinats}{natsVersion}/io/nats/client/api/StreamConfiguration.Builder.html[StreamConfiguration.Builder] are available to be modified, either through configuration or a link:{apimicronaut}context/event/BeanCreatedEventListener.html[BeanCreatedEventListener].
+All properties on the link:{apinats}/io/nats/client/JetStreamOptions.Builder.html[JetStreamOptions.Builder] and link:{apinats}/io/nats/client/api/StreamConfiguration.Builder.html[StreamConfiguration.Builder] are available to be modified, either through configuration or a link:{apimicronaut}context/event/BeanCreatedEventListener.html[BeanCreatedEventListener].
 
 The following properties are available for a stream configuration:
 

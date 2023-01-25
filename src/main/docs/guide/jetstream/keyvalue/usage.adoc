@@ -1,4 +1,4 @@
-Nats.io provides an link:{apinats}{natsVersion}/io/nats/client/api/KeyValue.html[KeyValue] interface for the usage of Key/Value Stores.
+Nats.io provides an link:{apinats}/io/nats/client/api/KeyValue.html[KeyValue] interface for the usage of Key/Value Stores.
 
 To use it, just inject your Key/Value Store as follows:
 
