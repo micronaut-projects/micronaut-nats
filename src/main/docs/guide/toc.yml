@@ -42,4 +42,8 @@ jetstream:
     title: Key/Value Store
     kv_configuration: Configuration
     usage: Usage
+  objectstore:
+    title: Object Store (Experimental)
+    os_configuration: Configuration
+    os_usage: Usage
 repository: Repository

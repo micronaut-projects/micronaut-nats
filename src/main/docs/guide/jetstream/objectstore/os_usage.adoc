@@ -1,0 +1,7 @@
+Nats.io provides an link:{apinats}/io/nats/client/api/ObjectStore.html[ObjectStore] interface for the usage of Object Stores.
+
+To use it, just inject your Object Store as follows:
+
+snippet::io.micronaut.nats.docs.jetstream.os.ObjectStoreHolder[tags="imports,clazz",project-base="docs-examples/example"]
+
+<1> Simply inject the object store via the ann:nats.jetstream.annotation.ObjectStore[] annotation.

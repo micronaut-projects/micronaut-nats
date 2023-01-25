@@ -20,6 +20,7 @@ import io.micronaut.context.annotation.ConfigurationProperties;
 import io.micronaut.context.annotation.EachProperty;
 import io.micronaut.context.annotation.Parameter;
 import io.micronaut.context.annotation.Requires;
+import io.micronaut.core.annotation.Experimental;
 import io.micronaut.core.annotation.Nullable;
 import io.nats.client.JetStreamOptions;
 import io.nats.client.Nats;
@@ -479,6 +480,8 @@ public class NatsConnectionFactoryConfig {
 
         private List<KeyValueConfiguration> keyvalue = new ArrayList<>();
 
+        private List<ObjectStoreConfiguration> objectstore = new ArrayList<>();
+
         /**
          * get the jetstream options builder.
          *
@@ -531,6 +534,24 @@ public class NatsConnectionFactoryConfig {
          */
         public void setKeyvalue(List<KeyValueConfiguration> keyvalue) {
             this.keyvalue = keyvalue;
+        }
+
+        /**
+         * get the object store configurations.
+         *
+         * @return list of object store configurations
+         */
+        public List<ObjectStoreConfiguration> getObjectstore() {
+            return objectstore;
+        }
+
+        /**
+         * set the object store configurations.
+         *
+         * @param objectstore list of object store configurations
+         */
+        public void setObjectstore(List<ObjectStoreConfiguration> objectstore) {
+            this.objectstore = objectstore;
         }
 
         /**
@@ -625,6 +646,43 @@ public class NatsConnectionFactoryConfig {
             public io.nats.client.api.KeyValueConfiguration toKeyValueConfiguration() {
                 return builder.name(name).build();
             }
+        }
+
+        /**
+         * Manages a single object store configuration.
+         */
+        @EachProperty(value = "objectstore")
+        @Experimental
+        public static class ObjectStoreConfiguration {
+
+            private final String name;
+            @ConfigurationBuilder(prefixes = "", excludes = { "name", "build"})
+            private io.nats.client.api.ObjectStoreConfiguration.Builder builder =
+                io.nats.client.api.ObjectStoreConfiguration.builder();
+
+            public ObjectStoreConfiguration(@Parameter String name) {
+                this.name = name;
+            }
+
+            /**
+             * get the object store configuration builder.
+             *
+             * @return object store configuration builder
+             */
+            public io.nats.client.api.ObjectStoreConfiguration.Builder getBuilder() {
+                return builder;
+            }
+
+            /**
+             * return the configuration as
+             * {@link io.nats.client.api.ObjectStoreConfiguration}.
+             *
+             * @return nats object store configuration
+             */
+            public io.nats.client.api.ObjectStoreConfiguration toObjectStoreConfiguration() {
+                return builder.name(name).build();
+            }
+
         }
     }
 }
