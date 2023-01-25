@@ -18,6 +18,8 @@ package io.micronaut.nats.rpc
 import io.micronaut.context.annotation.Requires
 import io.micronaut.nats.annotation.NatsClient
 import io.micronaut.nats.annotation.Subject
+import io.reactivex.rxjava3.core.Completable
+
 /**
  *
  * @author jgrimm
@@ -29,4 +31,6 @@ interface Publisher {
     @Subject("rpc")
     org.reactivestreams.Publisher<String> rpcCall(String data)
 
+    @Subject("rpc")
+    Completable rpcCallAsCompletable(String data)
 }
