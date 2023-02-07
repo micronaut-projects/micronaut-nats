@@ -15,24 +15,24 @@ TIP: It is also possible to disable the integration entirely with `nats.enabled:
 
 It is possible to configure multiple connections to the same server, different servers, or a single connection to one of a list of servers.
 
-[source,yaml]
+[configuration]
 ----
 nats:
-    server1:
-      addresses:
-        - "nats://localhost:4222"
-      username: guest
-      password: guest
-    server2:
-      addresses:
-        - "nats://randomServer:4222"
-      username: guest
-      password: guest
+  server1:
+    addresses:
+      - "nats://localhost:4222"
+    username: guest
+    password: guest
+  server2:
+    addresses:
+      - "nats://randomServer:4222"
+    username: guest
+    password: guest
 ----
 
 NATS also supports a fail over connection strategy where the first server that connects successfully will be used among a list of servers. To use this option in Micronaut, simply supply a list of `host:port` addresses.
 
-[source,yaml]
+[configuration]
 ----
 nats:
     addresses:
@@ -46,17 +46,16 @@ IMPORTANT: When the configuration option `nats.servers` is used, no other option
 
 If you need to setup TLS, it can be configured this way:
 
-[source,yaml]
+[configuration]
 ----
 nats:
     addresses:
-      - "nats://localhost:4222" // <1>
+      - "nats://localhost:4222"
     tls:
-      trust-store-path:  /path/to/client.truststore.jks // <2>
+      trust-store-path:  /path/to/client.truststore.jks
       trust-store-password: secret
-      certificate-path: /path/to/certificate.crt // <3>
+      certificate-path: /path/to/certificate.crt
 ----
 
-<1> You can either use `nats://localhost:4222` or `tls://localhost:4222` as protocol.
-<2> You can configure a complete truststore
-<3> Or ou can use a single certificate for connecting to NATS securely.
+-  `addresses` can either use `nats://localhost:4222` or `tls://localhost:4222` as protocol.
+-  For connecting to NATS securely, either a complete truststore or a single certificate can be configured
