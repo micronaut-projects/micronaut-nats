@@ -11,7 +11,7 @@ kotlin = '1.8.0'
 testcontainers = '1.17.6'
 nats = '2.16.6'
 
-micronaut-micrometer = "4.8.0" # TODO update once 5.0.0-SNAPSHOT is out
+micronaut-micrometer = "5.0.0-SNAPSHOT"
 micronaut-reactor = "3.0.0-SNAPSHOT"
 micronaut-serde = "2.0.0-SNAPSHOT"
 micronaut-rxjava3 = "3.0.0-SNAPSHOT"
