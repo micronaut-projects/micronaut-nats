@@ -588,6 +588,24 @@ nats.server2.password=guest</code></pre>
 }</code></pre>
 </div>
 </div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "nats": {
+    "server1": {
+      "addresses": ["nats://localhost:4222"],
+      "username": "guest",
+      "password": "guest"
+    },
+    "server2": {
+      "addresses": ["nats://randomServer:4222"],
+      "username": "guest",
+      "password": "guest"
+    }
+  }
+}</code></pre>
+</div>
+</div>
 </div>
 </div>
 <div class="paragraph">
@@ -645,6 +663,19 @@ nats.default.password=guest</code></pre>
       addresses = ["nats://localhost:4222", "nats://randomServer:4222"]
       username = "guest"
       password = "guest"
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "nats": {
+    "default": {
+      "addresses": ["nats://localhost:4222", "nats://randomServer:4222"],
+      "username": "guest",
+      "password": "guest"
     }
   }
 }</code></pre>
@@ -726,6 +757,22 @@ nats.default.tls.certificate-path=/path/to/certificate.crt</code></pre>
         trust-store-path = "/path/to/client.truststore.jks"
         trust-store-password = "secret"
         certificate-path = "/path/to/certificate.crt"
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "nats": {
+    "default": {
+      "addresses": ["nats://localhost:4222"],
+      "tls": {
+        "trust-store-path": "/path/to/client.truststore.jks",
+        "trust-store-password": "secret",
+        "certificate-path": "/path/to/certificate.crt"
       }
     }
   }
@@ -2826,6 +2873,18 @@ nats.details.servers[0]=nats://localhost:4222</code></pre>
 }</code></pre>
 </div>
 </div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "nats": {
+    "status": "UP",
+    "details": {
+      "servers": ["nats://localhost:4222"]
+    }
+  }
+}</code></pre>
+</div>
+</div>
 </div>
 </div>
 <div class="admonitionblock tip">
@@ -3119,6 +3178,24 @@ nats.default.jetstream.streams.events.subjects[0]=events.&gt;</code></pre>
           events {
             storage-type = "Memory"
             subjects = ["events.&gt;"]
+          }
+        }
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "nats": {
+    "default": {
+      "jetstream": {
+        "streams": {
+          "events": {
+            "storage-type": "Memory",
+            "subjects": ["events.&gt;"]
           }
         }
       }
@@ -3668,6 +3745,24 @@ nats.default.jetstream.keyvalue.examplebucket.max-history-per-key=5</code></pre>
 }</code></pre>
 </div>
 </div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "nats": {
+    "default": {
+      "jetstream": {
+        "keyvalue": {
+          "examplebucket": {
+            "storage-type": "Memory",
+            "max-history-per-key": 5
+          }
+        }
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
 </div>
 </div>
 
@@ -3891,6 +3986,23 @@ Experimental Preview
         objectstore {
           examplebucket {
             storage-type = "Memory"
+          }
+        }
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "nats": {
+    "default": {
+      "jetstream": {
+        "objectstore": {
+          "examplebucket": {
+            "storage-type": "Memory"
           }
         }
       }
