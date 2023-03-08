@@ -251,6 +251,7 @@ public abstract class AbstractIntroductionAdvice {
                                                             Map<String, Object> parameterValues) {
         String argumentName = argument.getName();
         String name = annotationValue.get("name", String.class)
+            .filter(StringUtils::isNotEmpty)
             .orElse(annotationValue.stringValue().orElse(argumentName));
         Optional<List> value =
             conversionService.convert(parameterValues.get(argumentName),
