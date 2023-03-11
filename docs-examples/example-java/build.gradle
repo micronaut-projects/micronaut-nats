@@ -4,7 +4,7 @@ plugins {
 }
 
 dependencies {
-    testImplementation projects.nats
+    testImplementation projects.micronautNats
 
     testAnnotationProcessor mn.micronaut.inject.java
 
