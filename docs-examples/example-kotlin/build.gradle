@@ -7,7 +7,7 @@ plugins {
 dependencies {
     kaptTest(mn.micronaut.inject.java)
 
-    testImplementation projects.nats
+    testImplementation projects.micronautNats
     testImplementation mnTest.micronaut.test.kotest5
     testImplementation libs.testcontainers
     testImplementation mn.reactor

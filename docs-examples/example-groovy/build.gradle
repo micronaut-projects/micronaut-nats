@@ -8,7 +8,7 @@ repositories {
 }
 
 dependencies {
-    testImplementation projects.nats
+    testImplementation projects.micronautNats
 
     testCompileOnly mn.micronaut.inject.groovy
     testImplementation libs.testcontainers.spock
