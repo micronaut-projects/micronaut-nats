@@ -14,7 +14,7 @@ nats = '2.16.9'
 micronaut-micrometer = "5.0.0-M1"
 micronaut-reactor = "3.0.0-M1"
 micronaut-serde = "2.0.0-M1"
-micronaut-rxjava3 = "3.0.0-M1"
+micronaut-rxjava3 = "3.0.0-SNAPSHOT"
 
 [libraries]
 jnats = { module = 'io.nats:jnats', version.ref = 'nats'}
