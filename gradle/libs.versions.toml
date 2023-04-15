@@ -9,7 +9,7 @@ awaitility = '4.2.0'
 junit = '5.9.2'
 kotlin = '1.8.20'
 testcontainers = '1.17.6'
-nats = '2.16.9'
+nats = '2.16.10'
 
 micronaut-micrometer = "5.0.0-M1"
 micronaut-reactor = "3.0.0-M1"
