@@ -1,8 +1,11 @@
 package io.micronaut.nats.docs.consumer.connection
 
-import io.micronaut.nats.AbstractNatsTest
+import io.micronaut.context.annotation.Property
+import io.micronaut.test.extensions.spock.annotation.MicronautTest
 
-class ConnectionSpec extends AbstractNatsTest {
+@MicronautTest
+@Property(name = "spec.name", value = "ConnectionSpec")
+class ConnectionSpec {
 
     void "test product client and listener"() {
         startContext()

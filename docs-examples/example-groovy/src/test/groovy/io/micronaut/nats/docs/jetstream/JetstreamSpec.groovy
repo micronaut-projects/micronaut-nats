@@ -1,20 +1,31 @@
 package io.micronaut.nats.docs.jetstream
 
-import io.micronaut.nats.AbstractNatsTest
+import io.micronaut.context.annotation.Property
+import io.micronaut.test.extensions.spock.annotation.MicronautTest
 import io.nats.client.JetStreamManagement
 import io.nats.client.PublishOptions
 import io.nats.client.api.PublishAck
+import jakarta.inject.Inject
+import spock.lang.Specification
 
 import java.nio.charset.StandardCharsets
 
-class JetstreamSpec extends AbstractNatsTest {
+import static java.util.concurrent.TimeUnit.SECONDS
+import static org.awaitility.Awaitility.await
+
+@MicronautTest
+@Property(name = "spec.name", value = "JetstreamSpec")
+class JetstreamSpec extends Specification {
+    @Inject ProductClient productClient
+    @Inject ProductListener productListener
+    @Inject JetStreamManagement jsm
+    @Inject PullConsumerHelper pullConsumerHelper
+
 
     void "simple producer"() {
-        startContext()
 
         when:
 // tag::producer[]
-        def productClient = applicationContext.getBean(ProductClient)
         PublishAck pa = productClient.send("events.one", "ghi".getBytes(StandardCharsets.UTF_8),
                 PublishOptions.builder()
                         .stream("events")
@@ -31,24 +42,16 @@ class JetstreamSpec extends AbstractNatsTest {
                         .build())
 // end::producer[]
 
-        ProductListener productListener = applicationContext.getBean(ProductListener)
-        JetStreamManagement jsm = applicationContext.getBean(JetStreamManagement)
-
         then:
-        waitFor {
+        await().atMost(10, SECONDS).until {
             productListener.messageLengths.size() == 2
             jsm.getStreamInfo("events").getStreamState().getMsgCount() == 2
         }
-
-        cleanup:
-        jsm.deleteStream("events")
     }
 
     void "pull consumer"() {
-        startContext()
 
         when:
-        def productClient = applicationContext.getBean(ProductClient)
         PublishAck pa = productClient.send("events.three", "ghi".getBytes(StandardCharsets.UTF_8),
                 PublishOptions.builder()
                         .stream("events")
@@ -64,15 +67,10 @@ class JetstreamSpec extends AbstractNatsTest {
                         .expectedLastSequence(pa.getSeqno())
                         .build())
 
-        PullConsumerHelper pullConsumerHelper = applicationContext.getBean(PullConsumerHelper)
-
         then:
-        waitFor {
+        await().atMost(10, SECONDS).until {
             pullConsumerHelper.pullMessages().size() == 2
         }
 
-        cleanup:
-        JetStreamManagement jsm = applicationContext.getBean(JetStreamManagement)
-        jsm.deleteStream("events")
     }
 }

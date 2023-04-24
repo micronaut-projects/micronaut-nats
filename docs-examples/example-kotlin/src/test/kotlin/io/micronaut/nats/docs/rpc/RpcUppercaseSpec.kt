@@ -1,28 +1,21 @@
 package io.micronaut.nats.docs.rpc
 
+import io.kotest.core.spec.style.BehaviorSpec
 import io.kotest.matchers.shouldBe
-import io.micronaut.nats.AbstractNatsTest
+import io.micronaut.context.annotation.Property
+import io.micronaut.test.extensions.kotest5.annotation.MicronautTest
 import reactor.core.publisher.Mono
-import kotlin.time.ExperimentalTime
 
-@OptIn(ExperimentalTime::class)
-class RpcUppercaseSpec: AbstractNatsTest({
-
-    val specName = javaClass.simpleName
+@MicronautTest
+@Property(name = "spec.name", value = "RpcUppercaseSpec")
+class RpcUppercaseSpec(productClient: ProductClient) : BehaviorSpec({
 
     given("A basic producer and consumer") {
-        val ctx = startContext(specName)
-
         `when`("the message is published") {
-
-            val productClient = ctx.getBean(ProductClient::class.java)
-
             then("the message is consumed") {
                 productClient.send("hello") shouldBe "HELLO"
                 Mono.from(productClient.sendReactive("world")).block() shouldBe "WORLD"
             }
         }
-
-        ctx.stop()
     }
 })

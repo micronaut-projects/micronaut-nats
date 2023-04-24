@@ -1,29 +1,27 @@
 package io.micronaut.nats.docs.jetstream
 
 import io.kotest.assertions.timing.eventually
+import io.kotest.core.spec.style.BehaviorSpec
 import io.kotest.matchers.shouldBe
-import io.micronaut.nats.AbstractNatsTest
+import io.micronaut.context.annotation.Property
+import io.micronaut.test.extensions.kotest5.annotation.MicronautTest
 import io.nats.client.JetStreamManagement
 import io.nats.client.PublishOptions
-import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
-import kotlin.time.ExperimentalTime
 
-@OptIn(ExperimentalTime::class)
-class JetstreamSpec : AbstractNatsTest({
-
-    val specName = javaClass.simpleName
+@MicronautTest
+@Property(name = "spec.name", value = "JetstreamSpec")
+class JetstreamSpec(
+    productClient: ProductClient,
+    productListener: ProductListener,
+    jsm: JetStreamManagement,
+    pullConsumerHelper: PullConsumerHelper
+) : BehaviorSpec({
 
     given("A basic producer and consumer") {
-        val ctx = startContext(specName)
-        val jsm = ctx.getBean(JetStreamManagement::class.java)
-
-
         `when`("The messages are published") {
-            val productListener = ctx.getBean(ProductListener::class.java)
 
             // tag::producer[]
-            val productClient = ctx.getBean(ProductClient::class.java)
             val pa = productClient.send(
                 "events.one", "ghi".toByteArray(),
                 PublishOptions.builder()
@@ -51,19 +49,11 @@ class JetstreamSpec : AbstractNatsTest({
                 }
             }
         }
-
-        jsm.deleteStream("events")
-        ctx.stop()
     }
 
     given("Pull consumer") {
-        val ctx = startContext(specName)
-
         `when`("The messages are published") {
-            val pullConsumerHelper = ctx.getBean(PullConsumerHelper::class.java)
-
             // tag::producer[]
-            val productClient = ctx.getBean(ProductClient::class.java)
             val pa = productClient.send(
                 "events.three", "ghi".toByteArray(),
                 PublishOptions.builder()
@@ -85,17 +75,11 @@ class JetstreamSpec : AbstractNatsTest({
             // end::producer[]
 
 
-
             then("The messages are received") {
                 eventually(10.seconds) {
                     pullConsumerHelper.pullMessages().size shouldBe 2
                 }
             }
         }
-
-        val jsm = ctx.getBean(JetStreamManagement::class.java)
-        jsm.deleteStream("events")
-
-        ctx.stop()
     }
 })

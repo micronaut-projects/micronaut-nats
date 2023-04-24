@@ -1,24 +1,30 @@
 package io.micronaut.nats.docs.consumer.custom.type
 
-import io.micronaut.nats.AbstractNatsTest
+import io.micronaut.context.annotation.Property
+import io.micronaut.test.extensions.spock.annotation.MicronautTest
+import jakarta.inject.Inject
+import spock.lang.Specification
 
-class ProductInfoSpec extends AbstractNatsTest {
+import static java.util.concurrent.TimeUnit.SECONDS
+import static org.awaitility.Awaitility.await
+
+@MicronautTest
+@Property(name = "spec.name", value = "ProductInfoSpec")
+class ProductInfoSpec extends Specification {
+    @Inject ProductClient productClient
+    @Inject ProductListener productListener
+
 
     void "test using a custom type binder"() {
-        startContext()
-
         when:
 // tag::producer[]
-        ProductClient productClient = applicationContext.getBean(ProductClient)
         productClient.send("body".bytes)
         productClient.send("medium", 20L, "body2".bytes)
         productClient.send(null, 30L, "body3".bytes)
 // end::producer[]
 
-        ProductListener productListener = applicationContext.getBean(ProductListener)
-
         then:
-        waitFor {
+        await().atMost(10, SECONDS).until {
             productListener.messages.size() == 3
 
             productListener.messages.find({ pi ->

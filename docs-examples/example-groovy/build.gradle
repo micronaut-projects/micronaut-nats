@@ -1,45 +1,13 @@
 plugins {
-    id "groovy"
-    id 'io.micronaut.build.internal.nats-tests'
-}
-
-repositories {
-    mavenCentral()
+    id 'io.micronaut.build.internal.nats-examples'
+    id 'groovy'
 }
 
 dependencies {
-    testImplementation projects.micronautNats
-
     testCompileOnly mn.micronaut.inject.groovy
-    testImplementation libs.testcontainers.spock
-    testImplementation mn.micronaut.inject
-    testImplementation mn.reactor
     testImplementation mnTest.micronaut.test.spock
-    testRuntimeOnly libs.junit.jupiter.engine
-    testRuntimeOnly mn.snakeyaml
-}
-
-test {
-    useJUnitPlatform()
-
-    jvmArgs '-Duser.country=US'
-    jvmArgs '-Duser.language=en'
-    failFast = true
 }
 
 tasks.withType(GroovyCompile) {
     groovyOptions.forkOptions.jvmArgs.add('-Dgroovy.parameters=true')
-}
-
-java {
-    sourceCompatibility = JavaVersion.toVersion("17")
-    targetCompatibility = JavaVersion.toVersion("17")
-}
-
-test {
-    useJUnitPlatform()
-    testLogging {
-        showStandardStreams = true
-        exceptionFormat = 'full'
-    }
 }
