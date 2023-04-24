@@ -32,9 +32,9 @@ productClient.send("connection-test".getBytes());
     @Override
     public Map<String, String> getProperties() {
         var client = TestResourcesClientFactory.fromSystemProperties().get();
-        var natsURI = client.resolve("nats.default.addresses", Map.of(), Map.of());
-        return natsURI
-            .map(uri -> Map.of("nats.product-cluster.addresses", uri))
+        var natsPort = client.resolve("nats.port", Map.of(), Map.of());
+        return natsPort
+            .map(port -> Map.of("nats.product-cluster.addresses.0", "nats://localhost:" + port))
             .orElse(Collections.emptyMap());
     }
 }

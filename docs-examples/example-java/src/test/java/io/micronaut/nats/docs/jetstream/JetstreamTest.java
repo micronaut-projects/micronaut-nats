@@ -2,13 +2,11 @@ package io.micronaut.nats.docs.jetstream;
 
 import io.micronaut.context.annotation.Property;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
-import io.nats.client.JetStreamApiException;
 import io.nats.client.JetStreamManagement;
 import io.nats.client.PublishOptions;
 import io.nats.client.api.PublishAck;
 import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
@@ -19,7 +17,7 @@ import static org.awaitility.Awaitility.await;
 class JetstreamTest {
 
     @Test
-    void simplePublisher(ProductClient productClient, ProductListener productListener, JetStreamManagement jsm) throws JetStreamApiException, IOException {
+    void simplePublisher(ProductClient productClient, ProductListener productListener, JetStreamManagement jsm) {
 
         // tag::producer[]
         PublishAck pa = productClient.send("events.one", "ghi".getBytes(StandardCharsets.UTF_8),
@@ -46,7 +44,7 @@ class JetstreamTest {
     }
 
     @Test
-    void pullConsumer(ProductClient productClient, PullConsumerHelper pullConsumerHelper, JetStreamManagement jsm) throws JetStreamApiException, IOException {
+    void pullConsumer(ProductClient productClient, PullConsumerHelper pullConsumerHelper) {
         PublishAck pa = productClient.send("events.three", "ghi".getBytes(StandardCharsets.UTF_8),
             PublishOptions.builder()
                 .stream("events")

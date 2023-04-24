@@ -32,11 +32,11 @@ class ConnectionSpec: TestPropertyProvider, AnnotationSpec() {
 
     override fun getProperties(): MutableMap<String, String> {
         val client = TestResourcesClientFactory.fromSystemProperties().get()
-        val natsUri = client.resolve("nats.default.addresses", Map.of(), Map.of())
-        return natsUri
-            .map { uri: String ->
+        val natsPort = client.resolve("nats.port", Map.of(), Map.of())
+        return natsPort
+            .map { port: String ->
                 Map.of(
-                    "nats.product-cluster.addresses", uri
+                    "nats.product-cluster.addresses.0", "nats://localhost:$port"
                 )
             }
             .orElse(emptyMap())
