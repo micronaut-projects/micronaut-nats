@@ -6,6 +6,7 @@ import io.nats.client.JetStreamManagement;
 import io.nats.client.PublishOptions;
 import io.nats.client.api.PublishAck;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.DisabledInNativeImage;
 
 import java.nio.charset.StandardCharsets;
 
@@ -14,6 +15,7 @@ import static org.awaitility.Awaitility.await;
 
 @MicronautTest
 @Property(name = "spec.name", value = "JetstreamTest")
+@DisabledInNativeImage
 class JetstreamTest {
 
     @Test
