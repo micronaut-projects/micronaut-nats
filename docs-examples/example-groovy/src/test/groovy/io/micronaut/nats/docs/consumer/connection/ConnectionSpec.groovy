@@ -36,9 +36,16 @@ class ConnectionSpec extends Specification implements TestPropertyProvider {
     @Override
     Map<String, String> getProperties() {
         var client = TestResourcesClientFactory.fromSystemProperties().get()
-        var natsPort = client.resolve("nats.port", Map.of(), Map.of())
+        var natsPort = client.resolve("nats.port", Map.of(), Map.of(
+                "containers.nats.startup-timeout", "600s",
+                "containers.nats.image-name", "nats:latest",
+                "containers.nats.exposed-ports[0].nats.port", 4222,
+                "containers.nats.exposed-ports", List.of(Map.of("nats.port", 4222)),
+                "containers.nats.command", "--js",
+                "containers.nats.wait-strategy.log.regex", ".*Server is ready.*"
+        ))
         return natsPort
-                .map(port -> Map.of("nats.product-cluster.addresses", List.of("nats://localhost:$port")))
+                .map(port -> Map.of("nats.product-cluster.addresses[0]", "nats://localhost:$port"))
                 .orElse(Collections.emptyMap())
     }
 }
