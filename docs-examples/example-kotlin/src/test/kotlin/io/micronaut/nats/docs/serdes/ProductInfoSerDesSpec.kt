@@ -1,28 +1,21 @@
 package io.micronaut.nats.docs.serdes
 
 import io.kotest.assertions.timing.eventually
+import io.kotest.core.spec.style.BehaviorSpec
 import io.kotest.matchers.collections.shouldExist
 import io.kotest.matchers.shouldBe
-import io.micronaut.nats.AbstractNatsTest
-import io.micronaut.nats.docs.serdes.ProductClient
-import io.micronaut.nats.docs.serdes.ProductListener
-import kotlin.time.Duration
+import io.micronaut.context.annotation.Property
+import io.micronaut.test.extensions.kotest5.annotation.MicronautTest
 import kotlin.time.Duration.Companion.seconds
-import kotlin.time.ExperimentalTime
 
-@OptIn(ExperimentalTime::class)
-class ProductInfoSerDesSpec: AbstractNatsTest({
-
-    val specName = javaClass.simpleName
+@MicronautTest
+@Property(name = "spec.name", value = "ProductInfoSerDesSpec")
+class ProductInfoSerDesSpec(productClient: ProductClient, listener: ProductListener) : BehaviorSpec({
 
     given("A basic producer and consumer") {
-        val ctx = startContext(specName)
 
         `when`("the message is published") {
-            val listener = ctx.getBean(ProductListener::class.java)
-
 // tag::producer[]
-            val productClient = ctx.getBean(ProductClient::class.java)
             productClient.send(ProductInfo("small", 10L, true))
             productClient.send(ProductInfo("medium", 20L, true))
             productClient.send(ProductInfo(null, 30L, false))
@@ -37,7 +30,5 @@ class ProductInfoSerDesSpec: AbstractNatsTest({
                 }
             }
         }
-
-        ctx.stop()
     }
 })

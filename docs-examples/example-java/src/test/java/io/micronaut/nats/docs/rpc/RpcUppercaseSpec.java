@@ -1,19 +1,20 @@
 package io.micronaut.nats.docs.rpc;
 
-import io.micronaut.nats.AbstractNatsTest;
+import io.micronaut.context.annotation.Property;
+import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import org.junit.jupiter.api.Test;
 import reactor.core.publisher.Mono;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class RpcUppercaseSpec extends AbstractNatsTest {
+@MicronautTest
+@Property(name = "spec.name", value = "RpcUppercaseSpec")
+class RpcUppercaseSpec {
 
     @Test
-    void testProductClientAndListener() {
-        startContext();
+    void testProductClientAndListener(ProductClient productClient) {
 
 // tag::producer[]
-ProductClient productClient = applicationContext.getBean(ProductClient.class);
 assertEquals("RPC", productClient.send("rpc"));
 assertEquals("HELLO", Mono.from(productClient.sendReactive("hello")).block());
 // end::producer[]

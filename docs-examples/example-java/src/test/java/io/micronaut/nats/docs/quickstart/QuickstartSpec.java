@@ -1,22 +1,24 @@
 package io.micronaut.nats.docs.quickstart;
 
-import io.micronaut.nats.AbstractNatsTest;
+import io.micronaut.context.annotation.Property;
+import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import org.junit.jupiter.api.Test;
 
-class QuickstartSpec extends AbstractNatsTest {
+import static java.util.concurrent.TimeUnit.SECONDS;
+import static org.awaitility.Awaitility.await;
+
+@MicronautTest
+@Property(name = "spec.name", value = "QuickstartSpec")
+class QuickstartSpec {
 
     @Test
-    void testProductClientAndListener() {
-        startContext();
+    void testProductClientAndListener(ProductClient productClient, ProductListener productListener) {
 
 // tag::producer[]
-ProductClient productClient = applicationContext.getBean(ProductClient.class);
 productClient.send("quickstart".getBytes());
 // end::producer[]
 
-        ProductListener productListener = applicationContext.getBean(ProductListener.class);
-
-        waitFor(() ->
+        await().atMost(60, SECONDS).until(() ->
                 productListener.messageLengths.size() == 1 &&
                 productListener.messageLengths.get(0).equals("quickstart")
         );

@@ -1,0 +1,33 @@
+micronaut:
+  application:
+    name: test-application
+
+nats:
+  default:
+    addresses:
+      - nats://localhost:${nats.port}
+    jetstream:
+      streams:
+        events:
+          storage-type: Memory
+          subjects:
+            - events.>
+      keyvalue:
+        examplebucket:
+          storage-type: Memory
+          max-history-per-key: 5
+      objectstore:
+        examplebucket:
+          storage-type: Memory
+
+test-resources:
+  containers:
+    nats:
+      startup-timeout: 600s
+      image-name: nats:latest
+      exposed-ports:
+        - nats.port: 4222
+      command: "--js"
+      wait-strategy:
+        log:
+          regex: ".*Server is ready.*"

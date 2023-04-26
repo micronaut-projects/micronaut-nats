@@ -1,27 +1,22 @@
 package io.micronaut.nats.docs.headers
 
 import io.kotest.assertions.timing.eventually
+import io.kotest.core.spec.style.BehaviorSpec
 import io.kotest.matchers.collections.shouldContain
 import io.kotest.matchers.shouldBe
-import io.micronaut.nats.AbstractNatsTest
+import io.micronaut.context.annotation.Property
+import io.micronaut.test.extensions.kotest5.annotation.MicronautTest
 import io.nats.client.impl.Headers
-import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
-import kotlin.time.ExperimentalTime
 
-@OptIn(ExperimentalTime::class)
-class HeadersSpec : AbstractNatsTest({
-
-    val specName = javaClass.simpleName
+@MicronautTest
+@Property(name = "spec.name", value = "HeadersSpec")
+class HeadersSpec(productClient: ProductClient, productListener: ProductListener) : BehaviorSpec({
 
     given("A basic producer and consumer") {
-        val ctx = startContext(specName)
-
         `when`("The messages are published") {
-            val productListener = ctx.getBean(ProductListener::class.java)
 
             // tag::producer[]
-            val productClient = ctx.getBean(ProductClient::class.java)
             productClient.send("body".toByteArray());
             productClient.send("medium", 20L, "body2".toByteArray());
             productClient.send(null, 30L, "body3".toByteArray());
@@ -46,6 +41,5 @@ class HeadersSpec : AbstractNatsTest({
             }
         }
 
-        ctx.stop()
     }
 })

@@ -1,31 +1,10 @@
 plugins {
-    alias libs.plugins.kotlin.jvm
-    alias libs.plugins.kotlin.kapt
-    id 'io.micronaut.build.internal.nats-tests'
+    id 'io.micronaut.build.internal.nats-examples'
+    id("org.jetbrains.kotlin.jvm")
+    id("org.jetbrains.kotlin.kapt")
+    id("org.jetbrains.kotlin.plugin.allopen")
 }
 
-dependencies {
-    kaptTest(mn.micronaut.inject.java)
-
-    testImplementation projects.micronautNats
-    testImplementation mnTest.micronaut.test.kotest5
-    testImplementation libs.testcontainers
-    testImplementation mn.reactor
-    testRuntimeOnly libs.junit.jupiter.engine
-    testRuntimeOnly mn.snakeyaml
-}
-
-test {
-    useJUnitPlatform()
-
-    jvmArgs '-Duser.country=US'
-    jvmArgs '-Duser.language=en'
-    failFast = true
-}
-
-compileTestKotlin {
-    kotlinOptions {
-        jvmTarget = '17'
-        javaParameters = true
-    }
+micronaut {
+    testRuntime "kotest5"
 }
