@@ -1,14 +1,17 @@
 package io.micronaut.nats.docs.jetstream.kv
 
-import io.micronaut.nats.AbstractNatsTest
+import io.micronaut.context.annotation.Property
+import io.micronaut.test.extensions.spock.annotation.MicronautTest
+import jakarta.inject.Inject
+import spock.lang.Specification
 
-class KeyValueSpec extends AbstractNatsTest {
+@MicronautTest
+@Property(name = "spec.name", value = "KeyValueSpec")
+class KeyValueSpec extends Specification {
+    @Inject KeyValueStoreHolder keyValueStoreHolder
 
     void "simple producer"() {
-        startContext()
-
         when:
-        def keyValueStoreHolder = applicationContext.getBean(KeyValueStoreHolder)
         keyValueStoreHolder.put("test", "myvalue")
 
         then:

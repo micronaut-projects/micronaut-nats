@@ -1,19 +1,19 @@
 package io.micronaut.nats.docs.jetstream.kv;
 
-import io.micronaut.nats.AbstractNatsTest;
+import io.micronaut.context.annotation.Property;
+import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import io.nats.client.JetStreamApiException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 
-class KeyValueTest extends AbstractNatsTest {
+@MicronautTest
+@Property(name = "spec.name", value = "KeyValueTest")
+class KeyValueTest {
 
     @Test
-    void simpleTest() throws JetStreamApiException, IOException {
-        startContext();
-        KeyValueStoreHolder keyValueStoreHolder = applicationContext.getBean(KeyValueStoreHolder.class);
-
+    void simpleTest(KeyValueStoreHolder keyValueStoreHolder) throws JetStreamApiException, IOException {
         keyValueStoreHolder.put("test", "myvalue");
 
         Assertions.assertEquals("myvalue", keyValueStoreHolder.store.get("test").getValueAsString());

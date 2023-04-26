@@ -1,23 +1,25 @@
 package io.micronaut.nats.docs.parameters;
 
-import io.micronaut.nats.AbstractNatsTest;
+import io.micronaut.context.annotation.Property;
+import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import org.junit.jupiter.api.Test;
 
-class BindingSpec extends AbstractNatsTest {
+import static java.util.concurrent.TimeUnit.SECONDS;
+import static org.awaitility.Awaitility.await;
+
+@MicronautTest
+@Property(name = "spec.name", value = "BindingSpec")
+class BindingSpec {
 
     @Test
-    void testDynamicBinding() {
-        startContext();
+    void testDynamicBinding(ProductClient productClient, ProductListener productListener) {
 
 // tag::producer[]
-        ProductClient productClient = applicationContext.getBean(ProductClient.class);
         productClient.send("message body".getBytes());
         productClient.send("product", "message body2".getBytes());
 // end::producer[]
 
-        ProductListener productListener = applicationContext.getBean(ProductListener.class);
-
-        waitFor(() ->
+        await().atMost(60, SECONDS).until(() ->
                 productListener.messageLengths.size() == 2 &&
                 productListener.messageLengths.contains(12) &&
                 productListener.messageLengths.contains(13)

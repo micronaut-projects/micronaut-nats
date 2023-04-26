@@ -1,23 +1,24 @@
 package io.micronaut.nats.docs.consumer.custom.annotation;
 
-import io.micronaut.nats.AbstractNatsTest;
+import io.micronaut.context.annotation.Property;
+import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import org.junit.jupiter.api.Test;
 
-class SIDSpec extends AbstractNatsTest {
+import static java.util.concurrent.TimeUnit.SECONDS;
+import static org.awaitility.Awaitility.await;
+
+@MicronautTest
+@Property(name = "spec.name", value = "SIDSpec")
+class SIDSpec {
 
     @Test
-    void testUsingACustomAnnotationBinder() {
-        startContext();
-
+    void testUsingACustomAnnotationBinder(ProductClient productClient, ProductListener productListener) {
 // tag::producer[]
-        ProductClient productClient = applicationContext.getBean(ProductClient.class);
         productClient.send("body".getBytes());
         productClient.send("body2".getBytes());
         productClient.send("body3".getBytes());
 // end::producer[]
 
-        ProductListener productListener = applicationContext.getBean(ProductListener.class);
-
-        waitFor(() -> productListener.messages.size() == 3);
+        await().atMost(60, SECONDS).until(() -> productListener.messages.size() == 3);
     }
 }

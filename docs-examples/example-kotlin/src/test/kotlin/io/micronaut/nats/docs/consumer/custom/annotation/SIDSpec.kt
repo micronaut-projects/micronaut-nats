@@ -1,25 +1,20 @@
 package io.micronaut.nats.docs.consumer.custom.annotation
 
 import io.kotest.assertions.timing.eventually
+import io.kotest.core.spec.style.BehaviorSpec
 import io.kotest.matchers.shouldBe
-import io.micronaut.nats.AbstractNatsTest
-import kotlin.time.Duration
+import io.micronaut.context.annotation.Property
+import io.micronaut.test.extensions.kotest5.annotation.MicronautTest
 import kotlin.time.Duration.Companion.seconds
-import kotlin.time.ExperimentalTime
 
-@OptIn(ExperimentalTime::class)
-class SIDSpec : AbstractNatsTest({
-
-    val specName = javaClass.simpleName
+@MicronautTest
+@Property(name = "spec.name", value = "SIDSpec")
+class SIDSpec(productListener: ProductListener, productClient: ProductClient) : BehaviorSpec({
 
     given("A custom type binder") {
-        val ctx = startContext(specName)
 
         `when`("The messages are published") {
-            val productListener = ctx.getBean(ProductListener::class.java)
-
             // tag::producer[]
-            val productClient = ctx.getBean(ProductClient::class.java)
             productClient.send("body".toByteArray())
             productClient.send("body2".toByteArray())
             productClient.send("body3".toByteArray())
@@ -31,7 +26,5 @@ class SIDSpec : AbstractNatsTest({
                 }
             }
         }
-
-        ctx.stop()
     }
 })

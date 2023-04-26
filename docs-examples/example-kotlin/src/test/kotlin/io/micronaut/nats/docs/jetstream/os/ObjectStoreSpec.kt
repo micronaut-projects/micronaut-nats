@@ -1,17 +1,15 @@
 package io.micronaut.nats.docs.jetstream.os
 
-import io.kotest.matchers.shouldBe
+import io.kotest.core.spec.style.BehaviorSpec
 import io.kotest.matchers.shouldNotBe
-import io.micronaut.nats.AbstractNatsTest
+import io.micronaut.context.annotation.Property
+import io.micronaut.test.extensions.kotest5.annotation.MicronautTest
 
-class ObjectStoreSpec : AbstractNatsTest({
-
-    val specName = javaClass.simpleName
+@MicronautTest
+@Property(name = "spec.name", value = "ObjectStoreSpec")
+class ObjectStoreSpec(holder: ObjectStoreHolder) : BehaviorSpec({
 
     given("A key value store holder") {
-        val ctx = startContext(specName)
-        val holder = ctx.getBean(ObjectStoreHolder::class.java)
-
         `when`("A key is put into the store") {
             holder.put("test", "myvalue".byteInputStream())
 

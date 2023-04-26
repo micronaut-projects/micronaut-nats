@@ -1,22 +1,28 @@
 package io.micronaut.nats.docs.consumer.queue
 
-import io.micronaut.nats.AbstractNatsTest
+import io.micronaut.context.annotation.Property
+import io.micronaut.test.extensions.spock.annotation.MicronautTest
+import jakarta.inject.Inject
+import spock.lang.Specification
 
-class QueueSpec extends AbstractNatsTest {
+import static java.util.concurrent.TimeUnit.SECONDS
+import static org.awaitility.Awaitility.await
+
+@MicronautTest
+@Property(name = "spec.name", value = "QueueSpec")
+class QueueSpec extends Specification {
+    @Inject ProductClient productClient
+    @Inject ProductListener productListener
 
     void "test product client and listener"() {
-        startContext()
 
         when:
 // tag::producer[]
-def productClient = applicationContext.getBean(ProductClient)
 productClient.send("quickstart".bytes)
 // end::producer[]
 
-        io.micronaut.nats.docs.consumer.queue.ProductListener productListener = applicationContext.getBean(io.micronaut.nats.docs.consumer.queue.ProductListener)
-
         then:
-        waitFor {
+        await().atMost(10, SECONDS).until {
             productListener.messageLengths.size() == 1
             productListener.messageLengths[0] == "quickstart"
         }

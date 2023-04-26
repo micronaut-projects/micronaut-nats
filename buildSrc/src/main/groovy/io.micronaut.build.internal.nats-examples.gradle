@@ -1,0 +1,30 @@
+plugins {
+    id "io.micronaut.build.internal.nats-base"
+    id "io.micronaut.application"
+    id "io.micronaut.test-resources"
+}
+
+dependencies {
+    testImplementation projects.micronautNats
+
+    runtimeOnly mn.snakeyaml
+    testRuntimeOnly mn.snakeyaml
+    testImplementation mn.reactor
+    testImplementation libs.awaitility
+    testImplementation 'io.micronaut.testresources:micronaut-test-resources-client'
+}
+
+
+configurations.all {
+    resolutionStrategy.dependencySubstitution {
+        substitute module('io.micronaut.nats:micronaut-nats') using project(':micronaut-nats')
+    }
+}
+
+micronaut {
+    version libs.versions.micronaut.platform.get()
+    testRuntime "junit5"
+    testResources {
+        clientTimeout = 300
+    }
+}
