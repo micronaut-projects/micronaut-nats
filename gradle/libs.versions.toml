@@ -8,7 +8,7 @@ groovy = "4.0.10"
 spock = "2.3-groovy-4.0"
 
 awaitility = '4.2.0'
-junit = '5.9.2'
+junit = '5.9.3'
 kotlin = '1.8.20'
 testcontainers = '1.18.1'
 nats = '2.16.10'
