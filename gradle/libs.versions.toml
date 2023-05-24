@@ -19,6 +19,9 @@ micronaut-serde = "2.0.0-M3"
 micronaut-rxjava3 = "3.0.0-M1"
 
 [libraries]
+# Core
+micronaut-core = { module = 'io.micronaut:micronaut-core-bom', version.ref = 'micronaut' }
+
 jnats = { module = 'io.nats:jnats', version.ref = 'nats'}
 awaitility = { module = 'org.awaitility:awaitility', version.ref = 'awaitility' }
 
