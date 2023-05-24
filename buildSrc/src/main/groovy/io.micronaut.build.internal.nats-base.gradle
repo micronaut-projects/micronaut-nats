@@ -7,7 +7,7 @@ repositories {
 }
 
 dependencies {
-    testRuntimeOnly mn.logback.classic
+    testRuntimeOnly mnLogging.logback.classic
 }
 
 test {
