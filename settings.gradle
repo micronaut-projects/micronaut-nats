@@ -20,8 +20,8 @@ include 'docs-examples:example-kotlin'
 enableFeaturePreview 'TYPESAFE_PROJECT_ACCESSORS'
 
 micronautBuild {
+    importMicronautCatalog("micronaut-logging")
     useStandardizedProjectNames.set(true)
-    addSnapshotRepository()
     importMicronautCatalog()
     importMicronautCatalog("micronaut-micrometer")
     importMicronautCatalog("micronaut-reactor")
