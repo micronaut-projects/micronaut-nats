@@ -113,15 +113,15 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>io.nats.client.JetStreamSubscription</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#newPullConsumer(java.lang.String,io.nats.client.PullSubscribeOptions)" class="member-name-link">newPullConsumer</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;subject,
- io.nats.client.PullSubscribeOptions&nbsp;pullSubscribeOptions)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#newPullConsumer(java.lang.String,io.nats.client.PullSubscribeOptions)" class="member-name-link">newPullConsumer</a><wbr>(@NonNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;subject,
+ @NonNull io.nats.client.PullSubscribeOptions&nbsp;pullSubscribeOptions)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">create a new pull consumer subscription for the default connection.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>io.nats.client.JetStreamSubscription</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#newPullConsumer(java.lang.String,java.lang.String,io.nats.client.PullSubscribeOptions)" class="member-name-link">newPullConsumer</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;connectionName,
- <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;subject,
- io.nats.client.PullSubscribeOptions&nbsp;pullSubscribeOptions)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#newPullConsumer(java.lang.String,java.lang.String,io.nats.client.PullSubscribeOptions)" class="member-name-link">newPullConsumer</a><wbr>(@NonNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;connectionName,
+ @NonNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;subject,
+ @NonNull io.nats.client.PullSubscribeOptions&nbsp;pullSubscribeOptions)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">create a new pull consumer subscription for the default connection.</div>
 </div>
@@ -160,9 +160,9 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="newPullConsumer(java.lang.String,io.nats.client.PullSubscribeOptions)">
 <h3>newPullConsumer</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">io.nats.client.JetStreamSubscription</span>&nbsp;<span class="element-name">newPullConsumer</span><wbr><span class="parameters">(@NonNull
- <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;subject,
+ @NonNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;subject,
  @NonNull
- io.nats.client.PullSubscribeOptions&nbsp;pullSubscribeOptions)</span>
+ @NonNull io.nats.client.PullSubscribeOptions&nbsp;pullSubscribeOptions)</span>
                                                      throws <span class="exceptions">io.nats.client.JetStreamApiException,
 <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/io/IOException.html" title="class or interface in java.io" class="external-link">IOException</a></span></div>
 <div class="block">create a new pull consumer subscription for the default connection.
@@ -183,11 +183,11 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="newPullConsumer(java.lang.String,java.lang.String,io.nats.client.PullSubscribeOptions)">
 <h3>newPullConsumer</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">io.nats.client.JetStreamSubscription</span>&nbsp;<span class="element-name">newPullConsumer</span><wbr><span class="parameters">(@NonNull
- <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;connectionName,
+ @NonNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;connectionName,
  @NonNull
- <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;subject,
+ @NonNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;subject,
  @NonNull
- io.nats.client.PullSubscribeOptions&nbsp;pullSubscribeOptions)</span>
+ @NonNull io.nats.client.PullSubscribeOptions&nbsp;pullSubscribeOptions)</span>
                                                      throws <span class="exceptions">io.nats.client.JetStreamApiException,
 <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/io/IOException.html" title="class or interface in java.io" class="external-link">IOException</a></span></div>
 <div class="block">create a new pull consumer subscription for the default connection.

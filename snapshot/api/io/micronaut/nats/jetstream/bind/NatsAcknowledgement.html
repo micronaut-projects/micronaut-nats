@@ -100,7 +100,7 @@ extends io.micronaut.messaging.Acknowledgement</span></div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#nackWithDelay(java.time.Duration)" class="member-name-link">nackWithDelay</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Duration.html" title="class or interface in java.time" class="external-link">Duration</a>&nbsp;duration)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#nackWithDelay(java.time.Duration)" class="member-name-link">nackWithDelay</a><wbr>(@NonNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Duration.html" title="class or interface in java.time" class="external-link">Duration</a>&nbsp;duration)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">nak acknowledges a JetStream message has been received but indicates that the message is not completely processed and should be sent again later, after at least the delay amount.</div>
 </div>
@@ -125,7 +125,7 @@ extends io.micronaut.messaging.Acknowledgement</span></div>
 <section class="detail" id="nackWithDelay(java.time.Duration)">
 <h3>nackWithDelay</h3>
 <div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name">nackWithDelay</span><wbr><span class="parameters">(@NonNull
- <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Duration.html" title="class or interface in java.time" class="external-link">Duration</a>&nbsp;duration)</span></div>
+ @NonNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Duration.html" title="class or interface in java.time" class="external-link">Duration</a>&nbsp;duration)</span></div>
 <div class="block">nak acknowledges a JetStream message has been received but indicates that the message is not completely processed and should be sent again later, after at least the delay amount.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
