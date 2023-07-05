@@ -14,7 +14,7 @@ testcontainers = '1.18.3'
 nats = '2.16.13'
 
 micronaut-micrometer = "5.0.0-M5"
-micronaut-reactor = "3.0.0-M8"
+micronaut-reactor = "3.0.0-M9"
 micronaut-serde = "2.0.0-M12"
 micronaut-rxjava3 = "3.0.0-M6"
 
