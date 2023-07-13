@@ -2,9 +2,9 @@
 micronaut = "4.0.0"
 micronaut-platform = "4.0.0-RC1"
 micronaut-docs = "2.0.0"
-micronaut-test = "4.0.0-M9"
-micronaut-gradle-plugin = "4.0.0-M8"
-groovy = "4.0.12"
+micronaut-test = "4.0.0"
+micronaut-gradle-plugin = "4.0.0"
+groovy = "4.0.13"
 spock = "2.3-groovy-4.0"
 
 awaitility = '4.2.0'
@@ -13,12 +13,12 @@ kotlin = '1.8.22'
 testcontainers = '1.18.3'
 nats = '2.16.13'
 
-micronaut-micrometer = "5.0.0-M6"
-micronaut-reactor = "3.0.0-M10"
-micronaut-serde = "2.0.0-M13"
-micronaut-rxjava3 = "3.0.0-M7"
+micronaut-micrometer = "5.0.0"
+micronaut-reactor = "3.0.0"
+micronaut-serde = "2.0.0"
+micronaut-rxjava3 = "3.0.0"
 
-micronaut-logging = "1.0.0-M6"
+micronaut-logging = "1.0.0"
 [libraries]
 micronaut-logging = { module = "io.micronaut.logging:micronaut-logging-bom", version.ref = "micronaut-logging" }
 # Core
