@@ -13,7 +13,7 @@ kotlin = '1.8.22'
 testcontainers = '1.18.3'
 nats = '2.16.13'
 
-micronaut-micrometer = "5.0.0"
+micronaut-micrometer = "5.0.1"
 micronaut-reactor = "3.0.0"
 micronaut-serde = "2.0.0"
 micronaut-rxjava3 = "3.0.0"
