@@ -73,7 +73,7 @@ public class JetStreamIntroductionAdvice extends AbstractIntroductionAdvice impl
     public JetStreamIntroductionAdvice(BeanContext beanContext,
                                        ConversionService conversionService,
                                        NatsMessageSerDesRegistry serDesRegistry,
-                                       @Named(TaskExecutors.MESSAGE_CONSUMER) ExecutorService executorService) {
+                                       @Named(TaskExecutors.BLOCKING) ExecutorService executorService) {
         super(beanContext, executorService, conversionService, serDesRegistry);
     }
 
