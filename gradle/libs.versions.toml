@@ -18,7 +18,7 @@ micronaut-reactor = "3.0.0"
 micronaut-serde = "2.0.0"
 micronaut-rxjava3 = "3.1.0"
 
-micronaut-logging = "1.0.0"
+micronaut-logging = "1.1.2"
 [libraries]
 micronaut-logging = { module = "io.micronaut.logging:micronaut-logging-bom", version.ref = "micronaut-logging" }
 # Core
