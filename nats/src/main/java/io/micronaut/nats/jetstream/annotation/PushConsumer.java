@@ -15,13 +15,6 @@
  */
 package io.micronaut.nats.jetstream.annotation;
 
-import java.lang.annotation.Documented;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Inherited;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
-
 import io.micronaut.context.annotation.AliasFor;
 import io.micronaut.context.annotation.Executable;
 import io.micronaut.core.bind.annotation.Bindable;
@@ -31,6 +24,8 @@ import io.micronaut.nats.annotation.Subject;
 import io.nats.client.api.AckPolicy;
 import io.nats.client.api.DeliverPolicy;
 import io.nats.client.api.ReplayPolicy;
+
+import java.lang.annotation.*;
 
 /**
  * Used to specify which stream should be used for messages.
@@ -114,7 +109,10 @@ public @interface PushConsumer {
     /**
      * @return the filter subject
      * @see io.nats.client.api.ConsumerConfiguration.Builder#filterSubject(String)
+     * @deprecated migrate to the filterSubjects property
+     * @since 4.1.0
      */
+    @Deprecated
     String filterSubject() default "";
 
     /**
@@ -181,4 +179,11 @@ public @interface PushConsumer {
      * @see io.nats.client.PushSubscribeOptions.Builder#ordered(boolean)
      */
     boolean ordered() default false;
+
+    /**
+     *
+     * @return the filter subject
+     * @see io.nats.client.api.ConsumerConfiguration.Builder#filterSubjects(String...)
+     */
+    String[] filterSubjects() default {};
 }
