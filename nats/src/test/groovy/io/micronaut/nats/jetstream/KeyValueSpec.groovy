@@ -99,12 +99,38 @@ class KeyValueSpec extends AbstractJetstreamTest {
         applicationContext.close()
     }
 
+    void "mirroring key value"() {
+        given:
+        ApplicationContext context = startContext([
+                "nats.default.jetstream.keyvalue.m-examplebucket.storage-type": "Memory",
+                "nats.default.jetstream.keyvalue.m-examplebucket.mirror.name": "examplebucket",
+        ])
+        KeyValueManagement kvm = context.getBean(KeyValueManagement, Qualifiers.byName(NatsConnection.DEFAULT_CONNECTION))
+        KeyValueHolder kvHolder = context.getBean(KeyValueHolder)
+
+        when:
+        kvHolder.keyValueBucket.put("hello", "world")
+
+        then:
+        kvHolder.mirror.get("hello").valueAsString == "world"
+
+        cleanup:
+        kvm.delete("examplebucket")
+        kvm.delete("m-examplebucket")
+        context.close()
+    }
+
+
 
     @Requires(property = 'spec.name', value = 'KeyValueSpec')
     @Singleton
     static class KeyValueHolder {
         @Inject
         @KeyValueStore('examplebucket')
-        KeyValue keyValueBucket;
+        KeyValue keyValueBucket
+
+        @Inject
+        @KeyValueStore('m-examplebucket')
+        KeyValue mirror;
     }
 }
