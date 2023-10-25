@@ -24,20 +24,13 @@ import java.util.List;
 
 abstract class SourceBase<T extends SubjectTransformBase, E extends SourceBase.External> {
 
-    private String name;
-    private long startSeq = 0;
-    private ZonedDateTime startTime;
-    private String filterSubject;
-    private E external;
-    private List<T> subjectTransforms = new ArrayList<>();
+    protected String name;
+    protected long startSeq = 0;
+    protected ZonedDateTime startTime;
+    protected String filterSubject;
+    protected E external;
+    protected List<T> subjectTransforms = new ArrayList<>();
 
-    /**
-     * Name.
-     * @return name
-     */
-    public String getName() {
-        return name;
-    }
 
     /**
      * Name.
@@ -45,14 +38,6 @@ abstract class SourceBase<T extends SubjectTransformBase, E extends SourceBase.E
      */
     public void setName(String name) {
         this.name = name;
-    }
-
-    /**
-     * Start sequence.
-     * @return startSeq
-     */
-    public long getStartSeq() {
-        return startSeq;
     }
 
     /**
@@ -65,26 +50,10 @@ abstract class SourceBase<T extends SubjectTransformBase, E extends SourceBase.E
 
     /**
      * Start time.
-     * @return start time.
-     */
-    public ZonedDateTime getStartTime() {
-        return startTime;
-    }
-
-    /**
-     * Start time.
      * @param startTime {@link ZonedDateTime}
      */
     public void setStartTime(ZonedDateTime startTime) {
         this.startTime = startTime;
-    }
-
-    /**
-     * Filter subject.
-     * @return filterSubject
-     */
-    public String getFilterSubject() {
-        return filterSubject;
     }
 
     /**
@@ -97,26 +66,10 @@ abstract class SourceBase<T extends SubjectTransformBase, E extends SourceBase.E
 
     /**
      * Subject transformations.
-     * @return subjectTransforms
-     */
-    public List<T> getSubjectTransforms() {
-        return subjectTransforms;
-    }
-
-    /**
-     * Subject transformations.
      * @param subjectTransforms list
      */
     public void setSubjectTransforms(@NonNull List<T> subjectTransforms) {
         this.subjectTransforms = subjectTransforms;
-    }
-
-    /**
-     * External.
-     * @return external
-     */
-    public E getExternal() {
-        return external;
     }
 
     /**
@@ -148,26 +101,10 @@ abstract class SourceBase<T extends SubjectTransformBase, E extends SourceBase.E
 
         /**
          * Api.
-         * @return api
-         */
-        public String getApi() {
-            return api;
-        }
-
-        /**
-         * Api.
          * @param api {@link String}
          */
         public void setApi(String api) {
             this.api = api;
-        }
-
-        /**
-         * Deliver.
-         * @return deliver
-         */
-        public String getDeliver() {
-            return deliver;
         }
 
         /**
