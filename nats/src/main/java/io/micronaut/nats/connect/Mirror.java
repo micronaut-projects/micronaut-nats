@@ -19,10 +19,11 @@ package io.micronaut.nats.connect;
  * Mirror configuration.
  *
  * @param <T> {@link SubjectTransformBase}
+ * @param <E> {@link External}
  * @author Joachim Grimm
  * @since 4.1.0
  */
-public abstract class Mirror<T extends SubjectTransformBase> extends SourceBase<T> {
+public abstract class Mirror<T extends SubjectTransformBase, E extends SourceBase.External> extends SourceBase<T, E> {
 
     /**
      * build the mirror object from the given configuration.
@@ -30,13 +31,16 @@ public abstract class Mirror<T extends SubjectTransformBase> extends SourceBase<
      * @return this
      */
     public io.nats.client.api.Mirror build() {
-        return io.nats.client.api.Mirror.builder()
+        io.nats.client.api.Mirror.Builder builder = io.nats.client.api.Mirror.builder()
             .name(getName())
-            .external(getExternalBuilder().build())
             .filterSubject(getFilterSubject())
             .startSeq(getStartSeq())
             .startTime(getStartTime())
             .subjectTransforms(getSubjectTransforms().stream().map(SubjectTransformBase::build)
-                .toList()).build();
+                .toList());
+        if (getExternal() != null) {
+            builder = builder.external(getExternal().build());
+        }
+        return builder.build();
     }
 }
