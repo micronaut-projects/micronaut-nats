@@ -38,26 +38,10 @@ public abstract class SubjectTransformBase {
 
     /**
      * Source.
-     * @return source
-     */
-    public String getSource() {
-        return source;
-    }
-
-    /**
-     * Source.
      * @param source {@link String}
      */
     public void setSource(String source) {
         this.source = source;
-    }
-
-    /**
-     * Destination.
-     * @return destination
-     */
-    public String getDestination() {
-        return destination;
     }
 
     /**

@@ -110,9 +110,8 @@ public @interface PushConsumer {
      * @return the filter subject
      * @see io.nats.client.api.ConsumerConfiguration.Builder#filterSubject(String)
      * @deprecated migrate to the filterSubjects property
-     * @since 4.1.0
      */
-    @Deprecated
+    @Deprecated(since = "4.1.0")
     String filterSubject() default "";
 
     /**

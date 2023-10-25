@@ -128,24 +128,10 @@ public class NatsConnectionFactoryConfig {
     }
 
     /**
-     * @return the username for the connection
-     */
-    public Optional<String> getUsername() {
-        return Optional.ofNullable(username);
-    }
-
-    /**
      * @param username the username
      */
     public void setUsername(@Nullable String username) {
         this.username = username;
-    }
-
-    /**
-     * @return the password for the connection
-     */
-    public Optional<String> getPassword() {
-        return Optional.ofNullable(password);
     }
 
     /**
@@ -156,24 +142,10 @@ public class NatsConnectionFactoryConfig {
     }
 
     /**
-     * @return the token for the connection
-     */
-    public Optional<String> getToken() {
-        return Optional.ofNullable(token);
-    }
-
-    /**
      * @param token the token
      */
     public void setToken(String token) {
         this.token = token;
-    }
-
-    /**
-     * @return the max reconnection tries
-     */
-    public int getMaxReconnect() {
-        return maxReconnect;
     }
 
     /**
@@ -184,24 +156,10 @@ public class NatsConnectionFactoryConfig {
     }
 
     /**
-     * @return time to wait between reconnect attempts
-     */
-    public Duration getReconnectWait() {
-        return reconnectWait;
-    }
-
-    /**
      * @param reconnectWait time to wait
      */
     public void setReconnectWait(Duration reconnectWait) {
         this.reconnectWait = reconnectWait;
-    }
-
-    /**
-     * @return maximum time for initial connection
-     */
-    public Duration getConnectionTimeout() {
-        return connectionTimeout;
     }
 
     /**
@@ -212,24 +170,10 @@ public class NatsConnectionFactoryConfig {
     }
 
     /**
-     * @return time between ping intervals
-     */
-    public Duration getPingInterval() {
-        return pingInterval;
-    }
-
-    /**
      * @param pingInterval time between server pings
      */
     public void setPingInterval(Duration pingInterval) {
         this.pingInterval = pingInterval;
-    }
-
-    /**
-     * @return size of the buffer, in bytes, used to store publish messages during reconnect
-     */
-    public long getReconnectBufferSize() {
-        return reconnectBufferSize;
     }
 
     /**
@@ -240,24 +184,10 @@ public class NatsConnectionFactoryConfig {
     }
 
     /**
-     * @return prefix to use for request/reply inboxes
-     */
-    public String getInboxPrefix() {
-        return inboxPrefix;
-    }
-
-    /**
      * @param inboxPrefix custom prefix for request/reply inboxes
      */
     public void setInboxPrefix(String inboxPrefix) {
         this.inboxPrefix = inboxPrefix;
-    }
-
-    /**
-     * @return whether or not to block echo messages, messages that were sent by this connection
-     */
-    public boolean isNoEcho() {
-        return noEcho;
     }
 
     /**
@@ -268,24 +198,10 @@ public class NatsConnectionFactoryConfig {
     }
 
     /**
-     * @return whether or not the client should support for UTF8 subject names
-     */
-    public boolean isUtf8Support() {
-        return utf8Support;
-    }
-
-    /**
      * @param utf8Support whether or not the client should support for UTF8 subject names
      */
     public void setUtf8Support(boolean utf8Support) {
         this.utf8Support = utf8Support;
-    }
-
-    /**
-     * @return path to the credentials file to use for authentication with an account enabled server
-     */
-    public String getCredentials() {
-        return credentials;
     }
 
     /**
@@ -376,24 +292,10 @@ public class NatsConnectionFactoryConfig {
         private String certificatePath;
 
         /**
-         * @return file path for the trust store
-         */
-        public String getTrustStorePath() {
-            return this.trustStorePath;
-        }
-
-        /**
          * @param trustStorePath file path for the trust store
          */
         public void setTrustStorePath(String trustStorePath) {
             this.trustStorePath = trustStorePath;
-        }
-
-        /**
-         * @return password used to unlock the trust store
-         */
-        public String getTrustStorePassword() {
-            return this.trustStorePassword;
         }
 
         /**
@@ -404,25 +306,11 @@ public class NatsConnectionFactoryConfig {
         }
 
         /**
-         * @return type of keystore to use for connections
-         */
-        public String getTrustStoreType() {
-            return this.trustStoreType;
-        }
-
-        /**
          * @param trustStoreType generally the default, but available for special trust store
          *                       formats/types
          */
         public void setTrustStoreType(@Nullable String trustStoreType) {
             this.trustStoreType = trustStoreType;
-        }
-
-        /**
-         * @return the certificate path
-         */
-        public String getCertificatePath() {
-            return certificatePath;
         }
 
         /**
@@ -615,30 +503,12 @@ public class NatsConnectionFactoryConfig {
             }
 
             /**
-             * get the subjects of the stream.
-             *
-             * @return the subjects
-             */
-            public List<String> getSubjects() {
-                return subjects;
-            }
-
-            /**
              * set the subjects.
              *
              * @param subjects list of subjects
              */
             public void setSubjects(List<String> subjects) {
                 this.subjects = subjects;
-            }
-
-            /**
-             * the Placement.
-             *
-             * @return placement
-             */
-            public Placement getPlacement() {
-                return placement;
             }
 
             /**
@@ -653,28 +523,10 @@ public class NatsConnectionFactoryConfig {
             /**
              * The Subject Transform.
              *
-             * @return subject transform
-             */
-            public SubjectTransform getSubjectTransform() {
-                return subjectTransform;
-            }
-
-            /**
-             * The Subject Transform.
-             *
              * @param subjectTransform SubjectTransform
              */
             public void setSubjectTransform(SubjectTransform subjectTransform) {
                 this.subjectTransform = subjectTransform;
-            }
-
-            /**
-             * The mirror.
-             *
-             * @return mirror
-             */
-            public Mirror getMirror() {
-                return mirror;
             }
 
             /**
@@ -687,16 +539,7 @@ public class NatsConnectionFactoryConfig {
             }
 
             /**
-             * sources.
-             *
-             * @return list of sources
-             */
-            public List<Source> getSources() {
-                return sources;
-            }
-
-            /**
-             * sources.
+             * Sources.
              *
              * @param sources list of sources
              */
@@ -707,28 +550,10 @@ public class NatsConnectionFactoryConfig {
             /**
              * Republish.
              *
-             * @return republish
-             */
-            public Republish getRepublish() {
-                return republish;
-            }
-
-            /**
-             * Republish.
-             *
              * @param republish {@link Republish}
              */
             public void setRepublish(Republish republish) {
                 this.republish = republish;
-            }
-
-            /**
-             * Consumer Limits.
-             *
-             * @return the limits
-             */
-            public ConsumerLimits getConsumerLimits() {
-                return consumerLimits;
             }
 
             /**
@@ -903,28 +728,10 @@ public class NatsConnectionFactoryConfig {
             /**
              * the Placement.
              *
-             * @return placement
-             */
-            public Placement getPlacement() {
-                return placement;
-            }
-
-            /**
-             * the Placement.
-             *
              * @param placement {@link Placement}
              */
             public void setPlacement(Placement placement) {
                 this.placement = placement;
-            }
-
-            /**
-             * The mirror.
-             *
-             * @return mirror
-             */
-            public Mirror getMirror() {
-                return mirror;
             }
 
             /**
@@ -939,28 +746,10 @@ public class NatsConnectionFactoryConfig {
             /**
              * sources.
              *
-             * @return list of sources
-             */
-            public List<Source> getSources() {
-                return sources;
-            }
-
-            /**
-             * sources.
-             *
              * @param sources list of sources
              */
             public void setSources(List<Source> sources) {
                 this.sources = sources;
-            }
-
-            /**
-             * Republish.
-             *
-             * @return republish
-             */
-            public Republish getRepublish() {
-                return republish;
             }
 
             /**
@@ -1082,15 +871,6 @@ public class NatsConnectionFactoryConfig {
              */
             public io.nats.client.api.ObjectStoreConfiguration.Builder getBuilder() {
                 return builder;
-            }
-
-            /**
-             * the Placement.
-             *
-             * @return placement
-             */
-            public Placement getPlacement() {
-                return placement;
             }
 
             /**
