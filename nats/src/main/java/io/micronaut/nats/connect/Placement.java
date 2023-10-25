@@ -43,7 +43,7 @@ public abstract class Placement {
     }
 
     /**
-     * The Cluster.
+     * Cluster.
      * @return cluster
      */
     public String getCluster() {
@@ -51,7 +51,7 @@ public abstract class Placement {
     }
 
     /**
-     * The Cluster.
+     * Cluster.
      * @param cluster {@link String}
      */
     public void setCluster(String cluster) {
@@ -59,7 +59,7 @@ public abstract class Placement {
     }
 
     /**
-     * The tags.
+     * Tags.
      * @return list of tags
      */
     public List<String> getTags() {
@@ -67,7 +67,7 @@ public abstract class Placement {
     }
 
     /**
-     * The tags.
+     * Tags.
      * @param tags List of tags
      */
     public void setTags(@Nullable List<String> tags) {
