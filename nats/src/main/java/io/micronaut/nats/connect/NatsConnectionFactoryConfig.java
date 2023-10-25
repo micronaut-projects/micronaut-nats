@@ -714,7 +714,7 @@ public class NatsConnectionFactoryConfig {
             }
 
             /**
-             * the sources.
+             * sources.
              *
              * @return list of sources
              */
@@ -723,7 +723,7 @@ public class NatsConnectionFactoryConfig {
             }
 
             /**
-             * The sources.
+             * sources.
              *
              * @param sources list of sources
              */
@@ -794,7 +794,7 @@ public class NatsConnectionFactoryConfig {
              * @since 4.8.0
              */
             @ConfigurationProperties("republish")
-            public static class Rebublish extends io.micronaut.nats.connect.Republish {
+            public static class Rebublish extends Republish {
             }
 
             /**
@@ -814,7 +814,7 @@ public class NatsConnectionFactoryConfig {
              * @since 4.8.0
              */
             @ConfigurationProperties("mirror")
-            public static class Mirror extends io.micronaut.nats.connect.Mirror<SubjectTransformBase> {
+            public static class Mirror extends io.micronaut.nats.connect.Mirror<SubjectTransformBase, Mirror.External> {
 
                 /**
                  * Subject transformations.
@@ -826,6 +826,17 @@ public class NatsConnectionFactoryConfig {
                 public static class SubjectTransform extends SubjectTransformBase {
 
                 }
+
+                /**
+                 * External.
+                 *
+                 * @author Joachim Grimm
+                 * @since 4.1.0
+                 */
+                @ConfigurationProperties("external")
+                public static class External extends SourceBase.External {
+
+                }
             }
 
             /**
@@ -835,7 +846,7 @@ public class NatsConnectionFactoryConfig {
              * @since 4.8.0
              */
             @EachProperty(value = "sources", list = true)
-            public static class Source extends io.micronaut.nats.connect.Source<KeyValueConfiguration.Source.SubjectTransform> {
+            public static class Source extends io.micronaut.nats.connect.Source<SubjectTransform, Mirror.External> {
 
                 /**
                  * Subject transformations.
@@ -845,6 +856,17 @@ public class NatsConnectionFactoryConfig {
                  */
                 @EachProperty(value = "subject-transforms", list = true)
                 public static class SubjectTransform extends SubjectTransformBase {
+
+                }
+
+                /**
+                 * External.
+                 *
+                 * @author Joachim Grimm
+                 * @since 4.1.0
+                 */
+                @ConfigurationProperties("external")
+                public static class External extends SourceBase.External {
 
                 }
             }
@@ -947,7 +969,7 @@ public class NatsConnectionFactoryConfig {
             }
 
             /**
-             * the sources.
+             * sources.
              *
              * @return list of sources
              */
@@ -956,7 +978,7 @@ public class NatsConnectionFactoryConfig {
             }
 
             /**
-             * the sources.
+             * sources.
              *
              * @param sources list of sources
              */
@@ -1019,7 +1041,7 @@ public class NatsConnectionFactoryConfig {
              * @since 4.8.0
              */
             @ConfigurationProperties("republish")
-            public static class Rebublish extends io.micronaut.nats.connect.Republish {
+            public static class Rebublish extends Republish {
             }
 
             /**
@@ -1029,7 +1051,7 @@ public class NatsConnectionFactoryConfig {
              * @since 4.8.0
              */
             @ConfigurationProperties("mirror")
-            public static class Mirror extends io.micronaut.nats.connect.Mirror<SubjectTransformBase> {
+            public static class Mirror extends io.micronaut.nats.connect.Mirror<SubjectTransformBase, Mirror.External> {
 
                 /**
                  * Subject transformations.
@@ -1041,6 +1063,17 @@ public class NatsConnectionFactoryConfig {
                 public static class SubjectTransform extends SubjectTransformBase {
 
                 }
+
+                /**
+                 * External.
+                 *
+                 * @author Joachim Grimm
+                 * @since 4.1.0
+                 */
+                @ConfigurationProperties("external")
+                public static class External extends SourceBase.External {
+
+                }
             }
 
             /**
@@ -1050,7 +1083,7 @@ public class NatsConnectionFactoryConfig {
              * @since 4.8.0
              */
             @EachProperty(value = "sources", list = true)
-            public static class Source extends io.micronaut.nats.connect.Source<Source.SubjectTransform> {
+            public static class Source extends io.micronaut.nats.connect.Source<Source.SubjectTransform, Source.External> {
 
                 /**
                  * Subject transformations.
@@ -1060,6 +1093,17 @@ public class NatsConnectionFactoryConfig {
                  */
                 @EachProperty(value = "subject-transforms", list = true)
                 public static class SubjectTransform extends SubjectTransformBase {
+
+                }
+
+                /**
+                 * External.
+                 *
+                 * @author Joachim Grimm
+                 * @since 4.1.0
+                 */
+                @ConfigurationProperties("external")
+                public static class External extends SourceBase.External {
 
                 }
             }

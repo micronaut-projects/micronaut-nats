@@ -37,7 +37,7 @@ public abstract class SubjectTransformBase {
     }
 
     /**
-     * the Source.
+     * Source.
      * @return source
      */
     public String getSource() {
@@ -45,7 +45,7 @@ public abstract class SubjectTransformBase {
     }
 
     /**
-     * the Source.
+     * Source.
      * @param source {@link String}
      */
     public void setSource(String source) {
@@ -53,7 +53,7 @@ public abstract class SubjectTransformBase {
     }
 
     /**
-     * The Destination.
+     * Destination.
      * @return destination
      */
     public String getDestination() {
@@ -61,7 +61,7 @@ public abstract class SubjectTransformBase {
     }
 
     /**
-     * The Destination.
+     * Destination.
      * @param destination {@link String}
      */
     public void setDestination(String destination) {

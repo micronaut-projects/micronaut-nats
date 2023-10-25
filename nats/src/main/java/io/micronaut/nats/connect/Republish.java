@@ -47,7 +47,7 @@ public abstract class Republish {
     }
 
     /**
-     * The source.
+     * Source.
      *
      * @return source
      */
@@ -56,7 +56,7 @@ public abstract class Republish {
     }
 
     /**
-     * The source.
+     * Source.
      *
      * @param source {@link String}
      */
@@ -65,7 +65,7 @@ public abstract class Republish {
     }
 
     /**
-     * The Destination.
+     * Destination.
      *
      * @return destination
      */
@@ -74,7 +74,7 @@ public abstract class Republish {
     }
 
     /**
-     * The destination.
+     * Destination.
      *
      * @param destination {@link String}
      */
