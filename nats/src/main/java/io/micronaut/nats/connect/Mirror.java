@@ -32,14 +32,14 @@ public abstract class Mirror<T extends SubjectTransformBase, E extends SourceBas
      */
     public io.nats.client.api.Mirror build() {
         io.nats.client.api.Mirror.Builder builder = io.nats.client.api.Mirror.builder()
-            .name(getName())
-            .filterSubject(getFilterSubject())
-            .startSeq(getStartSeq())
-            .startTime(getStartTime())
-            .subjectTransforms(getSubjectTransforms().stream().map(SubjectTransformBase::build)
+            .name(name)
+            .filterSubject(filterSubject)
+            .startSeq(startSeq)
+            .startTime(startTime)
+            .subjectTransforms(subjectTransforms.stream().map(SubjectTransformBase::build)
                 .toList());
-        if (getExternal() != null) {
-            builder = builder.external(getExternal().build());
+        if (external != null) {
+            builder = builder.external(external.build());
         }
         return builder.build();
     }

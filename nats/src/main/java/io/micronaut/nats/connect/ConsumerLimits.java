@@ -42,26 +42,10 @@ public abstract class ConsumerLimits {
 
     /**
      * Inactive threshold.
-     * @return duration
-     */
-    public Duration getInactiveThreshold() {
-        return inactiveThreshold;
-    }
-
-    /**
-     * Inactive threshold.
      * @param inactiveThreshold {@link Duration}
      */
     public void setInactiveThreshold(Duration inactiveThreshold) {
         this.inactiveThreshold = inactiveThreshold;
-    }
-
-    /**
-     * Maximal acknowledgments pending.
-     * @return maxAckPending
-     */
-    public Long getMaxAckPending() {
-        return maxAckPending;
     }
 
     /**

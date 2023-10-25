@@ -49,28 +49,10 @@ public abstract class Republish {
     /**
      * Source.
      *
-     * @return source
-     */
-    public String getSource() {
-        return source;
-    }
-
-    /**
-     * Source.
-     *
      * @param source {@link String}
      */
-    public void setSource(String source) {
+    public void setSource(@NonNull String source) {
         this.source = source;
-    }
-
-    /**
-     * Destination.
-     *
-     * @return destination
-     */
-    public String getDestination() {
-        return destination;
     }
 
     /**
@@ -78,17 +60,8 @@ public abstract class Republish {
      *
      * @param destination {@link String}
      */
-    public void setDestination(String destination) {
+    public void setDestination(@NonNull String destination) {
         this.destination = destination;
-    }
-
-    /**
-     * HeadersOnly.
-     *
-     * @return headersOnly
-     */
-    public boolean isHeadersOnly() {
-        return headersOnly;
     }
 
     /**
