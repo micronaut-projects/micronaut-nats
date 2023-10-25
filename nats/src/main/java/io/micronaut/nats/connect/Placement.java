@@ -44,26 +44,10 @@ public abstract class Placement {
 
     /**
      * Cluster.
-     * @return cluster
-     */
-    public String getCluster() {
-        return cluster;
-    }
-
-    /**
-     * Cluster.
      * @param cluster {@link String}
      */
-    public void setCluster(String cluster) {
+    public void setCluster(@NonNull String cluster) {
         this.cluster = cluster;
-    }
-
-    /**
-     * Tags.
-     * @return list of tags
-     */
-    public List<String> getTags() {
-        return tags;
     }
 
     /**
