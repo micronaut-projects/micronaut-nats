@@ -743,7 +743,7 @@ public class NatsConnectionFactoryConfig {
             /**
              * Republish.
              *
-             * @param republish {@link Rebublish}
+             * @param republish {@link Republish}
              */
             public void setRepublish(Republish republish) {
                 this.republish = republish;
@@ -794,7 +794,7 @@ public class NatsConnectionFactoryConfig {
              * @since 4.8.0
              */
             @ConfigurationProperties("republish")
-            public static class Rebublish extends Republish {
+            public static class Republish extends io.micronaut.nats.connect.Republish {
             }
 
             /**
@@ -998,7 +998,7 @@ public class NatsConnectionFactoryConfig {
             /**
              * Republish.
              *
-             * @param republish {@link Rebublish}
+             * @param republish {@link Republish}
              */
             public void setRepublish(Republish republish) {
                 this.republish = republish;
@@ -1041,7 +1041,7 @@ public class NatsConnectionFactoryConfig {
              * @since 4.8.0
              */
             @ConfigurationProperties("republish")
-            public static class Rebublish extends Republish {
+            public static class Republish extends io.micronaut.nats.connect.Republish {
             }
 
             /**
