@@ -459,7 +459,7 @@ public class NatsConnectionFactoryConfig {
 
             private Mirror mirror;
 
-            private List<Source> sources = new ArrayList<>();
+            private List<Source> sources;
 
             private Republish republish;
 
@@ -486,11 +486,12 @@ public class NatsConnectionFactoryConfig {
              */
             public io.nats.client.api.StreamConfiguration toStreamConfiguration() {
                 io.nats.client.api.StreamConfiguration.Builder streamBuilder = builder.name(name)
-                    .subjects(subjects)
-                    .sources(sources.stream()
+                    .subjects(subjects);
+                if (sources != null) {
+                    streamBuilder = streamBuilder.sources(sources.stream()
                         .map(io.micronaut.nats.connect.Source::build)
                         .toList());
-
+                }
                 if (mirror != null) {
                     streamBuilder = streamBuilder.mirror(mirror.build());
                 }
@@ -639,7 +640,7 @@ public class NatsConnectionFactoryConfig {
              * @since 4.8.0
              */
             @ConfigurationProperties("mirror")
-            public static class Mirror extends io.micronaut.nats.connect.Mirror<SubjectTransformBase, Mirror.External> {
+            public static class Mirror extends io.micronaut.nats.connect.Mirror<Mirror.SubjectTransform, Mirror.External> {
 
                 /**
                  * Subject transformations.
@@ -649,7 +650,6 @@ public class NatsConnectionFactoryConfig {
                  */
                 @EachProperty(value = "subject-transforms", list = true)
                 public static class SubjectTransform extends SubjectTransformBase {
-
                 }
 
                 /**
@@ -659,7 +659,7 @@ public class NatsConnectionFactoryConfig {
                  * @since 4.1.0
                  */
                 @ConfigurationProperties("external")
-                public static class External extends SourceBase.External {
+                public static class External extends io.micronaut.nats.connect.External {
 
                 }
             }
@@ -671,7 +671,7 @@ public class NatsConnectionFactoryConfig {
              * @since 4.8.0
              */
             @EachProperty(value = "sources", list = true)
-            public static class Source extends io.micronaut.nats.connect.Source<SubjectTransform, Mirror.External> {
+            public static class Source extends io.micronaut.nats.connect.Source<Source.SubjectTransform, Source.External> {
 
                 /**
                  * Subject transformations.
@@ -679,9 +679,8 @@ public class NatsConnectionFactoryConfig {
                  * @author Joachim Grimm
                  * @since 4.8.0
                  */
-                @EachProperty(value = "subject-transforms", list = true)
+                @EachProperty(value = "subjectTransforms", list = true)
                 public static class SubjectTransform extends SubjectTransformBase {
-
                 }
 
                 /**
@@ -691,7 +690,7 @@ public class NatsConnectionFactoryConfig {
                  * @since 4.1.0
                  */
                 @ConfigurationProperties("external")
-                public static class External extends SourceBase.External {
+                public static class External extends io.micronaut.nats.connect.External {
 
                 }
             }
@@ -711,7 +710,7 @@ public class NatsConnectionFactoryConfig {
 
             private Mirror mirror;
 
-            private List<Source> sources = new ArrayList<>();
+            private List<Source> sources;
 
             @ConfigurationBuilder(prefixes = "", excludes = {"addSources", "addSource", "name", "sources", "build", "placement", "republish", "mirror"})
             private io.nats.client.api.KeyValueConfiguration.Builder builder = io.nats.client.api.KeyValueConfiguration.builder();
@@ -741,10 +740,13 @@ public class NatsConnectionFactoryConfig {
              */
             public io.nats.client.api.KeyValueConfiguration toKeyValueConfiguration() {
                 io.nats.client.api.KeyValueConfiguration.Builder keyValueBuilder = builder
-                    .name(name)
-                    .sources(sources.stream()
-                        .map(io.micronaut.nats.connect.Source::build)
-                        .toList());
+                    .name(name);
+                if (sources != null) {
+                    keyValueBuilder = keyValueBuilder
+                        .sources(sources.stream()
+                            .map(io.micronaut.nats.connect.Source::build)
+                            .toList());
+                }
                 if (mirror != null) {
                     keyValueBuilder = keyValueBuilder.mirror(mirror.build());
                 }
@@ -840,7 +842,7 @@ public class NatsConnectionFactoryConfig {
              * @since 4.8.0
              */
             @ConfigurationProperties("mirror")
-            public static class Mirror extends io.micronaut.nats.connect.Mirror<SubjectTransformBase, Mirror.External> {
+            public static class Mirror extends io.micronaut.nats.connect.Mirror<Mirror.SubjectTransform, Mirror.External> {
 
                 /**
                  * Subject transformations.
@@ -850,7 +852,6 @@ public class NatsConnectionFactoryConfig {
                  */
                 @EachProperty(value = "subject-transforms", list = true)
                 public static class SubjectTransform extends SubjectTransformBase {
-
                 }
 
                 /**
@@ -860,7 +861,7 @@ public class NatsConnectionFactoryConfig {
                  * @since 4.1.0
                  */
                 @ConfigurationProperties("external")
-                public static class External extends SourceBase.External {
+                public static class External extends io.micronaut.nats.connect.External {
 
                 }
             }
@@ -882,7 +883,6 @@ public class NatsConnectionFactoryConfig {
                  */
                 @EachProperty(value = "subject-transforms", list = true)
                 public static class SubjectTransform extends SubjectTransformBase {
-
                 }
 
                 /**
@@ -892,7 +892,7 @@ public class NatsConnectionFactoryConfig {
                  * @since 4.1.0
                  */
                 @ConfigurationProperties("external")
-                public static class External extends SourceBase.External {
+                public static class External extends io.micronaut.nats.connect.External {
 
                 }
             }
