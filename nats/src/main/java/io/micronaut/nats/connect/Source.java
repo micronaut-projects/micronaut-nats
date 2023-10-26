@@ -23,7 +23,7 @@ package io.micronaut.nats.connect;
  * @author Joachim Grimm
  * @since 4.1.0
  */
-public abstract class Source<T extends SubjectTransformBase, E extends SourceBase.External> extends SourceBase<T, E> {
+public abstract class Source<T extends SubjectTransformBase, E extends External> extends SourceBase<T, E> {
 
     /**
      * build the source object from the given configuration.
@@ -35,9 +35,13 @@ public abstract class Source<T extends SubjectTransformBase, E extends SourceBas
             .name(name)
             .filterSubject(filterSubject)
             .startSeq(startSeq)
-            .startTime(startTime)
-            .subjectTransforms(subjectTransforms.stream().map(SubjectTransformBase::build)
-                .toList());
+            .startTime(startTime);
+        if (subjectTransforms != null) {
+            builder = builder
+                .subjectTransforms(subjectTransforms.stream().map(SubjectTransformBase::build)
+                    .toList());
+        }
+
         if (external != null) {
             builder = builder.external(external.build());
         }
