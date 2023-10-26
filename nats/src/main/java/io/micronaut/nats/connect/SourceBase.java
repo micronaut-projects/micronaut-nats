@@ -15,25 +15,21 @@
  */
 package io.micronaut.nats.connect;
 
-import io.micronaut.context.annotation.EachProperty;
-import io.micronaut.core.annotation.NonNull;
-
 import java.time.ZonedDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
-abstract class SourceBase<T extends SubjectTransformBase, E extends SourceBase.External> {
+abstract class SourceBase<T extends SubjectTransformBase, E extends External> {
 
     protected String name;
     protected long startSeq = 0;
     protected ZonedDateTime startTime;
     protected String filterSubject;
     protected E external;
-    protected List<T> subjectTransforms = new ArrayList<>();
-
+    protected List<T> subjectTransforms;
 
     /**
      * Name.
+     *
      * @param name {@link String}
      */
     public void setName(String name) {
@@ -42,6 +38,7 @@ abstract class SourceBase<T extends SubjectTransformBase, E extends SourceBase.E
 
     /**
      * Start sequence.
+     *
      * @param startSeq long
      */
     public void setStartSeq(long startSeq) {
@@ -50,6 +47,7 @@ abstract class SourceBase<T extends SubjectTransformBase, E extends SourceBase.E
 
     /**
      * Start time.
+     *
      * @param startTime {@link ZonedDateTime}
      */
     public void setStartTime(ZonedDateTime startTime) {
@@ -58,6 +56,7 @@ abstract class SourceBase<T extends SubjectTransformBase, E extends SourceBase.E
 
     /**
      * Filter subject.
+     *
      * @param filterSubject {@link String}
      */
     public void setFilterSubject(String filterSubject) {
@@ -68,7 +67,7 @@ abstract class SourceBase<T extends SubjectTransformBase, E extends SourceBase.E
      * Subject transformations.
      * @param subjectTransforms list
      */
-    public void setSubjectTransforms(@NonNull List<T> subjectTransforms) {
+    public void setSubjectTransforms(List<T> subjectTransforms) {
         this.subjectTransforms = subjectTransforms;
     }
 
@@ -78,42 +77,6 @@ abstract class SourceBase<T extends SubjectTransformBase, E extends SourceBase.E
      */
     public void setExternal(E external) {
         this.external = external;
-    }
-
-    @EachProperty(value = "subject-transforms", list = true)
-    public static class SubjectTransform extends SubjectTransformBase {
-    }
-
-    /**
-     * External.
-     *
-     * @author Joachim Grimm
-     * @since 4.1.0
-     */
-    public static class External {
-
-        private String api;
-        private String deliver;
-
-        public io.nats.client.api.External build() {
-            return io.nats.client.api.External.builder().api(api).deliver(deliver).build();
-        }
-
-        /**
-         * Api.
-         * @param api {@link String}
-         */
-        public void setApi(String api) {
-            this.api = api;
-        }
-
-        /**
-         * Deliver.
-         * @param deliver {@link String}
-         */
-        public void setDeliver(String deliver) {
-            this.deliver = deliver;
-        }
     }
 
 }
