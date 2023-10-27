@@ -67,7 +67,7 @@ public class NatsIntroductionAdvice extends AbstractIntroductionAdvice implement
     public NatsIntroductionAdvice(BeanContext beanContext,
                                   ConversionService conversionService,
                                   NatsMessageSerDesRegistry serDesRegistry,
-                                  @Named(TaskExecutors.MESSAGE_CONSUMER) ExecutorService executorService) {
+                                  @Named(TaskExecutors.BLOCKING) ExecutorService executorService) {
         super(beanContext, executorService, conversionService, serDesRegistry);
     }
 
