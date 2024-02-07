@@ -12,7 +12,7 @@ dependencies {
     compileOnly mn.micronaut.management
     compileOnly mnMicrometer.micronaut.micrometer.core
 
-    testImplementation libs.testcontainers.spock
+    testImplementation(mnTestResources.testcontainers.core)
     testImplementation mn.micronaut.management
     testImplementation libs.micronaut.rxjava3
     testImplementation mnTest.micronaut.test.spock
