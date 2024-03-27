@@ -8,7 +8,6 @@ groovy = "4.0.13"
 spock = "2.3-groovy-4.0"
 
 awaitility = '4.2.1'
-junit = '5.10.2'
 kotlin = '1.9.23'
 nats = '2.17.2'
 
@@ -26,9 +25,6 @@ micronaut-core = { module = 'io.micronaut:micronaut-core-bom', version.ref = 'mi
 
 jnats = { module = 'io.nats:jnats', version.ref = 'nats'}
 awaitility = { module = 'org.awaitility:awaitility', version.ref = 'awaitility' }
-
-junit-jupiter-api = { module = 'org.junit.jupiter:junit-jupiter-api', version.ref = 'junit' }
-junit-jupiter-engine = { module = 'org.junit.jupiter:junit-jupiter-engine', version.ref = 'junit' }
 
 micronaut-micrometer = { module = "io.micronaut.micrometer:micronaut-micrometer-bom", version.ref = "micronaut-micrometer" }
 micronaut-reactor = { module = 'io.micronaut.reactor:micronaut-reactor-bom', version.ref = "micronaut-reactor" }
