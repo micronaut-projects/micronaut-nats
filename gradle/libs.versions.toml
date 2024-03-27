@@ -17,7 +17,7 @@ micronaut-micrometer = "5.3.0"
 micronaut-reactor = "3.2.1"
 micronaut-rxjava3 = "3.2.1"
 micronaut-serde = "2.7.1"
-micronaut-test-resources="2.3.2"
+micronaut-test-resources="2.4.0"
 
 [libraries]
 micronaut-logging = { module = "io.micronaut.logging:micronaut-logging-bom", version.ref = "micronaut-logging" }
