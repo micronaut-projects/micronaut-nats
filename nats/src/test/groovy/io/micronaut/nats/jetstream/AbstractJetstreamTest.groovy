@@ -42,6 +42,8 @@ abstract class AbstractJetstreamTest extends Specification {
                  "spec.name"             : getClass().simpleName,
                  "nats.default.jetstream.streams.widgets.storage-type": "Memory",
                  "nats.default.jetstream.streams.widgets.subjects": ['subject.>'],
+                 "nats.default.jetstream.streams.widgets.consumer-limits.inactive-threshold": "10m",
+                 "nats.default.jetstream.streams.widgets.consumer-limits.max-ack-pending": "-1",
                  "nats.default.jetstream.keyvalue.examplebucket.storage-type": "Memory",
                  "nats.default.jetstream.keyvalue.examplebucket.max-history-per-key": 5,
                  "nats.default.jetstream.objectstore.examplestore.storage-type": "Memory"
