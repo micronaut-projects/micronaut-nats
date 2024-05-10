@@ -569,6 +569,8 @@ public class NatsConnectionFactoryConfig {
 
             private List<String> subjects;
 
+            private boolean createOrUpdate = true;
+
             public StreamConfiguration(@Parameter String name) {
                 this.name = name;
             }
@@ -609,6 +611,24 @@ public class NatsConnectionFactoryConfig {
             public void setSubjects(List<String> subjects) {
                 this.subjects = subjects;
             }
+
+            /**
+             * create or update stream during startup.
+             *
+             * @return true, if stream should be created or updated
+             */
+            public boolean isCreateOrUpdate() {
+                return createOrUpdate;
+            }
+
+            /**
+             * create or update stream during startup.
+             *
+             * @param createOrUpdate true to create or update stream during startup
+             */
+            public void setCreateOrUpdate(boolean createOrUpdate) {
+                this.createOrUpdate = createOrUpdate;
+            }
         }
 
 
@@ -623,6 +643,8 @@ public class NatsConnectionFactoryConfig {
                 "sources", "build"})
             private io.nats.client.api.KeyValueConfiguration.Builder builder =
                 io.nats.client.api.KeyValueConfiguration.builder();
+
+            private boolean createOrUpdate = true;
 
             public KeyValueConfiguration(@Parameter String name) {
                 this.name = name;
@@ -646,6 +668,24 @@ public class NatsConnectionFactoryConfig {
             public io.nats.client.api.KeyValueConfiguration toKeyValueConfiguration() {
                 return builder.name(name).build();
             }
+
+            /**
+             * create or update key/value store during startup.
+             *
+             * @return true, if key/value store should be created or updated
+             */
+            public boolean isCreateOrUpdate() {
+                return createOrUpdate;
+            }
+
+            /**
+             * create or update key/value store during startup.
+             *
+             * @param createOrUpdate true to create or update key/value store during startup
+             */
+            public void setCreateOrUpdate(boolean createOrUpdate) {
+                this.createOrUpdate = createOrUpdate;
+            }
         }
 
         /**
@@ -659,6 +699,8 @@ public class NatsConnectionFactoryConfig {
             @ConfigurationBuilder(prefixes = "", excludes = { "name", "build"})
             private io.nats.client.api.ObjectStoreConfiguration.Builder builder =
                 io.nats.client.api.ObjectStoreConfiguration.builder();
+
+            private boolean create = true;
 
             public ObjectStoreConfiguration(@Parameter String name) {
                 this.name = name;
@@ -683,6 +725,22 @@ public class NatsConnectionFactoryConfig {
                 return builder.name(name).build();
             }
 
+            /**
+             * create object store during startup.
+             *
+             * @return true, if object store should be created at startup
+             */
+            public boolean isCreate() {
+                return create;
+            }
+
+            /**
+             * create  store during startup.
+             * @param create true to create object store during startup
+             */
+            public void setCreate(boolean create) {
+                this.create = create;
+            }
         }
     }
 }

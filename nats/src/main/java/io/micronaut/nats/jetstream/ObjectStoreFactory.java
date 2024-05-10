@@ -68,11 +68,14 @@ public class ObjectStoreFactory {
                 .objectStoreManagement(buildObjectStoreOptions(config));
 
             // initialize the given object store configurations
-            for (NatsConnectionFactoryConfig.JetStreamConfiguration.ObjectStoreConfiguration objectStore : config.getJetstream().getObjectstore()) {
-                ObjectStoreConfiguration objectStoreConfiguration = objectStore.toObjectStoreConfiguration();
-
-                if (!objectStoreManagement.getBucketNames().contains(objectStoreConfiguration.getBucketName())) {
-                    objectStoreManagement.create(objectStoreConfiguration);
+            for (NatsConnectionFactoryConfig.JetStreamConfiguration.ObjectStoreConfiguration objectStore : config.getJetstream()
+                .getObjectstore()) {
+                if (objectStore.isCreate()) {
+                    ObjectStoreConfiguration objectStoreConfiguration = objectStore.toObjectStoreConfiguration();
+                    if (!objectStoreManagement.getBucketNames()
+                        .contains(objectStoreConfiguration.getBucketName())) {
+                        objectStoreManagement.create(objectStoreConfiguration);
+                    }
                 }
             }
             return objectStoreManagement;

@@ -74,27 +74,45 @@ public class JetStreamFactory {
         if (config.getJetstream() != null) {
             Connection connection = getConnectionByName(config.getName());
 
-            final JetStreamManagement jetStreamManagement = getConnectionByName(config.getName()).jetStreamManagement(
-                config.getJetstream().toJetStreamOptions());
-
-            // initialize the given stream configurations
-            for (NatsConnectionFactoryConfig.JetStreamConfiguration.StreamConfiguration stream : config.getJetstream()
-                .getStreams()) {
-                final StreamConfiguration streamConfiguration =
-                    stream.toStreamConfiguration();
-                if (jetStreamManagement.getStreamNames().contains(streamConfiguration.getName())) {
-                    StreamInfo streamInfo = jetStreamManagement.getStreamInfo(streamConfiguration.getName());
-                    if (!streamInfo.getConfiguration().equals(streamConfiguration)) {
-                        jetStreamManagement.updateStream(streamConfiguration);
-                    }
-                } else {
-                    jetStreamManagement.addStream(streamConfiguration);
-                }
-            }
+            createOrUpdateStreams(config);
 
             return connection.jetStream(config.getJetstream().toJetStreamOptions());
         }
         return null;
+    }
+
+    private void createOrUpdateStreams(NatsConnectionFactoryConfig config) throws IOException, JetStreamApiException {
+        final JetStreamManagement jetStreamManagement = getConnectionByName(config.getName()).jetStreamManagement(
+            config.getJetstream().toJetStreamOptions());
+
+        // initialize the given stream configurations
+        for (NatsConnectionFactoryConfig.JetStreamConfiguration.StreamConfiguration stream : config.getJetstream()
+            .getStreams()) {
+            if (stream.isCreateOrUpdate()) {
+                createOrUpdateStream(stream, jetStreamManagement);
+            }
+        }
+    }
+
+    private void createOrUpdateStream(NatsConnectionFactoryConfig.JetStreamConfiguration.StreamConfiguration stream,
+                                      JetStreamManagement jetStreamManagement)
+        throws IOException, JetStreamApiException {
+        final StreamConfiguration streamConfiguration = stream.toStreamConfiguration();
+        if (jetStreamManagement.getStreamNames().contains(streamConfiguration.getName())) {
+            StreamInfo streamInfo = jetStreamManagement.getStreamInfo(streamConfiguration.getName());
+
+            for (String sub : streamInfo.getConfiguration().getSubjects()) {
+                if (!streamConfiguration.getSubjects().contains(sub)) {
+                    streamConfiguration.getSubjects().add(sub);
+                }
+            }
+
+            if (!streamInfo.getConfiguration().equals(streamConfiguration)) {
+                jetStreamManagement.updateStream(streamConfiguration);
+            }
+        } else {
+            jetStreamManagement.addStream(streamConfiguration);
+        }
     }
 
     private Connection getConnectionByName(String connectionName) {
