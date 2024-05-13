@@ -19,6 +19,7 @@ import io.micronaut.context.annotation.Requires
 import io.micronaut.nats.annotation.NatsClient
 import io.micronaut.nats.annotation.Subject
 import io.reactivex.rxjava3.core.Completable
+import reactor.core.publisher.Mono
 
 /**
  *
@@ -33,4 +34,10 @@ interface Publisher {
 
     @Subject("rpc")
     Completable rpcCallAsCompletable(String data)
+
+    @Subject("rpc")
+    org.reactivestreams.Publisher<Void> noRpcCall(String data)
+
+    @Subject("rpc")
+    Mono<Void> noRpcCallMono(String data)
 }

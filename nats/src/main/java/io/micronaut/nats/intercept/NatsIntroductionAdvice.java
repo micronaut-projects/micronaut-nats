@@ -89,10 +89,7 @@ public class NatsIntroductionAdvice extends AbstractIntroductionAdvice implement
                 if (interceptedMethod.resultType() == InterceptedMethod.ResultType.SYNCHRONOUS) {
                     rpc = !interceptedMethod.returnTypeValue().isVoid();
                 } else {
-                    Optional<Argument<?>> firstTypeVariable = context.getReturnType().asArgument().getFirstTypeVariable();
-                    if (firstTypeVariable.isPresent()) {
-                        rpc = !firstTypeVariable.get().isVoid();
-                    }
+                    rpc = !context.getReturnType().asArgument().isVoid();
                 }
 
                 Mono<?> reactive;

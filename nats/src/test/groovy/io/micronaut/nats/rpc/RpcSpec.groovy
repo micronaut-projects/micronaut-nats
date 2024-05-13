@@ -14,9 +14,14 @@ class RpcSpec extends AbstractNatsTest {
         Publisher producer = context.getBean(Publisher)
 
         expect:
+        //rpc calls
         Mono.from(producer.rpcCall("hello")).block() == "HELLO"
         Mono.from(producer.rpcCall(null)).block() == null
         producer.rpcCallAsCompletable("hello")
+
+        // no rpc calls
+        Mono.from(producer.noRpcCall("hello")).block() == null
+        producer.noRpcCallMono("hello").block() == null
 
         cleanup:
         context.close()
