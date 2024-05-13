@@ -1,6 +1,6 @@
 A pull consumer allows you to control when the server sends the client messages.
 
-For creating a new pull subscription you need to inject api:nats.jetstream.PullConsumerRegistrey[].
+For creating a new pull subscription you need to inject api:nats.jetstream.PullConsumerRegistry[].
 
 Let's look at a quick example.
 
