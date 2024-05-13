@@ -616,6 +616,7 @@ public class NatsConnectionFactoryConfig {
              * create or update stream during startup.
              *
              * @return true, if stream should be created or updated
+             * @since 4.4.0
              */
             public boolean isCreateOrUpdate() {
                 return createOrUpdate;
@@ -625,6 +626,7 @@ public class NatsConnectionFactoryConfig {
              * create or update stream during startup.
              *
              * @param createOrUpdate true to create or update stream during startup
+             * @since 4.4.0
              */
             public void setCreateOrUpdate(boolean createOrUpdate) {
                 this.createOrUpdate = createOrUpdate;
@@ -673,6 +675,7 @@ public class NatsConnectionFactoryConfig {
              * create or update key/value store during startup.
              *
              * @return true, if key/value store should be created or updated
+             * @since 4.4.0
              */
             public boolean isCreateOrUpdate() {
                 return createOrUpdate;
@@ -682,6 +685,7 @@ public class NatsConnectionFactoryConfig {
              * create or update key/value store during startup.
              *
              * @param createOrUpdate true to create or update key/value store during startup
+             * @since 4.4.0
              */
             public void setCreateOrUpdate(boolean createOrUpdate) {
                 this.createOrUpdate = createOrUpdate;
@@ -729,6 +733,7 @@ public class NatsConnectionFactoryConfig {
              * create object store during startup.
              *
              * @return true, if object store should be created at startup
+             * @since 4.4.0
              */
             public boolean isCreate() {
                 return create;
@@ -736,7 +741,9 @@ public class NatsConnectionFactoryConfig {
 
             /**
              * create  store during startup.
+             *
              * @param create true to create object store during startup
+             * @since 4.4.0
              */
             public void setCreate(boolean create) {
                 this.create = create;
