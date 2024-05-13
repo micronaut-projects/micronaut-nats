@@ -38,6 +38,18 @@ class ObjectStoreSpec extends AbstractJetstreamTest {
         applicationContext.close()
     }
 
+    void "no creation or update of kv store"() {
+        when:
+        ApplicationContext applicationContext = startContext(["nats.default.jetstream.objectstore.examplestore.create": "false" ])
+        ObjectStoreManagement osm = applicationContext.getBean(ObjectStoreManagement, Qualifiers.byName(NatsConnection.DEFAULT_CONNECTION))
+
+        then:
+        !osm.getBucketNames().contains("examplestore")
+
+        cleanup:
+        applicationContext.close()
+    }
+
     void "full test"() {
         given:
         ApplicationContext applicationContext = startContext()
@@ -75,8 +87,9 @@ class ObjectStoreSpec extends AbstractJetstreamTest {
     @Requires(property = 'spec.name', value = 'ObjectStoreSpec')
     @Singleton
     static class ObjectStoreHolder {
+
         @Inject
-        @ObjectStore('examplestore')
+        @ObjectStore("examplestore")
         io.nats.client.ObjectStore objectStore;
     }
 }

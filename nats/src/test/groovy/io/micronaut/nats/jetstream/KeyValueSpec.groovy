@@ -55,6 +55,18 @@ class KeyValueSpec extends AbstractJetstreamTest {
         applicationContext.close()
     }
 
+    void "no creation or update of kv store"() {
+        when:
+        ApplicationContext applicationContext = startContext(["nats.default.jetstream.keyvalue.examplebucket.createOrUpdate": "false" ])
+        KeyValueManagement kvm = applicationContext.getBean(KeyValueManagement, Qualifiers.byName(NatsConnection.DEFAULT_CONNECTION))
+
+        then:
+        !kvm.getBucketNames().contains("examplebucket")
+
+        cleanup:
+        applicationContext.close()
+    }
+
     void "full test"() {
         given:
         ApplicationContext applicationContext = startContext()
