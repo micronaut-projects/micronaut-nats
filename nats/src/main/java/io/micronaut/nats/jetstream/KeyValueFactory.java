@@ -68,21 +68,35 @@ public class KeyValueFactory {
                     .keyValueManagement(buildKeyValueOptions(config));
 
             // initialize the given keyvalue configurations
-            for (NatsConnectionFactoryConfig.JetStreamConfiguration.KeyValueConfiguration keyValue : config.getJetstream().getKeyvalue()) {
-                KeyValueConfiguration keyValueConfiguration = keyValue.toKeyValueConfiguration();
-
-                if (keyValueManagement.getBucketNames().contains(keyValueConfiguration.getBucketName())) {
-                    KeyValueStatus status = keyValueManagement.getStatus(keyValueConfiguration.getBucketName());
-                    if (!status.getConfiguration().equals(keyValueConfiguration)) {
-                        keyValueManagement.update(keyValueConfiguration);
-                    }
-                } else {
-                    keyValueManagement.create(keyValueConfiguration);
-                }
-            }
+            createOrUpdateKeyValueStores(config, keyValueManagement);
             return keyValueManagement;
         }
         return null;
+    }
+
+    private void createOrUpdateKeyValueStores(NatsConnectionFactoryConfig config, KeyValueManagement keyValueManagement)
+        throws IOException, JetStreamApiException {
+        for (NatsConnectionFactoryConfig.JetStreamConfiguration.KeyValueConfiguration keyValue : config.getJetstream()
+            .getKeyvalue()) {
+            if (keyValue.isCreateOrUpdate()) {
+                createOrUpdateKeyValueStore(keyValueManagement, keyValue);
+            }
+        }
+    }
+
+    private void createOrUpdateKeyValueStore(KeyValueManagement keyValueManagement,
+                                             NatsConnectionFactoryConfig.JetStreamConfiguration.KeyValueConfiguration keyValue)
+        throws IOException, JetStreamApiException {
+        KeyValueConfiguration keyValueConfiguration = keyValue.toKeyValueConfiguration();
+
+        if (keyValueManagement.getBucketNames().contains(keyValueConfiguration.getBucketName())) {
+            KeyValueStatus status = keyValueManagement.getStatus(keyValueConfiguration.getBucketName());
+            if (!status.getConfiguration().equals(keyValueConfiguration)) {
+                keyValueManagement.update(keyValueConfiguration);
+            }
+        } else {
+            keyValueManagement.create(keyValueConfiguration);
+        }
     }
 
     /**

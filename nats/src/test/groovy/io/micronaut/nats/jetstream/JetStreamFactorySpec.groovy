@@ -37,5 +37,17 @@ class JetStreamFactorySpec extends AbstractJetstreamTest {
         applicationContext.close()
     }
 
+    void "no creation or update of streams"() {
+        given:
+        ApplicationContext applicationContext = startContext(["nats.default.jetstream.streams.widgets.createOrUpdate": "false"])
+        JetStreamManagement jsm = applicationContext.getBean(JetStreamManagement, Qualifiers.byName(NatsConnection.DEFAULT_CONNECTION))
 
+        expect:
+        jsm != null
+        applicationContext.getBean(JetStream, Qualifiers.byName(NatsConnection.DEFAULT_CONNECTION)) != null
+        !jsm.getStreams().contains("widgets")
+
+        cleanup:
+        applicationContext.close()
+    }
 }
