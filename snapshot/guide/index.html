@@ -3134,6 +3134,11 @@ You can do a normal publish to the subject for unacknowledged delivery, though i
 <td class="tableblock halign-left valign-top"><p class="tableblock">java.util.List</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">get the subjects of the stream.</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.create-or-update</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">create or update stream during startup.</p></td>
+</tr>
 </tbody>
 </table>
 <div class="paragraph">
@@ -3706,6 +3711,11 @@ class PullConsumerHelper(private val pullConsumerRegistry: PullConsumerRegistry)
 <td class="tableblock halign-left valign-top"><p class="tableblock">io.nats.client.api.Mirror</p></td>
 <td class="tableblock halign-left valign-top"></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.keyvalue.*.create-or-update</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">create or update key/value store during startup.</p></td>
+</tr>
 </tbody>
 </table>
 <div class="paragraph">
@@ -3969,6 +3979,11 @@ Experimental Preview
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.objectstore.*.metadata</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">java.util.Map</p></td>
 <td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.objectstore.*.create</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">create object store during startup.</p></td>
 </tr>
 </tbody>
 </table>

@@ -115,6 +115,16 @@ loadScripts(document, 'script');</script>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">get the object store configuration builder.</div>
 </div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isCreate()" class="member-name-link">isCreate</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">create object store during startup.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setCreate(boolean)" class="member-name-link">setCreate</a><wbr>(boolean&nbsp;create)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">create  store during startup.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>io.nats.client.api.ObjectStoreConfiguration</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toObjectStoreConfiguration()" class="member-name-link">toObjectStoreConfiguration</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
@@ -173,6 +183,32 @@ loadScripts(document, 'script');</script>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>nats object store configuration</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="isCreate()">
+<h3>isCreate</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isCreate</span>()</div>
+<div class="block">create object store during startup.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>true, if object store should be created at startup</dd>
+<dt>Since:</dt>
+<dd>4.4.0</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="setCreate(boolean)">
+<h3>setCreate</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setCreate</span><wbr><span class="parameters">(boolean&nbsp;create)</span></div>
+<div class="block">create  store during startup.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>create</code> - true to create object store during startup</dd>
+<dt>Since:</dt>
+<dd>4.4.0</dd>
 </dl>
 </section>
 </li>
