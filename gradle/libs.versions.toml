@@ -9,7 +9,7 @@ spock = "2.3-groovy-4.0"
 
 awaitility = '4.2.2'
 kotlin = '1.9.24'
-nats = '2.20.1'
+nats = '2.20.2'
 
 micronaut-logging = "1.4.0"
 micronaut-micrometer = "5.8.0"
