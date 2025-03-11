@@ -7,7 +7,7 @@ micronaut-gradle-plugin = "4.4.5"
 groovy = "4.0.24"
 spock = "2.3-groovy-4.0"
 
-awaitility = '4.2.2'
+awaitility = '4.3.0'
 kotlin = '1.9.25'
 nats = '2.20.5'
 
