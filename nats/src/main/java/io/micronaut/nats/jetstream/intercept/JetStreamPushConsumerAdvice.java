@@ -15,15 +15,6 @@
  */
 package io.micronaut.nats.jetstream.intercept;
 
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicInteger;
-
 import io.micronaut.context.BeanContext;
 import io.micronaut.context.Qualifier;
 import io.micronaut.context.annotation.Bean;
@@ -33,6 +24,7 @@ import io.micronaut.core.annotation.NonNull;
 import io.micronaut.core.bind.BoundExecutable;
 import io.micronaut.core.bind.DefaultExecutableBinder;
 import io.micronaut.core.naming.NameUtils;
+import io.micronaut.core.util.ArrayUtils;
 import io.micronaut.core.util.StringUtils;
 import io.micronaut.inject.BeanDefinition;
 import io.micronaut.inject.ExecutableMethod;
@@ -49,21 +41,18 @@ import io.micronaut.nats.jetstream.annotation.PushConsumer;
 import io.micronaut.nats.jetstream.exception.JetStreamListenerException;
 import io.micronaut.nats.jetstream.exception.JetStreamListenerExceptionHandler;
 import io.micronaut.runtime.ApplicationConfiguration;
-import io.nats.client.Connection;
-import io.nats.client.Dispatcher;
-import io.nats.client.JetStream;
-import io.nats.client.JetStreamApiException;
-import io.nats.client.JetStreamSubscription;
-import io.nats.client.Message;
-import io.nats.client.MessageHandler;
-import io.nats.client.PushSubscribeOptions;
-import io.nats.client.Subscription;
+import io.nats.client.*;
 import io.nats.client.api.AckPolicy;
 import io.nats.client.api.ConsumerConfiguration;
 import io.nats.client.api.DeliverPolicy;
 import io.nats.client.api.ReplayPolicy;
 import jakarta.annotation.PreDestroy;
 import jakarta.inject.Singleton;
+
+import java.io.IOException;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * An {@link ExecutableMethodProcessor} that will process all
@@ -113,7 +102,7 @@ public class JetStreamPushConsumerAdvice
     public void process(BeanDefinition<?> beanDefinition, ExecutableMethod<?, ?> method) {
         final Optional<AnnotationValue<JetStreamListener>> listenerAnnotation =
                 method.findAnnotation(JetStreamListener.class);
-        if (!listenerAnnotation.isPresent()) {
+        if (listenerAnnotation.isEmpty()) {
             // Nothing to do if no consumer or subject annotation is present
             return;
         }
@@ -123,7 +112,7 @@ public class JetStreamPushConsumerAdvice
         final Optional<AnnotationValue<Subject>> subjectAnnotation =
                 method.findAnnotation(Subject.class);
 
-        if (!pushConsumerAnnotation.isPresent()) {
+        if (pushConsumerAnnotation.isEmpty()) {
             // Ignore the current method
             return;
         }
@@ -325,6 +314,11 @@ public class JetStreamPushConsumerAdvice
                                  .filter(StringUtils::isNotEmpty)
                                  .map(builder::description)
                                  .orElse(builder);
+
+        final String[] filterSubjects = annotationValue.stringValues("filterSubjects");
+        if (ArrayUtils.isNotEmpty(filterSubjects)) {
+            builder = builder.filterSubjects(filterSubjects);
+        }
 
         ConsumerConfiguration cc = builder.build();
         return PushSubscribeOptions.builder()
