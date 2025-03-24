@@ -18,6 +18,7 @@ package io.micronaut.nats.jetstream;
 import io.micronaut.context.BeanContext;
 import io.micronaut.context.annotation.EachBean;
 import io.micronaut.context.annotation.Factory;
+import io.micronaut.context.annotation.Prototype;
 import io.micronaut.core.annotation.AnnotationMetadata;
 import io.micronaut.core.annotation.Experimental;
 import io.micronaut.core.annotation.Nullable;
@@ -31,7 +32,6 @@ import io.nats.client.ObjectStore;
 import io.nats.client.ObjectStoreManagement;
 import io.nats.client.ObjectStoreOptions;
 import io.nats.client.api.ObjectStoreConfiguration;
-import jakarta.inject.Singleton;
 
 import java.io.IOException;
 
@@ -88,7 +88,7 @@ public class ObjectStoreFactory {
      * @return The object store
      * @throws IOException in case of communication issue
      */
-    @Singleton
+    @Prototype
     ObjectStore objectStore(@Nullable InjectionPoint<?> injectionPoint) throws IOException {
         if (injectionPoint == null) {
             return null;
