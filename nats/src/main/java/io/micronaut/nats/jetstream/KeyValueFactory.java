@@ -18,6 +18,7 @@ package io.micronaut.nats.jetstream;
 import io.micronaut.context.BeanContext;
 import io.micronaut.context.annotation.EachBean;
 import io.micronaut.context.annotation.Factory;
+import io.micronaut.context.annotation.Prototype;
 import io.micronaut.core.annotation.AnnotationMetadata;
 import io.micronaut.core.annotation.Nullable;
 import io.micronaut.inject.InjectionPoint;
@@ -32,7 +33,6 @@ import io.nats.client.KeyValueManagement;
 import io.nats.client.KeyValueOptions;
 import io.nats.client.api.KeyValueConfiguration;
 import io.nats.client.api.KeyValueStatus;
-import jakarta.inject.Singleton;
 
 import java.io.IOException;
 
@@ -104,7 +104,7 @@ public class KeyValueFactory {
      * @return The key value bucket
      * @throws IOException in case of communication issue
      */
-    @Singleton
+    @Prototype
     KeyValue keyvalue(@Nullable InjectionPoint<?> injectionPoint) throws IOException {
         if (injectionPoint == null) {
             return null;

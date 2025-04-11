@@ -111,12 +111,40 @@ class KeyValueSpec extends AbstractJetstreamTest {
         applicationContext.close()
     }
 
+    void "mutliple injects via injection point"() {
+        given:
+        ApplicationContext applicationContext = startContext()
+        KeyValueManagement kvm = applicationContext.getBean(KeyValueManagement, Qualifiers.byName(NatsConnection.DEFAULT_CONNECTION))
+
+        when:
+        def keyValueHolder = applicationContext.getBean(KeyValueHolder)
+
+        then:
+        keyValueHolder.keyValueBucket != null
+        keyValueHolder.exampleBucket2 != null
+
+        when:
+        keyValueHolder.keyValueBucket.put("testKey1", "testValue1")
+        keyValueHolder.exampleBucket2.put("testKey2", "testValue2")
+
+        then:
+        keyValueHolder.keyValueBucket.get("testKey1").getValueAsString() == "testValue1"
+        keyValueHolder.exampleBucket2.get("testKey2").getValueAsString() == "testValue2"
+
+        cleanup:
+        applicationContext.close()
+    }
+
 
     @Requires(property = 'spec.name', value = 'KeyValueSpec')
     @Singleton
     static class KeyValueHolder {
         @Inject
         @KeyValueStore('examplebucket')
-        KeyValue keyValueBucket;
+        KeyValue keyValueBucket
+
+        @Inject
+        @KeyValueStore('examplebucket2')
+        KeyValue exampleBucket2
     }
 }

@@ -38,13 +38,16 @@ abstract class AbstractJetstreamTest extends Specification {
 
     protected ApplicationContext startContext(Map additionalConfig = [:]) {
         ApplicationContext.run(
-                ["nats.default.addresses": ["nats://localhost:${natsContainer.getMappedPort(4222)}"],
-                 "spec.name"             : getClass().simpleName,
-                 "nats.default.jetstream.streams.widgets.storage-type": "Memory",
-                 "nats.default.jetstream.streams.widgets.subjects": ['subject.>'],
-                 "nats.default.jetstream.keyvalue.examplebucket.storage-type": "Memory",
-                 "nats.default.jetstream.keyvalue.examplebucket.max-history-per-key": 5,
-                 "nats.default.jetstream.objectstore.examplestore.storage-type": "Memory"
+                ["nats.default.addresses"                                            : ["nats://localhost:${natsContainer.getMappedPort(4222)}"],
+                 "spec.name"                                                         : getClass().simpleName,
+                 "nats.default.jetstream.streams.widgets.storage-type"               : "Memory",
+                 "nats.default.jetstream.streams.widgets.subjects"                   : ['subject.>'],
+                 "nats.default.jetstream.keyvalue.examplebucket.storage-type"        : "Memory",
+                 "nats.default.jetstream.keyvalue.examplebucket.max-history-per-key" : 5,
+                 "nats.default.jetstream.keyvalue.examplebucket2.storage-type"       : "Memory",
+                 "nats.default.jetstream.keyvalue.examplebucket2.max-history-per-key": 5,
+                 "nats.default.jetstream.objectstore.examplestore.storage-type"      : "Memory",
+                 "nats.default.jetstream.objectstore.examplestore2.storage-type"     : "Memory"
                 ] << additionalConfig, "test")
     }
 }

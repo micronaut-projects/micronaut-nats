@@ -83,6 +83,38 @@ class ObjectStoreSpec extends AbstractJetstreamTest {
         applicationContext.close()
     }
 
+    void "mutliple injects via injection point"() {
+        given:
+        ApplicationContext applicationContext = startContext()
+        ObjectStoreManagement osm = applicationContext.getBean(ObjectStoreManagement, Qualifiers.byName(NatsConnection.DEFAULT_CONNECTION))
+        def testValue1 = "Test Value 1".getBytes()
+        def testValue2 = "Test Value 2".getBytes()
+
+
+        when:
+        def objectStoreHolder = applicationContext.getBean(ObjectStoreHolder)
+
+        then:
+        objectStoreHolder.objectStore != null
+        objectStoreHolder.exampleStore2 != null
+
+        when:
+        objectStoreHolder.objectStore.put("testKey", testValue1)
+        objectStoreHolder.exampleStore2.put("testKey", testValue2)
+
+        then:
+        def baos1 = new ByteArrayOutputStream()
+        objectStoreHolder.objectStore.get("testKey", baos1)
+        testValue1 == baos1.toByteArray()
+
+        def baos2 = new ByteArrayOutputStream()
+        objectStoreHolder.exampleStore2.get("testKey", baos2)
+        testValue2 == baos2.toByteArray()
+
+        cleanup:
+        applicationContext.close()
+    }
+
 
     @Requires(property = 'spec.name', value = 'ObjectStoreSpec')
     @Singleton
@@ -90,6 +122,10 @@ class ObjectStoreSpec extends AbstractJetstreamTest {
 
         @Inject
         @ObjectStore("examplestore")
-        io.nats.client.ObjectStore objectStore;
+        io.nats.client.ObjectStore objectStore
+
+        @Inject
+        @ObjectStore("examplestore2")
+        io.nats.client.ObjectStore exampleStore2;
     }
 }
