@@ -1,6 +1,6 @@
 package io.micronaut.nats.docs.jetstream
 
-import io.kotest.assertions.timing.eventually
+import io.kotest.assertions.nondeterministic.eventually
 import io.kotest.core.spec.style.BehaviorSpec
 import io.kotest.matchers.shouldBe
 import io.micronaut.context.annotation.Property
