@@ -18,7 +18,7 @@ class ProductListener {
 
     CopyOnWriteArrayList<byte[]> messageLengths = []
 
-    @PushConsumer(value = "events", subject = "events.>", durable = "test") // <2>
+    @PushConsumer(value = "myevents", subject = "myevents.>", durable = "test") // <2>
     void receive(byte[] data) {
         messageLengths << data
     }

@@ -23,19 +23,17 @@ class JetstreamSpec(
 
             // tag::producer[]
             val pa = productClient.send(
-                "events.one", "ghi".toByteArray(),
+                "myevents.one", "ghi".toByteArray(),
                 PublishOptions.builder()
-                    .stream("events")
                     .messageId("id00001")
-                    .expectedStream("events")
+                    .expectedStream("myevents")
                     .build()
             )
             productClient.send(
-                "events.two", "jkl".toByteArray(),
+                "myevents.two", "jkl".toByteArray(),
                 PublishOptions.builder()
-                    .stream("events")
                     .messageId("id00002")
-                    .expectedStream("events")
+                    .expectedStream("myevents")
                     .expectedLastMsgId("id00001")
                     .expectedLastSequence(pa.seqno)
                     .build()
@@ -45,7 +43,7 @@ class JetstreamSpec(
             then("The messages are received with pull consumer") {
                 eventually(10.seconds) {
                     productListener.messageLengths.size shouldBe 2
-                    jsm.getStreamInfo("events").streamState.msgCount shouldBe 2
+                    jsm.getStreamInfo("myevents").streamState.msgCount shouldBe 2
                 }
             }
         }
@@ -57,7 +55,6 @@ class JetstreamSpec(
             val pa = productClient.send(
                 "events.three", "ghi".toByteArray(),
                 PublishOptions.builder()
-                    .stream("events")
                     .messageId("id00001")
                     .expectedStream("events")
                     .build()
@@ -65,7 +62,6 @@ class JetstreamSpec(
             productClient.send(
                 "events.four", "jkl".toByteArray(),
                 PublishOptions.builder()
-                    .stream("events")
                     .messageId("id00002")
                     .expectedStream("events")
                     .expectedLastMsgId("id00001")

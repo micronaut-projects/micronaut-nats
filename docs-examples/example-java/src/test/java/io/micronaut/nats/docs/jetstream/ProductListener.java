@@ -1,14 +1,12 @@
 package io.micronaut.nats.docs.jetstream;
 
+import io.micronaut.context.annotation.Requires;
+import io.micronaut.nats.jetstream.annotation.JetStreamListener;
+import io.micronaut.nats.jetstream.annotation.PushConsumer;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import io.micronaut.context.annotation.Requires;
-
-// tag::imports[]
-import io.micronaut.nats.jetstream.annotation.JetStreamListener;
-import io.micronaut.nats.jetstream.annotation.PushConsumer;
 // end::imports[]
 
 @Requires(property = "spec.name", value = "JetstreamTest")
@@ -18,7 +16,7 @@ public class ProductListener {
 
     List<byte[]> messageLengths = Collections.synchronizedList(new ArrayList<>());
 
-    @PushConsumer(value = "events", subject = "events.>", durable = "test") // <2>
+    @PushConsumer(value = "myevents", subject = "myevents.>", durable = "test") // <2>
     public void receive(byte[] data) {
         messageLengths.add(data);
     }

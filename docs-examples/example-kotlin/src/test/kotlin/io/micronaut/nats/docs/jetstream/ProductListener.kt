@@ -17,7 +17,7 @@ class ProductListener {
 
     val messageLengths: MutableList<ByteArray> = Collections.synchronizedList(ArrayList())
 
-    @PushConsumer(value = "events", subject = "events.>", durable = "test") // <2>
+    @PushConsumer(value = "myevents", subject = "myevents.>", durable = "test") // <2>
     fun receive(data: ByteArray) {
         messageLengths.add(data)
     }
