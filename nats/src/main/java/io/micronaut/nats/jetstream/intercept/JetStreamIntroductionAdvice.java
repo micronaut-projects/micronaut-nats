@@ -134,7 +134,7 @@ public class JetStreamIntroductionAdvice extends AbstractIntroductionAdvice impl
 
                 reactive = reactive.onErrorMap(throwable -> new NatsClientException(
                     String.format(
-                        "Failed to publish a message with subject [%s] and exception message [%s]", message.getSubject(), throwable.getMessage()),
+                        "Failed to publish a message with subject: [%s]", message.getSubject()),
                     throwable, Collections.singletonList(message)));
 
                 if (interceptedMethod.resultType() != InterceptedMethod.ResultType.SYNCHRONOUS) {
