@@ -12,6 +12,11 @@ nats:
           storage-type: Memory
           subjects:
             - events.>
+        myevents:
+          storage-type: Memory
+
+          subjects:
+            - myevents.>
       keyvalue:
         examplebucket:
           storage-type: Memory
