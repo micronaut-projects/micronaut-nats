@@ -22,17 +22,15 @@ class JetstreamTest {
     void simplePublisher(ProductClient productClient, ProductListener productListener, JetStreamManagement jsm) {
 
         // tag::producer[]
-        PublishAck pa = productClient.send("events.one", "ghi".getBytes(StandardCharsets.UTF_8),
+        PublishAck pa = productClient.send("myevents.one", "ghi".getBytes(StandardCharsets.UTF_8),
             PublishOptions.builder()
-                .stream("events")
                 .messageId("id00001")
-                .expectedStream("events")
+                .expectedStream("myevents")
                 .build());
-        productClient.send("events.two", "jkl".getBytes(StandardCharsets.UTF_8),
+        productClient.send("myevents.two", "jkl".getBytes(StandardCharsets.UTF_8),
             PublishOptions.builder()
-                .stream("events")
                 .messageId("id00002")
-                .expectedStream("events")
+                .expectedStream("myevents")
                 .expectedLastMsgId("id00001")
                 .expectedLastSequence(pa.getSeqno())
                 .build());
@@ -41,7 +39,7 @@ class JetstreamTest {
 
         await().atMost(60, SECONDS).until(() ->
             productListener.messageLengths.size() == 2 &&
-                jsm.getStreamInfo("events").getStreamState().getMsgCount() == 2
+                jsm.getStreamInfo("myevents").getStreamState().getMsgCount() == 2
         );
     }
 
@@ -49,13 +47,11 @@ class JetstreamTest {
     void pullConsumer(ProductClient productClient, PullConsumerHelper pullConsumerHelper) {
         PublishAck pa = productClient.send("events.three", "ghi".getBytes(StandardCharsets.UTF_8),
             PublishOptions.builder()
-                .stream("events")
                 .messageId("id00001")
                 .expectedStream("events")
                 .build());
         productClient.send("events.four", "jkl".getBytes(StandardCharsets.UTF_8),
             PublishOptions.builder()
-                .stream("events")
                 .messageId("id00002")
                 .expectedStream("events")
                 .expectedLastMsgId("id00001")
