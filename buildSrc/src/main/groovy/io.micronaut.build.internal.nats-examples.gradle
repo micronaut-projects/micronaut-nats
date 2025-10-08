@@ -12,6 +12,7 @@ dependencies {
     testImplementation mn.reactor
     testImplementation libs.awaitility
     testImplementation 'io.micronaut.testresources:micronaut-test-resources-client'
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
 
