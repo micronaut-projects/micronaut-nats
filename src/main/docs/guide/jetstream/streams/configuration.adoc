@@ -2,7 +2,7 @@ All properties on the link:{apinats}/io/nats/client/JetStreamOptions.Builder.htm
 
 The following properties are available for a stream configuration:
 
-include::{includedir}configurationProperties/io.micronaut.nats.connect.NatsConnectionFactoryConfig$JetStreamConfiguration$StreamConfiguration.adoc[]
+include::{includedir}configurationProperties/io.nats.client.api.StreamConfiguration$Builder.adoc[]
 
 A simple configuration for jetstream and a single stream can look like:
 
