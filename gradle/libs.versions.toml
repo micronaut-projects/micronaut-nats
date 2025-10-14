@@ -12,8 +12,8 @@ kotlin = '1.9.25'
 nats = '2.23.0'
 
 micronaut-logging = "1.7.1"
-micronaut-reactor = "3.8.0"
 micronaut-micrometer = "5.13.0"
+micronaut-reactor = "3.9.0"
 micronaut-rxjava3 = "3.8.0"
 micronaut-serde = "2.15.5"
 micronaut-test-resources="2.10.1"
