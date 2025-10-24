@@ -1,3 +1,4 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 plugins {
     id 'io.micronaut.build.internal.nats-examples'
     id("org.jetbrains.kotlin.jvm")
@@ -10,8 +11,8 @@ micronaut {
 }
 
 kotlin {
-    jvmToolchain {
-        languageVersion.set(JavaLanguageVersion.of(17))
+    compilerOptions {
+        jvmTarget = JvmTarget.JVM_21
     }
 }
 
