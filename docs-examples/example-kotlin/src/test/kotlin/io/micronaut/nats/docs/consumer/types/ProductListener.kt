@@ -25,7 +25,7 @@ class ProductListener {
                 connection: Connection,
                 subscription: Subscription,
                 headers: Headers) { // <1>
-        messages.add("subject: [${message.subject}], maxPayload: [${connection.maxPayload}], pendingMessageCount: [${subscription.pendingMessageCount}], x-productCount: [${headers["x-product-count"][0]}]")
+        messages.add("subject: [${message.subject}], maxPayload: [${connection.maxPayload}], pendingMessageCount: [${subscription.pendingMessageCount}], x-productCount: [${headers["x-product-count"]!![0]}]")
     }
 
 }

@@ -41,7 +41,7 @@ class ProductListener {
 
     @Subject("productHeader")
     fun receive(@MessageBody data: ByteArray, headers: Headers) { // <5>
-        messageProperties.add("${headers["x-product-sealed"][0]}|${headers["x-product-count"][0]}|${headers["productSize"][0]}")
+        messageProperties.add("${headers["x-product-sealed"]!![0]}|${headers["x-product-count"]!![0]}|${headers["productSize"]!![0]}")
         datas.add(data)
     }
 }
