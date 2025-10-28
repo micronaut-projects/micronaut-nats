@@ -2,6 +2,7 @@ plugins {
     id "io.micronaut.build.internal.nats-base"
     id "io.micronaut.minimal.application"
     id "io.micronaut.test-resources"
+    id "io.micronaut.build.internal.kotlin-base"
 }
 
 dependencies {
@@ -27,9 +28,4 @@ micronaut {
     testResources {
         clientTimeout = 300
     }
-}
-
-java {
-    sourceCompatibility = JavaVersion.VERSION_21
-    targetCompatibility = JavaVersion.VERSION_21
 }
