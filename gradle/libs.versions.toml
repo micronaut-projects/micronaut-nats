@@ -1,14 +1,14 @@
 [versions]
-micronaut = "4.9.12"
-micronaut-platform = "4.9.4"
+micronaut = "4.10.8"
+micronaut-platform = "4.10.1"
 micronaut-docs = "3.0.0"
 micronaut-test = "4.7.0"
-micronaut-gradle-plugin = "4.5.5"
+micronaut-gradle-plugin = "4.6.1"
 groovy = "4.0.24"
 spock = "2.3-groovy-4.0"
 
 awaitility = '4.3.0'
-kotlin = '1.9.25'
+kotlin = '2.2.20'
 nats = '2.23.0'
 
 micronaut-logging = "1.7.1"

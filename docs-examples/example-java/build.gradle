@@ -1,3 +1,4 @@
 plugins {
     id 'io.micronaut.build.internal.nats-native-tests'
+    id("io.micronaut.build.internal.java-base")
 }

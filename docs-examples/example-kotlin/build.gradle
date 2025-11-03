@@ -3,15 +3,10 @@ plugins {
     id("org.jetbrains.kotlin.jvm")
     id("org.jetbrains.kotlin.kapt")
     id("org.jetbrains.kotlin.plugin.allopen")
+    id("io.micronaut.build.internal.kotlin-base")
 }
 
 micronaut {
     testRuntime "kotest5"
-}
-
-kotlin {
-    jvmToolchain {
-        languageVersion.set(JavaLanguageVersion.of(17))
-    }
 }
 
