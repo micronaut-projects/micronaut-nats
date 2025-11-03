@@ -2,7 +2,6 @@ plugins {
     id "io.micronaut.build.internal.nats-base"
     id "io.micronaut.minimal.application"
     id "io.micronaut.test-resources"
-    id "io.micronaut.build.internal.kotlin-base"
 }
 
 dependencies {
