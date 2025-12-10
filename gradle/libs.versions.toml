@@ -14,7 +14,7 @@ nats = '2.23.0'
 micronaut-logging = "1.7.1"
 micronaut-micrometer = "5.13.2"
 micronaut-reactor = "3.9.1"
-micronaut-rxjava3 = "3.8.0"
+micronaut-rxjava3 = "3.9.0"
 micronaut-serde = "2.16.2"
 micronaut-test-resources="2.10.1"
 
