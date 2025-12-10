@@ -15,7 +15,7 @@
  */
 package io.micronaut.nats.jetstream.bind;
 
-import io.micronaut.core.annotation.NonNull;
+import org.jspecify.annotations.NonNull;
 import io.micronaut.messaging.Acknowledgement;
 
 import java.time.Duration;

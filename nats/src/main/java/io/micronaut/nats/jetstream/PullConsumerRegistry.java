@@ -18,7 +18,7 @@ package io.micronaut.nats.jetstream;
 import java.io.IOException;
 
 import io.micronaut.context.BeanContext;
-import io.micronaut.core.annotation.NonNull;
+import org.jspecify.annotations.NonNull;
 import io.micronaut.inject.qualifiers.Qualifiers;
 import io.micronaut.nats.annotation.NatsConnection;
 import io.nats.client.JetStream;

@@ -1,8 +1,8 @@
 package io.micronaut.nats.docs.consumer.custom.type;
 
 // tag::clazz[]
-import io.micronaut.core.annotation.NonNull;
-import io.micronaut.core.annotation.Nullable;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 public class ProductInfo {
 
