@@ -106,7 +106,7 @@ public class NatsConsumerAdvice implements ExecutableMethodProcessor<Subject>, A
     }
 
     @Override
-    public void process(BeanDefinition<?> beanDefinition, ExecutableMethod<?, ?> method) {
+    public <B> void process(BeanDefinition<B> beanDefinition, ExecutableMethod<B, ?> method) {
         AnnotationValue<NatsListener> listenerAnnotation = method.getAnnotation(NatsListener.class);
         List<AnnotationValue<Subject>> subjectAnnotations =
             method.getDeclaredAnnotationValuesByType(Subject.class);
