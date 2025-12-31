@@ -10,12 +10,10 @@ import io.micronaut.test.support.TestPropertyProvider
 import io.nats.client.JetStreamManagement
 import io.nats.client.PublishOptions
 import jakarta.inject.Inject
-import org.junit.jupiter.api.TestInstance
 import kotlin.time.Duration.Companion.seconds
 
 @MicronautTest
 @Property(name = "spec.name", value = "JetstreamSpec")
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class JetstreamSpec : BehaviorSpec(), TestPropertyProvider {
 
     @Inject

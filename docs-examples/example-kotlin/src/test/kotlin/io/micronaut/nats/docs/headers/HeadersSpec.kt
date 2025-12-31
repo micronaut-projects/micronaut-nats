@@ -10,12 +10,10 @@ import io.micronaut.test.extensions.kotest5.annotation.MicronautTest
 import io.micronaut.test.support.TestPropertyProvider
 import io.nats.client.impl.Headers
 import jakarta.inject.Inject
-import org.junit.jupiter.api.TestInstance
 import kotlin.time.Duration.Companion.seconds
 
 @MicronautTest
 @Property(name = "spec.name", value = "HeadersSpec")
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class HeadersSpec : BehaviorSpec(), TestPropertyProvider {
 
     @Inject

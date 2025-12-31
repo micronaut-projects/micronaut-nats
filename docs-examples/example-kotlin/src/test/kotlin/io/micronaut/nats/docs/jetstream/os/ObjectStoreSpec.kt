@@ -7,11 +7,9 @@ import io.micronaut.nats.testcontainers.Nats
 import io.micronaut.test.extensions.kotest5.annotation.MicronautTest
 import io.micronaut.test.support.TestPropertyProvider
 import jakarta.inject.Inject
-import org.junit.jupiter.api.TestInstance
 
 @MicronautTest
 @Property(name = "spec.name", value = "ObjectStoreSpec")
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class ObjectStoreSpec : BehaviorSpec(), TestPropertyProvider {
 
     @Inject

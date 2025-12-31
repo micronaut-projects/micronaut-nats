@@ -8,12 +8,10 @@ import io.micronaut.context.annotation.Property
 import io.micronaut.test.extensions.kotest5.annotation.MicronautTest
 import io.micronaut.test.support.TestPropertyProvider
 import jakarta.inject.Inject
-import org.junit.jupiter.api.TestInstance
 import kotlin.time.Duration.Companion.seconds
 
 @MicronautTest
 @Property(name = "spec.name", value = "ConnectionSpec")
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class ConnectionSpec : TestPropertyProvider, AnnotationSpec() {
     @Inject
     lateinit var productClient: ProductClient
