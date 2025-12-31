@@ -5,6 +5,7 @@ io.micronaut.nats.connect
 io.micronaut.nats.exception
 io.micronaut.nats.executor
 io.micronaut.nats.health
+io.micronaut.nats.info
 io.micronaut.nats.intercept
 io.micronaut.nats.jetstream
 io.micronaut.nats.jetstream.annotation
@@ -14,3 +15,4 @@ io.micronaut.nats.jetstream.intercept
 io.micronaut.nats.jetstream.reactive
 io.micronaut.nats.reactive
 io.micronaut.nats.serdes
+io.micronaut.nats.testcontainers

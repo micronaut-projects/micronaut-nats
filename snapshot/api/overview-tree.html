@@ -58,6 +58,7 @@ loadScripts(document, 'script');</script>
 <li><a href="io/micronaut/nats/exception/package-tree.html">io.micronaut.nats.exception</a>, </li>
 <li><a href="io/micronaut/nats/executor/package-tree.html">io.micronaut.nats.executor</a>, </li>
 <li><a href="io/micronaut/nats/health/package-tree.html">io.micronaut.nats.health</a>, </li>
+<li><a href="io/micronaut/nats/info/package-tree.html">io.micronaut.nats.info</a>, </li>
 <li><a href="io/micronaut/nats/intercept/package-tree.html">io.micronaut.nats.intercept</a>, </li>
 <li><a href="io/micronaut/nats/jetstream/package-tree.html">io.micronaut.nats.jetstream</a>, </li>
 <li><a href="io/micronaut/nats/jetstream/annotation/package-tree.html">io.micronaut.nats.jetstream.annotation</a>, </li>
@@ -66,7 +67,8 @@ loadScripts(document, 'script');</script>
 <li><a href="io/micronaut/nats/jetstream/intercept/package-tree.html">io.micronaut.nats.jetstream.intercept</a>, </li>
 <li><a href="io/micronaut/nats/jetstream/reactive/package-tree.html">io.micronaut.nats.jetstream.reactive</a>, </li>
 <li><a href="io/micronaut/nats/reactive/package-tree.html">io.micronaut.nats.reactive</a>, </li>
-<li><a href="io/micronaut/nats/serdes/package-tree.html">io.micronaut.nats.serdes</a></li>
+<li><a href="io/micronaut/nats/serdes/package-tree.html">io.micronaut.nats.serdes</a>, </li>
+<li><a href="io/micronaut/nats/testcontainers/package-tree.html">io.micronaut.nats.testcontainers</a></li>
 </ul>
 <section class="hierarchy">
 <h2 title="Class Hierarchy">Class Hierarchy</h2>
@@ -84,6 +86,11 @@ loadScripts(document, 'script');</script>
 <li class="circle">io.micronaut.nats.intercept.<a href="io/micronaut/nats/intercept/NatsIntroductionAdvice.html" class="type-name-link" title="class in io.micronaut.nats.intercept">NatsIntroductionAdvice</a> (implements io.micronaut.aop.MethodInterceptor&lt;T,<wbr>R&gt;)</li>
 </ul>
 </li>
+<li class="circle">io.micronaut.module.info.AbstractMicronautModuleInfo (implements io.micronaut.module.info.MicronautModuleInfo)
+<ul>
+<li class="circle">io.micronaut.nats.info.<a href="io/micronaut/nats/info/MicronautNatsModuleInfo.html" class="type-name-link" title="class in io.micronaut.nats.info">MicronautNatsModuleInfo</a></li>
+</ul>
+</li>
 <li class="circle">io.micronaut.nats.jetstream.bind.<a href="io/micronaut/nats/jetstream/bind/AcknowledgementBinder.html" class="type-name-link" title="class in io.micronaut.nats.jetstream.bind">AcknowledgementBinder</a>&lt;T&gt; (implements io.micronaut.nats.bind.<a href="io/micronaut/nats/bind/NatsTypeArgumentBinder.html" title="interface in io.micronaut.nats.bind">NatsTypeArgumentBinder</a>&lt;T&gt;)
 <ul>
 <li class="circle">io.micronaut.nats.jetstream.bind.<a href="io/micronaut/nats/jetstream/bind/NatsAcknowledgementBinder.html" class="type-name-link" title="class in io.micronaut.nats.jetstream.bind">NatsAcknowledgementBinder</a></li>
@@ -98,6 +105,7 @@ loadScripts(document, 'script');</script>
 <li class="circle">io.micronaut.nats.jetstream.intercept.<a href="io/micronaut/nats/jetstream/intercept/JetStreamPushConsumerAdvice.html" class="type-name-link" title="class in io.micronaut.nats.jetstream.intercept">JetStreamPushConsumerAdvice</a> (implements java.lang.<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/AutoCloseable.html" title="class or interface in java.lang" class="external-link">AutoCloseable</a>, io.micronaut.context.processor.ExecutableMethodProcessor&lt;A&gt;, io.micronaut.nats.jetstream.<a href="io/micronaut/nats/jetstream/PushConsumerRegistry.html" title="interface in io.micronaut.nats.jetstream">PushConsumerRegistry</a>)</li>
 <li class="circle">io.micronaut.nats.serdes.<a href="io/micronaut/nats/serdes/JsonNatsMessageSerDes.html" class="type-name-link" title="class in io.micronaut.nats.serdes">JsonNatsMessageSerDes</a> (implements io.micronaut.nats.serdes.<a href="io/micronaut/nats/serdes/NatsMessageSerDes.html" title="interface in io.micronaut.nats.serdes">NatsMessageSerDes</a>&lt;T&gt;)</li>
 <li class="circle">io.micronaut.nats.jetstream.<a href="io/micronaut/nats/jetstream/KeyValueFactory.html" class="type-name-link" title="class in io.micronaut.nats.jetstream">KeyValueFactory</a></li>
+<li class="circle">io.micronaut.nats.testcontainers.<a href="io/micronaut/nats/testcontainers/Nats.html" class="type-name-link" title="class in io.micronaut.nats.testcontainers">Nats</a></li>
 <li class="circle">io.micronaut.nats.bind.<a href="io/micronaut/nats/bind/NatsBinderRegistry.html" class="type-name-link" title="class in io.micronaut.nats.bind">NatsBinderRegistry</a> (implements io.micronaut.core.bind.ArgumentBinderRegistry&lt;S&gt;)</li>
 <li class="circle">io.micronaut.nats.bind.<a href="io/micronaut/nats/bind/NatsBodyBinder.html" class="type-name-link" title="class in io.micronaut.nats.bind">NatsBodyBinder</a> (implements io.micronaut.nats.bind.<a href="io/micronaut/nats/bind/NatsAnnotatedArgumentBinder.html" title="interface in io.micronaut.nats.bind">NatsAnnotatedArgumentBinder</a>&lt;A&gt;)</li>
 <li class="circle">io.micronaut.nats.bind.<a href="io/micronaut/nats/bind/NatsConnectionBinder.html" class="type-name-link" title="class in io.micronaut.nats.bind">NatsConnectionBinder</a> (implements io.micronaut.nats.bind.<a href="io/micronaut/nats/bind/NatsTypeArgumentBinder.html" title="interface in io.micronaut.nats.bind">NatsTypeArgumentBinder</a>&lt;T&gt;)</li>

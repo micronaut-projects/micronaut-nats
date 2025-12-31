@@ -23,7 +23,9 @@
             document.body.className = classes.join(" ");
         }
     </script>
-
+    <style type="text/css">
+        .lang-java { display: block }; .lang-python { display: block }; .lang-kotlin { display: block }; .lang-groovy { display: block }; 
+    </style>
 </head>
 
 <body class="body" id="docs" onload="addJsClass();" onhashchange="highlightMenu()">
@@ -313,19 +315,6 @@ public interface ProductClient {
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">import io.micronaut.nats.annotation.NatsClient
-import io.micronaut.nats.annotation.Subject
-
-@NatsClient // <b class="conum">(1)</b>
-interface ProductClient {
-
-    @Subject("product") // <b class="conum">(2)</b>
-    void send(byte[] data) // <b class="conum">(3)</b>
-}</code></pre>
-</div>
-</div>
-<div class="listingblock multi-language-sample">
-<div class="content">
 <pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">import io.micronaut.nats.annotation.NatsClient
 import io.micronaut.nats.annotation.Subject
 
@@ -334,6 +323,19 @@ interface ProductClient {
 
     @Subject("product") // <b class="conum">(2)</b>
     fun send(data: ByteArray) // <b class="conum">(3)</b>
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">import io.micronaut.nats.annotation.NatsClient
+import io.micronaut.nats.annotation.Subject
+
+@NatsClient // <b class="conum">(1)</b>
+interface ProductClient {
+
+    @Subject("product") // <b class="conum">(2)</b>
+    void send(byte[] data) // <b class="conum">(3)</b>
 }</code></pre>
 </div>
 </div>
@@ -936,21 +938,6 @@ public interface ProductClient {
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">import io.micronaut.nats.annotation.NatsClient
-import io.micronaut.nats.annotation.Subject
-
-@NatsClient
-interface ProductClient {
-
-    @Subject("product") // <b class="conum">(1)</b>
-    void send(byte[] data)
-
-    void send(@Subject String subject, byte[] data) // <b class="conum">(2)</b>
-}</code></pre>
-</div>
-</div>
-<div class="listingblock multi-language-sample">
-<div class="content">
 <pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">import io.micronaut.nats.annotation.NatsClient
 import io.micronaut.nats.annotation.Subject
 
@@ -961,6 +948,21 @@ interface ProductClient {
     fun send(data: ByteArray)
 
     fun send(@Subject subject: String, data:ByteArray) // <b class="conum">(2)</b>
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">import io.micronaut.nats.annotation.NatsClient
+import io.micronaut.nats.annotation.Subject
+
+@NatsClient
+interface ProductClient {
+
+    @Subject("product") // <b class="conum">(1)</b>
+    void send(byte[] data)
+
+    void send(@Subject String subject, byte[] data) // <b class="conum">(2)</b>
 }</code></pre>
 </div>
 </div>
@@ -996,19 +998,6 @@ public interface ProductClient {
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">import io.micronaut.nats.annotation.NatsClient
-import io.micronaut.nats.annotation.Subject
-
-@NatsClient // <b class="conum">(1)</b>
-interface ProductClient {
-
-    @Subject(value = "product", connection = "product-cluster") // <b class="conum">(2)</b>
-    void send(byte[] data) // <b class="conum">(3)</b>
-}</code></pre>
-</div>
-</div>
-<div class="listingblock multi-language-sample">
-<div class="content">
 <pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">import io.micronaut.nats.annotation.NatsClient
 import io.micronaut.nats.annotation.Subject
 
@@ -1018,6 +1007,19 @@ interface ProductClient {
     @Subject(value = "product", connection = "product-cluster") // <b class="conum">(1)</b>
     fun send(data: ByteArray)
 
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">import io.micronaut.nats.annotation.NatsClient
+import io.micronaut.nats.annotation.Subject
+
+@NatsClient // <b class="conum">(1)</b>
+interface ProductClient {
+
+    @Subject(value = "product", connection = "product-cluster") // <b class="conum">(2)</b>
+    void send(byte[] data) // <b class="conum">(3)</b>
 }</code></pre>
 </div>
 </div>
@@ -1105,39 +1107,6 @@ public interface ProductClient {
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">import io.micronaut.messaging.annotation.MessageBody
-import io.micronaut.messaging.annotation.MessageHeader
-import io.micronaut.nats.annotation.NatsClient
-import io.micronaut.nats.annotation.Subject
-import io.nats.client.impl.Headers
-
-@NatsClient
-@MessageHeader(name = "x-product-sealed", value = "true") // <b class="conum">(1)</b>
-@MessageHeader(name = "productSize", value = "large")
-interface ProductClient {
-
-
-    @Subject("product")
-    @MessageHeader(name = "x-product-count", value = "10") // <b class="conum">(2)</b>
-    @MessageHeader(name = "productSize", value = "small")
-    void send(byte[] data)
-
-    @Subject("product")
-    void send(@MessageHeader String productSize, // <b class="conum">(3)</b>
-              @MessageHeader("x-product-count") Long count,
-              byte[] data)
-
-    @Subject("products")
-    @MessageHeader(name = "x-product-count", value = "20")
-    void send(@MessageBody byte[] data, @MessageHeader List&lt;String&gt; productSizes) // <b class="conum">(4)</b>
-
-    @Subject("productHeader")
-    void send(@MessageBody byte[] data, Headers headers) // <b class="conum">(5)</b>
-}</code></pre>
-</div>
-</div>
-<div class="listingblock multi-language-sample">
-<div class="content">
 <pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">import io.micronaut.messaging.annotation.MessageBody
 import io.micronaut.messaging.annotation.MessageHeader
 import io.micronaut.messaging.annotation.MessageHeaders
@@ -1171,6 +1140,39 @@ interface ProductClient {
     @Subject("productHeader")
     fun send(@MessageBody data: ByteArray, headers: Headers) // <b class="conum">(5)</b>
 
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">import io.micronaut.messaging.annotation.MessageBody
+import io.micronaut.messaging.annotation.MessageHeader
+import io.micronaut.nats.annotation.NatsClient
+import io.micronaut.nats.annotation.Subject
+import io.nats.client.impl.Headers
+
+@NatsClient
+@MessageHeader(name = "x-product-sealed", value = "true") // <b class="conum">(1)</b>
+@MessageHeader(name = "productSize", value = "large")
+interface ProductClient {
+
+
+    @Subject("product")
+    @MessageHeader(name = "x-product-count", value = "10") // <b class="conum">(2)</b>
+    @MessageHeader(name = "productSize", value = "small")
+    void send(byte[] data)
+
+    @Subject("product")
+    void send(@MessageHeader String productSize, // <b class="conum">(3)</b>
+              @MessageHeader("x-product-count") Long count,
+              byte[] data)
+
+    @Subject("products")
+    @MessageHeader(name = "x-product-count", value = "20")
+    void send(@MessageBody byte[] data, @MessageHeader List&lt;String&gt; productSizes) // <b class="conum">(4)</b>
+
+    @Subject("productHeader")
+    void send(@MessageBody byte[] data, Headers headers) // <b class="conum">(5)</b>
 }</code></pre>
 </div>
 </div>
@@ -1320,6 +1322,24 @@ public class ProductListener {
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">import io.micronaut.nats.annotation.NatsListener
+import io.micronaut.nats.annotation.Subject
+import java.util.Collections
+
+@NatsListener
+class ProductListener {
+
+    val messageLengths: MutableList&lt;Int&gt; = Collections.synchronizedList(ArrayList())
+
+    @Subject("product") // <b class="conum">(1)</b>
+    fun receive(data: ByteArray) {
+        messageLengths.add(data.size)
+    }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
 <pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">import io.micronaut.nats.annotation.NatsListener
 import io.micronaut.nats.annotation.Subject
 
@@ -1333,24 +1353,6 @@ class ProductListener {
     @Subject("product") // <b class="conum">(1)</b>
     void receive(byte[] data) {
         messageLengths &lt;&lt; data.length
-    }
-}</code></pre>
-</div>
-</div>
-<div class="listingblock multi-language-sample">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">import io.micronaut.nats.annotation.NatsListener
-import io.micronaut.nats.annotation.Subject
-import java.util.Collections
-
-@NatsListener
-class ProductListener {
-
-    val messageLengths: MutableList&lt;Int&gt; = Collections.synchronizedList(ArrayList())
-
-    @Subject("product") // <b class="conum">(1)</b>
-    fun receive(data: ByteArray) {
-        messageLengths.add(data.size)
     }
 }</code></pre>
 </div>
@@ -1394,30 +1396,6 @@ public class ProductListener {
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">import io.micronaut.nats.annotation.NatsListener
-import io.micronaut.nats.annotation.Subject
-
-import java.util.concurrent.CopyOnWriteArrayList
-
-@NatsListener
-class ProductListener {
-
-    CopyOnWriteArrayList&lt;String&gt; messageLengths = []
-
-    @Subject(value = "product", queue = "product-queue") // <b class="conum">(1)</b>
-    void receiveByQueue1(byte[] data) {
-        messageLengths &lt;&lt; new String(data)
-    }
-
-    @Subject(value = "product", queue = "product-queue")
-    public void receiveByQueue2(byte[] data) {
-        messageLengths &lt;&lt; new String(data)
-    }
-}</code></pre>
-</div>
-</div>
-<div class="listingblock multi-language-sample">
-<div class="content">
 <pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">import io.micronaut.messaging.annotation.MessageHeader
 import io.micronaut.nats.annotation.NatsListener
 import io.micronaut.nats.annotation.Subject
@@ -1439,6 +1417,30 @@ class ProductListener {
         messageLengths.add(String(data))
     }
 
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">import io.micronaut.nats.annotation.NatsListener
+import io.micronaut.nats.annotation.Subject
+
+import java.util.concurrent.CopyOnWriteArrayList
+
+@NatsListener
+class ProductListener {
+
+    CopyOnWriteArrayList&lt;String&gt; messageLengths = []
+
+    @Subject(value = "product", queue = "product-queue") // <b class="conum">(1)</b>
+    void receiveByQueue1(byte[] data) {
+        messageLengths &lt;&lt; new String(data)
+    }
+
+    @Subject(value = "product", queue = "product-queue")
+    public void receiveByQueue2(byte[] data) {
+        messageLengths &lt;&lt; new String(data)
+    }
 }</code></pre>
 </div>
 </div>
@@ -1488,23 +1490,6 @@ public class ProductListener {
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">import io.micronaut.nats.annotation.NatsListener
-import io.micronaut.nats.annotation.Subject
-
-@NatsListener
-class ProductListener {
-
-    List&lt;String&gt; messageLengths = Collections.synchronizedList([])
-
-    @Subject(value = "product", connection = "product-cluster") // <b class="conum">(1)</b>
-    void receive(byte[] data) {
-        messageLengths &lt;&lt; new String(data)
-    }
-}</code></pre>
-</div>
-</div>
-<div class="listingblock multi-language-sample">
-<div class="content">
 <pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">import io.micronaut.messaging.annotation.MessageHeader
 import io.micronaut.nats.annotation.NatsListener
 import io.micronaut.nats.annotation.Subject
@@ -1521,6 +1506,23 @@ class ProductListener {
         messageLengths.add(String(data))
     }
 
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">import io.micronaut.nats.annotation.NatsListener
+import io.micronaut.nats.annotation.Subject
+
+@NatsListener
+class ProductListener {
+
+    List&lt;String&gt; messageLengths = Collections.synchronizedList([])
+
+    @Subject(value = "product", connection = "product-cluster") // <b class="conum">(1)</b>
+    void receive(byte[] data) {
+        messageLengths &lt;&lt; new String(data)
+    }
 }</code></pre>
 </div>
 </div>
@@ -1600,48 +1602,6 @@ public class ProductListener {
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">import io.micronaut.core.annotation.Nullable
-import io.micronaut.messaging.annotation.MessageBody
-import io.micronaut.messaging.annotation.MessageHeader
-import io.micronaut.nats.annotation.NatsListener
-import io.micronaut.nats.annotation.Subject
-import io.nats.client.impl.Headers
-
-import java.util.concurrent.CopyOnWriteArrayList
-
-@NatsListener
-class ProductListener {
-
-    CopyOnWriteArrayList&lt;String&gt; messageProperties = []
-
-    @Subject("product")
-    void receive(byte[] data,
-                 @MessageHeader("x-product-sealed") Boolean sealed, // <b class="conum">(1)</b>
-                 @MessageHeader("x-product-count") Long count, // <b class="conum">(2)</b>
-                 @Nullable @MessageHeader String productSize) { // <b class="conum">(3)</b>
-        messageProperties &lt;&lt; sealed.toString() + "|" + count + "|" + productSize
-    }
-
-    @Subject("products")
-    void receive(@MessageBody byte[] data, @MessageHeader("x-product-sealed") Boolean sealed,
-                 @MessageHeader("x-product-count") Long count, @MessageHeader List&lt;String&gt; productSizes) { // <b class="conum">(4)</b>
-        productSizes.forEach {
-            messageProperties &lt;&lt; sealed.toString() + "|" + count + "|" + it
-        }
-    }
-
-    @Subject("productHeader")
-    void receive(@MessageBody byte[] data, Headers headers) { // <b class="conum">(5)</b>
-        String productSize = headers.get("productSize").get(0)
-        messageProperties &lt;&lt; headers.get("x-product-sealed").get(0) + "|" +
-                        headers.get("x-product-count").get(0) + "|" +
-                        productSize
-    }
-}</code></pre>
-</div>
-</div>
-<div class="listingblock multi-language-sample">
-<div class="content">
 <pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">import io.micronaut.messaging.annotation.MessageBody
 import io.micronaut.messaging.annotation.MessageHeader
 import io.micronaut.nats.annotation.NatsListener
@@ -1680,6 +1640,48 @@ class ProductListener {
     fun receive(@MessageBody data: ByteArray, headers: Headers) { // <b class="conum">(5)</b>
         messageProperties.add("${headers["x-product-sealed"]!![0]}|${headers["x-product-count"]!![0]}|${headers["productSize"]!![0]}")
         datas.add(data)
+    }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">import io.micronaut.core.annotation.Nullable
+import io.micronaut.messaging.annotation.MessageBody
+import io.micronaut.messaging.annotation.MessageHeader
+import io.micronaut.nats.annotation.NatsListener
+import io.micronaut.nats.annotation.Subject
+import io.nats.client.impl.Headers
+
+import java.util.concurrent.CopyOnWriteArrayList
+
+@NatsListener
+class ProductListener {
+
+    CopyOnWriteArrayList&lt;String&gt; messageProperties = []
+
+    @Subject("product")
+    void receive(byte[] data,
+                 @MessageHeader("x-product-sealed") Boolean sealed, // <b class="conum">(1)</b>
+                 @MessageHeader("x-product-count") Long count, // <b class="conum">(2)</b>
+                 @Nullable @MessageHeader String productSize) { // <b class="conum">(3)</b>
+        messageProperties &lt;&lt; sealed.toString() + "|" + count + "|" + productSize
+    }
+
+    @Subject("products")
+    void receive(@MessageBody byte[] data, @MessageHeader("x-product-sealed") Boolean sealed,
+                 @MessageHeader("x-product-count") Long count, @MessageHeader List&lt;String&gt; productSizes) { // <b class="conum">(4)</b>
+        productSizes.forEach {
+            messageProperties &lt;&lt; sealed.toString() + "|" + count + "|" + it
+        }
+    }
+
+    @Subject("productHeader")
+    void receive(@MessageBody byte[] data, Headers headers) { // <b class="conum">(5)</b>
+        String productSize = headers.get("productSize").get(0)
+        messageProperties &lt;&lt; headers.get("x-product-sealed").get(0) + "|" +
+                        headers.get("x-product-count").get(0) + "|" +
+                        productSize
     }
 }</code></pre>
 </div>
@@ -1754,6 +1756,34 @@ public class ProductListener {
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">import io.micronaut.nats.annotation.NatsListener
+import io.micronaut.nats.annotation.Subject
+import io.nats.client.Connection
+import io.nats.client.Message
+import io.nats.client.Subscription
+import io.nats.client.impl.Headers
+import java.util.Collections
+
+
+@NatsListener
+class ProductListener {
+
+    var messages: MutableList&lt;String&gt; = Collections.synchronizedList(ArrayList())
+    private var datas: MutableList&lt;ByteArray&gt; = Collections.synchronizedList(ArrayList())
+
+    @Subject(value = "product")
+    fun receive(message: Message,
+                connection: Connection,
+                subscription: Subscription,
+                headers: Headers) { // <b class="conum">(1)</b>
+        messages.add("subject: [${message.subject}], maxPayload: [${connection.maxPayload}], pendingMessageCount: [${subscription.pendingMessageCount}], x-productCount: [${headers["x-product-count"]!![0]}]")
+    }
+
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
 <pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">import io.micronaut.nats.annotation.NatsListener
 import io.micronaut.nats.annotation.Subject
 
@@ -1779,34 +1809,6 @@ class ProductListener {
         messages &lt;&lt; "subject: [$message.subject], maxPayload: [$connection.maxPayload], pendingMessageCount: [$subscription.pendingMessageCount], x-productCount: [$count]".toString()
 
     }
-}</code></pre>
-</div>
-</div>
-<div class="listingblock multi-language-sample">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">import io.micronaut.nats.annotation.NatsListener
-import io.micronaut.nats.annotation.Subject
-import io.nats.client.Connection
-import io.nats.client.Message
-import io.nats.client.Subscription
-import io.nats.client.impl.Headers
-import java.util.Collections
-
-
-@NatsListener
-class ProductListener {
-
-    var messages: MutableList&lt;String&gt; = Collections.synchronizedList(ArrayList())
-    private var datas: MutableList&lt;ByteArray&gt; = Collections.synchronizedList(ArrayList())
-
-    @Subject(value = "product")
-    fun receive(message: Message,
-                connection: Connection,
-                subscription: Subscription,
-                headers: Headers) { // <b class="conum">(1)</b>
-        messages.add("subject: [${message.subject}], maxPayload: [${connection.maxPayload}], pendingMessageCount: [${subscription.pendingMessageCount}], x-productCount: [${headers["x-product-count"]!![0]}]")
-    }
-
 }</code></pre>
 </div>
 </div>
@@ -1899,6 +1901,17 @@ public @interface SID {
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">import io.micronaut.core.bind.annotation.Bindable
+
+@MustBeDocumented
+@Retention(AnnotationRetention.RUNTIME)
+@Target(AnnotationTarget.VALUE_PARAMETER)
+@Bindable // <b class="conum">(1)</b>
+annotation class SID</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
 <pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">import io.micronaut.core.bind.annotation.Bindable
 
 import java.lang.annotation.Documented
@@ -1913,17 +1926,6 @@ import java.lang.annotation.Target
 @Bindable // <b class="conum">(1)</b>
 @interface SID {
 }</code></pre>
-</div>
-</div>
-<div class="listingblock multi-language-sample">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">import io.micronaut.core.bind.annotation.Bindable
-
-@MustBeDocumented
-@Retention(AnnotationRetention.RUNTIME)
-@Target(AnnotationTarget.VALUE_PARAMETER)
-@Bindable // <b class="conum">(1)</b>
-annotation class SID</code></pre>
 </div>
 </div>
 <div class="colist arabic">
@@ -1966,6 +1968,30 @@ public class SIDAnnotationBinder implements NatsAnnotatedArgumentBinder&lt;SID&g
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">import io.micronaut.core.bind.ArgumentBinder
+import io.micronaut.core.convert.ArgumentConversionContext
+import io.micronaut.core.convert.ConversionService
+import io.micronaut.nats.bind.NatsAnnotatedArgumentBinder
+import io.nats.client.Message
+import jakarta.inject.Singleton
+
+@Singleton // <b class="conum">(1)</b>
+class SIDAnnotationBinder(private val conversionService: ConversionService) // <b class="conum">(3)</b>
+    : NatsAnnotatedArgumentBinder&lt;SID&gt; { // <b class="conum">(2)</b>
+
+    override fun getAnnotationType(): Class&lt;SID&gt; {
+        return SID::class.java
+    }
+
+    override fun bind(context: ArgumentConversionContext&lt;Any&gt;, source: Message): ArgumentBinder.BindingResult&lt;Any&gt; {
+        val sid = source.sid // <b class="conum">(4)</b>
+        return ArgumentBinder.BindingResult { conversionService.convert(sid, context) } // <b class="conum">(5)</b>
+    }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
 <pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">import io.micronaut.core.convert.ArgumentConversionContext
 import io.micronaut.core.convert.ConversionService
 import io.micronaut.nats.bind.NatsAnnotatedArgumentBinder
@@ -1991,30 +2017,6 @@ class SIDAnnotationBinder implements NatsAnnotatedArgumentBinder&lt;SID&gt; { //
     BindingResult&lt;Object&gt; bind(ArgumentConversionContext&lt;Object&gt; context, Message source) {
         String sid = source.getSID() // <b class="conum">(4)</b>
         return { -&gt; conversionService.convert(sid, context) } // <b class="conum">(5)</b>
-    }
-}</code></pre>
-</div>
-</div>
-<div class="listingblock multi-language-sample">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">import io.micronaut.core.bind.ArgumentBinder
-import io.micronaut.core.convert.ArgumentConversionContext
-import io.micronaut.core.convert.ConversionService
-import io.micronaut.nats.bind.NatsAnnotatedArgumentBinder
-import io.nats.client.Message
-import jakarta.inject.Singleton
-
-@Singleton // <b class="conum">(1)</b>
-class SIDAnnotationBinder(private val conversionService: ConversionService) // <b class="conum">(3)</b>
-    : NatsAnnotatedArgumentBinder&lt;SID&gt; { // <b class="conum">(2)</b>
-
-    override fun getAnnotationType(): Class&lt;SID&gt; {
-        return SID::class.java
-    }
-
-    override fun bind(context: ArgumentConversionContext&lt;Any&gt;, source: Message): ArgumentBinder.BindingResult&lt;Any&gt; {
-        val sid = source.sid // <b class="conum">(4)</b>
-        return ArgumentBinder.BindingResult { conversionService.convert(sid, context) } // <b class="conum">(5)</b>
     }
 }</code></pre>
 </div>
@@ -2065,26 +2067,6 @@ public class ProductListener {
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">import io.micronaut.nats.annotation.NatsListener
-import io.micronaut.nats.annotation.Subject
-import io.micronaut.nats.docs.consumer.custom.type.ProductInfo
-
-import java.util.concurrent.CopyOnWriteArrayList
-
-@NatsListener
-class ProductListener {
-
-    CopyOnWriteArrayList&lt;ProductInfo&gt; messages = []
-
-    @Subject("product")
-    void receive(byte[] data, @SID String sid) {
-        messages &lt;&lt; sid
-    }
-}</code></pre>
-</div>
-</div>
-<div class="listingblock multi-language-sample">
-<div class="content">
 <pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">import io.micronaut.nats.annotation.NatsListener
 import io.micronaut.nats.annotation.Subject
 import io.micronaut.nats.docs.consumer.custom.type.ProductInfo
@@ -2105,6 +2087,26 @@ class ProductListener {
 }</code></pre>
 </div>
 </div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">import io.micronaut.nats.annotation.NatsListener
+import io.micronaut.nats.annotation.Subject
+import io.micronaut.nats.docs.consumer.custom.type.ProductInfo
+
+import java.util.concurrent.CopyOnWriteArrayList
+
+@NatsListener
+class ProductListener {
+
+    CopyOnWriteArrayList&lt;ProductInfo&gt; messages = []
+
+    @Subject("product")
+    void receive(byte[] data, @SID String sid) {
+        messages &lt;&lt; sid
+    }
+}</code></pre>
+</div>
+</div>
 </div>
 <div class="sect3">
 <h4 id="_type_binding">Type Binding</h4>
@@ -2113,8 +2115,8 @@ class ProductListener {
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">import io.micronaut.core.annotation.NonNull;
-import io.micronaut.core.annotation.Nullable;
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 public class ProductInfo {
 
@@ -2142,6 +2144,13 @@ public class ProductInfo {
         return sealed;
     }
 }</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">class ProductInfo(val size: String?, // <b class="conum">(1)</b>
+                  val count: Long, // <b class="conum">(2)</b>
+                  val sealed: Boolean)// <b class="conum">(3)</b></code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -2175,13 +2184,6 @@ class ProductInfo {
         sealed
     }
 }</code></pre>
-</div>
-</div>
-<div class="listingblock multi-language-sample">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">class ProductInfo(val size: String?, // <b class="conum">(1)</b>
-                  val count: Long, // <b class="conum">(2)</b>
-                  val sealed: Boolean)// <b class="conum">(3)</b></code></pre>
 </div>
 </div>
 <div class="colist arabic">
@@ -2264,6 +2266,54 @@ public class ProductInfoTypeBinder implements NatsTypeArgumentBinder&lt;ProductI
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">import io.micronaut.core.bind.ArgumentBinder.BindingResult
+import io.micronaut.core.convert.ArgumentConversionContext
+import io.micronaut.core.convert.ConversionError
+import io.micronaut.core.convert.ConversionService
+import io.micronaut.core.type.Argument
+import io.micronaut.nats.bind.NatsHeaderConvertibleValues
+import io.micronaut.nats.bind.NatsTypeArgumentBinder
+import io.micronaut.nats.docs.consumer.custom.type.ProductInfo
+import io.nats.client.Message
+import jakarta.inject.Singleton
+import java.util.Optional
+
+@Singleton // <b class="conum">(1)</b>
+class ProductInfoTypeBinder constructor(private val conversionService: ConversionService) //<b class="conum">(3)</b>
+    : NatsTypeArgumentBinder&lt;ProductInfo&gt; { // <b class="conum">(2)</b>
+
+    override fun argumentType(): Argument&lt;ProductInfo&gt; {
+        return Argument.of(ProductInfo::class.java)
+    }
+
+    override fun bind(context: ArgumentConversionContext&lt;ProductInfo&gt;, source: Message): BindingResult&lt;ProductInfo&gt; {
+        val rawHeaders = source.headers ?: return BindingResult { Optional.empty&lt;ProductInfo&gt;() } //<b class="conum">(4)</b>
+
+        val headers = NatsHeaderConvertibleValues(rawHeaders, conversionService)
+
+        val size = headers.get("productSize", String::class.java).orElse(null)  //<b class="conum">(5)</b>
+        val count = headers.get("x-product-count", Long::class.java) //<b class="conum">(6)</b>
+        val sealed = headers.get("x-product-sealed", Boolean::class.java) // <b class="conum">(7)</b>
+
+        if (headers.conversionErrors.isEmpty() &amp;&amp; count.isPresent &amp;&amp; sealed.isPresent) {
+            return BindingResult&lt;ProductInfo&gt; { Optional.of(ProductInfo(size, count.get(), sealed.get())) } //<b class="conum">(8)</b>
+        } else {
+            return object : BindingResult&lt;ProductInfo&gt; {
+                override fun getValue(): Optional&lt;ProductInfo&gt; {
+                    return Optional.empty()
+                }
+
+                override fun getConversionErrors(): List&lt;ConversionError&gt; {
+                    return headers.conversionErrors //<b class="conum">(9)</b>
+                }
+            }
+        }
+    }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
 <pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">import io.micronaut.core.convert.ArgumentConversionContext
 import io.micronaut.core.convert.ConversionError
 import io.micronaut.core.convert.ConversionService
@@ -2315,54 +2365,6 @@ class ProductInfoTypeBinder implements NatsTypeArgumentBinder&lt;ProductInfo&gt;
                 @Override
                 List&lt;ConversionError&gt; getConversionErrors() {
                     headers.conversionErrors //<b class="conum">(9)</b>
-                }
-            }
-        }
-    }
-}</code></pre>
-</div>
-</div>
-<div class="listingblock multi-language-sample">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">import io.micronaut.core.bind.ArgumentBinder.BindingResult
-import io.micronaut.core.convert.ArgumentConversionContext
-import io.micronaut.core.convert.ConversionError
-import io.micronaut.core.convert.ConversionService
-import io.micronaut.core.type.Argument
-import io.micronaut.nats.bind.NatsHeaderConvertibleValues
-import io.micronaut.nats.bind.NatsTypeArgumentBinder
-import io.micronaut.nats.docs.consumer.custom.type.ProductInfo
-import io.nats.client.Message
-import jakarta.inject.Singleton
-import java.util.Optional
-
-@Singleton // <b class="conum">(1)</b>
-class ProductInfoTypeBinder constructor(private val conversionService: ConversionService) //<b class="conum">(3)</b>
-    : NatsTypeArgumentBinder&lt;ProductInfo&gt; { // <b class="conum">(2)</b>
-
-    override fun argumentType(): Argument&lt;ProductInfo&gt; {
-        return Argument.of(ProductInfo::class.java)
-    }
-
-    override fun bind(context: ArgumentConversionContext&lt;ProductInfo&gt;, source: Message): BindingResult&lt;ProductInfo&gt; {
-        val rawHeaders = source.headers ?: return BindingResult { Optional.empty&lt;ProductInfo&gt;() } //<b class="conum">(4)</b>
-
-        val headers = NatsHeaderConvertibleValues(rawHeaders, conversionService)
-
-        val size = headers.get("productSize", String::class.java).orElse(null)  //<b class="conum">(5)</b>
-        val count = headers.get("x-product-count", Long::class.java) //<b class="conum">(6)</b>
-        val sealed = headers.get("x-product-sealed", Boolean::class.java) // <b class="conum">(7)</b>
-
-        if (headers.conversionErrors.isEmpty() &amp;&amp; count.isPresent &amp;&amp; sealed.isPresent) {
-            return BindingResult&lt;ProductInfo&gt; { Optional.of(ProductInfo(size, count.get(), sealed.get())) } //<b class="conum">(8)</b>
-        } else {
-            return object : BindingResult&lt;ProductInfo&gt; {
-                override fun getValue(): Optional&lt;ProductInfo&gt; {
-                    return Optional.empty()
-                }
-
-                override fun getConversionErrors(): List&lt;ConversionError&gt; {
-                    return headers.conversionErrors //<b class="conum">(9)</b>
                 }
             }
         }
@@ -2453,23 +2455,6 @@ public interface ProductClient {
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">import io.micronaut.nats.annotation.NatsClient
-import io.micronaut.nats.annotation.Subject
-import org.reactivestreams.Publisher
-
-@NatsClient
-interface ProductClient {
-
-    @Subject("product")
-    String send(String data) // <b class="conum">(1)</b>
-
-    @Subject("product")
-    Publisher&lt;String&gt; sendReactive(String data) // <b class="conum">(2)</b>
-}</code></pre>
-</div>
-</div>
-<div class="listingblock multi-language-sample">
-<div class="content">
 <pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">import io.micronaut.nats.annotation.NatsClient
 import io.micronaut.nats.annotation.Subject
 import org.reactivestreams.Publisher
@@ -2482,6 +2467,23 @@ interface ProductClient {
 
     @Subject("product")
     fun sendReactive(data: String): Publisher&lt;String&gt; // <b class="conum">(2)</b>
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">import io.micronaut.nats.annotation.NatsClient
+import io.micronaut.nats.annotation.Subject
+import org.reactivestreams.Publisher
+
+@NatsClient
+interface ProductClient {
+
+    @Subject("product")
+    String send(String data) // <b class="conum">(1)</b>
+
+    @Subject("product")
+    Publisher&lt;String&gt; sendReactive(String data) // <b class="conum">(2)</b>
 }</code></pre>
 </div>
 </div>
@@ -2534,21 +2536,6 @@ public class ProductListener {
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">import io.micronaut.nats.annotation.NatsListener
-import io.micronaut.nats.annotation.Subject
-
-@NatsListener
-class ProductListener {
-
-    @Subject("product")
-    String toUpperCase(String data) { // <b class="conum">(1)</b>
-        data.toUpperCase() // <b class="conum">(2)</b>
-    }
-}</code></pre>
-</div>
-</div>
-<div class="listingblock multi-language-sample">
-<div class="content">
 <pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">import io.micronaut.nats.annotation.NatsListener
 import io.micronaut.nats.annotation.Subject
 import java.util.Collections
@@ -2559,6 +2546,21 @@ class ProductListener {
     @Subject("product")
     fun receive(data: String): String { // <b class="conum">(1)</b>
         return data.uppercase() // <b class="conum">(2)</b>
+    }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">import io.micronaut.nats.annotation.NatsListener
+import io.micronaut.nats.annotation.Subject
+
+@NatsListener
+class ProductListener {
+
+    @Subject("product")
+    String toUpperCase(String data) { // <b class="conum">(1)</b>
+        data.toUpperCase() // <b class="conum">(2)</b>
     }
 }</code></pre>
 </div>
@@ -2684,6 +2686,52 @@ public class ProductInfoSerDes implements NatsMessageSerDes&lt;ProductInfo&gt; {
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">import io.micronaut.core.convert.ConversionService
+import io.micronaut.core.type.Argument
+import io.micronaut.nats.serdes.NatsMessageSerDes
+import io.nats.client.Message
+import jakarta.inject.Singleton
+import java.nio.charset.Charset
+
+@Singleton // <b class="conum">(1)</b>
+class ProductInfoSerDes(private val conversionService: ConversionService)// <b class="conum">(3)</b>
+    : NatsMessageSerDes&lt;ProductInfo&gt; { // <b class="conum">(2)</b>
+
+    override fun deserialize(message: Message, argument: Argument&lt;ProductInfo&gt;): ProductInfo? { // <b class="conum">(4)</b>
+        val body = String(message.data, CHARSET)
+        val parts = body.split("\\|".toRegex())
+        if (parts.size == 3) {
+            var size: String? = parts[0]
+            if (size == "null") {
+                size = null
+            }
+
+            val count = conversionService.convert(parts[1], Long::class.java)
+            val sealed = conversionService.convert(parts[2], Boolean::class.java)
+
+            if (count.isPresent &amp;&amp; sealed.isPresent) {
+                return ProductInfo(size, count.get(), sealed.get())
+            }
+        }
+        return null
+    }
+
+    override fun serialize(data: ProductInfo?): ByteArray { // <b class="conum">(5)</b>
+        return (data?.size + "|" + data?.count + "|" + data?.sealed).toByteArray(CHARSET)
+    }
+
+    override fun supports(argument: Argument&lt;ProductInfo&gt;): Boolean { // <b class="conum">(6)</b>
+        return argument.type.isAssignableFrom(ProductInfo::class.java)
+    }
+
+    companion object {
+        private val CHARSET = Charset.forName("UTF-8")
+    }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
 <pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">import io.micronaut.core.convert.ConversionService
 import io.micronaut.core.type.Argument
 import io.micronaut.nats.serdes.NatsMessageSerDes
@@ -2733,52 +2781,6 @@ class ProductInfoSerDes implements NatsMessageSerDes&lt;ProductInfo&gt; { // <b 
     @Override
     boolean supports(Argument&lt;ProductInfo&gt; argument) { // <b class="conum">(6)</b>
         argument.type.isAssignableFrom(ProductInfo)
-    }
-}</code></pre>
-</div>
-</div>
-<div class="listingblock multi-language-sample">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">import io.micronaut.core.convert.ConversionService
-import io.micronaut.core.type.Argument
-import io.micronaut.nats.serdes.NatsMessageSerDes
-import io.nats.client.Message
-import jakarta.inject.Singleton
-import java.nio.charset.Charset
-
-@Singleton // <b class="conum">(1)</b>
-class ProductInfoSerDes(private val conversionService: ConversionService)// <b class="conum">(3)</b>
-    : NatsMessageSerDes&lt;ProductInfo&gt; { // <b class="conum">(2)</b>
-
-    override fun deserialize(message: Message, argument: Argument&lt;ProductInfo&gt;): ProductInfo? { // <b class="conum">(4)</b>
-        val body = String(message.data, CHARSET)
-        val parts = body.split("\\|".toRegex())
-        if (parts.size == 3) {
-            var size: String? = parts[0]
-            if (size == "null") {
-                size = null
-            }
-
-            val count = conversionService.convert(parts[1], Long::class.java)
-            val sealed = conversionService.convert(parts[2], Boolean::class.java)
-
-            if (count.isPresent &amp;&amp; sealed.isPresent) {
-                return ProductInfo(size, count.get(), sealed.get())
-            }
-        }
-        return null
-    }
-
-    override fun serialize(data: ProductInfo?): ByteArray { // <b class="conum">(5)</b>
-        return (data?.size + "|" + data?.count + "|" + data?.sealed).toByteArray(CHARSET)
-    }
-
-    override fun supports(argument: Argument&lt;ProductInfo&gt;): Boolean { // <b class="conum">(6)</b>
-        return argument.type.isAssignableFrom(ProductInfo::class.java)
-    }
-
-    companion object {
-        private val CHARSET = Charset.forName("UTF-8")
     }
 }</code></pre>
 </div>
@@ -3140,21 +3142,6 @@ public interface ProductClient {
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">import io.micronaut.messaging.annotation.MessageBody
-import io.micronaut.nats.annotation.Subject
-import io.micronaut.nats.jetstream.annotation.JetStreamClient
-import io.nats.client.PublishOptions
-import io.nats.client.api.PublishAck
-
-@JetStreamClient
-interface ProductClient {
-
-    PublishAck send(@Subject String subject, @MessageBody byte[] data, PublishOptions publishOptions); // <b class="conum">(2)</b>
-}</code></pre>
-</div>
-</div>
-<div class="listingblock multi-language-sample">
-<div class="content">
 <pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">import io.micronaut.messaging.annotation.MessageBody
 import io.micronaut.nats.annotation.Subject
 import io.micronaut.nats.jetstream.annotation.JetStreamClient
@@ -3165,6 +3152,21 @@ import io.nats.client.api.PublishAck
 interface ProductClient {
 
     fun send(@Subject subject: String, @MessageBody data: ByteArray, publishOptions: PublishOptions): PublishAck // <b class="conum">(1)</b>
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">import io.micronaut.messaging.annotation.MessageBody
+import io.micronaut.nats.annotation.Subject
+import io.micronaut.nats.jetstream.annotation.JetStreamClient
+import io.nats.client.PublishOptions
+import io.nats.client.api.PublishAck
+
+@JetStreamClient
+interface ProductClient {
+
+    PublishAck send(@Subject String subject, @MessageBody byte[] data, PublishOptions publishOptions); // <b class="conum">(2)</b>
 }</code></pre>
 </div>
 </div>
@@ -3230,23 +3232,6 @@ public class ProductListener {
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">import io.micronaut.nats.jetstream.annotation.JetStreamListener
-import io.micronaut.nats.jetstream.annotation.PushConsumer
-
-@JetStreamListener // <b class="conum">(1)</b>
-class ProductListener {
-
-    CopyOnWriteArrayList&lt;byte[]&gt; messageLengths = []
-
-    @PushConsumer(value = "myevents", subject = "myevents.&gt;", durable = "test") // <b class="conum">(2)</b>
-    void receive(byte[] data) {
-        messageLengths &lt;&lt; data
-    }
-}</code></pre>
-</div>
-</div>
-<div class="listingblock multi-language-sample">
-<div class="content">
 <pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">import io.micronaut.nats.jetstream.annotation.JetStreamListener
 import io.micronaut.nats.jetstream.annotation.PushConsumer
 
@@ -3258,6 +3243,23 @@ class ProductListener {
     @PushConsumer(value = "myevents", subject = "myevents.&gt;", durable = "test") // <b class="conum">(2)</b>
     fun receive(data: ByteArray) {
         messageLengths.add(data)
+    }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">import io.micronaut.nats.jetstream.annotation.JetStreamListener
+import io.micronaut.nats.jetstream.annotation.PushConsumer
+
+@JetStreamListener // <b class="conum">(1)</b>
+class ProductListener {
+
+    CopyOnWriteArrayList&lt;byte[]&gt; messageLengths = []
+
+    @PushConsumer(value = "myevents", subject = "myevents.&gt;", durable = "test") // <b class="conum">(2)</b>
+    void receive(byte[] data) {
+        messageLengths &lt;&lt; data
     }
 }</code></pre>
 </div>
@@ -3335,41 +3337,6 @@ public class PullConsumerHelper {
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">import io.micronaut.nats.jetstream.PullConsumerRegistry
-import io.nats.client.JetStreamApiException
-import io.nats.client.JetStreamSubscription
-import io.nats.client.Message
-import io.nats.client.PullSubscribeOptions
-import io.nats.client.api.ConsumerConfiguration
-
-@Singleton
-class PullConsumerHelper {
-
-    private final PullConsumerRegistry pullConsumerRegistry;
-
-    PullConsumerHelper(PullConsumerRegistry pullConsumerRegistry) {  // <b class="conum">(1)</b>
-        this.pullConsumerRegistry = pullConsumerRegistry
-    }
-
-    List&lt;Message&gt; pullMessages() throws JetStreamApiException, IOException {
-        JetStreamSubscription jetStreamSubscription =
-                pullConsumerRegistry.newPullConsumer("events.&gt;",
-                        PullSubscribeOptions.builder()
-                                .stream("events")
-                                .configuration(
-                                        ConsumerConfiguration.builder().ackWait(Duration.ofMillis(2500)).build())
-                                .build()) // <b class="conum">(2)</b>
-
-        List&lt;Message&gt; messages = jetStreamSubscription.fetch(2, Duration.ofSeconds(2L)) // <b class="conum">(3)</b>
-        messages.forEach(Message::ack) // <b class="conum">(4)</b>
-        return messages
-    }
-
-}</code></pre>
-</div>
-</div>
-<div class="listingblock multi-language-sample">
-<div class="content">
 <pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">import io.micronaut.nats.jetstream.PullConsumerRegistry
 import io.nats.client.JetStreamSubscription
 import io.nats.client.Message
@@ -3398,6 +3365,41 @@ class PullConsumerHelper(private val pullConsumerRegistry: PullConsumerRegistry)
             pullConsumerRegistry.newPullConsumer("events.&gt;", pullSubscribeOptions) // <b class="conum">(2)</b>
 
         val messages: List&lt;Message&gt; = jetStreamSubscription.fetch(2, Duration.ofSeconds(2L)) // <b class="conum">(3)</b>
+        messages.forEach(Message::ack) // <b class="conum">(4)</b>
+        return messages
+    }
+
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">import io.micronaut.nats.jetstream.PullConsumerRegistry
+import io.nats.client.JetStreamApiException
+import io.nats.client.JetStreamSubscription
+import io.nats.client.Message
+import io.nats.client.PullSubscribeOptions
+import io.nats.client.api.ConsumerConfiguration
+
+@Singleton
+class PullConsumerHelper {
+
+    private final PullConsumerRegistry pullConsumerRegistry;
+
+    PullConsumerHelper(PullConsumerRegistry pullConsumerRegistry) {  // <b class="conum">(1)</b>
+        this.pullConsumerRegistry = pullConsumerRegistry
+    }
+
+    List&lt;Message&gt; pullMessages() throws JetStreamApiException, IOException {
+        JetStreamSubscription jetStreamSubscription =
+                pullConsumerRegistry.newPullConsumer("events.&gt;",
+                        PullSubscribeOptions.builder()
+                                .stream("events")
+                                .configuration(
+                                        ConsumerConfiguration.builder().ackWait(Duration.ofMillis(2500)).build())
+                                .build()) // <b class="conum">(2)</b>
+
+        List&lt;Message&gt; messages = jetStreamSubscription.fetch(2, Duration.ofSeconds(2L)) // <b class="conum">(3)</b>
         messages.forEach(Message::ack) // <b class="conum">(4)</b>
         return messages
     }
@@ -3654,26 +3656,6 @@ public class KeyValueStoreHolder {
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">import io.micronaut.nats.jetstream.annotation.KeyValueStore
-import io.nats.client.KeyValue
-import jakarta.inject.Inject
-import jakarta.inject.Singleton
-
-@Singleton
-class KeyValueStoreHolder {
-
-    @Inject
-    @KeyValueStore("examplebucket")
-    KeyValue store // <b class="conum">(1)</b>
-
-    void put(String key, String value) {
-        store.put(key, value)
-    }
-}</code></pre>
-</div>
-</div>
-<div class="listingblock multi-language-sample">
-<div class="content">
 <pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">import io.micronaut.nats.jetstream.annotation.KeyValueStore
 import io.nats.client.KeyValue
 import jakarta.inject.Inject
@@ -3690,6 +3672,26 @@ class KeyValueStoreHolder {
         store.put(key, value)
     }
 
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">import io.micronaut.nats.jetstream.annotation.KeyValueStore
+import io.nats.client.KeyValue
+import jakarta.inject.Inject
+import jakarta.inject.Singleton
+
+@Singleton
+class KeyValueStoreHolder {
+
+    @Inject
+    @KeyValueStore("examplebucket")
+    KeyValue store // <b class="conum">(1)</b>
+
+    void put(String key, String value) {
+        store.put(key, value)
+    }
 }</code></pre>
 </div>
 </div>
@@ -3889,25 +3891,6 @@ public class ObjectStoreHolder {
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">import io.micronaut.nats.jetstream.annotation.ObjectStore
-import jakarta.inject.Inject
-import jakarta.inject.Singleton
-
-@Singleton
-class ObjectStoreHolder {
-
-    @Inject
-    @ObjectStore("examplebucket")
-    io.nats.client.ObjectStore store // <b class="conum">(1)</b>
-
-    void put(String key, InputStream value) {
-        store.put(key, value)
-    }
-}</code></pre>
-</div>
-</div>
-<div class="listingblock multi-language-sample">
-<div class="content">
 <pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">import io.micronaut.nats.jetstream.annotation.ObjectStore
 import jakarta.inject.Inject
 import jakarta.inject.Singleton
@@ -3925,6 +3908,25 @@ class ObjectStoreHolder {
         store.put(key, value)
     }
 
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">import io.micronaut.nats.jetstream.annotation.ObjectStore
+import jakarta.inject.Inject
+import jakarta.inject.Singleton
+
+@Singleton
+class ObjectStoreHolder {
+
+    @Inject
+    @ObjectStore("examplebucket")
+    io.nats.client.ObjectStore store // <b class="conum">(1)</b>
+
+    void put(String key, InputStream value) {
+        store.put(key, value)
+    }
 }</code></pre>
 </div>
 </div>

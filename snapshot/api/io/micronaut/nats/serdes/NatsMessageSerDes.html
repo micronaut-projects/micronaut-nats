@@ -130,14 +130,14 @@ extends io.micronaut.core.order.Ordered</span></div>
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="NatsMessageSerDes.html" title="type parameter in NatsMessageSerDes">T</a></code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>@Nullable <a href="NatsMessageSerDes.html" title="type parameter in NatsMessageSerDes">T</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#deserialize(io.nats.client.Message,io.micronaut.core.type.Argument)" class="member-name-link">deserialize</a><wbr>(io.nats.client.Message&nbsp;message,
  io.micronaut.core.type.Argument&lt;<a href="NatsMessageSerDes.html" title="type parameter in NatsMessageSerDes">T</a>&gt;&nbsp;argument)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Deserializes the message into the requested type.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>@io.micronaut.core.annotation.Nullable byte[]</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#serialize(T)" class="member-name-link">serialize</a><wbr>(<a href="NatsMessageSerDes.html" title="type parameter in NatsMessageSerDes">T</a>&nbsp;data)</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>@org.jspecify.annotations.Nullable byte[]</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#serialize(T)" class="member-name-link">serialize</a><wbr>(@Nullable <a href="NatsMessageSerDes.html" title="type parameter in NatsMessageSerDes">T</a>&nbsp;data)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Serializes the data into a byte[] to be published
  to nats.</div>
@@ -167,8 +167,7 @@ extends io.micronaut.core.order.Ordered</span></div>
 <li>
 <section class="detail" id="deserialize(io.nats.client.Message,io.micronaut.core.type.Argument)">
 <h3>deserialize</h3>
-<div class="member-signature"><span class="annotations">@Nullable
-</span><span class="return-type"><a href="NatsMessageSerDes.html" title="type parameter in NatsMessageSerDes">T</a></span>&nbsp;<span class="element-name">deserialize</span><wbr><span class="parameters">(io.nats.client.Message&nbsp;message,
+<div class="member-signature"><span class="return-type">@Nullable <a href="NatsMessageSerDes.html" title="type parameter in NatsMessageSerDes">T</a></span>&nbsp;<span class="element-name">deserialize</span><wbr><span class="parameters">(io.nats.client.Message&nbsp;message,
  io.micronaut.core.type.Argument&lt;<a href="NatsMessageSerDes.html" title="type parameter in NatsMessageSerDes">T</a>&gt;&nbsp;argument)</span></div>
 <div class="block">Deserializes the message into the requested type.</div>
 <dl class="notes">
@@ -183,9 +182,7 @@ extends io.micronaut.core.order.Ordered</span></div>
 <li>
 <section class="detail" id="serialize(T)">
 <h3 id="serialize(java.lang.Object)">serialize</h3>
-<div class="member-signature"><span class="annotations">@Nullable
-</span><span class="return-type">@io.micronaut.core.annotation.Nullable byte[]</span>&nbsp;<span class="element-name">serialize</span><wbr><span class="parameters">(@Nullable
- <a href="NatsMessageSerDes.html" title="type parameter in NatsMessageSerDes">T</a>&nbsp;data)</span></div>
+<div class="member-signature"><span class="return-type">@org.jspecify.annotations.Nullable byte[]</span>&nbsp;<span class="element-name">serialize</span><wbr><span class="parameters">(@Nullable <a href="NatsMessageSerDes.html" title="type parameter in NatsMessageSerDes">T</a>&nbsp;data)</span></div>
 <div class="block">Serializes the data into a byte[] to be published
  to nats.</div>
 <dl class="notes">

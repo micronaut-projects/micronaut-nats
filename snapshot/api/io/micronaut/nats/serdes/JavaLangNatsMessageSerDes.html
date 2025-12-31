@@ -267,8 +267,7 @@ implements <a href="NatsMessageSerDes.html" title="interface in io.micronaut.nat
 <li>
 <section class="detail" id="serialize(java.lang.Object)">
 <h3>serialize</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">byte[]</span>&nbsp;<span class="element-name">serialize</span><wbr><span class="parameters">(@Nullable
- @Nullable <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;data)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">byte[]</span>&nbsp;<span class="element-name">serialize</span><wbr><span class="parameters">(@Nullable <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;data)</span></div>
 <div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="NatsMessageSerDes.html#serialize(T)">NatsMessageSerDes</a></code></span></div>
 <div class="block">Serializes the data into a byte[] to be published
  to nats.</div>
@@ -329,8 +328,7 @@ implements <a href="NatsMessageSerDes.html" title="interface in io.micronaut.nat
 <li>
 <section class="detail" id="findSerDes(io.micronaut.core.type.Argument)">
 <h3>findSerDes</h3>
-<div class="member-signature"><span class="annotations">@Nullable
-</span><span class="modifiers">protected</span>&nbsp;<span class="return-type">@Nullable <a href="NatsMessageSerDes.html" title="interface in io.micronaut.nats.serdes">NatsMessageSerDes</a></span>&nbsp;<span class="element-name">findSerDes</span><wbr><span class="parameters">(io.micronaut.core.type.Argument&lt;?&gt;&nbsp;type)</span></div>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">@Nullable <a href="NatsMessageSerDes.html" title="interface in io.micronaut.nats.serdes">NatsMessageSerDes</a></span>&nbsp;<span class="element-name">findSerDes</span><wbr><span class="parameters">(io.micronaut.core.type.Argument&lt;?&gt;&nbsp;type)</span></div>
 <div class="block">Finds the correct serDes based on the type.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -343,8 +341,7 @@ implements <a href="NatsMessageSerDes.html" title="interface in io.micronaut.nat
 <li>
 <section class="detail" id="getStringSerDes()">
 <h3>getStringSerDes</h3>
-<div class="member-signature"><span class="annotations">@NonNull
-</span><span class="modifiers">protected</span>&nbsp;<span class="return-type">@NonNull <a href="NatsMessageSerDes.html" title="interface in io.micronaut.nats.serdes">NatsMessageSerDes</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;</span>&nbsp;<span class="element-name">getStringSerDes</span>()</div>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">@NonNull <a href="NatsMessageSerDes.html" title="interface in io.micronaut.nats.serdes">NatsMessageSerDes</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;</span>&nbsp;<span class="element-name">getStringSerDes</span>()</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>The serDes that handles <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link"><code>String</code></a></dd>
@@ -354,8 +351,7 @@ implements <a href="NatsMessageSerDes.html" title="interface in io.micronaut.nat
 <li>
 <section class="detail" id="getShortSerDes()">
 <h3>getShortSerDes</h3>
-<div class="member-signature"><span class="annotations">@NonNull
-</span><span class="modifiers">protected</span>&nbsp;<span class="return-type">@NonNull <a href="NatsMessageSerDes.html" title="interface in io.micronaut.nats.serdes">NatsMessageSerDes</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Short.html" title="class or interface in java.lang" class="external-link">Short</a>&gt;</span>&nbsp;<span class="element-name">getShortSerDes</span>()</div>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">@NonNull <a href="NatsMessageSerDes.html" title="interface in io.micronaut.nats.serdes">NatsMessageSerDes</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Short.html" title="class or interface in java.lang" class="external-link">Short</a>&gt;</span>&nbsp;<span class="element-name">getShortSerDes</span>()</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>The serDes that handles <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Short.html" title="class or interface in java.lang" class="external-link"><code>Short</code></a></dd>
@@ -365,8 +361,7 @@ implements <a href="NatsMessageSerDes.html" title="interface in io.micronaut.nat
 <li>
 <section class="detail" id="getIntegerSerDes()">
 <h3>getIntegerSerDes</h3>
-<div class="member-signature"><span class="annotations">@NonNull
-</span><span class="modifiers">protected</span>&nbsp;<span class="return-type">@NonNull <a href="NatsMessageSerDes.html" title="interface in io.micronaut.nats.serdes">NatsMessageSerDes</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&gt;</span>&nbsp;<span class="element-name">getIntegerSerDes</span>()</div>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">@NonNull <a href="NatsMessageSerDes.html" title="interface in io.micronaut.nats.serdes">NatsMessageSerDes</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&gt;</span>&nbsp;<span class="element-name">getIntegerSerDes</span>()</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>The serDes that handles <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link"><code>Integer</code></a></dd>
@@ -376,8 +371,7 @@ implements <a href="NatsMessageSerDes.html" title="interface in io.micronaut.nat
 <li>
 <section class="detail" id="getLongSerDes()">
 <h3>getLongSerDes</h3>
-<div class="member-signature"><span class="annotations">@NonNull
-</span><span class="modifiers">protected</span>&nbsp;<span class="return-type">@NonNull <a href="NatsMessageSerDes.html" title="interface in io.micronaut.nats.serdes">NatsMessageSerDes</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Long.html" title="class or interface in java.lang" class="external-link">Long</a>&gt;</span>&nbsp;<span class="element-name">getLongSerDes</span>()</div>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">@NonNull <a href="NatsMessageSerDes.html" title="interface in io.micronaut.nats.serdes">NatsMessageSerDes</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Long.html" title="class or interface in java.lang" class="external-link">Long</a>&gt;</span>&nbsp;<span class="element-name">getLongSerDes</span>()</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>The serDes that handles <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Long.html" title="class or interface in java.lang" class="external-link"><code>Long</code></a></dd>
@@ -387,8 +381,7 @@ implements <a href="NatsMessageSerDes.html" title="interface in io.micronaut.nat
 <li>
 <section class="detail" id="getFloatSerDes()">
 <h3>getFloatSerDes</h3>
-<div class="member-signature"><span class="annotations">@NonNull
-</span><span class="modifiers">protected</span>&nbsp;<span class="return-type">@NonNull <a href="NatsMessageSerDes.html" title="interface in io.micronaut.nats.serdes">NatsMessageSerDes</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Float.html" title="class or interface in java.lang" class="external-link">Float</a>&gt;</span>&nbsp;<span class="element-name">getFloatSerDes</span>()</div>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">@NonNull <a href="NatsMessageSerDes.html" title="interface in io.micronaut.nats.serdes">NatsMessageSerDes</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Float.html" title="class or interface in java.lang" class="external-link">Float</a>&gt;</span>&nbsp;<span class="element-name">getFloatSerDes</span>()</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>The serDes that handles <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Float.html" title="class or interface in java.lang" class="external-link"><code>Float</code></a></dd>
@@ -398,8 +391,7 @@ implements <a href="NatsMessageSerDes.html" title="interface in io.micronaut.nat
 <li>
 <section class="detail" id="getDoubleSerDes()">
 <h3>getDoubleSerDes</h3>
-<div class="member-signature"><span class="annotations">@NonNull
-</span><span class="modifiers">protected</span>&nbsp;<span class="return-type">@NonNull <a href="NatsMessageSerDes.html" title="interface in io.micronaut.nats.serdes">NatsMessageSerDes</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Double.html" title="class or interface in java.lang" class="external-link">Double</a>&gt;</span>&nbsp;<span class="element-name">getDoubleSerDes</span>()</div>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">@NonNull <a href="NatsMessageSerDes.html" title="interface in io.micronaut.nats.serdes">NatsMessageSerDes</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Double.html" title="class or interface in java.lang" class="external-link">Double</a>&gt;</span>&nbsp;<span class="element-name">getDoubleSerDes</span>()</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>The serDes that handles <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Double.html" title="class or interface in java.lang" class="external-link"><code>Double</code></a></dd>
@@ -409,8 +401,7 @@ implements <a href="NatsMessageSerDes.html" title="interface in io.micronaut.nat
 <li>
 <section class="detail" id="getByteArraySerDes()">
 <h3>getByteArraySerDes</h3>
-<div class="member-signature"><span class="annotations">@NonNull
-</span><span class="modifiers">protected</span>&nbsp;<span class="return-type">@NonNull <a href="NatsMessageSerDes.html" title="interface in io.micronaut.nats.serdes">NatsMessageSerDes</a>&lt;byte[]&gt;</span>&nbsp;<span class="element-name">getByteArraySerDes</span>()</div>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">@NonNull <a href="NatsMessageSerDes.html" title="interface in io.micronaut.nats.serdes">NatsMessageSerDes</a>&lt;byte[]&gt;</span>&nbsp;<span class="element-name">getByteArraySerDes</span>()</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>The serDes that handles byte[]</dd>
@@ -420,8 +411,7 @@ implements <a href="NatsMessageSerDes.html" title="interface in io.micronaut.nat
 <li>
 <section class="detail" id="getByteBufferSerDes()">
 <h3>getByteBufferSerDes</h3>
-<div class="member-signature"><span class="annotations">@NonNull
-</span><span class="modifiers">protected</span>&nbsp;<span class="return-type">@NonNull <a href="NatsMessageSerDes.html" title="interface in io.micronaut.nats.serdes">NatsMessageSerDes</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/ByteBuffer.html" title="class or interface in java.nio" class="external-link">ByteBuffer</a>&gt;</span>&nbsp;<span class="element-name">getByteBufferSerDes</span>()</div>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">@NonNull <a href="NatsMessageSerDes.html" title="interface in io.micronaut.nats.serdes">NatsMessageSerDes</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/ByteBuffer.html" title="class or interface in java.nio" class="external-link">ByteBuffer</a>&gt;</span>&nbsp;<span class="element-name">getByteBufferSerDes</span>()</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>The serDes that handles <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/ByteBuffer.html" title="class or interface in java.nio" class="external-link"><code>ByteBuffer</code></a></dd>
@@ -431,8 +421,7 @@ implements <a href="NatsMessageSerDes.html" title="interface in io.micronaut.nat
 <li>
 <section class="detail" id="getUUIDSerDes()">
 <h3>getUUIDSerDes</h3>
-<div class="member-signature"><span class="annotations">@NonNull
-</span><span class="modifiers">protected</span>&nbsp;<span class="return-type">@NonNull <a href="NatsMessageSerDes.html" title="interface in io.micronaut.nats.serdes">NatsMessageSerDes</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/UUID.html" title="class or interface in java.util" class="external-link">UUID</a>&gt;</span>&nbsp;<span class="element-name">getUUIDSerDes</span>()</div>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">@NonNull <a href="NatsMessageSerDes.html" title="interface in io.micronaut.nats.serdes">NatsMessageSerDes</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/UUID.html" title="class or interface in java.util" class="external-link">UUID</a>&gt;</span>&nbsp;<span class="element-name">getUUIDSerDes</span>()</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>The serDes that handles <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/UUID.html" title="class or interface in java.util" class="external-link"><code>UUID</code></a></dd>
@@ -442,8 +431,7 @@ implements <a href="NatsMessageSerDes.html" title="interface in io.micronaut.nat
 <li>
 <section class="detail" id="getBooleanSerDes()">
 <h3>getBooleanSerDes</h3>
-<div class="member-signature"><span class="annotations">@NonNull
-</span><span class="modifiers">protected</span>&nbsp;<span class="return-type">@NonNull <a href="NatsMessageSerDes.html" title="interface in io.micronaut.nats.serdes">NatsMessageSerDes</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&gt;</span>&nbsp;<span class="element-name">getBooleanSerDes</span>()</div>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">@NonNull <a href="NatsMessageSerDes.html" title="interface in io.micronaut.nats.serdes">NatsMessageSerDes</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&gt;</span>&nbsp;<span class="element-name">getBooleanSerDes</span>()</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>The serDes that handles <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/UUID.html" title="class or interface in java.util" class="external-link"><code>UUID</code></a></dd>
