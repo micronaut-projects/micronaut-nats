@@ -6,7 +6,7 @@ plugins {
 dependencies {
     testCompileOnly mn.micronaut.inject.groovy
     testImplementation mnTest.micronaut.test.spock
-    implementation(projects.testSuiteNatsUtils)
+    testImplementation(projects.testSuiteNatsUtils)
 }
 
 tasks.withType(GroovyCompile) {

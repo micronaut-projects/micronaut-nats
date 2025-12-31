@@ -9,5 +9,5 @@ micronaut {
 }
 
 dependencies {
-    implementation(projects.testSuiteNatsUtils)
+    testImplementation(projects.testSuiteNatsUtils)
 }

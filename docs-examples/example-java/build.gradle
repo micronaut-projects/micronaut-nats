@@ -4,5 +4,5 @@ plugins {
 }
 
 dependencies {
-    implementation(projects.testSuiteNatsUtils)
+    testImplementation(projects.testSuiteNatsUtils)
 }
