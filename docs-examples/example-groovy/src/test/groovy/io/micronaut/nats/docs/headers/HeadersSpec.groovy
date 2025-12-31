@@ -6,7 +6,6 @@ import io.micronaut.test.extensions.spock.annotation.MicronautTest
 import io.micronaut.test.support.TestPropertyProvider
 import io.nats.client.impl.Headers
 import jakarta.inject.Inject
-import org.junit.jupiter.api.TestInstance
 import spock.lang.Specification
 
 import static java.util.concurrent.TimeUnit.SECONDS
@@ -14,7 +13,6 @@ import static org.awaitility.Awaitility.await
 
 @MicronautTest
 @Property(name = "spec.name", value = "HeadersSpec")
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class HeadersSpec extends Specification implements TestPropertyProvider{
     @Inject ProductClient productClient
     @Inject ProductListener productListener

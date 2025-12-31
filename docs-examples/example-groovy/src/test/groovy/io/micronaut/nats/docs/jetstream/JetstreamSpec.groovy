@@ -8,7 +8,6 @@ import io.nats.client.JetStreamManagement
 import io.nats.client.PublishOptions
 import io.nats.client.api.PublishAck
 import jakarta.inject.Inject
-import org.junit.jupiter.api.TestInstance
 import spock.lang.Specification
 
 import java.nio.charset.StandardCharsets
@@ -18,7 +17,6 @@ import static org.awaitility.Awaitility.await
 
 @MicronautTest
 @Property(name = "spec.name", value = "JetstreamSpec")
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class JetstreamSpec extends Specification implements TestPropertyProvider{
     @Inject ProductClient productClient
     @Inject ProductListener productListener

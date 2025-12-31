@@ -23,10 +23,11 @@ class SIDSpec : BehaviorSpec(), TestPropertyProvider {
     init {
         given("A custom type binder") {
             `when`("The messages are published") {
+                // tag::producer[]
                 productClient.send("body".toByteArray())
                 productClient.send("body2".toByteArray())
                 productClient.send("body3".toByteArray())
-
+                // end::producer[]
                 then("The messages are received") {
                     eventually(10.seconds) {
                         productListener.messages.size shouldBe 3
