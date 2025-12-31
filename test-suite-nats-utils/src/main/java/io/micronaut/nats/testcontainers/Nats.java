@@ -34,7 +34,7 @@ public class Nats {
 
     private static Map<String, String> getProperties(GenericContainer<?> container) {
         int mappedPort = container.getMappedPort(NATS_PORT);
-        String address = "nats://localhost:" + container.getMappedPort(NATS_PORT);
+        String address = "nats://localhost:" + mappedPort;
         return Map.of(
             "nats.addresses", address,
             "nats.port", String.valueOf(mappedPort)
