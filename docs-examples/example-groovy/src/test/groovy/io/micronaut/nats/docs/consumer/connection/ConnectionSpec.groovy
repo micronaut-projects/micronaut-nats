@@ -2,9 +2,10 @@ package io.micronaut.nats.docs.consumer.connection
 
 import io.micronaut.context.annotation.Property
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
+import io.micronaut.nats.testcontainers.Nats
 import io.micronaut.test.support.TestPropertyProvider
-import io.micronaut.testresources.client.TestResourcesClientFactory
 import jakarta.inject.Inject
+import org.junit.jupiter.api.TestInstance
 import spock.lang.Specification
 
 import static java.util.concurrent.TimeUnit.SECONDS
@@ -12,6 +13,7 @@ import static org.awaitility.Awaitility.await
 
 @MicronautTest
 @Property(name = "spec.name", value = "ConnectionSpec")
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class ConnectionSpec extends Specification implements TestPropertyProvider {
     @Inject ProductClient productClient
     @Inject ProductListener productListener
@@ -35,17 +37,9 @@ class ConnectionSpec extends Specification implements TestPropertyProvider {
 
     @Override
     Map<String, String> getProperties() {
-        var client = TestResourcesClientFactory.fromSystemProperties().get()
-        var natsPort = client.resolve("nats.port", Map.of(), Map.of(
-                "containers.nats.startup-timeout", "600s",
-                "containers.nats.image-name", "nats:latest",
-                "containers.nats.exposed-ports[0].nats.port", 4222,
-                "containers.nats.exposed-ports", List.of(Map.of("nats.port", 4222)),
-                "containers.nats.command", "--js",
-                "containers.nats.wait-strategy.log.regex", ".*Server is ready.*"
-        ))
-        return natsPort
-                .map(port -> Map.of("nats.product-cluster.addresses[0]", "nats://localhost:$port"))
-                .orElse(Collections.emptyMap())
+        def containerProps = Nats.properties
+        [
+                "nats.product-cluster.addresses": containerProps."nats.addresses"
+        ]
     }
 }

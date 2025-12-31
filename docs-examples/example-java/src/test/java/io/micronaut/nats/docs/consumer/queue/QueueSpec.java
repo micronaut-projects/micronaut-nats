@@ -1,15 +1,21 @@
 package io.micronaut.nats.docs.consumer.queue;
 
 import io.micronaut.context.annotation.Property;
+import io.micronaut.nats.testcontainers.Nats;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
+import io.micronaut.test.support.TestPropertyProvider;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+
+import java.util.Map;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.awaitility.Awaitility.await;
 
 @MicronautTest
 @Property(name = "spec.name", value = "QueueSpec")
-class QueueSpec {
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+class QueueSpec implements TestPropertyProvider {
 
     @Test
     void testProductClientAndListener(ProductClient productClient, ProductListener productListener) {
@@ -23,4 +29,8 @@ class QueueSpec {
         );
     }
 
+    @Override
+    public Map<String, String> getProperties() {
+        return Nats.getProperties();
+    }
 }

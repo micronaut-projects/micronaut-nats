@@ -1,15 +1,21 @@
 package io.micronaut.nats.docs.consumer.custom.annotation;
 
 import io.micronaut.context.annotation.Property;
+import io.micronaut.nats.testcontainers.Nats;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
+import io.micronaut.test.support.TestPropertyProvider;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+
+import java.util.Map;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.awaitility.Awaitility.await;
 
 @MicronautTest
 @Property(name = "spec.name", value = "SIDSpec")
-class SIDSpec {
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+class SIDSpec implements TestPropertyProvider {
 
     @Test
     void testUsingACustomAnnotationBinder(ProductClient productClient, ProductListener productListener) {
@@ -20,5 +26,10 @@ class SIDSpec {
 // end::producer[]
 
         await().atMost(60, SECONDS).until(() -> productListener.messages.size() == 3);
+    }
+
+    @Override
+    public Map<String, String> getProperties() {
+        return Nats.getProperties();
     }
 }

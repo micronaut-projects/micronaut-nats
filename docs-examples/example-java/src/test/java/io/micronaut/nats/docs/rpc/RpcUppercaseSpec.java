@@ -1,15 +1,21 @@
 package io.micronaut.nats.docs.rpc;
 
 import io.micronaut.context.annotation.Property;
+import io.micronaut.nats.testcontainers.Nats;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
+import io.micronaut.test.support.TestPropertyProvider;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import reactor.core.publisher.Mono;
+
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @MicronautTest
 @Property(name = "spec.name", value = "RpcUppercaseSpec")
-class RpcUppercaseSpec {
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+class RpcUppercaseSpec implements TestPropertyProvider {
 
     @Test
     void testProductClientAndListener(ProductClient productClient) {
@@ -18,5 +24,10 @@ class RpcUppercaseSpec {
 assertEquals("RPC", productClient.send("rpc"));
 assertEquals("HELLO", Mono.from(productClient.sendReactive("hello")).block());
 // end::producer[]
+    }
+
+    @Override
+    public Map<String, String> getProperties() {
+        return Nats.getProperties();
     }
 }

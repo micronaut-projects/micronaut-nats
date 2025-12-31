@@ -5,6 +5,7 @@ import io.micronaut.inject.qualifiers.Qualifiers
 import io.nats.client.Connection
 import org.testcontainers.containers.GenericContainer
 import org.testcontainers.containers.wait.strategy.LogMessageWaitStrategy
+import org.testcontainers.containers.wait.strategy.Wait
 import spock.lang.Shared
 import spock.lang.Specification
 
@@ -14,12 +15,12 @@ class MultipleServerSpec extends Specification {
     GenericContainer natsContainer1 =
             new GenericContainer("nats:latest")
                     .withExposedPorts(4222)
-                    .waitingFor(new LogMessageWaitStrategy().withRegEx("(?s).*Server is ready.*"))
+                    .waitingFor(Wait.forListeningPort())
     @Shared
     GenericContainer natsContainer2 =
             new GenericContainer("nats:latest")
                     .withExposedPorts(4222)
-                    .waitingFor(new LogMessageWaitStrategy().withRegEx("(?s).*Server is ready.*"))
+                    .waitingFor(Wait.forListeningPort())
 
     void "test multiple server configuration"() {
         given:

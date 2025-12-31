@@ -1,14 +1,12 @@
 package io.micronaut.nats.docs.consumer.connection;
 
 import io.micronaut.context.annotation.Property;
+import io.micronaut.nats.testcontainers.Nats;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import io.micronaut.test.support.TestPropertyProvider;
-import io.micronaut.testresources.client.TestResourcesClientFactory;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
-import java.util.Collections;
-import java.util.List;
 import java.util.Map;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
@@ -34,17 +32,10 @@ class ConnectionSpec implements TestPropertyProvider {
 
     @Override
     public Map<String, String> getProperties() {
-        var client = TestResourcesClientFactory.fromSystemProperties().get();
-        var natsPort = client.resolve("nats.port", Map.of(), Map.of(
-            "containers.nats.startup-timeout", "600s",
-            "containers.nats.image-name", "nats:latest",
-            "containers.nats.exposed-ports[0].nats.port", 4222,
-            "containers.nats.exposed-ports", List.of(Map.of("nats.port", 4222)),
-            "containers.nats.command", "--js",
-            "containers.nats.wait-strategy.log.regex", ".*Server is ready.*"
-        ));
-        return natsPort
-            .map(port -> Map.of("nats.product-cluster.addresses[0]", "nats://localhost:" + port))
-            .orElse(Collections.emptyMap());
+        Map<String, String> containerProps = Nats.getProperties();
+        String natsAddress = containerProps.get("nats.addresses");
+        return Map.of(
+            "nats.product-cluster.addresses", natsAddress
+        );
     }
 }

@@ -21,7 +21,7 @@ import io.micronaut.inject.qualifiers.Qualifiers
 import io.micronaut.nats.annotation.NatsConnection
 import io.nats.client.Connection
 import org.testcontainers.containers.GenericContainer
-import org.testcontainers.containers.wait.strategy.LogMessageWaitStrategy
+import org.testcontainers.containers.wait.strategy.Wait
 import spock.lang.Shared
 import spock.lang.Specification
 
@@ -32,14 +32,13 @@ class BasicAuthenticationSpec extends Specification {
             new GenericContainer("nats:latest")
                     .withExposedPorts(4222)
                     .withCommand("--user", "test", "--pass", "test")
-                    .waitingFor(new LogMessageWaitStrategy().withRegEx("(?s).*Server is ready.*"))
-
+                    .waitingFor(Wait.forListeningPort())
     @Shared
     GenericContainer authContainer =
             new GenericContainer("nats:latest")
                     .withExposedPorts(4222)
                     .withCommand("--auth", "randomToken")
-                    .waitingFor(new LogMessageWaitStrategy().withRegEx("(?s).*Server is ready.*"))
+                    .waitingFor(Wait.forListeningPort())
 
     void "username and passwort authentication"() {
         given:

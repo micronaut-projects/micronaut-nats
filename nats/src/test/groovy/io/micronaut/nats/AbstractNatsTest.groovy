@@ -17,7 +17,7 @@ package io.micronaut.nats
 
 import io.micronaut.context.ApplicationContext
 import org.testcontainers.containers.GenericContainer
-import org.testcontainers.containers.wait.strategy.LogMessageWaitStrategy
+import org.testcontainers.containers.wait.strategy.Wait
 import spock.lang.Specification
 
 /**
@@ -29,8 +29,7 @@ abstract class AbstractNatsTest extends Specification {
     static GenericContainer natsContainer =
             new GenericContainer("nats:latest")
                     .withExposedPorts(4222)
-                    .waitingFor(new LogMessageWaitStrategy().withRegEx("(?s).*Server is ready.*"))
-
+                    .waitingFor(Wait.forListeningPort())
     static {
         natsContainer.start()
     }
