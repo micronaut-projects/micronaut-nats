@@ -18,6 +18,7 @@ package io.micronaut.nats.jetstream
 import io.micronaut.context.ApplicationContext
 import org.testcontainers.containers.GenericContainer
 import org.testcontainers.containers.wait.strategy.LogMessageWaitStrategy
+import org.testcontainers.containers.wait.strategy.Wait
 import spock.lang.Specification
 
 /**
@@ -30,8 +31,7 @@ abstract class AbstractJetstreamTest extends Specification {
             new GenericContainer("nats:latest")
                     .withCommand("--js")
                     .withExposedPorts(4222)
-                    .waitingFor(new LogMessageWaitStrategy().withRegEx("(?s).*Server is ready.*"))
-
+                    .waitingFor(Wait.forListeningPort())
     static {
         natsContainer.start()
     }

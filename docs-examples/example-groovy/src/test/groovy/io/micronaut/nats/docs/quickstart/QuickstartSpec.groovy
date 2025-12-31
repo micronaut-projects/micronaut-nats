@@ -1,7 +1,9 @@
 package io.micronaut.nats.docs.quickstart
 
 import io.micronaut.context.annotation.Property
+import io.micronaut.nats.testcontainers.Nats
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
+import io.micronaut.test.support.TestPropertyProvider
 import jakarta.inject.Inject
 import spock.lang.Specification
 
@@ -10,7 +12,7 @@ import static org.awaitility.Awaitility.await
 
 @MicronautTest
 @Property(name = "spec.name", value = "QuickstartSpec")
-class QuickstartSpec extends Specification {
+class QuickstartSpec extends Specification implements TestPropertyProvider{
     @Inject ProductClient productClient
     @Inject ProductListener productListener
 
@@ -30,5 +32,10 @@ productClient.send("quickstart".bytes)
         cleanup:
         // Finding that the context is closing the channel before ack is sent
         sleep 200
+    }
+
+    @Override
+    Map<String, String> getProperties() {
+        Nats.properties
     }
 }

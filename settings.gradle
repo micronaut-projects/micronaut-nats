@@ -16,6 +16,7 @@ include 'nats-bom'
 include 'docs-examples:example-groovy'
 include 'docs-examples:example-java'
 include 'docs-examples:example-kotlin'
+include 'test-suite-nats-utils'
 
 enableFeaturePreview 'TYPESAFE_PROJECT_ACCESSORS'
 
@@ -25,5 +26,4 @@ micronautBuild {
     importMicronautCatalog("micronaut-micrometer")
     importMicronautCatalog("micronaut-reactor")
     importMicronautCatalog("micronaut-serde")
-    importMicronautCatalog("micronaut-test-resources")
 }

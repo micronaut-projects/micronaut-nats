@@ -1,15 +1,21 @@
 package io.micronaut.nats.docs.consumer.types;
 
 import io.micronaut.context.annotation.Property;
+import io.micronaut.nats.testcontainers.Nats;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
+import io.micronaut.test.support.TestPropertyProvider;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+
+import java.util.Map;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.awaitility.Awaitility.await;
 
 @MicronautTest
 @Property(name = "spec.name", value = "TypeBindingSpec")
-class TypeBindingSpec {
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+class TypeBindingSpec implements TestPropertyProvider {
 
     @Test
     void testBindingByType(ProductClient productClient, ProductListener productListener) {
@@ -26,5 +32,10 @@ class TypeBindingSpec {
                 productListener.messages.contains("subject: [product], maxPayload: [1048576], pendingMessageCount: [0], x-productCount: [30]") &&
                 productListener.messages.contains("subject: [product], maxPayload: [1048576], pendingMessageCount: [0], x-productCount: [40]")
         );
+    }
+
+    @Override
+    public Map<String, String> getProperties() {
+        return Nats.getProperties();
     }
 }

@@ -3,10 +3,10 @@ package io.micronaut.nats.docs.consumer.connection
 import io.kotest.assertions.nondeterministic.eventually
 import io.kotest.core.spec.style.AnnotationSpec
 import io.kotest.matchers.shouldBe
+import io.micronaut.nats.testcontainers.Nats
 import io.micronaut.context.annotation.Property
 import io.micronaut.test.extensions.kotest5.annotation.MicronautTest
 import io.micronaut.test.support.TestPropertyProvider
-import io.micronaut.testresources.client.TestResourcesClientFactory
 import jakarta.inject.Inject
 import kotlin.time.Duration.Companion.seconds
 
@@ -30,26 +30,12 @@ class ConnectionSpec : TestPropertyProvider, AnnotationSpec() {
         }
     }
 
-    override fun getProperties(): MutableMap<String, String> {
-        val client = TestResourcesClientFactory.fromSystemProperties().get()
-        val natsPort = client.resolve(
-            "nats.port",
-            mapOf(),
-            mapOf(
-                "containers.nats.startup-timeout" to "600s",
-                "containers.nats.image-name" to "nats:latest",
-                "containers.nats.exposed-ports[0].nats.port" to 4222,
-                "containers.nats.exposed-ports" to listOf(mapOf("nats.port" to 4222)),
-                "containers.nats.command" to "--js",
-                "containers.nats.wait-strategy.log.regex" to ".*Server is ready.*"
-            )
+    override fun getProperties(): Map<String, String> {
+        val containerProps = Nats.getProperties()
+        val natsAddress = containerProps["nats.addresses"] ?: ""
+
+        return mapOf(
+            "nats.product-cluster.addresses" to natsAddress
         )
-        return natsPort
-            .map { port: String ->
-                mutableMapOf(
-                    "nats.product-cluster.addresses[0]" to "nats://localhost:$port"
-                )
-            }
-            .orElse(mutableMapOf())
     }
 }

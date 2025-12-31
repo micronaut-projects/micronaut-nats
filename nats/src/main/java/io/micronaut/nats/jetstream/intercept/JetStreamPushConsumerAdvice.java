@@ -110,7 +110,7 @@ public class JetStreamPushConsumerAdvice
     }
 
     @Override
-    public void process(BeanDefinition<?> beanDefinition, ExecutableMethod<?, ?> method) {
+    public <B> void process(BeanDefinition<B> beanDefinition, ExecutableMethod<B, ?> method) {
         final Optional<AnnotationValue<JetStreamListener>> listenerAnnotation =
                 method.findAnnotation(JetStreamListener.class);
         if (!listenerAnnotation.isPresent()) {

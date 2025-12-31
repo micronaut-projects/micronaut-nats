@@ -23,15 +23,3 @@ nats:
       objectstore:
         examplebucket:
           storage-type: Memory
-
-test-resources:
-  containers:
-    nats:
-      startup-timeout: 600s
-      image-name: nats:latest
-      exposed-ports:
-        - nats.port: 4222
-      command: "--js"
-      wait-strategy:
-        log:
-          regex: ".*Server is ready.*"

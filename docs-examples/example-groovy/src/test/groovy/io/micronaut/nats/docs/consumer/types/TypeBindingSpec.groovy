@@ -1,7 +1,9 @@
 package io.micronaut.nats.docs.consumer.types
 
 import io.micronaut.context.annotation.Property
+import io.micronaut.nats.testcontainers.Nats
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
+import io.micronaut.test.support.TestPropertyProvider
 import jakarta.inject.Inject
 import spock.lang.Specification
 
@@ -10,7 +12,7 @@ import static org.awaitility.Awaitility.await
 
 @MicronautTest
 @Property(name = "spec.name", value = "TypeBindingSpec")
-class TypeBindingSpec extends Specification {
+class TypeBindingSpec extends Specification implements TestPropertyProvider{
     @Inject ProductClient productClient
     @Inject ProductListener productListener
 
@@ -32,5 +34,10 @@ class TypeBindingSpec extends Specification {
             productListener.messages.contains("subject: [product], maxPayload: [1048576], pendingMessageCount: [0], x-productCount: [30]")
             productListener.messages.contains("subject: [product], maxPayload: [1048576], pendingMessageCount: [0], x-productCount: [40]")
         }
+    }
+
+    @Override
+    Map<String, String> getProperties() {
+        Nats.properties
     }
 }

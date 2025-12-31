@@ -1,8 +1,6 @@
 plugins {
     id 'io.micronaut.build.internal.nats-examples'
-    id("org.jetbrains.kotlin.jvm")
-    id("org.jetbrains.kotlin.kapt")
-    id("org.jetbrains.kotlin.plugin.allopen")
+    id("io.micronaut.build.internal.kotlin-kapt")
     id("io.micronaut.build.internal.kotlin-base")
 }
 
@@ -10,3 +8,6 @@ micronaut {
     testRuntime "kotest5"
 }
 
+dependencies {
+    testImplementation(projects.testSuiteNatsUtils)
+}

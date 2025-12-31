@@ -297,7 +297,7 @@ public class NatsConnectionFactoryConfig {
     /**
      * @param tls The tls configuration
      */
-    public void setTls(@Nullable NatsConnectionFactoryConfig.TLS tls) {
+    public void setTls(NatsConnectionFactoryConfig.@Nullable TLS tls) {
         this.tls = tls;
     }
 

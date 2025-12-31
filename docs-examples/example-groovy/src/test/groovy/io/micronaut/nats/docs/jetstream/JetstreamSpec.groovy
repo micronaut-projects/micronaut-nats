@@ -1,7 +1,9 @@
 package io.micronaut.nats.docs.jetstream
 
 import io.micronaut.context.annotation.Property
+import io.micronaut.nats.testcontainers.Nats
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
+import io.micronaut.test.support.TestPropertyProvider
 import io.nats.client.JetStreamManagement
 import io.nats.client.PublishOptions
 import io.nats.client.api.PublishAck
@@ -15,7 +17,7 @@ import static org.awaitility.Awaitility.await
 
 @MicronautTest
 @Property(name = "spec.name", value = "JetstreamSpec")
-class JetstreamSpec extends Specification {
+class JetstreamSpec extends Specification implements TestPropertyProvider{
     @Inject ProductClient productClient
     @Inject ProductListener productListener
     @Inject JetStreamManagement jsm
@@ -68,5 +70,10 @@ class JetstreamSpec extends Specification {
             pullConsumerHelper.pullMessages().size() == 2
         }
 
+    }
+
+    @Override
+    Map<String, String> getProperties() {
+        Nats.properties
     }
 }

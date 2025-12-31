@@ -1,14 +1,18 @@
 package io.micronaut.nats.docs.jetstream;
 
 import io.micronaut.context.annotation.Property;
+import io.micronaut.nats.testcontainers.Nats;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
+import io.micronaut.test.support.TestPropertyProvider;
 import io.nats.client.JetStreamManagement;
 import io.nats.client.PublishOptions;
 import io.nats.client.api.PublishAck;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.condition.DisabledInNativeImage;
 
 import java.nio.charset.StandardCharsets;
+import java.util.Map;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.awaitility.Awaitility.await;
@@ -16,7 +20,8 @@ import static org.awaitility.Awaitility.await;
 @MicronautTest
 @Property(name = "spec.name", value = "JetstreamTest")
 @DisabledInNativeImage
-class JetstreamTest {
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+class JetstreamTest implements TestPropertyProvider {
 
     @Test
     void simplePublisher(ProductClient productClient, ProductListener productListener, JetStreamManagement jsm) {
@@ -61,5 +66,10 @@ class JetstreamTest {
         await().atMost(60, SECONDS).until(() ->
             pullConsumerHelper.pullMessages().size() == 2
         );
+    }
+
+    @Override
+    public Map<String, String> getProperties() {
+        return Nats.getProperties();
     }
 }
