@@ -15,7 +15,7 @@
     <script>hljs.initHighlightingOnLoad();</script>
     <link rel="stylesheet" href="../css/multi-language-sample.css"/>
     <script src="../js/docs.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.13/clipboard.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.11/clipboard.min.js"></script>
     <script type="text/javascript">
         function addJsClass(el) {
             var classes = document.body.className.split(" ");
@@ -23,7 +23,9 @@
             document.body.className = classes.join(" ");
         }
     </script>
-
+    <style type="text/css">
+        .lang-java { display: block }; .lang-python { display: block }; .lang-kotlin { display: block }; .lang-groovy { display: block }; 
+    </style>
 </head>
 
 <body class="body" id="docs" onload="addJsClass();" onhashchange="highlightMenu()">
@@ -179,13 +181,13 @@
         <h1>Micronaut Nats</h1>
         <p></p>
         <p>Integration between Micronaut and nats.io</p>
-        <p><strong>Version:</strong> 4.8.0 </p>
+        <p><strong>Version:</strong> 5.0.0 </p>
     </div>
     
 <h1 id="introduction"><a class="anchor" href="#introduction"></a>1 Introduction</h1>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/4.8.x/src/main/docs/guide/introduction.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.0.x/src/main/docs/guide/introduction.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -198,7 +200,7 @@
 <h1 id="releaseHistory"><a class="anchor" href="#releaseHistory"></a>2 Release History</h1>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/4.8.x/src/main/docs/guide/releaseHistory.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.0.x/src/main/docs/guide/releaseHistory.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -214,7 +216,7 @@
 <h1 id="cli"><a class="anchor" href="#cli"></a>3 Using the Micronaut CLI</h1>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/4.8.x/src/main/docs/guide/cli.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.0.x/src/main/docs/guide/cli.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -264,7 +266,7 @@ $ mn create-nats-listener Message
 <h1 id="quickStart"><a class="anchor" href="#quickStart"></a>4 NATS Quick Start</h1>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/4.8.x/src/main/docs/guide/quickStart.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.0.x/src/main/docs/guide/quickStart.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -287,7 +289,8 @@ $ mn create-nats-listener Message
     &lt;artifactId&gt;micronaut-nats&lt;/artifactId&gt;
 &lt;/dependency&gt;</code></pre>
 </div>
-</div></p>
+</div>
+</p>
 </div>
 <div class="sect2">
 <h3 id="_creating_a_nats_producer_with_natsclient">Creating a NATS Producer with @NatsClient</h3>
@@ -312,19 +315,6 @@ public interface ProductClient {
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">import io.micronaut.nats.annotation.NatsClient
-import io.micronaut.nats.annotation.Subject
-
-@NatsClient // <b class="conum">(1)</b>
-interface ProductClient {
-
-    @Subject("product") // <b class="conum">(2)</b>
-    void send(byte[] data) // <b class="conum">(3)</b>
-}</code></pre>
-</div>
-</div>
-<div class="listingblock multi-language-sample">
-<div class="content">
 <pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">import io.micronaut.nats.annotation.NatsClient
 import io.micronaut.nats.annotation.Subject
 
@@ -333,6 +323,19 @@ interface ProductClient {
 
     @Subject("product") // <b class="conum">(2)</b>
     fun send(data: ByteArray) // <b class="conum">(3)</b>
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">import io.micronaut.nats.annotation.NatsClient
+import io.micronaut.nats.annotation.Subject
+
+@NatsClient // <b class="conum">(1)</b>
+interface ProductClient {
+
+    @Subject("product") // <b class="conum">(2)</b>
+    void send(byte[] data) // <b class="conum">(3)</b>
 }</code></pre>
 </div>
 </div>
@@ -385,7 +388,7 @@ interface ProductClient {
 <h1 id="config"><a class="anchor" href="#config"></a>5 Configuring the connection</h1>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/4.8.x/src/main/docs/guide/config.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.0.x/src/main/docs/guide/config.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -401,81 +404,96 @@ interface ProductClient {
 <table class="tableblock frame-all grid-all stretch">
 <caption class="title">Table 1. Configuration Properties for <a href="../api/io/micronaut/nats/connect/NatsConnectionFactoryConfig.html">NatsConnectionFactoryConfig</a></caption>
 <colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
 </colgroup>
 <thead>
 <tr>
 <th class="tableblock halign-left valign-top">Property</th>
 <th class="tableblock halign-left valign-top">Type</th>
 <th class="tableblock halign-left valign-top">Description</th>
+<th class="tableblock halign-left valign-top">Default value</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.addresses</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">java.util.List</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">An optional list of addresses</p></td>
 <td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.username</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">the username for the connection</p></td>
 <td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.password</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">the password for the connection</p></td>
 <td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.token</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">the token for the connection</p></td>
 <td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.max-reconnect</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">int</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">the max reconnection tries</p></td>
 <td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.reconnect-wait</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">java.time.Duration</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">time to wait between reconnect attempts</p></td>
 <td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.connection-timeout</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">java.time.Duration</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">maximum time for initial connection</p></td>
 <td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.ping-interval</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">java.time.Duration</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">time between ping intervals</p></td>
 <td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.reconnect-buffer-size</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">long</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">size of the buffer, in bytes, used to store publish messages during reconnect</p></td>
 <td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.inbox-prefix</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">prefix to use for request/reply inboxes</p></td>
 <td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.no-echo</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">whether or not to block echo messages, messages that were sent by this connection</p></td>
 <td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.utf8-support</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">whether or not the client should support for UTF8 subject names</p></td>
 <td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.credentials</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">path to the credentials file to use for authentication with an account enabled server</p></td>
 <td class="tableblock halign-left valign-top"></td>
 </tr>
 </tbody>
@@ -803,7 +821,7 @@ nats.default.tls.certificate-path=/path/to/certificate.crt</code></pre>
 <h1 id="producer"><a class="anchor" href="#producer"></a>6 NATS Producers</h1>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/4.8.x/src/main/docs/guide/producer.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.0.x/src/main/docs/guide/producer.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -819,7 +837,7 @@ nats.default.tls.certificate-path=/path/to/certificate.crt</code></pre>
 <h2 id="producerMethods"><a class="anchor" href="#producerMethods"></a>6.1 Defining @NatsClient Methods</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/4.8.x/src/main/docs/guide/producer/producerMethods.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.0.x/src/main/docs/guide/producer/producerMethods.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -881,7 +899,7 @@ Unless a reactive type is returned from the publishing method, the action is blo
 <h2 id="producerParameters"><a class="anchor" href="#producerParameters"></a>6.1.1 Publishing Parameters</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/4.8.x/src/main/docs/guide/producer/producerMethods/producerParameters.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.0.x/src/main/docs/guide/producer/producerMethods/producerParameters.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -894,7 +912,7 @@ Unless a reactive type is returned from the publishing method, the action is blo
 <h2 id="producerSubject"><a class="anchor" href="#producerSubject"></a>6.1.1.1 Subject</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/4.8.x/src/main/docs/guide/producer/producerMethods/producerParameters/producerSubject.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.0.x/src/main/docs/guide/producer/producerMethods/producerParameters/producerSubject.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -920,21 +938,6 @@ public interface ProductClient {
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">import io.micronaut.nats.annotation.NatsClient
-import io.micronaut.nats.annotation.Subject
-
-@NatsClient
-interface ProductClient {
-
-    @Subject("product") // <b class="conum">(1)</b>
-    void send(byte[] data)
-
-    void send(@Subject String subject, byte[] data) // <b class="conum">(2)</b>
-}</code></pre>
-</div>
-</div>
-<div class="listingblock multi-language-sample">
-<div class="content">
 <pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">import io.micronaut.nats.annotation.NatsClient
 import io.micronaut.nats.annotation.Subject
 
@@ -945,6 +948,21 @@ interface ProductClient {
     fun send(data: ByteArray)
 
     fun send(@Subject subject: String, data:ByteArray) // <b class="conum">(2)</b>
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">import io.micronaut.nats.annotation.NatsClient
+import io.micronaut.nats.annotation.Subject
+
+@NatsClient
+interface ProductClient {
+
+    @Subject("product") // <b class="conum">(1)</b>
+    void send(byte[] data)
+
+    void send(@Subject String subject, byte[] data) // <b class="conum">(2)</b>
 }</code></pre>
 </div>
 </div>
@@ -980,19 +998,6 @@ public interface ProductClient {
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">import io.micronaut.nats.annotation.NatsClient
-import io.micronaut.nats.annotation.Subject
-
-@NatsClient // <b class="conum">(1)</b>
-interface ProductClient {
-
-    @Subject(value = "product", connection = "product-cluster") // <b class="conum">(2)</b>
-    void send(byte[] data) // <b class="conum">(3)</b>
-}</code></pre>
-</div>
-</div>
-<div class="listingblock multi-language-sample">
-<div class="content">
 <pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">import io.micronaut.nats.annotation.NatsClient
 import io.micronaut.nats.annotation.Subject
 
@@ -1002,6 +1007,19 @@ interface ProductClient {
     @Subject(value = "product", connection = "product-cluster") // <b class="conum">(1)</b>
     fun send(data: ByteArray)
 
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">import io.micronaut.nats.annotation.NatsClient
+import io.micronaut.nats.annotation.Subject
+
+@NatsClient // <b class="conum">(1)</b>
+interface ProductClient {
+
+    @Subject(value = "product", connection = "product-cluster") // <b class="conum">(2)</b>
+    void send(byte[] data) // <b class="conum">(3)</b>
 }</code></pre>
 </div>
 </div>
@@ -1045,7 +1063,7 @@ The NATS server will route the message to the queue and select a message receive
 <h2 id="producerHeaders"><a class="anchor" href="#producerHeaders"></a>6.1.1.2 Headers</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/4.8.x/src/main/docs/guide/producer/producerMethods/producerParameters/producerHeaders.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.0.x/src/main/docs/guide/producer/producerMethods/producerParameters/producerHeaders.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -1089,39 +1107,6 @@ public interface ProductClient {
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">import io.micronaut.messaging.annotation.MessageBody
-import io.micronaut.messaging.annotation.MessageHeader
-import io.micronaut.nats.annotation.NatsClient
-import io.micronaut.nats.annotation.Subject
-import io.nats.client.impl.Headers
-
-@NatsClient
-@MessageHeader(name = "x-product-sealed", value = "true") // <b class="conum">(1)</b>
-@MessageHeader(name = "productSize", value = "large")
-interface ProductClient {
-
-
-    @Subject("product")
-    @MessageHeader(name = "x-product-count", value = "10") // <b class="conum">(2)</b>
-    @MessageHeader(name = "productSize", value = "small")
-    void send(byte[] data)
-
-    @Subject("product")
-    void send(@MessageHeader String productSize, // <b class="conum">(3)</b>
-              @MessageHeader("x-product-count") Long count,
-              byte[] data)
-
-    @Subject("products")
-    @MessageHeader(name = "x-product-count", value = "20")
-    void send(@MessageBody byte[] data, @MessageHeader List&lt;String&gt; productSizes) // <b class="conum">(4)</b>
-
-    @Subject("productHeader")
-    void send(@MessageBody byte[] data, Headers headers) // <b class="conum">(5)</b>
-}</code></pre>
-</div>
-</div>
-<div class="listingblock multi-language-sample">
-<div class="content">
 <pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">import io.micronaut.messaging.annotation.MessageBody
 import io.micronaut.messaging.annotation.MessageHeader
 import io.micronaut.messaging.annotation.MessageHeaders
@@ -1158,6 +1143,39 @@ interface ProductClient {
 }</code></pre>
 </div>
 </div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">import io.micronaut.messaging.annotation.MessageBody
+import io.micronaut.messaging.annotation.MessageHeader
+import io.micronaut.nats.annotation.NatsClient
+import io.micronaut.nats.annotation.Subject
+import io.nats.client.impl.Headers
+
+@NatsClient
+@MessageHeader(name = "x-product-sealed", value = "true") // <b class="conum">(1)</b>
+@MessageHeader(name = "productSize", value = "large")
+interface ProductClient {
+
+
+    @Subject("product")
+    @MessageHeader(name = "x-product-count", value = "10") // <b class="conum">(2)</b>
+    @MessageHeader(name = "productSize", value = "small")
+    void send(byte[] data)
+
+    @Subject("product")
+    void send(@MessageHeader String productSize, // <b class="conum">(3)</b>
+              @MessageHeader("x-product-count") Long count,
+              byte[] data)
+
+    @Subject("products")
+    @MessageHeader(name = "x-product-count", value = "20")
+    void send(@MessageBody byte[] data, @MessageHeader List&lt;String&gt; productSizes) // <b class="conum">(4)</b>
+
+    @Subject("productHeader")
+    void send(@MessageBody byte[] data, Headers headers) // <b class="conum">(5)</b>
+}</code></pre>
+</div>
+</div>
 <div class="colist arabic">
 <table>
 <tr>
@@ -1186,7 +1204,7 @@ interface ProductClient {
 <h2 id="producerBody"><a class="anchor" href="#producerBody"></a>6.1.1.3 Message Body</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/4.8.x/src/main/docs/guide/producer/producerMethods/producerParameters/producerBody.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.0.x/src/main/docs/guide/producer/producerMethods/producerParameters/producerBody.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -1199,7 +1217,7 @@ interface ProductClient {
 <h1 id="consumer"><a class="anchor" href="#consumer"></a>7 NATS Consumers</h1>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/4.8.x/src/main/docs/guide/consumer.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.0.x/src/main/docs/guide/consumer.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -1215,7 +1233,7 @@ interface ProductClient {
 <h2 id="consumerMethods"><a class="anchor" href="#consumerMethods"></a>7.1 Defining @NatsListener Methods</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/4.8.x/src/main/docs/guide/consumer/consumerMethods.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.0.x/src/main/docs/guide/consumer/consumerMethods.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -1251,7 +1269,7 @@ If your application was created with the Micronaut CLI, then that has already be
 <h2 id="consumerParameters"><a class="anchor" href="#consumerParameters"></a>7.1.1 Consumer Parameters</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/4.8.x/src/main/docs/guide/consumer/consumerMethods/consumerParameters.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.0.x/src/main/docs/guide/consumer/consumerMethods/consumerParameters.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -1276,7 +1294,7 @@ In order for the consumer method to be invoked, all arguments must be satisfied.
 <h2 id="consumerSubject"><a class="anchor" href="#consumerSubject"></a>7.1.1.1 Subject</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/4.8.x/src/main/docs/guide/consumer/consumerMethods/consumerParameters/consumerSubject.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.0.x/src/main/docs/guide/consumer/consumerMethods/consumerParameters/consumerSubject.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -1304,6 +1322,24 @@ public class ProductListener {
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">import io.micronaut.nats.annotation.NatsListener
+import io.micronaut.nats.annotation.Subject
+import java.util.Collections
+
+@NatsListener
+class ProductListener {
+
+    val messageLengths: MutableList&lt;Int&gt; = Collections.synchronizedList(ArrayList())
+
+    @Subject("product") // <b class="conum">(1)</b>
+    fun receive(data: ByteArray) {
+        messageLengths.add(data.size)
+    }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
 <pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">import io.micronaut.nats.annotation.NatsListener
 import io.micronaut.nats.annotation.Subject
 
@@ -1317,24 +1353,6 @@ class ProductListener {
     @Subject("product") // <b class="conum">(1)</b>
     void receive(byte[] data) {
         messageLengths &lt;&lt; data.length
-    }
-}</code></pre>
-</div>
-</div>
-<div class="listingblock multi-language-sample">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">import io.micronaut.nats.annotation.NatsListener
-import io.micronaut.nats.annotation.Subject
-import java.util.Collections
-
-@NatsListener
-class ProductListener {
-
-    val messageLengths: MutableList&lt;Int&gt; = Collections.synchronizedList(ArrayList())
-
-    @Subject("product") // <b class="conum">(1)</b>
-    fun receive(data: ByteArray) {
-        messageLengths.add(data.size)
     }
 }</code></pre>
 </div>
@@ -1378,30 +1396,6 @@ public class ProductListener {
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">import io.micronaut.nats.annotation.NatsListener
-import io.micronaut.nats.annotation.Subject
-
-import java.util.concurrent.CopyOnWriteArrayList
-
-@NatsListener
-class ProductListener {
-
-    CopyOnWriteArrayList&lt;String&gt; messageLengths = []
-
-    @Subject(value = "product", queue = "product-queue") // <b class="conum">(1)</b>
-    void receiveByQueue1(byte[] data) {
-        messageLengths &lt;&lt; new String(data)
-    }
-
-    @Subject(value = "product", queue = "product-queue")
-    public void receiveByQueue2(byte[] data) {
-        messageLengths &lt;&lt; new String(data)
-    }
-}</code></pre>
-</div>
-</div>
-<div class="listingblock multi-language-sample">
-<div class="content">
 <pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">import io.micronaut.messaging.annotation.MessageHeader
 import io.micronaut.nats.annotation.NatsListener
 import io.micronaut.nats.annotation.Subject
@@ -1423,6 +1417,30 @@ class ProductListener {
         messageLengths.add(String(data))
     }
 
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">import io.micronaut.nats.annotation.NatsListener
+import io.micronaut.nats.annotation.Subject
+
+import java.util.concurrent.CopyOnWriteArrayList
+
+@NatsListener
+class ProductListener {
+
+    CopyOnWriteArrayList&lt;String&gt; messageLengths = []
+
+    @Subject(value = "product", queue = "product-queue") // <b class="conum">(1)</b>
+    void receiveByQueue1(byte[] data) {
+        messageLengths &lt;&lt; new String(data)
+    }
+
+    @Subject(value = "product", queue = "product-queue")
+    public void receiveByQueue2(byte[] data) {
+        messageLengths &lt;&lt; new String(data)
+    }
 }</code></pre>
 </div>
 </div>
@@ -1472,23 +1490,6 @@ public class ProductListener {
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">import io.micronaut.nats.annotation.NatsListener
-import io.micronaut.nats.annotation.Subject
-
-@NatsListener
-class ProductListener {
-
-    List&lt;String&gt; messageLengths = Collections.synchronizedList([])
-
-    @Subject(value = "product", connection = "product-cluster") // <b class="conum">(1)</b>
-    void receive(byte[] data) {
-        messageLengths &lt;&lt; new String(data)
-    }
-}</code></pre>
-</div>
-</div>
-<div class="listingblock multi-language-sample">
-<div class="content">
 <pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">import io.micronaut.messaging.annotation.MessageHeader
 import io.micronaut.nats.annotation.NatsListener
 import io.micronaut.nats.annotation.Subject
@@ -1505,6 +1506,23 @@ class ProductListener {
         messageLengths.add(String(data))
     }
 
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">import io.micronaut.nats.annotation.NatsListener
+import io.micronaut.nats.annotation.Subject
+
+@NatsListener
+class ProductListener {
+
+    List&lt;String&gt; messageLengths = Collections.synchronizedList([])
+
+    @Subject(value = "product", connection = "product-cluster") // <b class="conum">(1)</b>
+    void receive(byte[] data) {
+        messageLengths &lt;&lt; new String(data)
+    }
 }</code></pre>
 </div>
 </div>
@@ -1533,7 +1551,7 @@ The <code>connection</code> option is also available to be set on the <a href=".
 <h2 id="consumerHeaders"><a class="anchor" href="#consumerHeaders"></a>7.1.1.2 Headers</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/4.8.x/src/main/docs/guide/consumer/consumerMethods/consumerParameters/consumerHeaders.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.0.x/src/main/docs/guide/consumer/consumerMethods/consumerParameters/consumerHeaders.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -1584,6 +1602,50 @@ public class ProductListener {
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">import io.micronaut.messaging.annotation.MessageBody
+import io.micronaut.messaging.annotation.MessageHeader
+import io.micronaut.nats.annotation.NatsListener
+import io.micronaut.nats.annotation.Subject
+import io.nats.client.impl.Headers
+import java.util.Collections
+
+@NatsListener
+class ProductListener {
+
+    var messageProperties: MutableList&lt;String&gt; = Collections.synchronizedList(ArrayList())
+    private var datas: MutableList&lt;ByteArray&gt; = Collections.synchronizedList(ArrayList())
+
+
+    @Subject("product")
+    fun receive(data: ByteArray,
+                @MessageHeader("x-product-sealed") sealed: Boolean, // <b class="conum">(1)</b>
+                @MessageHeader("x-product-count") count: Long, // <b class="conum">(2)</b>
+                @MessageHeader productSize: String?) { // <b class="conum">(3)</b>
+        messageProperties.add(sealed.toString() + "|" + count + "|" + productSize)
+        datas.add(data)
+    }
+
+    @Subject("products")
+    fun receive(@MessageBody data: ByteArray,
+                @MessageHeader("x-product-sealed") sealed: Boolean,
+                @MessageHeader("x-product-count") count: Long,
+                @MessageHeader productSizes: List&lt;String&gt;?) { // <b class="conum">(4)</b>
+        productSizes?.forEach {
+            messageProperties.add("${sealed}|${count}|${it}")
+        }
+        datas.add(data)
+    }
+
+    @Subject("productHeader")
+    fun receive(@MessageBody data: ByteArray, headers: Headers) { // <b class="conum">(5)</b>
+        messageProperties.add("${headers["x-product-sealed"]!![0]}|${headers["x-product-count"]!![0]}|${headers["productSize"]!![0]}")
+        datas.add(data)
+    }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
 <pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">import io.micronaut.core.annotation.Nullable
 import io.micronaut.messaging.annotation.MessageBody
 import io.micronaut.messaging.annotation.MessageHeader
@@ -1624,50 +1686,6 @@ class ProductListener {
 }</code></pre>
 </div>
 </div>
-<div class="listingblock multi-language-sample">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">import io.micronaut.messaging.annotation.MessageBody
-import io.micronaut.messaging.annotation.MessageHeader
-import io.micronaut.nats.annotation.NatsListener
-import io.micronaut.nats.annotation.Subject
-import io.nats.client.impl.Headers
-import java.util.Collections
-
-@NatsListener
-class ProductListener {
-
-    var messageProperties: MutableList&lt;String&gt; = Collections.synchronizedList(ArrayList())
-    private var datas: MutableList&lt;ByteArray&gt; = Collections.synchronizedList(ArrayList())
-
-
-    @Subject("product")
-    fun receive(data: ByteArray,
-                @MessageHeader("x-product-sealed") sealed: Boolean, // <b class="conum">(1)</b>
-                @MessageHeader("x-product-count") count: Long, // <b class="conum">(2)</b>
-                @MessageHeader productSize: String?) { // <b class="conum">(3)</b>
-        messageProperties.add(sealed.toString() + "|" + count + "|" + productSize)
-        datas.add(data)
-    }
-
-    @Subject("products")
-    fun receive(@MessageBody data: ByteArray,
-                @MessageHeader("x-product-sealed") sealed: Boolean,
-                @MessageHeader("x-product-count") count: Long,
-                @MessageHeader productSizes: List&lt;String&gt;?) { // <b class="conum">(4)</b>
-        productSizes?.forEach {
-            messageProperties.add("${sealed}|${count}|${it}")
-        }
-        datas.add(data)
-    }
-
-    @Subject("productHeader")
-    fun receive(@MessageBody data: ByteArray, headers: Headers) { // <b class="conum">(5)</b>
-        messageProperties.add("${headers["x-product-sealed"][0]}|${headers["x-product-count"][0]}|${headers["productSize"][0]}")
-        datas.add(data)
-    }
-}</code></pre>
-</div>
-</div>
 <div class="colist arabic">
 <table>
 <tr>
@@ -1696,7 +1714,7 @@ class ProductListener {
 <h2 id="consumerTypes"><a class="anchor" href="#consumerTypes"></a>7.1.1.3 Nats Types</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/4.8.x/src/main/docs/guide/consumer/consumerMethods/consumerParameters/consumerTypes.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.0.x/src/main/docs/guide/consumer/consumerMethods/consumerParameters/consumerTypes.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -1738,6 +1756,34 @@ public class ProductListener {
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">import io.micronaut.nats.annotation.NatsListener
+import io.micronaut.nats.annotation.Subject
+import io.nats.client.Connection
+import io.nats.client.Message
+import io.nats.client.Subscription
+import io.nats.client.impl.Headers
+import java.util.Collections
+
+
+@NatsListener
+class ProductListener {
+
+    var messages: MutableList&lt;String&gt; = Collections.synchronizedList(ArrayList())
+    private var datas: MutableList&lt;ByteArray&gt; = Collections.synchronizedList(ArrayList())
+
+    @Subject(value = "product")
+    fun receive(message: Message,
+                connection: Connection,
+                subscription: Subscription,
+                headers: Headers) { // <b class="conum">(1)</b>
+        messages.add("subject: [${message.subject}], maxPayload: [${connection.maxPayload}], pendingMessageCount: [${subscription.pendingMessageCount}], x-productCount: [${headers["x-product-count"]!![0]}]")
+    }
+
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
 <pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">import io.micronaut.nats.annotation.NatsListener
 import io.micronaut.nats.annotation.Subject
 
@@ -1766,34 +1812,6 @@ class ProductListener {
 }</code></pre>
 </div>
 </div>
-<div class="listingblock multi-language-sample">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">import io.micronaut.nats.annotation.NatsListener
-import io.micronaut.nats.annotation.Subject
-import io.nats.client.Connection
-import io.nats.client.Message
-import io.nats.client.Subscription
-import io.nats.client.impl.Headers
-import java.util.Collections
-
-
-@NatsListener
-class ProductListener {
-
-    var messages: MutableList&lt;String&gt; = Collections.synchronizedList(ArrayList())
-    private var datas: MutableList&lt;ByteArray&gt; = Collections.synchronizedList(ArrayList())
-
-    @Subject(value = "product")
-    fun receive(message: Message,
-                connection: Connection,
-                subscription: Subscription,
-                headers: Headers) { // <b class="conum">(1)</b>
-        messages.add("subject: [${message.subject}], maxPayload: [${connection.maxPayload}], pendingMessageCount: [${subscription.pendingMessageCount}], x-productCount: [${headers["x-product-count"][0]}]")
-    }
-
-}</code></pre>
-</div>
-</div>
 <div class="colist arabic">
 <table>
 <tr>
@@ -1806,7 +1824,7 @@ class ProductListener {
 <h2 id="consumerBody"><a class="anchor" href="#consumerBody"></a>7.1.1.4 Message Body</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/4.8.x/src/main/docs/guide/consumer/consumerMethods/consumerParameters/consumerBody.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.0.x/src/main/docs/guide/consumer/consumerMethods/consumerParameters/consumerBody.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -1819,7 +1837,7 @@ class ProductListener {
 <h2 id="consumerCustom"><a class="anchor" href="#consumerCustom"></a>7.1.1.5 Custom Parameter Binding</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/4.8.x/src/main/docs/guide/consumer/consumerMethods/consumerParameters/consumerCustom.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.0.x/src/main/docs/guide/consumer/consumerMethods/consumerParameters/consumerCustom.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -1883,6 +1901,17 @@ public @interface SID {
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">import io.micronaut.core.bind.annotation.Bindable
+
+@MustBeDocumented
+@Retention(AnnotationRetention.RUNTIME)
+@Target(AnnotationTarget.VALUE_PARAMETER)
+@Bindable // <b class="conum">(1)</b>
+annotation class SID</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
 <pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">import io.micronaut.core.bind.annotation.Bindable
 
 import java.lang.annotation.Documented
@@ -1897,17 +1926,6 @@ import java.lang.annotation.Target
 @Bindable // <b class="conum">(1)</b>
 @interface SID {
 }</code></pre>
-</div>
-</div>
-<div class="listingblock multi-language-sample">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">import io.micronaut.core.bind.annotation.Bindable
-
-@MustBeDocumented
-@Retention(AnnotationRetention.RUNTIME)
-@Target(AnnotationTarget.VALUE_PARAMETER)
-@Bindable // <b class="conum">(1)</b>
-annotation class SID</code></pre>
 </div>
 </div>
 <div class="colist arabic">
@@ -1950,6 +1968,30 @@ public class SIDAnnotationBinder implements NatsAnnotatedArgumentBinder&lt;SID&g
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">import io.micronaut.core.bind.ArgumentBinder
+import io.micronaut.core.convert.ArgumentConversionContext
+import io.micronaut.core.convert.ConversionService
+import io.micronaut.nats.bind.NatsAnnotatedArgumentBinder
+import io.nats.client.Message
+import jakarta.inject.Singleton
+
+@Singleton // <b class="conum">(1)</b>
+class SIDAnnotationBinder(private val conversionService: ConversionService) // <b class="conum">(3)</b>
+    : NatsAnnotatedArgumentBinder&lt;SID&gt; { // <b class="conum">(2)</b>
+
+    override fun getAnnotationType(): Class&lt;SID&gt; {
+        return SID::class.java
+    }
+
+    override fun bind(context: ArgumentConversionContext&lt;Any&gt;, source: Message): ArgumentBinder.BindingResult&lt;Any&gt; {
+        val sid = source.sid // <b class="conum">(4)</b>
+        return ArgumentBinder.BindingResult { conversionService.convert(sid, context) } // <b class="conum">(5)</b>
+    }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
 <pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">import io.micronaut.core.convert.ArgumentConversionContext
 import io.micronaut.core.convert.ConversionService
 import io.micronaut.nats.bind.NatsAnnotatedArgumentBinder
@@ -1975,30 +2017,6 @@ class SIDAnnotationBinder implements NatsAnnotatedArgumentBinder&lt;SID&gt; { //
     BindingResult&lt;Object&gt; bind(ArgumentConversionContext&lt;Object&gt; context, Message source) {
         String sid = source.getSID() // <b class="conum">(4)</b>
         return { -&gt; conversionService.convert(sid, context) } // <b class="conum">(5)</b>
-    }
-}</code></pre>
-</div>
-</div>
-<div class="listingblock multi-language-sample">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">import io.micronaut.core.bind.ArgumentBinder
-import io.micronaut.core.convert.ArgumentConversionContext
-import io.micronaut.core.convert.ConversionService
-import io.micronaut.nats.bind.NatsAnnotatedArgumentBinder
-import io.nats.client.Message
-import jakarta.inject.Singleton
-
-@Singleton // <b class="conum">(1)</b>
-class SIDAnnotationBinder(private val conversionService: ConversionService) // <b class="conum">(3)</b>
-    : NatsAnnotatedArgumentBinder&lt;SID&gt; { // <b class="conum">(2)</b>
-
-    override fun getAnnotationType(): Class&lt;SID&gt; {
-        return SID::class.java
-    }
-
-    override fun bind(context: ArgumentConversionContext&lt;Any&gt;, source: Message): ArgumentBinder.BindingResult&lt;Any&gt; {
-        val sid = source.sid // <b class="conum">(4)</b>
-        return ArgumentBinder.BindingResult { conversionService.convert(sid, context) } // <b class="conum">(5)</b>
     }
 }</code></pre>
 </div>
@@ -2049,26 +2067,6 @@ public class ProductListener {
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">import io.micronaut.nats.annotation.NatsListener
-import io.micronaut.nats.annotation.Subject
-import io.micronaut.nats.docs.consumer.custom.type.ProductInfo
-
-import java.util.concurrent.CopyOnWriteArrayList
-
-@NatsListener
-class ProductListener {
-
-    CopyOnWriteArrayList&lt;ProductInfo&gt; messages = []
-
-    @Subject("product")
-    void receive(byte[] data, @SID String sid) {
-        messages &lt;&lt; sid
-    }
-}</code></pre>
-</div>
-</div>
-<div class="listingblock multi-language-sample">
-<div class="content">
 <pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">import io.micronaut.nats.annotation.NatsListener
 import io.micronaut.nats.annotation.Subject
 import io.micronaut.nats.docs.consumer.custom.type.ProductInfo
@@ -2089,6 +2087,26 @@ class ProductListener {
 }</code></pre>
 </div>
 </div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">import io.micronaut.nats.annotation.NatsListener
+import io.micronaut.nats.annotation.Subject
+import io.micronaut.nats.docs.consumer.custom.type.ProductInfo
+
+import java.util.concurrent.CopyOnWriteArrayList
+
+@NatsListener
+class ProductListener {
+
+    CopyOnWriteArrayList&lt;ProductInfo&gt; messages = []
+
+    @Subject("product")
+    void receive(byte[] data, @SID String sid) {
+        messages &lt;&lt; sid
+    }
+}</code></pre>
+</div>
+</div>
 </div>
 <div class="sect3">
 <h4 id="_type_binding">Type Binding</h4>
@@ -2097,8 +2115,8 @@ class ProductListener {
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">import io.micronaut.core.annotation.NonNull;
-import io.micronaut.core.annotation.Nullable;
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 public class ProductInfo {
 
@@ -2126,6 +2144,13 @@ public class ProductInfo {
         return sealed;
     }
 }</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">class ProductInfo(val size: String?, // <b class="conum">(1)</b>
+                  val count: Long, // <b class="conum">(2)</b>
+                  val sealed: Boolean)// <b class="conum">(3)</b></code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -2159,13 +2184,6 @@ class ProductInfo {
         sealed
     }
 }</code></pre>
-</div>
-</div>
-<div class="listingblock multi-language-sample">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">class ProductInfo(val size: String?, // <b class="conum">(1)</b>
-                  val count: Long, // <b class="conum">(2)</b>
-                  val sealed: Boolean)// <b class="conum">(3)</b></code></pre>
 </div>
 </div>
 <div class="colist arabic">
@@ -2248,6 +2266,54 @@ public class ProductInfoTypeBinder implements NatsTypeArgumentBinder&lt;ProductI
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">import io.micronaut.core.bind.ArgumentBinder.BindingResult
+import io.micronaut.core.convert.ArgumentConversionContext
+import io.micronaut.core.convert.ConversionError
+import io.micronaut.core.convert.ConversionService
+import io.micronaut.core.type.Argument
+import io.micronaut.nats.bind.NatsHeaderConvertibleValues
+import io.micronaut.nats.bind.NatsTypeArgumentBinder
+import io.micronaut.nats.docs.consumer.custom.type.ProductInfo
+import io.nats.client.Message
+import jakarta.inject.Singleton
+import java.util.Optional
+
+@Singleton // <b class="conum">(1)</b>
+class ProductInfoTypeBinder constructor(private val conversionService: ConversionService) //<b class="conum">(3)</b>
+    : NatsTypeArgumentBinder&lt;ProductInfo&gt; { // <b class="conum">(2)</b>
+
+    override fun argumentType(): Argument&lt;ProductInfo&gt; {
+        return Argument.of(ProductInfo::class.java)
+    }
+
+    override fun bind(context: ArgumentConversionContext&lt;ProductInfo&gt;, source: Message): BindingResult&lt;ProductInfo&gt; {
+        val rawHeaders = source.headers ?: return BindingResult { Optional.empty&lt;ProductInfo&gt;() } //<b class="conum">(4)</b>
+
+        val headers = NatsHeaderConvertibleValues(rawHeaders, conversionService)
+
+        val size = headers.get("productSize", String::class.java).orElse(null)  //<b class="conum">(5)</b>
+        val count = headers.get("x-product-count", Long::class.java) //<b class="conum">(6)</b>
+        val sealed = headers.get("x-product-sealed", Boolean::class.java) // <b class="conum">(7)</b>
+
+        if (headers.conversionErrors.isEmpty() &amp;&amp; count.isPresent &amp;&amp; sealed.isPresent) {
+            return BindingResult&lt;ProductInfo&gt; { Optional.of(ProductInfo(size, count.get(), sealed.get())) } //<b class="conum">(8)</b>
+        } else {
+            return object : BindingResult&lt;ProductInfo&gt; {
+                override fun getValue(): Optional&lt;ProductInfo&gt; {
+                    return Optional.empty()
+                }
+
+                override fun getConversionErrors(): List&lt;ConversionError&gt; {
+                    return headers.conversionErrors //<b class="conum">(9)</b>
+                }
+            }
+        }
+    }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
 <pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">import io.micronaut.core.convert.ArgumentConversionContext
 import io.micronaut.core.convert.ConversionError
 import io.micronaut.core.convert.ConversionService
@@ -2306,54 +2372,6 @@ class ProductInfoTypeBinder implements NatsTypeArgumentBinder&lt;ProductInfo&gt;
 }</code></pre>
 </div>
 </div>
-<div class="listingblock multi-language-sample">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">import io.micronaut.core.bind.ArgumentBinder.BindingResult
-import io.micronaut.core.convert.ArgumentConversionContext
-import io.micronaut.core.convert.ConversionError
-import io.micronaut.core.convert.ConversionService
-import io.micronaut.core.type.Argument
-import io.micronaut.nats.bind.NatsHeaderConvertibleValues
-import io.micronaut.nats.bind.NatsTypeArgumentBinder
-import io.micronaut.nats.docs.consumer.custom.type.ProductInfo
-import io.nats.client.Message
-import jakarta.inject.Singleton
-import java.util.Optional
-
-@Singleton // <b class="conum">(1)</b>
-class ProductInfoTypeBinder constructor(private val conversionService: ConversionService) //<b class="conum">(3)</b>
-    : NatsTypeArgumentBinder&lt;ProductInfo&gt; { // <b class="conum">(2)</b>
-
-    override fun argumentType(): Argument&lt;ProductInfo&gt; {
-        return Argument.of(ProductInfo::class.java)
-    }
-
-    override fun bind(context: ArgumentConversionContext&lt;ProductInfo&gt;, source: Message): BindingResult&lt;ProductInfo&gt; {
-        val rawHeaders = source.headers ?: return BindingResult { Optional.empty&lt;ProductInfo&gt;() } //<b class="conum">(4)</b>
-
-        val headers = NatsHeaderConvertibleValues(rawHeaders, conversionService)
-
-        val size = headers.get("productSize", String::class.java).orElse(null)  //<b class="conum">(5)</b>
-        val count = headers.get("x-product-count", Long::class.java) //<b class="conum">(6)</b>
-        val sealed = headers.get("x-product-sealed", Boolean::class.java) // <b class="conum">(7)</b>
-
-        if (headers.conversionErrors.isEmpty() &amp;&amp; count.isPresent &amp;&amp; sealed.isPresent) {
-            return BindingResult&lt;ProductInfo&gt; { Optional.of(ProductInfo(size, count.get(), sealed.get())) } //<b class="conum">(8)</b>
-        } else {
-            return object : BindingResult&lt;ProductInfo&gt; {
-                override fun getValue(): Optional&lt;ProductInfo&gt; {
-                    return Optional.empty()
-                }
-
-                override fun getConversionErrors(): List&lt;ConversionError&gt; {
-                    return headers.conversionErrors //<b class="conum">(9)</b>
-                }
-            }
-        }
-    }
-}</code></pre>
-</div>
-</div>
 <div class="colist arabic">
 <table>
 <tr>
@@ -2400,7 +2418,7 @@ class ProductInfoTypeBinder constructor(private val conversionService: Conversio
 <h1 id="rpc"><a class="anchor" href="#rpc"></a>8 Request-Reply (RPC)</h1>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/4.8.x/src/main/docs/guide/rpc.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.0.x/src/main/docs/guide/rpc.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -2437,23 +2455,6 @@ public interface ProductClient {
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">import io.micronaut.nats.annotation.NatsClient
-import io.micronaut.nats.annotation.Subject
-import org.reactivestreams.Publisher
-
-@NatsClient
-interface ProductClient {
-
-    @Subject("product")
-    String send(String data) // <b class="conum">(1)</b>
-
-    @Subject("product")
-    Publisher&lt;String&gt; sendReactive(String data) // <b class="conum">(2)</b>
-}</code></pre>
-</div>
-</div>
-<div class="listingblock multi-language-sample">
-<div class="content">
 <pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">import io.micronaut.nats.annotation.NatsClient
 import io.micronaut.nats.annotation.Subject
 import org.reactivestreams.Publisher
@@ -2466,6 +2467,23 @@ interface ProductClient {
 
     @Subject("product")
     fun sendReactive(data: String): Publisher&lt;String&gt; // <b class="conum">(2)</b>
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">import io.micronaut.nats.annotation.NatsClient
+import io.micronaut.nats.annotation.Subject
+import org.reactivestreams.Publisher
+
+@NatsClient
+interface ProductClient {
+
+    @Subject("product")
+    String send(String data) // <b class="conum">(1)</b>
+
+    @Subject("product")
+    Publisher&lt;String&gt; sendReactive(String data) // <b class="conum">(2)</b>
 }</code></pre>
 </div>
 </div>
@@ -2518,21 +2536,6 @@ public class ProductListener {
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">import io.micronaut.nats.annotation.NatsListener
-import io.micronaut.nats.annotation.Subject
-
-@NatsListener
-class ProductListener {
-
-    @Subject("product")
-    String toUpperCase(String data) { // <b class="conum">(1)</b>
-        data.toUpperCase() // <b class="conum">(2)</b>
-    }
-}</code></pre>
-</div>
-</div>
-<div class="listingblock multi-language-sample">
-<div class="content">
 <pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">import io.micronaut.nats.annotation.NatsListener
 import io.micronaut.nats.annotation.Subject
 import java.util.Collections
@@ -2543,6 +2546,21 @@ class ProductListener {
     @Subject("product")
     fun receive(data: String): String { // <b class="conum">(1)</b>
         return data.uppercase() // <b class="conum">(2)</b>
+    }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">import io.micronaut.nats.annotation.NatsListener
+import io.micronaut.nats.annotation.Subject
+
+@NatsListener
+class ProductListener {
+
+    @Subject("product")
+    String toUpperCase(String data) { // <b class="conum">(1)</b>
+        data.toUpperCase() // <b class="conum">(2)</b>
     }
 }</code></pre>
 </div>
@@ -2589,7 +2607,7 @@ RPC consumer methods must never return a reactive type. Because the resulting pu
 <h1 id="serdes"><a class="anchor" href="#serdes"></a>9 Message Serialization/Deserialization (SerDes)</h1>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/4.8.x/src/main/docs/guide/serdes.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.0.x/src/main/docs/guide/serdes.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -2608,7 +2626,7 @@ RPC consumer methods must never return a reactive type. Because the resulting pu
 <h2 id="custom"><a class="anchor" href="#custom"></a>9.1 Custom SerDes</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/4.8.x/src/main/docs/guide/serdes/custom.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.0.x/src/main/docs/guide/serdes/custom.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -2668,6 +2686,52 @@ public class ProductInfoSerDes implements NatsMessageSerDes&lt;ProductInfo&gt; {
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">import io.micronaut.core.convert.ConversionService
+import io.micronaut.core.type.Argument
+import io.micronaut.nats.serdes.NatsMessageSerDes
+import io.nats.client.Message
+import jakarta.inject.Singleton
+import java.nio.charset.Charset
+
+@Singleton // <b class="conum">(1)</b>
+class ProductInfoSerDes(private val conversionService: ConversionService)// <b class="conum">(3)</b>
+    : NatsMessageSerDes&lt;ProductInfo&gt; { // <b class="conum">(2)</b>
+
+    override fun deserialize(message: Message, argument: Argument&lt;ProductInfo&gt;): ProductInfo? { // <b class="conum">(4)</b>
+        val body = String(message.data, CHARSET)
+        val parts = body.split("\\|".toRegex())
+        if (parts.size == 3) {
+            var size: String? = parts[0]
+            if (size == "null") {
+                size = null
+            }
+
+            val count = conversionService.convert(parts[1], Long::class.java)
+            val sealed = conversionService.convert(parts[2], Boolean::class.java)
+
+            if (count.isPresent &amp;&amp; sealed.isPresent) {
+                return ProductInfo(size, count.get(), sealed.get())
+            }
+        }
+        return null
+    }
+
+    override fun serialize(data: ProductInfo?): ByteArray { // <b class="conum">(5)</b>
+        return (data?.size + "|" + data?.count + "|" + data?.sealed).toByteArray(CHARSET)
+    }
+
+    override fun supports(argument: Argument&lt;ProductInfo&gt;): Boolean { // <b class="conum">(6)</b>
+        return argument.type.isAssignableFrom(ProductInfo::class.java)
+    }
+
+    companion object {
+        private val CHARSET = Charset.forName("UTF-8")
+    }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
 <pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">import io.micronaut.core.convert.ConversionService
 import io.micronaut.core.type.Argument
 import io.micronaut.nats.serdes.NatsMessageSerDes
@@ -2721,52 +2785,6 @@ class ProductInfoSerDes implements NatsMessageSerDes&lt;ProductInfo&gt; { // <b 
 }</code></pre>
 </div>
 </div>
-<div class="listingblock multi-language-sample">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">import io.micronaut.core.convert.ConversionService
-import io.micronaut.core.type.Argument
-import io.micronaut.nats.serdes.NatsMessageSerDes
-import io.nats.client.Message
-import jakarta.inject.Singleton
-import java.nio.charset.Charset
-
-@Singleton // <b class="conum">(1)</b>
-class ProductInfoSerDes(private val conversionService: ConversionService)// <b class="conum">(3)</b>
-    : NatsMessageSerDes&lt;ProductInfo&gt; { // <b class="conum">(2)</b>
-
-    override fun deserialize(message: Message, argument: Argument&lt;ProductInfo&gt;): ProductInfo? { // <b class="conum">(4)</b>
-        val body = String(message.data, CHARSET)
-        val parts = body.split("\\|".toRegex())
-        if (parts.size == 3) {
-            var size: String? = parts[0]
-            if (size == "null") {
-                size = null
-            }
-
-            val count = conversionService.convert(parts[1], Long::class.java)
-            val sealed = conversionService.convert(parts[2], Boolean::class.java)
-
-            if (count.isPresent &amp;&amp; sealed.isPresent) {
-                return ProductInfo(size, count.get(), sealed.get())
-            }
-        }
-        return null
-    }
-
-    override fun serialize(data: ProductInfo?): ByteArray { // <b class="conum">(5)</b>
-        return (data?.size + "|" + data?.count + "|" + data?.sealed).toByteArray(CHARSET)
-    }
-
-    override fun supports(argument: Argument&lt;ProductInfo&gt;): Boolean { // <b class="conum">(6)</b>
-        return argument.type.isAssignableFrom(ProductInfo::class.java)
-    }
-
-    companion object {
-        private val CHARSET = Charset.forName("UTF-8")
-    }
-}</code></pre>
-</div>
-</div>
 <div class="colist arabic">
 <table>
 <tr>
@@ -2811,7 +2829,7 @@ Because the <code>getOrder</code> method was not overridden, the default order o
 <h1 id="health"><a class="anchor" href="#health"></a>10 NATS Health Indicator</h1>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/4.8.x/src/main/docs/guide/health.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.0.x/src/main/docs/guide/health.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -2903,7 +2921,7 @@ To disable the NATS health indicator entirely, add <code>endpoints.health.nats.e
 <h1 id="jetstream"><a class="anchor" href="#jetstream"></a>11 Jetstream</h1>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/4.8.x/src/main/docs/guide/jetstream.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.0.x/src/main/docs/guide/jetstream.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -2938,7 +2956,7 @@ To disable the NATS health indicator entirely, add <code>endpoints.health.nats.e
 <h2 id="streams"><a class="anchor" href="#streams"></a>11.1 Streams</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/4.8.x/src/main/docs/guide/jetstream/streams.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.0.x/src/main/docs/guide/jetstream/streams.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -2956,7 +2974,7 @@ You can do a normal publish to the subject for unacknowledged delivery, though i
 <h2 id="configuration"><a class="anchor" href="#configuration"></a>11.1.1 Configuration</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/4.8.x/src/main/docs/guide/jetstream/streams/configuration.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.0.x/src/main/docs/guide/jetstream/streams/configuration.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -2972,182 +2990,31 @@ You can do a normal publish to the subject for unacknowledged delivery, though i
 <table class="tableblock frame-all grid-all stretch">
 <caption class="title">Table 1. Configuration Properties for <a href="../api/io/micronaut/nats/connect/NatsConnectionFactoryConfig.JetStreamConfiguration.StreamConfiguration.html">NatsConnectionFactoryConfig$JetStreamConfiguration$StreamConfiguration</a></caption>
 <colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
 </colgroup>
 <thead>
 <tr>
 <th class="tableblock halign-left valign-top">Property</th>
 <th class="tableblock halign-left valign-top">Type</th>
 <th class="tableblock halign-left valign-top">Description</th>
+<th class="tableblock halign-left valign-top">Default value</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.description</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.retention-policy</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">io.nats.client.api.RetentionPolicy</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.compression-option</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">io.nats.client.api.CompressionOption</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.max-consumers</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">long</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.max-messages</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">long</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.max-messages-per-subject</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">long</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.max-bytes</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">long</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.max-age</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.time.Duration</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.maximum-message-size</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">int</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.storage-type</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">io.nats.client.api.StorageType</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.replicas</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">int</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.no-ack</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.template-owner</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.discard-policy</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">io.nats.client.api.DiscardPolicy</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.duplicate-window</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.time.Duration</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.placement</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">io.nats.client.api.Placement</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.republish</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">io.nats.client.api.Republish</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.subject-transform</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">io.nats.client.api.SubjectTransform</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.consumer-limits</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">io.nats.client.api.ConsumerLimits</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.mirror</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">io.nats.client.api.Mirror</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.sources</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">io.nats.client.api.Source</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.allow-rollup</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.allow-direct</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.mirror-direct</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.deny-delete</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.deny-purge</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.discard-new-per-subject</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.metadata</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.util.Map</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.first-sequence</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">long</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.allow-message-ttl</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.subject-delete-marker-ttl</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.time.Duration</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.subjects</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">java.util.List</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">get the subjects of the stream.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">set the subjects.</p></td>
+<td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.create-or-update</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">create or update stream during startup.</p></td>
+<td class="tableblock halign-left valign-top"></td>
 </tr>
 </tbody>
 </table>
@@ -3245,7 +3112,7 @@ nats.default.jetstream.streams.events.subjects[0]=events.&gt;</code></pre>
 <h2 id="js_producer"><a class="anchor" href="#js_producer"></a>11.1.2 Producer</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/4.8.x/src/main/docs/guide/jetstream/streams/js_producer.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.0.x/src/main/docs/guide/jetstream/streams/js_producer.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -3275,21 +3142,6 @@ public interface ProductClient {
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">import io.micronaut.messaging.annotation.MessageBody
-import io.micronaut.nats.annotation.Subject
-import io.micronaut.nats.jetstream.annotation.JetStreamClient
-import io.nats.client.PublishOptions
-import io.nats.client.api.PublishAck
-
-@JetStreamClient
-interface ProductClient {
-
-    PublishAck send(@Subject String subject, @MessageBody byte[] data, PublishOptions publishOptions); // <b class="conum">(2)</b>
-}</code></pre>
-</div>
-</div>
-<div class="listingblock multi-language-sample">
-<div class="content">
 <pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">import io.micronaut.messaging.annotation.MessageBody
 import io.micronaut.nats.annotation.Subject
 import io.micronaut.nats.jetstream.annotation.JetStreamClient
@@ -3300,6 +3152,21 @@ import io.nats.client.api.PublishAck
 interface ProductClient {
 
     fun send(@Subject subject: String, @MessageBody data: ByteArray, publishOptions: PublishOptions): PublishAck // <b class="conum">(1)</b>
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">import io.micronaut.messaging.annotation.MessageBody
+import io.micronaut.nats.annotation.Subject
+import io.micronaut.nats.jetstream.annotation.JetStreamClient
+import io.nats.client.PublishOptions
+import io.nats.client.api.PublishAck
+
+@JetStreamClient
+interface ProductClient {
+
+    PublishAck send(@Subject String subject, @MessageBody byte[] data, PublishOptions publishOptions); // <b class="conum">(2)</b>
 }</code></pre>
 </div>
 </div>
@@ -3315,7 +3182,7 @@ interface ProductClient {
 <h2 id="js_consumer"><a class="anchor" href="#js_consumer"></a>11.1.3 Consumer</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/4.8.x/src/main/docs/guide/jetstream/streams/js_consumer.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.0.x/src/main/docs/guide/jetstream/streams/js_consumer.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -3337,7 +3204,7 @@ interface ProductClient {
 <h2 id="pushconsumer"><a class="anchor" href="#pushconsumer"></a>11.1.3.1 Push based</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/4.8.x/src/main/docs/guide/jetstream/streams/js_consumer/pushconsumer.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.0.x/src/main/docs/guide/jetstream/streams/js_consumer/pushconsumer.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -3351,34 +3218,14 @@ interface ProductClient {
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">import io.micronaut.nats.jetstream.annotation.JetStreamListener;
-import io.micronaut.nats.jetstream.annotation.PushConsumer;
-
-@JetStreamListener // <b class="conum">(1)</b>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">@JetStreamListener // <b class="conum">(1)</b>
 public class ProductListener {
 
     List&lt;byte[]&gt; messageLengths = Collections.synchronizedList(new ArrayList&lt;&gt;());
 
-    @PushConsumer(value = "events", subject = "events.&gt;", durable = "test") // <b class="conum">(2)</b>
+    @PushConsumer(value = "myevents", subject = "myevents.&gt;", durable = "test") // <b class="conum">(2)</b>
     public void receive(byte[] data) {
         messageLengths.add(data);
-    }
-}</code></pre>
-</div>
-</div>
-<div class="listingblock multi-language-sample">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">import io.micronaut.nats.jetstream.annotation.JetStreamListener
-import io.micronaut.nats.jetstream.annotation.PushConsumer
-
-@JetStreamListener // <b class="conum">(1)</b>
-class ProductListener {
-
-    CopyOnWriteArrayList&lt;byte[]&gt; messageLengths = []
-
-    @PushConsumer(value = "events", subject = "events.&gt;", durable = "test") // <b class="conum">(2)</b>
-    void receive(byte[] data) {
-        messageLengths &lt;&lt; data
     }
 }</code></pre>
 </div>
@@ -3393,9 +3240,26 @@ class ProductListener {
 
     val messageLengths: MutableList&lt;ByteArray&gt; = Collections.synchronizedList(ArrayList())
 
-    @PushConsumer(value = "events", subject = "events.&gt;", durable = "test") // <b class="conum">(2)</b>
+    @PushConsumer(value = "myevents", subject = "myevents.&gt;", durable = "test") // <b class="conum">(2)</b>
     fun receive(data: ByteArray) {
         messageLengths.add(data)
+    }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">import io.micronaut.nats.jetstream.annotation.JetStreamListener
+import io.micronaut.nats.jetstream.annotation.PushConsumer
+
+@JetStreamListener // <b class="conum">(1)</b>
+class ProductListener {
+
+    CopyOnWriteArrayList&lt;byte[]&gt; messageLengths = []
+
+    @PushConsumer(value = "myevents", subject = "myevents.&gt;", durable = "test") // <b class="conum">(2)</b>
+    void receive(byte[] data) {
+        messageLengths &lt;&lt; data
     }
 }</code></pre>
 </div>
@@ -3416,7 +3280,7 @@ class ProductListener {
 <h2 id="pullconsumer"><a class="anchor" href="#pullconsumer"></a>11.1.3.2 Pull based</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/4.8.x/src/main/docs/guide/jetstream/streams/js_consumer/pullconsumer.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.0.x/src/main/docs/guide/jetstream/streams/js_consumer/pullconsumer.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -3473,41 +3337,6 @@ public class PullConsumerHelper {
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">import io.micronaut.nats.jetstream.PullConsumerRegistry
-import io.nats.client.JetStreamApiException
-import io.nats.client.JetStreamSubscription
-import io.nats.client.Message
-import io.nats.client.PullSubscribeOptions
-import io.nats.client.api.ConsumerConfiguration
-
-@Singleton
-class PullConsumerHelper {
-
-    private final PullConsumerRegistry pullConsumerRegistry;
-
-    PullConsumerHelper(PullConsumerRegistry pullConsumerRegistry) {  // <b class="conum">(1)</b>
-        this.pullConsumerRegistry = pullConsumerRegistry
-    }
-
-    List&lt;Message&gt; pullMessages() throws JetStreamApiException, IOException {
-        JetStreamSubscription jetStreamSubscription =
-                pullConsumerRegistry.newPullConsumer("events.&gt;",
-                        PullSubscribeOptions.builder()
-                                .stream("events")
-                                .configuration(
-                                        ConsumerConfiguration.builder().ackWait(Duration.ofMillis(2500)).build())
-                                .build()) // <b class="conum">(2)</b>
-
-        List&lt;Message&gt; messages = jetStreamSubscription.fetch(2, Duration.ofSeconds(2L)) // <b class="conum">(3)</b>
-        messages.forEach(Message::ack) // <b class="conum">(4)</b>
-        return messages
-    }
-
-}</code></pre>
-</div>
-</div>
-<div class="listingblock multi-language-sample">
-<div class="content">
 <pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">import io.micronaut.nats.jetstream.PullConsumerRegistry
 import io.nats.client.JetStreamSubscription
 import io.nats.client.Message
@@ -3543,6 +3372,41 @@ class PullConsumerHelper(private val pullConsumerRegistry: PullConsumerRegistry)
 }</code></pre>
 </div>
 </div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">import io.micronaut.nats.jetstream.PullConsumerRegistry
+import io.nats.client.JetStreamApiException
+import io.nats.client.JetStreamSubscription
+import io.nats.client.Message
+import io.nats.client.PullSubscribeOptions
+import io.nats.client.api.ConsumerConfiguration
+
+@Singleton
+class PullConsumerHelper {
+
+    private final PullConsumerRegistry pullConsumerRegistry;
+
+    PullConsumerHelper(PullConsumerRegistry pullConsumerRegistry) {  // <b class="conum">(1)</b>
+        this.pullConsumerRegistry = pullConsumerRegistry
+    }
+
+    List&lt;Message&gt; pullMessages() throws JetStreamApiException, IOException {
+        JetStreamSubscription jetStreamSubscription =
+                pullConsumerRegistry.newPullConsumer("events.&gt;",
+                        PullSubscribeOptions.builder()
+                                .stream("events")
+                                .configuration(
+                                        ConsumerConfiguration.builder().ackWait(Duration.ofMillis(2500)).build())
+                                .build()) // <b class="conum">(2)</b>
+
+        List&lt;Message&gt; messages = jetStreamSubscription.fetch(2, Duration.ofSeconds(2L)) // <b class="conum">(3)</b>
+        messages.forEach(Message::ack) // <b class="conum">(4)</b>
+        return messages
+    }
+
+}</code></pre>
+</div>
+</div>
 <div class="colist arabic">
 <table>
 <tr>
@@ -3567,7 +3431,7 @@ class PullConsumerHelper(private val pullConsumerRegistry: PullConsumerRegistry)
 <h2 id="keyvalue"><a class="anchor" href="#keyvalue"></a>11.2 Key/Value Store</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/4.8.x/src/main/docs/guide/jetstream/keyvalue.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.0.x/src/main/docs/guide/jetstream/keyvalue.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -3633,7 +3497,7 @@ class PullConsumerHelper(private val pullConsumerRegistry: PullConsumerRegistry)
 <h2 id="kv_configuration"><a class="anchor" href="#kv_configuration"></a>11.2.1 Configuration</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/4.8.x/src/main/docs/guide/jetstream/keyvalue/kv_configuration.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.0.x/src/main/docs/guide/jetstream/keyvalue/kv_configuration.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -3649,87 +3513,25 @@ class PullConsumerHelper(private val pullConsumerRegistry: PullConsumerRegistry)
 <table class="tableblock frame-all grid-all stretch">
 <caption class="title">Table 1. Configuration Properties for <a href="../api/io/micronaut/nats/connect/NatsConnectionFactoryConfig.JetStreamConfiguration.KeyValueConfiguration.html">NatsConnectionFactoryConfig$JetStreamConfiguration$KeyValueConfiguration</a></caption>
 <colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
 </colgroup>
 <thead>
 <tr>
 <th class="tableblock halign-left valign-top">Property</th>
 <th class="tableblock halign-left valign-top">Type</th>
 <th class="tableblock halign-left valign-top">Description</th>
+<th class="tableblock halign-left valign-top">Default value</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.keyvalue.*.description</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.keyvalue.*.max-history-per-key</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">int</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.keyvalue.*.max-bucket-size</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">long</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.keyvalue.*.maximum-value-size</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">int</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.keyvalue.*.ttl</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.time.Duration</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.keyvalue.*.storage-type</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">io.nats.client.api.StorageType</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.keyvalue.*.replicas</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">int</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.keyvalue.*.placement</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">io.nats.client.api.Placement</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.keyvalue.*.compression</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.keyvalue.*.metadata</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.util.Map</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.keyvalue.*.republish</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">io.nats.client.api.Republish</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.keyvalue.*.mirror</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">io.nats.client.api.Mirror</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.keyvalue.*.limit-marker</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.time.Duration</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.keyvalue.*.create-or-update</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">create or update key/value store during startup.</p></td>
+<td class="tableblock halign-left valign-top"></td>
 </tr>
 </tbody>
 </table>
@@ -3824,7 +3626,7 @@ nats.default.jetstream.keyvalue.examplebucket.max-history-per-key=5</code></pre>
 <h2 id="usage"><a class="anchor" href="#usage"></a>11.2.2 Usage</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/4.8.x/src/main/docs/guide/jetstream/keyvalue/usage.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.0.x/src/main/docs/guide/jetstream/keyvalue/usage.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -3854,26 +3656,6 @@ public class KeyValueStoreHolder {
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">import io.micronaut.nats.jetstream.annotation.KeyValueStore
-import io.nats.client.KeyValue
-import jakarta.inject.Inject
-import jakarta.inject.Singleton
-
-@Singleton
-class KeyValueStoreHolder {
-
-    @Inject
-    @KeyValueStore("examplebucket")
-    KeyValue store // <b class="conum">(1)</b>
-
-    void put(String key, String value) {
-        store.put(key, value)
-    }
-}</code></pre>
-</div>
-</div>
-<div class="listingblock multi-language-sample">
-<div class="content">
 <pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">import io.micronaut.nats.jetstream.annotation.KeyValueStore
 import io.nats.client.KeyValue
 import jakarta.inject.Inject
@@ -3893,6 +3675,26 @@ class KeyValueStoreHolder {
 }</code></pre>
 </div>
 </div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">import io.micronaut.nats.jetstream.annotation.KeyValueStore
+import io.nats.client.KeyValue
+import jakarta.inject.Inject
+import jakarta.inject.Singleton
+
+@Singleton
+class KeyValueStoreHolder {
+
+    @Inject
+    @KeyValueStore("examplebucket")
+    KeyValue store // <b class="conum">(1)</b>
+
+    void put(String key, String value) {
+        store.put(key, value)
+    }
+}</code></pre>
+</div>
+</div>
 <div class="colist arabic">
 <table>
 <tr>
@@ -3905,7 +3707,7 @@ class KeyValueStoreHolder {
 <h2 id="objectstore"><a class="anchor" href="#objectstore"></a>11.3 Object Store (Experimental)</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/4.8.x/src/main/docs/guide/jetstream/objectstore.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.0.x/src/main/docs/guide/jetstream/objectstore.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -3930,7 +3732,7 @@ Experimental Preview
 <h2 id="os_configuration"><a class="anchor" href="#os_configuration"></a>11.3.1 Configuration</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/4.8.x/src/main/docs/guide/jetstream/objectstore/os_configuration.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.0.x/src/main/docs/guide/jetstream/objectstore/os_configuration.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -3943,62 +3745,25 @@ Experimental Preview
 <table class="tableblock frame-all grid-all stretch">
 <caption class="title">Table 1. Configuration Properties for <a href="../api/io/micronaut/nats/connect/NatsConnectionFactoryConfig.JetStreamConfiguration.ObjectStoreConfiguration.html">NatsConnectionFactoryConfig$JetStreamConfiguration$ObjectStoreConfiguration</a></caption>
 <colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
 </colgroup>
 <thead>
 <tr>
 <th class="tableblock halign-left valign-top">Property</th>
 <th class="tableblock halign-left valign-top">Type</th>
 <th class="tableblock halign-left valign-top">Description</th>
+<th class="tableblock halign-left valign-top">Default value</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.objectstore.*.description</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.objectstore.*.max-bucket-size</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">long</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.objectstore.*.ttl</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.time.Duration</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.objectstore.*.storage-type</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">io.nats.client.api.StorageType</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.objectstore.*.replicas</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">int</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.objectstore.*.placement</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">io.nats.client.api.Placement</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.objectstore.*.compression</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.objectstore.*.metadata</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.util.Map</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.objectstore.*.create</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">create object store during startup.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">create  store during startup.</p></td>
+<td class="tableblock halign-left valign-top"></td>
 </tr>
 </tbody>
 </table>
@@ -4087,7 +3852,7 @@ Experimental Preview
 <h2 id="os_usage"><a class="anchor" href="#os_usage"></a>11.3.2 Usage</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/4.8.x/src/main/docs/guide/jetstream/objectstore/os_usage.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.0.x/src/main/docs/guide/jetstream/objectstore/os_usage.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -4126,25 +3891,6 @@ public class ObjectStoreHolder {
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">import io.micronaut.nats.jetstream.annotation.ObjectStore
-import jakarta.inject.Inject
-import jakarta.inject.Singleton
-
-@Singleton
-class ObjectStoreHolder {
-
-    @Inject
-    @ObjectStore("examplebucket")
-    io.nats.client.ObjectStore store // <b class="conum">(1)</b>
-
-    void put(String key, InputStream value) {
-        store.put(key, value)
-    }
-}</code></pre>
-</div>
-</div>
-<div class="listingblock multi-language-sample">
-<div class="content">
 <pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">import io.micronaut.nats.jetstream.annotation.ObjectStore
 import jakarta.inject.Inject
 import jakarta.inject.Singleton
@@ -4165,6 +3911,25 @@ class ObjectStoreHolder {
 }</code></pre>
 </div>
 </div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">import io.micronaut.nats.jetstream.annotation.ObjectStore
+import jakarta.inject.Inject
+import jakarta.inject.Singleton
+
+@Singleton
+class ObjectStoreHolder {
+
+    @Inject
+    @ObjectStore("examplebucket")
+    io.nats.client.ObjectStore store // <b class="conum">(1)</b>
+
+    void put(String key, InputStream value) {
+        store.put(key, value)
+    }
+}</code></pre>
+</div>
+</div>
 <div class="colist arabic">
 <table>
 <tr>
@@ -4177,7 +3942,7 @@ class ObjectStoreHolder {
 <h1 id="repository"><a class="anchor" href="#repository"></a>12 Repository</h1>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/4.8.x/src/main/docs/guide/repository.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.0.x/src/main/docs/guide/repository.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
