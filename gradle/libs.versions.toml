@@ -6,7 +6,7 @@ micronaut-gradle-plugin = "5.0.0-M1"
 awaitility = '4.3.0'
 nats = '2.25.3'
 
-micronaut-micrometer = "6.0.0-RC1"
+micronaut-micrometer = "6.0.0"
 micronaut-reactor = "4.0.0"
 micronaut-rxjava3 = "4.0.0-RC1"
 micronaut-serde = "3.0.0"
