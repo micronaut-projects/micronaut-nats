@@ -6,6 +6,11 @@ dependencies {
     api mn.micronaut.messaging
     api libs.jnats
 
+    constraints {
+        // jnats 2.26.0 brings in the vulnerable bcprov-lts8on 2.73.10 (GHSA-mx76-r943-rf8g).
+        api libs.bouncycastle.bcprov.lts8on
+    }
+
     implementation mnSerde.micronaut.serde.jackson
     implementation mnReactor.micronaut.reactor
 
