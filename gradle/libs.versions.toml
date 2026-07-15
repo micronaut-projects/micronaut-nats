@@ -1,6 +1,6 @@
 [versions]
 micronaut = "5.1.6"
-micronaut-platform = "5.0.4"
+micronaut-platform = "5.0.5"
 micronaut-gradle-plugin = "5.0.2"
 
 awaitility = '4.3.0'
