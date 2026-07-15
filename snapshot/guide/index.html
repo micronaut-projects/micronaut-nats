@@ -181,13 +181,13 @@
         <h1>Micronaut Nats</h1>
         <p></p>
         <p>Integration between Micronaut and nats.io</p>
-        <p><strong>Version:</strong> 5.0.1-SNAPSHOT </p>
+        <p><strong>Version:</strong> 5.1.0-SNAPSHOT </p>
     </div>
     
 <h1 id="introduction"><a class="anchor" href="#introduction"></a>1 Introduction</h1>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.0.x/src/main/docs/guide/introduction.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.1.x/src/main/docs/guide/introduction.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -200,7 +200,7 @@
 <h1 id="releaseHistory"><a class="anchor" href="#releaseHistory"></a>2 Release History</h1>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.0.x/src/main/docs/guide/releaseHistory.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.1.x/src/main/docs/guide/releaseHistory.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -216,7 +216,7 @@
 <h1 id="cli"><a class="anchor" href="#cli"></a>3 Using the Micronaut CLI</h1>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.0.x/src/main/docs/guide/cli.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.1.x/src/main/docs/guide/cli.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -266,7 +266,7 @@ $ mn create-nats-listener Message
 <h1 id="quickStart"><a class="anchor" href="#quickStart"></a>4 NATS Quick Start</h1>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.0.x/src/main/docs/guide/quickStart.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.1.x/src/main/docs/guide/quickStart.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -388,7 +388,7 @@ interface ProductClient {
 <h1 id="config"><a class="anchor" href="#config"></a>5 Configuring the connection</h1>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.0.x/src/main/docs/guide/config.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.1.x/src/main/docs/guide/config.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -557,19 +557,7 @@ nats.server2.password=guest</code></pre>
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[nats]
-  [nats.server1]
-    addresses=[
-      "nats://localhost:4222"
-    ]
-    username="guest"
-    password="guest"
-  [nats.server2]
-    addresses=[
-      "nats://randomServer:4222"
-    ]
-    username="guest"
-    password="guest"</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">nats = {server1 = {addresses = ["nats://localhost:4222"], username = "guest", password = "guest"}, server2 = {addresses = ["nats://randomServer:4222"], username = "guest", password = "guest"}}</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -652,14 +640,7 @@ nats.default.password=guest</code></pre>
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[nats]
-  [nats.default]
-    addresses=[
-      "nats://localhost:4222",
-      "nats://randomServer:4222"
-    ]
-    username="guest"
-    password="guest"</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">nats = {default = {addresses = ["nats://localhost:4222", "nats://randomServer:4222"], username = "guest", password = "guest"}}</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -740,15 +721,7 @@ nats.default.tls.certificate-path=/path/to/certificate.crt</code></pre>
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[nats]
-  [nats.default]
-    addresses=[
-      "nats://localhost:4222"
-    ]
-    [nats.default.tls]
-      trust-store-path="/path/to/client.truststore.jks"
-      trust-store-password="secret"
-      certificate-path="/path/to/certificate.crt"</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">nats = {default = {addresses = ["nats://localhost:4222"], tls = {trust-store-path = "/path/to/client.truststore.jks", trust-store-password = "secret", certificate-path = "/path/to/certificate.crt"}}}</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -821,7 +794,7 @@ nats.default.tls.certificate-path=/path/to/certificate.crt</code></pre>
 <h1 id="producer"><a class="anchor" href="#producer"></a>6 NATS Producers</h1>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.0.x/src/main/docs/guide/producer.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.1.x/src/main/docs/guide/producer.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -837,7 +810,7 @@ nats.default.tls.certificate-path=/path/to/certificate.crt</code></pre>
 <h2 id="producerMethods"><a class="anchor" href="#producerMethods"></a>6.1 Defining @NatsClient Methods</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.0.x/src/main/docs/guide/producer/producerMethods.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.1.x/src/main/docs/guide/producer/producerMethods.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -899,7 +872,7 @@ Unless a reactive type is returned from the publishing method, the action is blo
 <h2 id="producerParameters"><a class="anchor" href="#producerParameters"></a>6.1.1 Publishing Parameters</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.0.x/src/main/docs/guide/producer/producerMethods/producerParameters.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.1.x/src/main/docs/guide/producer/producerMethods/producerParameters.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -912,7 +885,7 @@ Unless a reactive type is returned from the publishing method, the action is blo
 <h2 id="producerSubject"><a class="anchor" href="#producerSubject"></a>6.1.1.1 Subject</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.0.x/src/main/docs/guide/producer/producerMethods/producerParameters/producerSubject.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.1.x/src/main/docs/guide/producer/producerMethods/producerParameters/producerSubject.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -1063,7 +1036,7 @@ The NATS server will route the message to the queue and select a message receive
 <h2 id="producerHeaders"><a class="anchor" href="#producerHeaders"></a>6.1.1.2 Headers</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.0.x/src/main/docs/guide/producer/producerMethods/producerParameters/producerHeaders.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.1.x/src/main/docs/guide/producer/producerMethods/producerParameters/producerHeaders.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -1204,7 +1177,7 @@ interface ProductClient {
 <h2 id="producerBody"><a class="anchor" href="#producerBody"></a>6.1.1.3 Message Body</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.0.x/src/main/docs/guide/producer/producerMethods/producerParameters/producerBody.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.1.x/src/main/docs/guide/producer/producerMethods/producerParameters/producerBody.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -1217,7 +1190,7 @@ interface ProductClient {
 <h1 id="consumer"><a class="anchor" href="#consumer"></a>7 NATS Consumers</h1>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.0.x/src/main/docs/guide/consumer.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.1.x/src/main/docs/guide/consumer.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -1233,7 +1206,7 @@ interface ProductClient {
 <h2 id="consumerMethods"><a class="anchor" href="#consumerMethods"></a>7.1 Defining @NatsListener Methods</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.0.x/src/main/docs/guide/consumer/consumerMethods.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.1.x/src/main/docs/guide/consumer/consumerMethods.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -1269,7 +1242,7 @@ If your application was created with the Micronaut CLI, then that has already be
 <h2 id="consumerParameters"><a class="anchor" href="#consumerParameters"></a>7.1.1 Consumer Parameters</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.0.x/src/main/docs/guide/consumer/consumerMethods/consumerParameters.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.1.x/src/main/docs/guide/consumer/consumerMethods/consumerParameters.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -1294,7 +1267,7 @@ In order for the consumer method to be invoked, all arguments must be satisfied.
 <h2 id="consumerSubject"><a class="anchor" href="#consumerSubject"></a>7.1.1.1 Subject</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.0.x/src/main/docs/guide/consumer/consumerMethods/consumerParameters/consumerSubject.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.1.x/src/main/docs/guide/consumer/consumerMethods/consumerParameters/consumerSubject.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -1551,7 +1524,7 @@ The <code>connection</code> option is also available to be set on the <a href=".
 <h2 id="consumerHeaders"><a class="anchor" href="#consumerHeaders"></a>7.1.1.2 Headers</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.0.x/src/main/docs/guide/consumer/consumerMethods/consumerParameters/consumerHeaders.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.1.x/src/main/docs/guide/consumer/consumerMethods/consumerParameters/consumerHeaders.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -1714,7 +1687,7 @@ class ProductListener {
 <h2 id="consumerTypes"><a class="anchor" href="#consumerTypes"></a>7.1.1.3 Nats Types</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.0.x/src/main/docs/guide/consumer/consumerMethods/consumerParameters/consumerTypes.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.1.x/src/main/docs/guide/consumer/consumerMethods/consumerParameters/consumerTypes.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -1824,7 +1797,7 @@ class ProductListener {
 <h2 id="consumerBody"><a class="anchor" href="#consumerBody"></a>7.1.1.4 Message Body</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.0.x/src/main/docs/guide/consumer/consumerMethods/consumerParameters/consumerBody.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.1.x/src/main/docs/guide/consumer/consumerMethods/consumerParameters/consumerBody.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -1837,7 +1810,7 @@ class ProductListener {
 <h2 id="consumerCustom"><a class="anchor" href="#consumerCustom"></a>7.1.1.5 Custom Parameter Binding</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.0.x/src/main/docs/guide/consumer/consumerMethods/consumerParameters/consumerCustom.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.1.x/src/main/docs/guide/consumer/consumerMethods/consumerParameters/consumerCustom.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -2418,7 +2391,7 @@ class ProductInfoTypeBinder implements NatsTypeArgumentBinder&lt;ProductInfo&gt;
 <h1 id="rpc"><a class="anchor" href="#rpc"></a>8 Request-Reply (RPC)</h1>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.0.x/src/main/docs/guide/rpc.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.1.x/src/main/docs/guide/rpc.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -2607,7 +2580,7 @@ RPC consumer methods must never return a reactive type. Because the resulting pu
 <h1 id="serdes"><a class="anchor" href="#serdes"></a>9 Message Serialization/Deserialization (SerDes)</h1>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.0.x/src/main/docs/guide/serdes.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.1.x/src/main/docs/guide/serdes.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -2626,7 +2599,7 @@ RPC consumer methods must never return a reactive type. Because the resulting pu
 <h2 id="custom"><a class="anchor" href="#custom"></a>9.1 Custom SerDes</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.0.x/src/main/docs/guide/serdes/custom.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.1.x/src/main/docs/guide/serdes/custom.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -2829,7 +2802,7 @@ Because the <code>getOrder</code> method was not overridden, the default order o
 <h1 id="health"><a class="anchor" href="#health"></a>10 NATS Health Indicator</h1>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.0.x/src/main/docs/guide/health.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.1.x/src/main/docs/guide/health.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -2861,12 +2834,7 @@ nats.details.servers[0]=nats://localhost:4222</code></pre>
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[nats]
-  status="UP"
-  [nats.details]
-    servers=[
-      "nats://localhost:4222"
-    ]</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">nats = {status = "UP", details = {servers = ["nats://localhost:4222"]}}</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -2921,7 +2889,7 @@ To disable the NATS health indicator entirely, add <code>endpoints.health.nats.e
 <h1 id="jetstream"><a class="anchor" href="#jetstream"></a>11 Jetstream</h1>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.0.x/src/main/docs/guide/jetstream.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.1.x/src/main/docs/guide/jetstream.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -2956,7 +2924,7 @@ To disable the NATS health indicator entirely, add <code>endpoints.health.nats.e
 <h2 id="streams"><a class="anchor" href="#streams"></a>11.1 Streams</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.0.x/src/main/docs/guide/jetstream/streams.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.1.x/src/main/docs/guide/jetstream/streams.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -2974,7 +2942,7 @@ You can do a normal publish to the subject for unacknowledged delivery, though i
 <h2 id="configuration"><a class="anchor" href="#configuration"></a>11.1.1 Configuration</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.0.x/src/main/docs/guide/jetstream/streams/configuration.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.1.x/src/main/docs/guide/jetstream/streams/configuration.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -3043,15 +3011,7 @@ nats.default.jetstream.streams.events.subjects[0]=events.&gt;</code></pre>
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[nats]
-  [nats.default]
-    [nats.default.jetstream]
-      [nats.default.jetstream.streams]
-        [nats.default.jetstream.streams.events]
-          storage-type="Memory"
-          subjects=[
-            "events.&gt;"
-          ]</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">nats = {default = {jetstream = {streams = {events = {storage-type = "Memory", subjects = ["events.&gt;"]}}}}}</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -3112,7 +3072,7 @@ nats.default.jetstream.streams.events.subjects[0]=events.&gt;</code></pre>
 <h2 id="js_producer"><a class="anchor" href="#js_producer"></a>11.1.2 Producer</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.0.x/src/main/docs/guide/jetstream/streams/js_producer.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.1.x/src/main/docs/guide/jetstream/streams/js_producer.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -3182,7 +3142,7 @@ interface ProductClient {
 <h2 id="js_consumer"><a class="anchor" href="#js_consumer"></a>11.1.3 Consumer</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.0.x/src/main/docs/guide/jetstream/streams/js_consumer.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.1.x/src/main/docs/guide/jetstream/streams/js_consumer.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -3204,7 +3164,7 @@ interface ProductClient {
 <h2 id="pushconsumer"><a class="anchor" href="#pushconsumer"></a>11.1.3.1 Push based</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.0.x/src/main/docs/guide/jetstream/streams/js_consumer/pushconsumer.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.1.x/src/main/docs/guide/jetstream/streams/js_consumer/pushconsumer.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -3280,7 +3240,7 @@ class ProductListener {
 <h2 id="pullconsumer"><a class="anchor" href="#pullconsumer"></a>11.1.3.2 Pull based</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.0.x/src/main/docs/guide/jetstream/streams/js_consumer/pullconsumer.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.1.x/src/main/docs/guide/jetstream/streams/js_consumer/pullconsumer.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -3431,7 +3391,7 @@ class PullConsumerHelper {
 <h2 id="keyvalue"><a class="anchor" href="#keyvalue"></a>11.2 Key/Value Store</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.0.x/src/main/docs/guide/jetstream/keyvalue.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.1.x/src/main/docs/guide/jetstream/keyvalue.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -3497,7 +3457,7 @@ class PullConsumerHelper {
 <h2 id="kv_configuration"><a class="anchor" href="#kv_configuration"></a>11.2.1 Configuration</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.0.x/src/main/docs/guide/jetstream/keyvalue/kv_configuration.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.1.x/src/main/docs/guide/jetstream/keyvalue/kv_configuration.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -3559,13 +3519,7 @@ nats.default.jetstream.keyvalue.examplebucket.max-history-per-key=5</code></pre>
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[nats]
-  [nats.default]
-    [nats.default.jetstream]
-      [nats.default.jetstream.keyvalue]
-        [nats.default.jetstream.keyvalue.examplebucket]
-          storage-type="Memory"
-          max-history-per-key=5</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">nats = {default = {jetstream = {keyvalue = {examplebucket = {storage-type = "Memory", max-history-per-key = 5}}}}}</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -3626,7 +3580,7 @@ nats.default.jetstream.keyvalue.examplebucket.max-history-per-key=5</code></pre>
 <h2 id="usage"><a class="anchor" href="#usage"></a>11.2.2 Usage</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.0.x/src/main/docs/guide/jetstream/keyvalue/usage.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.1.x/src/main/docs/guide/jetstream/keyvalue/usage.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -3707,7 +3661,7 @@ class KeyValueStoreHolder {
 <h2 id="objectstore"><a class="anchor" href="#objectstore"></a>11.3 Object Store (Experimental)</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.0.x/src/main/docs/guide/jetstream/objectstore.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.1.x/src/main/docs/guide/jetstream/objectstore.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -3732,7 +3686,7 @@ Experimental Preview
 <h2 id="os_configuration"><a class="anchor" href="#os_configuration"></a>11.3.1 Configuration</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.0.x/src/main/docs/guide/jetstream/objectstore/os_configuration.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.1.x/src/main/docs/guide/jetstream/objectstore/os_configuration.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -3789,12 +3743,7 @@ Experimental Preview
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[nats]
-  [nats.default]
-    [nats.default.jetstream]
-      [nats.default.jetstream.objectstore]
-        [nats.default.jetstream.objectstore.examplebucket]
-          storage-type="Memory"</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">nats = {default = {jetstream = {objectstore = {examplebucket = {storage-type = "Memory"}}}}}</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -3852,7 +3801,7 @@ Experimental Preview
 <h2 id="os_usage"><a class="anchor" href="#os_usage"></a>11.3.2 Usage</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.0.x/src/main/docs/guide/jetstream/objectstore/os_usage.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.1.x/src/main/docs/guide/jetstream/objectstore/os_usage.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -3942,7 +3891,7 @@ class ObjectStoreHolder {
 <h1 id="repository"><a class="anchor" href="#repository"></a>12 Repository</h1>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.0.x/src/main/docs/guide/repository.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-nats/edit/5.1.x/src/main/docs/guide/repository.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
