@@ -24,7 +24,6 @@ import org.reactivestreams.Publisher;
  */
 public interface ReactivePublisher {
 
-
     /**
      * Publish the message with the provided arguments and return
      * a reactive type that completes successfully when the message
