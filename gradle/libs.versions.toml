@@ -5,7 +5,7 @@ micronaut-gradle-plugin = "5.0.2"
 
 awaitility = '4.3.0'
 bouncycastle = '2.73.11'
-nats = '2.26.0'
+nats = '2.26.2'
 
 micronaut-micrometer = "6.0.1"
 micronaut-reactor = "4.1.0"
