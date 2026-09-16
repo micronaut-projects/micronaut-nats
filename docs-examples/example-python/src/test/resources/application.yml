@@ -1,0 +1,25 @@
+micronaut:
+  application:
+    name: test-application
+
+nats:
+  default:
+    addresses:
+      - nats://localhost:${nats.port}
+    jetstream:
+      streams:
+        events:
+          storage-type: Memory
+          subjects:
+            - events.>
+        myevents:
+          storage-type: Memory
+          subjects:
+            - myevents.>
+      keyvalue:
+        examplebucket:
+          storage-type: Memory
+          max-history-per-key: 5
+      objectstore:
+        examplebucket:
+          storage-type: Memory

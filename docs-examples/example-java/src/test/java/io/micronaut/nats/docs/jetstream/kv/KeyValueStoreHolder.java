@@ -2,7 +2,7 @@ package io.micronaut.nats.docs.jetstream.kv;
 
 
 import io.micronaut.context.annotation.Requires;
-// tag:imports[]
+// tag::imports[]
 import io.micronaut.nats.jetstream.annotation.KeyValueStore;
 import io.nats.client.JetStreamApiException;
 import io.nats.client.KeyValue;
