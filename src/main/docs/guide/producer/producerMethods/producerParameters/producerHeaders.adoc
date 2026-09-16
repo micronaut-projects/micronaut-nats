@@ -1,9 +1,12 @@
 Headers can be set on the message with the link:{apimicronaut}messaging/annotation/MessageHeader.html[@MessageHeader] annotation applied to the method or an argument of the method. Apply the annotation to the method itself if the value is static for every execution. Apply the annotation to an argument of the method if the value should be set per execution.
 
-snippet::io.micronaut.nats.docs.headers.ProductClient[tags="imports,clazz", project-base="docs-examples/example"]
+snippet::io.micronaut.nats.docs.headers.ProductClient[tags="imports,clazz", indent=0, project-base="docs-examples/example"]
 
 <1> Headers can be defined at the class level and will apply to all methods. If a header is defined on the method with the same name as one on the class, the value on the method will be used.
 <2> Multiple annotations can be used to set multiple headers on the method or class level.
 <3> Headers can be set per execution. The name is inferred from the argument if the annotation value is not set. A null value results in the header not being set.
 <4> You can also use a List as header. An empty list or a null value do not set the header.
 <5> A `Headers` argument can be used to pass custom headers. Note: if the `@MessageHeader` is used on a method argument, the `Headers` argument will be ignored.
+
+[.lang-python]
+NOTE: Python methods cannot be overloaded, so the Python client declares one method per signature (`send`, `send_with_headers`, `send_with_product_sizes`, `send_with_nats_headers`).

@@ -24,7 +24,7 @@ snippet::io.micronaut.nats.docs.consumer.custom.annotation.SID[tags="imports,cla
 
 <1> The link:{apimicronaut}core/bind/annotation/Bindable.html[@Bindable] annotation is required for the annotation to be considered for binding.
 
-snippet::io.micronaut.nats.docs.consumer.custom.annotation.SIDAnnotationBinder[tags="imports,clazz", project-base="docs-examples/example"]
+snippet::io.micronaut.nats.docs.consumer.custom.annotation.SIDAnnotationBinder[tags="imports,clazz", indent=0, project-base="docs-examples/example"]
 
 <1> The class is made a bean by annotating with `@Singleton`.
 <2> The custom annotation is used as the generic type for the interface.
@@ -48,7 +48,7 @@ snippet::io.micronaut.nats.docs.consumer.custom.type.ProductInfo[tags="clazz", p
 
 A type argument binder can then be created to create the `ProductInfo` instance to bind to your consumer method argument.
 
-snippet::io.micronaut.nats.docs.consumer.custom.type.ProductInfoTypeBinder[tags="imports,clazz", project-base="docs-examples/example"]
+snippet::io.micronaut.nats.docs.consumer.custom.type.ProductInfoTypeBinder[tags="imports,clazz", indent=0, project-base="docs-examples/example"]
 
 <1> The class is made a bean by annotating with `@Singleton`.
 <2> The custom type is used as the generic type for the interface.

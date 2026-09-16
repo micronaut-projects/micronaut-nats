@@ -15,6 +15,6 @@ import io.nats.client.api.PublishAck
 @JetStreamClient
 interface ProductClient {
 
-    PublishAck send(@Subject String subject, @MessageBody byte[] data, PublishOptions publishOptions); // <2>
+    PublishAck send(@Subject String subject, @MessageBody byte[] data, PublishOptions publishOptions); // <1>
 }
 // end::clazz[]

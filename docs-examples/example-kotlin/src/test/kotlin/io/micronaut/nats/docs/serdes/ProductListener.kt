@@ -16,7 +16,7 @@ class ProductListener {
     val messages: MutableList<ProductInfo> = Collections.synchronizedList(ArrayList())
 
     @Subject("product")
-    fun receive(productInfo: ProductInfo) {
+    fun receive(productInfo: ProductInfo) { // <1>
         messages.add(productInfo)
     }
 }

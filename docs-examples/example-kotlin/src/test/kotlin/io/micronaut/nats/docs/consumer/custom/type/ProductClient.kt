@@ -10,14 +10,14 @@ import io.micronaut.nats.annotation.Subject
 
 @Requires(property = "spec.name", value = "ProductInfoSpec")
 // tag::clazz[]
-@NatsClient // <1>
+@NatsClient
 @MessageHeaders(
     MessageHeader(name = "x-product-sealed", value = "true"), // <1>
     MessageHeader(name = "productSize", value = "large")
 )
 interface ProductClient {
 
-    @Subject("product") // <2>
+    @Subject("product")
     @MessageHeaders(
         MessageHeader(name = "x-product-count", value = "10"), // <2>
         MessageHeader(name = "productSize", value = "small")
@@ -25,7 +25,7 @@ interface ProductClient {
     fun send(data: ByteArray)
 
     @Subject("product")
-    fun send(@MessageHeader productSize: String?,
+    fun send(@MessageHeader productSize: String?, // <3>
              @MessageHeader("x-product-count") count: Long,
              data: ByteArray
     )
