@@ -6,7 +6,7 @@ pluginManagement {
 }
 
 plugins {
-    id("io.micronaut.build.shared.settings") version "8.0.2"
+    id("io.micronaut.build.shared.settings") version "8.1.1"
 }
 
 rootProject.name = 'nats-parent'
@@ -16,6 +16,7 @@ include 'nats-bom'
 include 'docs-examples:example-groovy'
 include 'docs-examples:example-java'
 include 'docs-examples:example-kotlin'
+include 'docs-examples:example-python'
 include 'test-suite-nats-utils'
 
 enableFeaturePreview 'TYPESAFE_PROJECT_ACCESSORS'

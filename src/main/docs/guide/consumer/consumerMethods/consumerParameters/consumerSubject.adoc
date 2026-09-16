@@ -11,7 +11,11 @@ Subscribers may specify queue groups at subscription time. When a message is pub
 
 snippet::io.micronaut.nats.docs.consumer.queue.ProductListener[tags="imports,clazz", project-base="docs-examples/example"]
 
+[.lang-java.lang-kotlin.lang-groovy]
 <1> Defining a queue can be done in the ann:configuration.nats.annotation.Subject[]
+
+[.lang-python]
+<1> Defining a queue is done in the ann:configuration.nats.annotation.Subject[]; the `queue` member cannot be set on a Python method yet (Python compiler limitation), so both Python methods above subscribe without a queue group.
 
 IMPORTANT: Queue groups do not persist messages. If no listeners are available, the message is discarded.
 

@@ -1,0 +1,25 @@
+plugins {
+    id 'io.micronaut.build.internal.nats-base'
+    id 'io.micronaut.build.internal.python'
+}
+
+dependencies {
+    // The Java helpers in src/test/java (io.micronaut.docs.nats.NatsTestConfigurer / PythonRuntimeInitializer) are processed by javac
+    testAnnotationProcessor platform(mn.micronaut.core.bom)
+    testAnnotationProcessor mn.micronaut.inject.java
+    // The Python compiler takes the (jar-resolved) compile classpath as its annotation processor path,
+    // so the Micronaut processors of the Python sources are testImplementation (not testAnnotationProcessor).
+    testImplementation mn.micronaut.inject.python.test
+    testImplementation mn.micronaut.context.python
+    testImplementation projects.micronautNats
+    testImplementation mn.reactor
+    testImplementation mnTest.micronaut.test.junit5
+    testImplementation projects.testSuiteNatsUtils
+    testRuntimeOnly mn.snakeyaml
+    testRuntimeOnly mnTest.junit.jupiter.engine
+    testRuntimeOnly mnTest.junit.platform.launcher
+}
+
+tasks.withType(Test).configureEach {
+    systemProperty "micronaut.python.pool.enabled", "false"
+}

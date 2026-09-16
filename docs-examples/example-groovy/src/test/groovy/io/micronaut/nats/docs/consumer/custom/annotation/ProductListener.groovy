@@ -17,7 +17,7 @@ class ProductListener {
     CopyOnWriteArrayList<ProductInfo> messages = []
 
     @Subject("product")
-    void receive(byte[] data, @SID String sid) {
+    void receive(byte[] data, @SID String sid) { // <1>
         messages << sid
     }
 }
