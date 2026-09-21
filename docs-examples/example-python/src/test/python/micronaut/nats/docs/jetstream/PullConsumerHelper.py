@@ -1,14 +1,10 @@
 from micronaut.context.annotation import Requires
-try:
-    # tag::imports[]
-    from micronaut.nats.jetstream import PullConsumerRegistry
-    from java.time import Duration
-    from io.nats.client import JetStreamSubscription, Message
-    from io.nats.client.api import ConsumerConfiguration
-    # end::imports[]
-except ImportError:  # TODO(python): packages under `io.` other than `io.micronaut` cannot be imported at runtime
-    from nats.client import JetStreamSubscription, Message
-    from nats.client.api import ConsumerConfiguration
+# tag::imports[]
+from micronaut.nats.jetstream import PullConsumerRegistry
+from java.time import Duration
+from io.nats.client import JetStreamSubscription, Message, PullSubscribeOptions
+from io.nats.client.api import ConsumerConfiguration
+# end::imports[]
 from jakarta.inject import Singleton
 
 
@@ -21,13 +17,14 @@ class PullConsumerHelper:
         self.pull_consumer_registry = pull_consumer_registry
 
     def pull_messages(self) -> list[Message]:
-        # TODO(python): the methods PullSubscribeOptions.Builder inherits from the generic SubscribeOptions.Builder
-        # (stream(...), configuration(...)) are not exposed to GraalPy, so the options are built from the consumer
-        # configuration and the stream is resolved from the subject.
         pull_subscribe_options = (
-            ConsumerConfiguration.builder()
-            .ackWait(Duration.ofMillis(2500))
-            .buildPullSubscribeOptions())
+            PullSubscribeOptions.builder()
+            .stream("events")
+            .configuration(
+                ConsumerConfiguration.builder()
+                .ackWait(Duration.ofMillis(2500))
+                .build())
+            .build())
         jet_stream_subscription: JetStreamSubscription = \
             self.pull_consumer_registry.newPullConsumer("events.>", pull_subscribe_options)  # <2>
 

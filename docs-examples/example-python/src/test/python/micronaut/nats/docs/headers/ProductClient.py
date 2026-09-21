@@ -3,14 +3,11 @@ from typing import Annotated
 
 from java.lang import Long
 from micronaut.context.annotation import Requires
-try:
-    # tag::imports[]
-    from micronaut.messaging.annotation import MessageBody, MessageHeader
-    from micronaut.nats.annotation import NatsClient, Subject
-    from io.nats.client.impl import Headers
-    # end::imports[]
-except ImportError:  # TODO(python): packages under `io.` other than `io.micronaut` cannot be imported at runtime
-    from nats.client.impl import Headers
+# tag::imports[]
+from micronaut.messaging.annotation import MessageBody, MessageHeader
+from micronaut.nats.annotation import NatsClient, Subject
+from io.nats.client.impl import Headers
+# end::imports[]
 
 
 @Requires(property="spec.name", value="HeadersSpec")

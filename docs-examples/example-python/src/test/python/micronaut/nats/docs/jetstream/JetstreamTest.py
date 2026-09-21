@@ -5,10 +5,7 @@ from jakarta.inject import Inject
 from micronaut.context.annotation import Property
 from micronaut.test.extensions.junit5.annotation import MicronautTest
 from org.junit.jupiter.api import Test
-try:
-    from io.nats.client import JetStreamManagement, PublishOptions
-except ImportError:  # TODO(python): packages under `io.` other than `io.micronaut` cannot be imported at runtime
-    from nats.client import JetStreamManagement, PublishOptions
+from io.nats.client import JetStreamManagement, PublishOptions
 
 from .ProductClient import ProductClient
 from .ProductListener import ProductListener

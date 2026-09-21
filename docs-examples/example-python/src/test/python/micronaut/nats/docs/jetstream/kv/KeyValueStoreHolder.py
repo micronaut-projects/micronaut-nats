@@ -1,14 +1,11 @@
 from typing import Annotated
 
 from micronaut.context.annotation import Requires
-try:
-    # tag::imports[]
-    from jakarta.inject import Inject, Singleton
-    from micronaut.nats.jetstream.annotation import KeyValueStore
-    from io.nats.client import KeyValue
-    # end::imports[]
-except ImportError:  # TODO(python): packages under `io.` other than `io.micronaut` cannot be imported at runtime
-    from nats.client import KeyValue
+# tag::imports[]
+from jakarta.inject import Inject, Singleton
+from micronaut.nats.jetstream.annotation import KeyValueStore
+from io.nats.client import KeyValue
+# end::imports[]
 
 
 @Requires(property="spec.name", value="KeyValueTest")

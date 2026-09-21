@@ -1,13 +1,9 @@
 from micronaut.context.annotation import Requires
-try:
-    # tag::imports[]
-    from micronaut.nats.annotation import NatsListener, Subject
-    from io.nats.client import Connection, Message, Subscription
-    from io.nats.client.impl import Headers
-    # end::imports[]
-except ImportError:  # TODO(python): packages under `io.` other than `io.micronaut` cannot be imported at runtime
-    from nats.client import Connection, Message, Subscription
-    from nats.client.impl import Headers
+# tag::imports[]
+from micronaut.nats.annotation import NatsListener, Subject
+from io.nats.client import Connection, Message, Subscription
+from io.nats.client.impl import Headers
+# end::imports[]
 
 
 @Requires(property="spec.name", value="TypeBindingSpec")

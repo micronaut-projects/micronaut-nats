@@ -1,32 +1,29 @@
 from micronaut.context.annotation import Requires
-try:
-    # tag::imports[]
-    from jakarta.inject import Singleton
-    from micronaut.core.bind import ArgumentBinder
-    from micronaut.core.convert import ArgumentConversionContext, ConversionService
-    from micronaut.core.type import Argument
-    from micronaut.nats.bind import NatsHeaderConvertibleValues, NatsTypeArgumentBinder
-    from java.lang import Boolean, Long, String
-    from java.util import Optional
-    from .ProductInfo import ProductInfo
-    from io.nats.client import Message
-    # end::imports[]
-except ImportError:  # TODO(python): packages under `io.` other than `io.micronaut` cannot be imported at runtime
-    from nats.client import Message
+# tag::imports[]
+from jakarta.inject import Singleton
+from micronaut.core.bind import ArgumentBinder
+from micronaut.core.convert import ArgumentConversionContext, ConversionService
+from micronaut.core.type import Argument
+from micronaut.nats.bind import NatsHeaderConvertibleValues, NatsTypeArgumentBinder
+from java.lang import Boolean, Long, String
+from java.util import Optional
+from .ProductInfo import ProductInfo
+from io.nats.client import Message
+# end::imports[]
 
 
 @Requires(property="spec.name", value="ProductInfoSpec")
 # tag::clazz[]
 @Singleton  # <1>
-class ProductInfoTypeBinder(NatsTypeArgumentBinder):  # <2>
+class ProductInfoTypeBinder(NatsTypeArgumentBinder[ProductInfo]):  # <2>
 
     def __init__(self, conversion_service: ConversionService):  # <3>
         self.conversion_service = conversion_service
 
-    def argumentType(self):
+    def argumentType(self) -> Argument[ProductInfo]:
         return Argument.of(ProductInfo)
 
-    def bind(self, context: ArgumentConversionContext, source: Message):
+    def bind(self, context: ArgumentConversionContext[ProductInfo], source: Message) -> ArgumentBinder.BindingResult[ProductInfo]:
         raw_headers = source.getHeaders()  # <4>
 
         if raw_headers is None:

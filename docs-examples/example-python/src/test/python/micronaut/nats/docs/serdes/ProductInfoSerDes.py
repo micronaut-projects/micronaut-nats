@@ -1,16 +1,13 @@
 from micronaut.context.annotation import Requires
-try:
-    # tag::imports[]
-    from jakarta.inject import Singleton
-    from micronaut.core.convert import ConversionService
-    from micronaut.core.type import Argument
-    from micronaut.nats.serdes import NatsMessageSerDes
-    from java.lang import Boolean, Long
-    from .ProductInfo import ProductInfo
-    from io.nats.client import Message
-    # end::imports[]
-except ImportError:  # TODO(python): packages under `io.` other than `io.micronaut` cannot be imported at runtime
-    from nats.client import Message
+# tag::imports[]
+from jakarta.inject import Singleton
+from micronaut.core.convert import ConversionService
+from micronaut.core.type import Argument
+from micronaut.nats.serdes import NatsMessageSerDes
+from java.lang import Boolean, Long
+from .ProductInfo import ProductInfo
+from io.nats.client import Message
+# end::imports[]
 
 
 @Requires(property="spec.name", value="ProductInfoSerDesSpec")
@@ -36,8 +33,7 @@ class ProductInfoSerDes(NatsMessageSerDes):  # <2>
                 return ProductInfo(size, count.get(), sealed.get())
         return None
 
-    # TODO(python): a `bytes | None` return type is coerced with Value.asByte(), so the method is declared to return `bytes`
-    def serialize(self, data: ProductInfo) -> bytes:  # <5>
+    def serialize(self, data: ProductInfo | None) -> bytes | None:  # <5>
         if data is None:
             return None
         return f"{data.size if data.size is not None else 'null'}|{data.count}|{str(data.sealed).lower()}".encode("utf-8")

@@ -4,7 +4,7 @@ plugins {
 }
 
 dependencies {
-    // The Java helpers in src/test/java (io.micronaut.docs.nats.NatsTestConfigurer / PythonRuntimeInitializer) are processed by javac
+    // The Java helper in src/test/java (io.micronaut.docs.nats.NatsTestConfigurer) is processed by javac
     testAnnotationProcessor platform(mn.micronaut.core.bom)
     testAnnotationProcessor mn.micronaut.inject.java
     // The Python compiler takes the (jar-resolved) compile classpath as its annotation processor path,
