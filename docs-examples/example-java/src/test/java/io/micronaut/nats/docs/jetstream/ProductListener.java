@@ -1,6 +1,7 @@
 package io.micronaut.nats.docs.jetstream;
 
 import io.micronaut.context.annotation.Requires;
+// tag::imports[]
 import io.micronaut.nats.jetstream.annotation.JetStreamListener;
 import io.micronaut.nats.jetstream.annotation.PushConsumer;
 

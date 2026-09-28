@@ -1,6 +1,7 @@
 package io.micronaut.nats.docs.serdes;
 
 import io.micronaut.context.annotation.Requires;
+// tag::imports[]
 import io.micronaut.core.convert.ConversionService;
 import io.micronaut.core.type.Argument;
 import io.micronaut.nats.serdes.NatsMessageSerDes;
