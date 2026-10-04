@@ -672,7 +672,15 @@ nats.server2.password=guest</code></pre>
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">nats = {server1 = {addresses = ["nats://localhost:4222"], username = "guest", password = "guest"}, server2 = {addresses = ["nats://randomServer:4222"], username = "guest", password = "guest"}}</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[nats.server1]
+addresses = ["nats://localhost:4222"]
+username = "guest"
+password = "guest"
+
+[nats.server2]
+addresses = ["nats://randomServer:4222"]
+username = "guest"
+password = "guest"</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -755,7 +763,10 @@ nats.default.password=guest</code></pre>
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">nats = {default = {addresses = ["nats://localhost:4222", "nats://randomServer:4222"], username = "guest", password = "guest"}}</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[nats.default]
+addresses = ["nats://localhost:4222", "nats://randomServer:4222"]
+username = "guest"
+password = "guest"</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -836,7 +847,13 @@ nats.default.tls.certificate-path=/path/to/certificate.crt</code></pre>
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">nats = {default = {addresses = ["nats://localhost:4222"], tls = {trust-store-path = "/path/to/client.truststore.jks", trust-store-password = "secret", certificate-path = "/path/to/certificate.crt"}}}</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[nats.default]
+addresses = ["nats://localhost:4222"]
+
+[nats.default.tls]
+trust-store-path = "/path/to/client.truststore.jks"
+trust-store-password = "secret"
+certificate-path = "/path/to/certificate.crt"</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -3337,7 +3354,11 @@ nats.details.servers[0]=nats://localhost:4222</code></pre>
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">nats = {status = "UP", details = {servers = ["nats://localhost:4222"]}}</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[nats]
+status = "UP"
+
+[nats.details]
+servers = ["nats://localhost:4222"]</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -3514,7 +3535,9 @@ nats.default.jetstream.streams.events.subjects[0]=events.&gt;</code></pre>
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">nats = {default = {jetstream = {streams = {events = {storage-type = "Memory", subjects = ["events.&gt;"]}}}}}</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[nats.default.jetstream.streams.events]
+storage-type = "Memory"
+subjects = ["events.&gt;"]</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -4097,7 +4120,9 @@ nats.default.jetstream.keyvalue.examplebucket.max-history-per-key=5</code></pre>
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">nats = {default = {jetstream = {keyvalue = {examplebucket = {storage-type = "Memory", max-history-per-key = 5}}}}}</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[nats.default.jetstream.keyvalue.examplebucket]
+storage-type = "Memory"
+max-history-per-key = 5</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -4343,7 +4368,8 @@ Experimental Preview
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">nats = {default = {jetstream = {objectstore = {examplebucket = {storage-type = "Memory"}}}}}</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[nats.default.jetstream.objectstore.examplebucket]
+storage-type = "Memory"</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
