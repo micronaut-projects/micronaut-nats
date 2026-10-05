@@ -52,6 +52,8 @@ class ConfigSpec extends AbstractJetstreamTest {
                 "nats.default.jetstream.streams.m-widgets.mirror.filter-subject"                     : "subject.three",
                 "nats.default.jetstream.streams.m-widgets.mirror.startSeq"                           : 1,
                 "nats.default.jetstream.streams.m-widgets.mirror.startTime"                          : "1970-01-01T00:00:00Z[UTC]",
+                "nats.default.jetstream.streams.dm-widgets.mirror.name"                               : "widgets",
+                "nats.default.jetstream.streams.dm-widgets.mirror.domain"                             : "hub",
                 "nats.default.jetstream.streams.m-widgets.mirror.subject-transforms[0].source"       : "subject.*",
                 "nats.default.jetstream.streams.m-widgets.mirror.subject-transforms[0].destination"  : 'mirror.$1',
                 "nats.default.jetstream.streams.m-widgets.mirror.subject-transforms[1].source"       : "other.*",
@@ -112,6 +114,10 @@ class ConfigSpec extends AbstractJetstreamTest {
         mirrorConf.mirror.filterSubject == "subject.three"
         mirrorConf.mirror.subjectTransforms*.source == ["subject.*", "other.*"]
         mirrorConf.mirror.subjectTransforms*.destination == ['mirror.$1', 'other.mirror.$1']
+
+        // mirror with domain
+        def domainMirror = config.getJetstream().getStreams().find { it.toStreamConfiguration().name == 'dm-widgets' }.toStreamConfiguration().mirror
+        domainMirror.external.api == '$JS.hub.API'
 
 
         cleanup:

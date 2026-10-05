@@ -26,6 +26,8 @@ import io.nats.client.JetStreamOptions;
 import io.nats.client.Nats;
 import io.nats.client.Options;
 
+import javax.net.ssl.KeyManager;
+import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManagerFactory;
 import java.io.BufferedInputStream;
@@ -76,6 +78,8 @@ public class NatsConnectionFactoryConfig {
 
     private Duration pingInterval = DEFAULT_PING_INTERVAL;
 
+    private Duration socketWriteTimeout = Options.DEFAULT_SOCKET_WRITE_TIMEOUT;
+
     private long reconnectBufferSize = DEFAULT_RECONNECT_BUF_SIZE;
 
     private String inboxPrefix = DEFAULT_INBOX_PREFIX;
@@ -96,6 +100,24 @@ public class NatsConnectionFactoryConfig {
 
     @Nullable
     private JetStreamConfiguration jetstream;
+
+    /**
+     * Further connection options of {@link Options.Builder}. Options which are covered by the explicit properties of
+     * this class, or which require a runtime object (executors, listeners, handlers, factories), are excluded.
+     */
+    @ConfigurationBuilder(prefixes = "", allowZeroArgs = true, excludes = {
+        // covered by explicit properties
+        "server", "servers", "connectionName", "maxReconnects", "reconnectWait", "connectionTimeout", "pingInterval",
+        "reconnectBufferSize", "inboxPrefix", "socketWriteTimeout", "noEcho", "supportUTF8Subjects", "token", "tokenSupplier", "userInfo",
+        "authHandler", "credentialPath", "sslContext", "sslContextFactory", "secure", "opentls",
+        "keystorePath", "keystorePassword", "truststorePath", "truststorePassword", "tlsAlgorithm",
+        // runtime objects
+        "properties", "executor", "callbackExecutor", "connectExecutor", "readerExecutor", "writerExecutor",
+        "scheduledExecutor", "callbackThreadFactory", "connectThreadFactory", "readerThreadFactory",
+        "writerThreadFactory", "connectionListener", "errorListener", "readListener", "statisticsCollector",
+        "timeTraceLogger", "dispatcherFactory", "serverPool", "proxy", "reconnectDelayHandler",
+        "httpRequestInterceptor", "httpRequestInterceptors", "build"})
+    private Builder builder = new Builder();
 
     /**
      * Default constructor.
@@ -125,6 +147,90 @@ public class NatsConnectionFactoryConfig {
      */
     public void setAddresses(@Nullable List<String> addresses) {
         this.addresses = addresses;
+    }
+
+    /**
+     * @return the username for the connection
+     */
+    public Optional<String> getUsername() {
+        return Optional.ofNullable(username);
+    }
+
+    /**
+     * @return the password for the connection
+     */
+    public Optional<String> getPassword() {
+        return Optional.ofNullable(password);
+    }
+
+    /**
+     * @return the token for the connection
+     */
+    public Optional<String> getToken() {
+        return Optional.ofNullable(token);
+    }
+
+    /**
+     * @return the max reconnection tries
+     */
+    public int getMaxReconnect() {
+        return maxReconnect;
+    }
+
+    /**
+     * @return time to wait between reconnect attempts
+     */
+    public Duration getReconnectWait() {
+        return reconnectWait;
+    }
+
+    /**
+     * @return maximum time for initial connection
+     */
+    public Duration getConnectionTimeout() {
+        return connectionTimeout;
+    }
+
+    /**
+     * @return time between ping intervals
+     */
+    public Duration getPingInterval() {
+        return pingInterval;
+    }
+
+    /**
+     * @return size of the buffer, in bytes, used to store publish messages during reconnect
+     */
+    public long getReconnectBufferSize() {
+        return reconnectBufferSize;
+    }
+
+    /**
+     * @return prefix to use for request/reply inboxes
+     */
+    public String getInboxPrefix() {
+        return inboxPrefix;
+    }
+
+    /**
+     * @return whether or not to block echo messages, messages that were sent by this connection
+     */
+    public boolean isNoEcho() {
+        return noEcho;
+    }
+
+    /**
+     * @return whether or not the client should support for UTF8 subject names
+     */
+    public boolean isUtf8Support() {
+        return utf8Support;
+    }
+
+    /**
+     * @return path to the credentials file to use for authentication with an account enabled server
+     */
+    public String getCredentials() {
+        return credentials;
     }
 
     /**
@@ -177,6 +283,14 @@ public class NatsConnectionFactoryConfig {
     }
 
     /**
+     * @param socketWriteTimeout the timeout for writing to the socket
+     * @since 5.2.0
+     */
+    public void setSocketWriteTimeout(Duration socketWriteTimeout) {
+        this.socketWriteTimeout = socketWriteTimeout;
+    }
+
+    /**
      * @param reconnectBufferSize size of the buffer, in bytes, used to store publish messages during reconnect
      */
     public void setReconnectBufferSize(long reconnectBufferSize) {
@@ -219,13 +333,16 @@ public class NatsConnectionFactoryConfig {
     }
 
     /**
+     * Every call returns a new builder, containing the explicit properties of this configuration as well as the
+     * further options configured on {@link #getBuilder()}.
+     *
      * @return NATS options builder based on this set of properties, useful if other settings are required before
      * connect is called
      * @throws IOException              if there is a problem reading a file or setting up the SSL context
      * @throws GeneralSecurityException if there is a problem setting up the SSL context
      */
     public Builder toOptionsBuilder() throws IOException, GeneralSecurityException {
-        Builder builder = new Builder();
+        Builder builder = this.builder;
 
         builder = builder.servers(this.addresses.toArray(new String[0]));
         builder = builder.maxReconnects(this.maxReconnect);
@@ -233,6 +350,7 @@ public class NatsConnectionFactoryConfig {
         builder = builder.connectionTimeout(this.connectionTimeout);
         builder = builder.connectionName(this.name);
         builder = builder.pingInterval(this.pingInterval);
+        builder = builder.socketWriteTimeout(this.socketWriteTimeout);
         builder = builder.reconnectBufferSize(this.reconnectBufferSize);
         builder = builder.inboxPrefix(this.inboxPrefix);
 
@@ -256,6 +374,18 @@ public class NatsConnectionFactoryConfig {
             builder.sslContext(this.tls.createTlsContext());
         }
 
+        // return an independent builder, so changes of the caller do not leak into this configuration
+        return new Builder(builder.build());
+    }
+
+    /**
+     * get the options builder holding the further configured connection options. Use
+     * {@link #toOptionsBuilder()} to obtain the complete options for a connection.
+     *
+     * @return the options builder
+     * @since 5.2.0
+     */
+    public Builder getBuilder() {
         return builder;
     }
 
@@ -291,6 +421,12 @@ public class NatsConnectionFactoryConfig {
 
         private String certificatePath;
 
+        private String keyStorePath;
+
+        private String keyStorePassword;
+
+        private String keyStoreType;
+
         /**
          * @param trustStorePath file path for the trust store
          */
@@ -320,6 +456,58 @@ public class NatsConnectionFactoryConfig {
             this.certificatePath = certificatePath;
         }
 
+        /**
+         * @return file path for the trust store
+         */
+        public String getTrustStorePath() {
+            return this.trustStorePath;
+        }
+
+        /**
+         * @return password used to unlock the trust store
+         */
+        public String getTrustStorePassword() {
+            return this.trustStorePassword;
+        }
+
+        /**
+         * @return type of keystore to use for connections
+         */
+        public String getTrustStoreType() {
+            return this.trustStoreType;
+        }
+
+        /**
+         * @return the certificate path
+         */
+        public String getCertificatePath() {
+            return certificatePath;
+        }
+
+        /**
+         * @param keyStorePath file path for the key store holding the client certificate and key (mutual TLS)
+         * @since 5.2.0
+         */
+        public void setKeyStorePath(@Nullable String keyStorePath) {
+            this.keyStorePath = keyStorePath;
+        }
+
+        /**
+         * @param keyStorePassword used to unlock the key store and its key
+         * @since 5.2.0
+         */
+        public void setKeyStorePassword(@Nullable String keyStorePassword) {
+            this.keyStorePassword = keyStorePassword;
+        }
+
+        /**
+         * @param keyStoreType the type of the key store, defaults to {@link KeyStore#getDefaultType()}
+         * @since 5.2.0
+         */
+        public void setKeyStoreType(@Nullable String keyStoreType) {
+            this.keyStoreType = keyStoreType;
+        }
+
         private SSLContext createTlsContext() throws IOException, GeneralSecurityException {
             SSLContext ctx = SSLContext.getInstance(DEFAULT_SSL_PROTOCOL);
 
@@ -343,9 +531,25 @@ public class NatsConnectionFactoryConfig {
                 }
             }
             factory.init(ks);
-            ctx.init(null, factory.getTrustManagers(), new SecureRandom());
+            ctx.init(createKeyManagers(), factory.getTrustManagers(), new SecureRandom());
 
             return ctx;
+        }
+
+        private KeyManager @Nullable [] createKeyManagers() throws IOException, GeneralSecurityException {
+            if (keyStorePath == null || keyStorePath.isEmpty()) {
+                return null;
+            }
+            char[] password = Optional.ofNullable(keyStorePassword)
+                .map(String::toCharArray)
+                .orElse(new char[0]);
+            KeyStore ks = KeyStore.getInstance(Optional.ofNullable(keyStoreType).orElse(KeyStore.getDefaultType()));
+            try (BufferedInputStream in = new BufferedInputStream(Files.newInputStream(Paths.get(keyStorePath)))) {
+                ks.load(in, password);
+            }
+            KeyManagerFactory factory = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
+            factory.init(ks, password);
+            return factory.getKeyManagers();
         }
 
     }
@@ -517,6 +721,15 @@ public class NatsConnectionFactoryConfig {
              */
             public void setSubjects(List<String> subjects) {
                 this.subjects = subjects;
+            }
+
+            /**
+             * get the subjects of the stream.
+             *
+             * @return the subjects
+             */
+            public List<String> getSubjects() {
+                return subjects;
             }
 
             /**

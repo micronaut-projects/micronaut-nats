@@ -42,6 +42,9 @@ public abstract class Source<T extends SubjectTransformBase, E extends External>
                     .toList());
         }
 
+        if (domain != null) {
+            builder = builder.domain(domain);
+        }
         if (external != null) {
             builder = builder.external(external.build());
         }

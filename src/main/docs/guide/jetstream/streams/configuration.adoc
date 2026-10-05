@@ -4,6 +4,12 @@ The following properties are available for a stream configuration:
 
 include::{includedir}configurationProperties/io.micronaut.nats.connect.NatsConnectionFactoryConfig$JetStreamConfiguration$StreamConfiguration.adoc[]
 
+include::{includedir}configurationProperties/io.nats.client.api.StreamConfiguration$Builder.adoc[]
+
+The options of the link:{apinats}/io/nats/client/JetStreamOptions.Builder.html[JetStreamOptions.Builder] are configured underneath `jetstream`:
+
+include::{includedir}configurationProperties/io.nats.client.JetStreamOptions$Builder.adoc[]
+
 A simple configuration for jetstream and a single stream can look like:
 
 [configuration]
@@ -18,3 +24,111 @@ nats:
             - events.>
 ----
 
+
+=== Subject transform, compression and metadata
+
+[configuration]
+----
+nats:
+  default:
+    jetstream:
+      streams:
+        events:
+          subjects:
+            - events.>
+          compression-option: s2 # <1>
+          metadata: # <2>
+            owner: team-a
+          subject-transform: # <3>
+            source: "events.*.*"
+            destination: "events.{{wildcard(2)}}.{{wildcard(1)}}"
+----
+
+<1> Compression of the stream storage, either `none` or `s2`
+<2> Custom metadata of the stream
+<3> Transformation of the subjects of incoming messages
+
+=== Placement, republish and consumer limits
+
+[configuration]
+----
+nats:
+  default:
+    jetstream:
+      streams:
+        events:
+          subjects:
+            - events.>
+          placement: # <1>
+            cluster: east
+            tags:
+              - ssd
+          republish: # <2>
+            source: "events.>"
+            destination: "republished.>"
+            headers-only: false
+          consumer-limits: # <3>
+            inactive-threshold: 10m
+            max-ack-pending: 1000
+----
+
+<1> The cluster and tags the stream should be placed on
+<2> Republishes stored messages to another subject
+<3> Default limits for consumers of the stream
+
+=== Mirror
+
+A stream can mirror another stream. A mirror can not have subjects of its own.
+
+[configuration]
+----
+nats:
+  default:
+    jetstream:
+      streams:
+        events-mirror:
+          mirror:
+            name: events # <1>
+            filter-subject: "events.orders.>" # <2>
+            start-seq: 1
+            domain: hub # <3>
+            subject-transforms: # <4>
+              - source: "events.orders.>"
+                destination: "mirror.orders.>"
+----
+
+<1> The name of the stream to mirror
+<2> Only mirror a subset of the messages. Can not be combined with `subject-transforms`
+<3> The JetStream domain of the origin stream. Alternatively `external.api` and `external.deliver` can be configured
+<4> Transformations of the subjects while mirroring, the sources act as filter
+
+include::{includedir}configurationProperties/io.micronaut.nats.connect.NatsConnectionFactoryConfig$JetStreamConfiguration$StreamConfiguration$Mirror.adoc[]
+
+=== Sources
+
+A stream can be sourced from one or more other streams, in addition to its own subjects.
+
+[configuration]
+----
+nats:
+  default:
+    jetstream:
+      streams:
+        all-events:
+          sources:
+            - name: events # <1>
+              subject-transforms: # <2>
+                - source: "events.*"
+                  destination: "all.events.$1"
+            - name: remote-events
+              filter-subject: "remote.>"
+              external: # <3>
+                api: "$JS.remote.API"
+                deliver: "deliver.remote"
+----
+
+<1> The name of the stream to source from
+<2> Transformations of the subjects while sourcing, the sources act as filter. Can not be combined with `filter-subject`
+<3> Source a stream of another account or domain
+
+include::{includedir}configurationProperties/io.micronaut.nats.connect.NatsConnectionFactoryConfig$JetStreamConfiguration$StreamConfiguration$Source.adoc[]
