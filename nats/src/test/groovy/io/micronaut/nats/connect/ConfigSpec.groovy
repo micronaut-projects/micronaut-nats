@@ -17,6 +17,7 @@ package io.micronaut.nats.connect
 
 import io.micronaut.context.ApplicationContext
 import io.micronaut.nats.jetstream.AbstractJetstreamTest
+import io.nats.client.api.CompressionOption
 import io.nats.client.api.StorageType
 
 import java.time.ZoneId
@@ -27,6 +28,8 @@ class ConfigSpec extends AbstractJetstreamTest {
     void "Stream config"() {
         given:
         ApplicationContext context = startContext([
+                "nats.default.jetstream.streams.widgets.compression-option"                          : "s2",
+                "nats.default.jetstream.streams.widgets.metadata.owner"                              : "team-a",
                 "nats.default.jetstream.streams.widgets.republish.source"                            : "subject.three",
                 "nats.default.jetstream.streams.widgets.republish.destination"                       : "republish",
                 "nats.default.jetstream.streams.widgets.republish.headers-only"                      : "true",
@@ -49,6 +52,10 @@ class ConfigSpec extends AbstractJetstreamTest {
                 "nats.default.jetstream.streams.m-widgets.mirror.filter-subject"                     : "subject.three",
                 "nats.default.jetstream.streams.m-widgets.mirror.startSeq"                           : 1,
                 "nats.default.jetstream.streams.m-widgets.mirror.startTime"                          : "1970-01-01T00:00:00Z[UTC]",
+                "nats.default.jetstream.streams.m-widgets.mirror.subject-transforms[0].source"       : "subject.*",
+                "nats.default.jetstream.streams.m-widgets.mirror.subject-transforms[0].destination"  : 'mirror.$1',
+                "nats.default.jetstream.streams.m-widgets.mirror.subject-transforms[1].source"       : "other.*",
+                "nats.default.jetstream.streams.m-widgets.mirror.subject-transforms[1].destination"  : 'other.mirror.$1',
         ])
 
         when:
@@ -67,6 +74,8 @@ class ConfigSpec extends AbstractJetstreamTest {
         // basics
         configuration.storageType == StorageType.Memory
         configuration.subjects.contains("subject.>")
+        configuration.compressionOption == CompressionOption.S2
+        configuration.metadata == [owner: "team-a"]
 
         // republish
         configuration.republish.source == "subject.three"
@@ -101,6 +110,8 @@ class ConfigSpec extends AbstractJetstreamTest {
         mirrorConf.mirror.startSeq == 1
         mirrorConf.mirror.startTime == ZonedDateTime.ofInstant(new Date(0).toInstant(), ZoneId.of("UTC"))
         mirrorConf.mirror.filterSubject == "subject.three"
+        mirrorConf.mirror.subjectTransforms*.source == ["subject.*", "other.*"]
+        mirrorConf.mirror.subjectTransforms*.destination == ['mirror.$1', 'other.mirror.$1']
 
 
         cleanup:
@@ -110,6 +121,8 @@ class ConfigSpec extends AbstractJetstreamTest {
     void "KV config"() {
         given:
         ApplicationContext context = startContext([
+                "nats.default.jetstream.keyvalue.examplebucket.compression"                                 : "true",
+                "nats.default.jetstream.keyvalue.examplebucket.metadata.owner"                              : "team-a",
                 "nats.default.jetstream.keyvalue.examplebucket.republish.source"                            : "subject.three",
                 "nats.default.jetstream.keyvalue.examplebucket.republish.destination"                       : "republish",
                 "nats.default.jetstream.keyvalue.examplebucket.republish.headers-only"                      : "true",
@@ -147,6 +160,8 @@ class ConfigSpec extends AbstractJetstreamTest {
 
         // basics
         configuration.storageType == StorageType.Memory
+        configuration.compressed
+        configuration.metadata == [owner: "team-a"]
 
         // republish
         configuration.republish.source == "subject.three"
@@ -164,8 +179,8 @@ class ConfigSpec extends AbstractJetstreamTest {
         bucketConf.sources[0].startSeq == 1
         bucketConf.sources[0].startTime == ZonedDateTime.ofInstant(new Date(0).toInstant(), ZoneId.of("UTC"))
         bucketConf.sources[0].filterSubject == "subject.three"
-        bucketConf.sources[0].subjectTransforms[0].source == "subject.*"
-        bucketConf.sources[0].subjectTransforms[0].destination == "subject.test.\$1"
+        bucketConf.sources[0].build().subjectTransforms[0].source == "subject.*"
+        bucketConf.sources[0].build().subjectTransforms[0].destination == 'subject.test.$1'
 
         // mirror
         def mirrorConfiguration = config.getJetstream().getKeyvalue().find { it.toKeyValueConfiguration().bucketName == 'm-examplebucket' }
@@ -186,6 +201,8 @@ class ConfigSpec extends AbstractJetstreamTest {
     void "object store config"() {
         given:
         ApplicationContext context = startContext([
+                "nats.default.jetstream.objectstore.examplestore.compression"                                 : "true",
+                "nats.default.jetstream.objectstore.examplestore.metadata.owner"                              : "team-a",
                 "nats.default.jetstream.objectstore.examplestore.placement.cluster"                           : "default",
                 "nats.default.jetstream.objectstore.examplestore.placement.tags"                              : ["tag1", "tag2"],
         ])
@@ -197,7 +214,7 @@ class ConfigSpec extends AbstractJetstreamTest {
         config.getJetstream() != null
         config.getJetstream().getObjectstore() != null
 
-        def bucketConf = config.getJetstream().getObjectstore().get(0)
+        def bucketConf = config.getJetstream().getObjectstore().find { it.toObjectStoreConfiguration().bucketName == 'examplestore' }
 
 
         bucketConf != null
@@ -205,6 +222,8 @@ class ConfigSpec extends AbstractJetstreamTest {
 
         // basics
         configuration.storageType == StorageType.Memory
+        configuration.compressed
+        configuration.metadata == [owner: "team-a"]
 
         // placement
         configuration.placement.cluster == "default"
