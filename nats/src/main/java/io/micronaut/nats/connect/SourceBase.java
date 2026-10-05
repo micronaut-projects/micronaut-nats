@@ -26,6 +26,7 @@ abstract class SourceBase<T extends SubjectTransformBase, E extends External> {
     protected String filterSubject;
     protected E external;
     protected List<T> subjectTransforms;
+    protected String domain;
 
     /**
      * Name.
@@ -69,6 +70,17 @@ abstract class SourceBase<T extends SubjectTransformBase, E extends External> {
      */
     public void setSubjectTransforms(List<T> subjectTransforms) {
         this.subjectTransforms = subjectTransforms;
+    }
+
+    /**
+     * The JetStream domain of the origin stream. Shortcut for {@code external.api} with {@code $JS.<domain>.API},
+     * an explicit {@code external} configuration takes precedence.
+     *
+     * @param domain {@link String}
+     * @since 5.2.0
+     */
+    public void setDomain(String domain) {
+        this.domain = domain;
     }
 
     /**

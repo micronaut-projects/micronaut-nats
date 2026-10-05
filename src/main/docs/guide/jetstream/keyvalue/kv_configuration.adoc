@@ -1,8 +1,10 @@
 All properties on the link:{apinats}/io/nats/client/JetStreamOptions.Builder.html[JetStreamOptions.Builder] and link:{apinats}/io/nats/client/api/KeyValueConfiguration.Builder.html[KeyValueConfiguration.Builder] are available to be modified, either through configuration or a link:{apimicronaut}context/event/BeanCreatedEventListener.html[BeanCreatedEventListener].
 
-The following properties are available for a stream configuration:
+The following properties are available for a key value configuration:
 
 include::{includedir}configurationProperties/io.micronaut.nats.connect.NatsConnectionFactoryConfig$JetStreamConfiguration$KeyValueConfiguration.adoc[]
+
+include::{includedir}configurationProperties/io.nats.client.api.KeyValueConfiguration$Builder.adoc[]
 
 A simple configuration for key value can look like:
 
@@ -17,3 +19,41 @@ nats:
           max-history-per-key: 5
 ----
 
+
+Compression, metadata, placement and republish can be configured as for streams:
+
+[configuration]
+----
+nats:
+  default:
+    jetstream:
+      keyvalue:
+        examplebucket:
+          compression: true
+          metadata:
+            owner: team-a
+          placement:
+            cluster: east
+          republish:
+            source: "$KV.examplebucket.>"
+            destination: "changes.examplebucket.>"
+----
+
+A bucket can also mirror another bucket, or be sourced from other buckets. The names refer to the buckets, the `KV_` prefix of the underlying streams is added automatically.
+
+[configuration]
+----
+nats:
+  default:
+    jetstream:
+      keyvalue:
+        examplebucket-mirror:
+          mirror:
+            name: examplebucket
+        aggregated-bucket:
+          sources:
+            - name: examplebucket
+            - name: otherbucket
+----
+
+NOTE: The entries are mirrored into the stream `KV_<mirror bucket>` keeping the subjects of the origin bucket, so reading them through the mirror bucket name does not return them. Read through the origin bucket instead; the mirror is allowed to answer those reads (mirror direct).
