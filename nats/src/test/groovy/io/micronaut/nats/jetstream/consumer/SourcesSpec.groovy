@@ -30,6 +30,7 @@ import io.nats.client.PullSubscribeOptions
 import io.nats.client.api.AckPolicy
 import io.nats.client.api.PublishAck
 import spock.util.concurrent.PollingConditions
+import java.util.concurrent.CopyOnWriteArrayList
 
 import java.time.Duration
 
@@ -87,14 +88,14 @@ class SourcesSpec extends AbstractJetstreamTest {
     @JetStreamListener
     static class MyConsumer {
 
-        public static List<byte[]> messagesDestination = []
+        List<byte[]> messagesDestination = new CopyOnWriteArrayList<>()
 
         @PushConsumer(value = "d-widgets", subject = "subject.test.three", durable = "test", ackPolicy = AckPolicy.All)
         void listenDestination(byte[] data) {
             messagesDestination.add(data)
         }
 
-        public static List<byte[]> messages = []
+        List<byte[]> messages = new CopyOnWriteArrayList<>()
 
         @PushConsumer(value = "widgets", subject = "subject.>", durable = "test", ackPolicy = AckPolicy.All)
         void listenOrigin(byte[] data) {
