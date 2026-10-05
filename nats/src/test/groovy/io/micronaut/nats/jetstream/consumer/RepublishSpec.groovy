@@ -28,6 +28,7 @@ import io.nats.client.JetStreamSubscription
 import io.nats.client.PullSubscribeOptions
 import io.nats.client.api.PublishAck
 import spock.util.concurrent.PollingConditions
+import java.util.concurrent.CopyOnWriteArrayList
 
 import java.time.Duration
 
@@ -82,7 +83,7 @@ class RepublishSpec extends AbstractJetstreamTest {
     @NatsListener
     static class MyConsumer {
 
-        public static List<byte[]> messages = []
+        List<byte[]> messages = new CopyOnWriteArrayList<>()
 
         @Subject(value = "republish")
         void listenRepublish(byte[] data) {

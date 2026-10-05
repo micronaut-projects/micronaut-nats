@@ -16,6 +16,9 @@
 package io.micronaut.nats.jetstream
 
 import io.micronaut.context.ApplicationContext
+import io.nats.client.Connection
+import io.nats.client.JetStreamManagement
+import io.nats.client.Nats
 import org.testcontainers.containers.GenericContainer
 import org.testcontainers.containers.wait.strategy.LogMessageWaitStrategy
 import org.testcontainers.containers.wait.strategy.Wait
@@ -34,6 +37,20 @@ abstract class AbstractJetstreamTest extends Specification {
                     .waitingFor(Wait.forListeningPort())
     static {
         natsContainer.start()
+    }
+
+    /**
+     * All specs share one server, remove the streams (including the ones backing key value and object stores)
+     * left by previous tests, so every test starts with a clean server.
+     */
+    void setup() {
+        Connection connection = Nats.connect("nats://localhost:${natsContainer.getMappedPort(4222)}")
+        try {
+            JetStreamManagement jsm = connection.jetStreamManagement()
+            jsm.getStreamNames().each { jsm.deleteStream(it) }
+        } finally {
+            connection.close()
+        }
     }
 
     protected ApplicationContext startContext(Map additionalConfig = [:]) {
