@@ -40,8 +40,6 @@ class SourcesSpec extends AbstractJetstreamTest {
         ApplicationContext context = startContext([
                 "nats.default.jetstream.streams.d-widgets.storage-type": "Memory",
                 "nats.default.jetstream.streams.d-widgets.sources[0].name" : "widgets",
-                "nats.default.jetstream.streams.d-widgets.sources[0].filter-subject" : "subject.three",
-                "nats.default.jetstream.streams.d-widgets.sources[0].external.api" : "test",
                 "nats.default.jetstream.streams.d-widgets.sources[0].subject-transforms[0].source" : "subject.*",
                 "nats.default.jetstream.streams.d-widgets.sources[0].subject-transforms[0].destination" : 'subject.test.$1',
         ])

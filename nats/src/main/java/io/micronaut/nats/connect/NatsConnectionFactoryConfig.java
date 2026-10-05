@@ -679,7 +679,7 @@ public class NatsConnectionFactoryConfig {
                  * @author Joachim Grimm
                  * @since 4.8.0
                  */
-                @EachProperty(value = "subjectTransforms", list = true)
+                @EachProperty(value = "subject-transforms", list = true)
                 public static class SubjectTransform extends SubjectTransformBase {
                 }
 

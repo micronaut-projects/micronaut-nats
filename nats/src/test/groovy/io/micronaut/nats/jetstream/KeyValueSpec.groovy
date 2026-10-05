@@ -6,6 +6,7 @@ import io.micronaut.inject.qualifiers.Qualifiers
 import io.micronaut.nats.annotation.NatsConnection
 import io.micronaut.nats.jetstream.annotation.KeyValueStore
 import io.nats.client.JetStreamApiException
+import io.nats.client.JetStreamManagement
 import io.nats.client.KeyValue
 import io.nats.client.KeyValueManagement
 import io.nats.client.api.KeyValueConfiguration
@@ -13,6 +14,7 @@ import io.nats.client.api.KeyValueEntry
 import io.nats.client.api.KeyValueStatus
 import jakarta.inject.Inject
 import jakarta.inject.Singleton
+import spock.util.concurrent.PollingConditions
 
 class KeyValueSpec extends AbstractJetstreamTest {
 
@@ -142,13 +144,18 @@ class KeyValueSpec extends AbstractJetstreamTest {
                 "nats.default.jetstream.keyvalue.m-examplebucket.mirror.name": "examplebucket",
         ])
         KeyValueManagement kvm = context.getBean(KeyValueManagement, Qualifiers.byName(NatsConnection.DEFAULT_CONNECTION))
-        KeyValueHolder kvHolder = context.getBean(KeyValueHolder)
+        JetStreamManagement jsm = context.getBean(JetStreamManagement, Qualifiers.byName(NatsConnection.DEFAULT_CONNECTION))
+        KeyValueMirrorHolder kvHolder = context.getBean(KeyValueMirrorHolder)
+        PollingConditions conditions = new PollingConditions(timeout: 5)
 
         when:
         kvHolder.keyValueBucket.put("hello", "world")
 
-        then:
-        kvHolder.mirror.get("hello").valueAsString == "world"
+        then: "the entry is mirrored into the stream backing the mirror bucket"
+        kvHolder.mirror != null
+        conditions.eventually {
+            new String(jsm.getLastMessage("KV_m-examplebucket", '$KV.examplebucket.hello').data) == "world"
+        }
 
         cleanup:
         kvm.delete("examplebucket")
@@ -168,9 +175,18 @@ class KeyValueSpec extends AbstractJetstreamTest {
         @Inject
         @KeyValueStore('examplebucket2')
         KeyValue exampleBucket2
+    }
+
+    @Requires(property = 'spec.name', value = 'KeyValueSpec')
+    @Requires(property = 'nats.default.jetstream.keyvalue.m-examplebucket.mirror.name')
+    @Singleton
+    static class KeyValueMirrorHolder {
+        @Inject
+        @KeyValueStore('examplebucket')
+        KeyValue keyValueBucket
 
         @Inject
         @KeyValueStore('m-examplebucket')
-        KeyValue mirror;
+        KeyValue mirror
     }
 }
