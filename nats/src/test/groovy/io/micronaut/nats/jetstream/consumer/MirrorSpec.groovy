@@ -30,6 +30,7 @@ import io.nats.client.PullSubscribeOptions
 import io.nats.client.api.AckPolicy
 import io.nats.client.api.PublishAck
 import spock.util.concurrent.PollingConditions
+import java.util.concurrent.CopyOnWriteArrayList
 
 import java.time.Duration
 
@@ -85,14 +86,14 @@ class MirrorSpec extends AbstractJetstreamTest {
     @JetStreamListener
     static class MyConsumer {
 
-        public static List<byte[]> messagesMirror = []
+        List<byte[]> messagesMirror = new CopyOnWriteArrayList<>()
 
         @PushConsumer(value = "m-widgets", subject = "subject.three", durable = "test", ackPolicy = AckPolicy.All)
         void listenMirror(byte[] data) {
             messagesMirror.add(data)
         }
 
-        public static List<byte[]> messages = []
+        List<byte[]> messages = new CopyOnWriteArrayList<>()
 
         @PushConsumer(value = "widgets", subject = "subject.three", durable = "test", ackPolicy = AckPolicy.All)
         void listenOrigin(byte[] data) {

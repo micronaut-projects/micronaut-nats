@@ -28,6 +28,7 @@ import io.nats.client.api.AckPolicy
 import io.nats.client.api.PublishAck
 import io.nats.client.api.StreamInfo
 import spock.util.concurrent.PollingConditions
+import java.util.concurrent.CopyOnWriteArrayList
 
 class JetStreamPublisherSpec extends AbstractJetstreamTest {
 
@@ -107,7 +108,7 @@ class JetStreamPublisherSpec extends AbstractJetstreamTest {
     @JetStreamListener
     static class MyConsumer {
 
-        public static List<byte[]> messages = []
+        List<byte[]> messages = new CopyOnWriteArrayList<>()
 
         @PushConsumer(value = "widgets", subject = "subject.>", durable = "test", ackPolicy = AckPolicy.All)
         void listen(byte[] data) {
