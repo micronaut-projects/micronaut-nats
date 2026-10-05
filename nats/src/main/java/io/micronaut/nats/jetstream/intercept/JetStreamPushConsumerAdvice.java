@@ -130,12 +130,15 @@ public class JetStreamPushConsumerAdvice
         }
         AnnotationValue<PushConsumer> pushConsumer = pushConsumerAnnotation.get();
 
+        // with filterSubjects the subject is optional, if set it has to be one of the filter subjects
+        boolean hasFilterSubjects = ArrayUtils.isNotEmpty(pushConsumer.stringValues("filterSubjects"));
         String subject = subjectAnnotation.flatMap(a -> a.getValue(String.class))
                                           .filter(StringUtils::isNotEmpty)
-                                          .orElseThrow(() -> new MessageListenerException(
-                                              "In the @PushConsumer Annotation is the subject"
-                                                  + " attribute "
-                                                  + "missing for the method " + method));
+                                          .orElse(null);
+        if (subject == null && !hasFilterSubjects) {
+            throw new MessageListenerException("In the @PushConsumer Annotation is the subject attribute"
+                + " or the filterSubjects attribute missing for the method " + method);
+        }
         String streamName = pushConsumer.getValue(String.class)
                                         .filter(StringUtils::isNotEmpty)
                                         .orElseThrow(() -> new MessageListenerException(

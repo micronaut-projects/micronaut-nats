@@ -41,6 +41,9 @@ public abstract class Mirror<T extends SubjectTransformBase, E extends External>
                 .subjectTransforms(subjectTransforms.stream().map(SubjectTransformBase::build)
                     .toList());
         }
+        if (domain != null) {
+            builder = builder.domain(domain);
+        }
         if (external != null) {
             builder = builder.external(external.build());
         }
