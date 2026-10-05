@@ -168,7 +168,6 @@ class KeyValueSpec extends AbstractJetstreamTest {
         @Inject
         @KeyValueStore('examplebucket2')
         KeyValue exampleBucket2
-        KeyValue keyValueBucket
 
         @Inject
         @KeyValueStore('m-examplebucket')
