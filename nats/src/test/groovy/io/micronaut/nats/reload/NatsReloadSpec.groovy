@@ -27,6 +27,12 @@ import io.nats.client.JetStreamManagement
 import io.nats.client.Message
 import io.nats.client.api.AckPolicy
 import io.nats.client.api.PublishAck
+import io.micronaut.context.annotation.Factory
+import io.micronaut.context.event.BeanCreatedEvent
+import io.micronaut.context.event.BeanCreatedEventListener
+import io.micronaut.core.bind.ArgumentBinder
+import io.micronaut.core.convert.ArgumentConversionContext
+import io.micronaut.nats.bind.NatsTypeArgumentBinder
 import jakarta.inject.Singleton
 import org.testcontainers.containers.GenericContainer
 import org.testcontainers.containers.wait.strategy.Wait
@@ -34,6 +40,7 @@ import spock.lang.Specification
 import spock.util.concurrent.PollingConditions
 
 import java.util.concurrent.CopyOnWriteArrayList
+import java.util.concurrent.atomic.AtomicInteger
 
 /**
  * The development reloader against a NATS server with JetStream.
@@ -285,6 +292,58 @@ class NatsReloadSpec extends Specification {
         conditions.eventually { assert context.getBean(ReloadPushListener).received == ['one'] }
     }
 
+    void "in development mode a definition of a bean whose listener is on a method only, registered while running, restarts the consumers"() {
+        given:
+        devContext(true)
+        NatsConsumerAdvice advice = context.getBean(NatsConsumerAdvice)
+        MethodListener listener = context.getBean(MethodListener)
+        Dispatcher first = dispatcher()
+        BeanDefinition<?> definition = context.getBeanDefinition(MethodListener)
+
+        when: 'the launcher swaps the definition of a bean that has @Subject on a method and no listener annotation'
+        ((DefaultBeanContext) context).notifyDefinitionChange([definition], [definition])
+
+        then: 'the consumers restart on a new advice, and the bean is new'
+        !first.active
+        !context.getBean(NatsConsumerAdvice).is(advice)
+        !context.getBean(MethodListener).is(listener)
+
+        when:
+        sendBoth('one')
+
+        then:
+        conditions.eventually { assert context.getBean(ReloadListener).received == ['one'] }
+    }
+
+    void "in development mode a definition of a bean that is both a serializer and a binder restarts the consumers once"() {
+        given:
+        devContext(true)
+        BeanDefinition<?> definition = context.getBeanDefinition(SerDesAndBinder)
+        int created = AdviceCreations.count.get()
+
+        when:
+        ((DefaultBeanContext) context).notifyDefinitionChange([definition], [definition])
+
+        then: 'the consumer advice was created again exactly once'
+        AdviceCreations.count.get() == created + 1
+        dispatcher().active
+    }
+
+    void "in development mode an in-place change of a factory that produces a serializer recreates the registries"() {
+        given:
+        devContext(true)
+        NatsMessageSerDesRegistry serDes = context.getBean(NatsMessageSerDesRegistry)
+        NatsConsumerAdvice advice = context.getBean(NatsConsumerAdvice)
+
+        when:
+        context.publishEvent(classChange([] as Set, [new ClassChange(SerDesFactory.name, ClassChange.Kind.MODIFIED)], ReloadStrategy.RELOAD))
+
+        then:
+        !context.getBean(NatsMessageSerDesRegistry).is(serDes)
+        !context.getBean(NatsConsumerAdvice).is(advice)
+        dispatcher().active
+    }
+
     private void devContext(boolean track) {
         context = ApplicationContext.builder()
             .properties(properties() + ['micronaut.dev.enabled': true])
@@ -375,6 +434,81 @@ class NatsReloadSpec extends Specification {
         @Override
         boolean supports(Argument<UUID> type) {
             return type.type == UUID
+        }
+    }
+
+    @Singleton
+    @Requires(property = 'spec.name', value = 'NatsReloadSpec')
+    static class MethodListener {
+        @Subject('devreload.method')
+        void receive(String value) {
+        }
+    }
+
+    @Singleton
+    @Requires(property = 'spec.name', value = 'NatsReloadSpec')
+    static class SerDesAndBinder implements NatsMessageSerDes<Locale>, NatsTypeArgumentBinder<Locale> {
+        @Override
+        Locale deserialize(Message message, Argument<Locale> type) {
+            return Locale.forLanguageTag(new String(message.data))
+        }
+
+        @Override
+        byte[] serialize(Locale data) {
+            return data?.toLanguageTag()?.bytes
+        }
+
+        @Override
+        boolean supports(Argument<Locale> type) {
+            return type.type == Locale
+        }
+
+        @Override
+        Argument<Locale> argumentType() {
+            return Argument.of(Locale)
+        }
+
+        @Override
+        ArgumentBinder.BindingResult<Locale> bind(ArgumentConversionContext<Locale> conversionContext, Message source) {
+            return ArgumentBinder.BindingResult.UNSATISFIED
+        }
+    }
+
+    @Factory
+    @Requires(property = 'spec.name', value = 'NatsReloadSpec')
+    static class SerDesFactory {
+        @Singleton
+        FactorySerDes serDes() {
+            return new FactorySerDes()
+        }
+    }
+
+    static class FactorySerDes implements NatsMessageSerDes<Currency> {
+        @Override
+        Currency deserialize(Message message, Argument<Currency> type) {
+            return Currency.getInstance(new String(message.data))
+        }
+
+        @Override
+        byte[] serialize(Currency data) {
+            return data?.currencyCode?.bytes
+        }
+
+        @Override
+        boolean supports(Argument<Currency> type) {
+            return type.type == Currency
+        }
+    }
+
+    @Singleton
+    @Requires(property = 'spec.name', value = 'NatsReloadSpec')
+    static class AdviceCreations implements BeanCreatedEventListener<NatsConsumerAdvice> {
+        static final AtomicInteger count = new AtomicInteger()
+
+        @Override
+        NatsConsumerAdvice onCreated(BeanCreatedEvent<NatsConsumerAdvice> event) {
+            count.incrementAndGet()
+            return event.bean
         }
     }
 }

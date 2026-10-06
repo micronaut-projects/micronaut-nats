@@ -17,6 +17,7 @@ package io.micronaut.nats.intercept;
 
 import io.micronaut.context.BeanContext;
 import io.micronaut.context.BeanRegistration;
+import io.micronaut.context.Qualifier;
 import io.micronaut.context.WatchableBeanContext;
 import io.micronaut.context.annotation.Context;
 import io.micronaut.context.annotation.Requires;
@@ -27,12 +28,13 @@ import io.micronaut.context.reload.ReloadStrategy;
 import io.micronaut.context.watch.BeanDefinitionChange;
 import io.micronaut.context.watch.BeanDefinitionWatcher;
 import io.micronaut.context.watch.ClassChangeWatcher;
+import io.micronaut.core.annotation.AnnotationMetadata;
 import io.micronaut.core.annotation.Internal;
 import io.micronaut.core.order.Ordered;
 import io.micronaut.inject.BeanDefinition;
 import io.micronaut.inject.BeanDefinitionReference;
+import io.micronaut.inject.BeanType;
 import io.micronaut.inject.ExecutableMethod;
-import io.micronaut.inject.qualifiers.Qualifiers;
 import io.micronaut.nats.annotation.NatsClient;
 import io.micronaut.nats.annotation.NatsListener;
 import io.micronaut.nats.annotation.Subject;
@@ -54,6 +56,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Stream;
 
 /**
  * Keeps the NATS consumers, JetStream push consumers, publishers and serializers in step with the code in
@@ -61,12 +64,14 @@ import java.util.Set;
  * published.
  *
  * <ul>
- *     <li>A {@link NatsListener} or {@link JetStreamListener} bean definition registered or removed, or a listener
+ *     <li>A definition of a listener bean, with {@link NatsListener}, {@link JetStreamListener}, {@link Subject} or
+ *     {@link PushConsumer} on the class or on a method, registered or removed, or a listener
  *     class changed in place, restarts the consumers: the changed listener beans are recreated, then the
  *     {@link NatsConsumerAdvice} and the {@link JetStreamPushConsumerAdvice}, which close the dispatcher of every
  *     consumer they started.</li>
  *     <li>A {@link NatsMessageSerDes}, {@link NatsArgumentBinder}, {@link NatsClient} or {@link JetStreamClient}
- *     definition registered or removed, a class of one of them, or of a registry, changed in place, or a class change
+ *     definition registered or removed, a class of one of them, of a registry, or of a factory that produces one,
+ *     changed in place, or a class change
  *     applied in place that retires a classloader, recreates the serializer registry, the binder registry, the
  *     {@link NatsIntroductionAdvice} and the {@link JetStreamIntroductionAdvice}, which cache the publisher state by
  *     method. The beans that received them, the client beans and the consumer advices among them, are destroyed with
@@ -102,7 +107,7 @@ final class DevelopmentNatsReloader {
     /**
      * The class stereotypes of a listener.
      */
-    private static final List<Class<? extends Annotation>> LISTENERS = List.of(NatsListener.class, JetStreamListener.class);
+    private static final List<Class<? extends Annotation>> LISTENER_CLASSES = List.of(NatsListener.class, JetStreamListener.class);
 
     /**
      * The stereotypes of a listener, on the class or a method.
@@ -130,6 +135,17 @@ final class DevelopmentNatsReloader {
      */
     private static final List<Class<?>> PROCESSORS = List.of(NatsConsumerAdvice.class, JetStreamPushConsumerAdvice.class);
 
+    /**
+     * The listener beans: a {@link NatsListener}, {@link JetStreamListener}, {@link Subject} or {@link PushConsumer}
+     * on the class, or on an executable method.
+     */
+    private static final Qualifier<Object> LISTENERS = new ListenerQualifier();
+
+    /**
+     * The beans the registries are built from: the serializers, the binders, their registries and the clients.
+     */
+    private static final Qualifier<Object> REGISTERED = new RegisteredQualifier();
+
     private final BeanContext beanContext;
 
     /**
@@ -138,14 +154,9 @@ final class DevelopmentNatsReloader {
     DevelopmentNatsReloader(BeanContext beanContext) {
         this.beanContext = beanContext;
         if (beanContext instanceof WatchableBeanContext watchable) {
-            for (Class<? extends Annotation> listener : LISTENERS) {
-                watchable.watchDefinitions(Object.class, Qualifiers.byStereotype(listener), new ListenerDefinitionsWatcher());
-            }
-            for (Class<? extends Annotation> client : CLIENTS) {
-                watchable.watchDefinitions(Object.class, Qualifiers.byStereotype(client), new RegistryDefinitionsWatcher<>());
-            }
-            watchable.watchDefinitions(NatsMessageSerDes.class, null, new RegistryDefinitionsWatcher<>());
-            watchable.watchDefinitions(NatsArgumentBinder.class, null, new RegistryDefinitionsWatcher<>());
+            watchable.watchDefinitions(Object.class, LISTENERS, new ListenerDefinitionsWatcher());
+            // one watch, so that a bean that is several of these, such as a serializer that is a binder too, restarts once
+            watchable.watchDefinitions(Object.class, REGISTERED, new RegistryDefinitionsWatcher());
             watchable.watchClassChanges(new ClassWatcher());
         }
     }
@@ -192,7 +203,7 @@ final class DevelopmentNatsReloader {
         if (type == null) {
             return false;
         }
-        if (hasAnnotation(type.getAnnotations(), LISTENERS)) {
+        if (hasAnnotation(type.getAnnotations(), LISTENER_CLASSES)) {
             return true;
         }
         try {
@@ -271,18 +282,56 @@ final class DevelopmentNatsReloader {
     }
 
     /**
-     * Whether the class a change replaces was a serializer, a binder or a registry bean as the context was compiled.
+     * Whether the class a change replaces was a serializer, a binder, a registry or a client bean as the context was
+     * compiled, or a factory that produced one: a product of a factory is defined by {@code $Factory$...$Definition},
+     * whose bean type is the product and whose declaring type is the factory.
      */
     private boolean wasRegistered(String className) {
         for (BeanDefinitionReference<?> reference : definitionsOf(className)) {
             try {
-                Class<?> beanType = reference.getBeanType();
-                for (Class<?> registeredType : REGISTERED_TYPES) {
-                    if (registeredType.isAssignableFrom(beanType)) {
-                        return true;
-                    }
+                if (isRegisteredBean(reference)) {
+                    return true;
                 }
             } catch (RuntimeException | LinkageError e) {
+                return true;
+            }
+        }
+        int lastDot = className.lastIndexOf('.');
+        String products = className.substring(0, lastDot + 1) + '$' + className.substring(lastDot + 1) + '$';
+        for (BeanDefinitionReference<?> reference : beanContext.getBeanDefinitionReferences()) {
+            String name = reference.getBeanDefinitionName();
+            if (!name.startsWith(products) || !name.endsWith("$Definition")) {
+                continue;
+            }
+            try {
+                if (!isRegisteredBean(reference)) {
+                    continue;
+                }
+                // the name alone matches a nested class too: the declaring type tells the product of this factory
+                BeanDefinition<?> definition = reference.load();
+                if (definition == null || definition.getDeclaringType().map(Class::getName).filter(className::equals).isPresent()) {
+                    return true;
+                }
+            } catch (RuntimeException | LinkageError e) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Whether a bean is one the registries are built from: a serializer, a binder, a registry of them, or a client.
+     */
+    private static boolean isRegisteredBean(BeanType<?> candidate) {
+        Class<?> beanType = candidate.getBeanType();
+        for (Class<?> registeredType : REGISTERED_TYPES) {
+            if (registeredType.isAssignableFrom(beanType)) {
+                return true;
+            }
+        }
+        AnnotationMetadata metadata = candidate.getAnnotationMetadata();
+        for (Class<? extends Annotation> client : CLIENTS) {
+            if (metadata.hasStereotype(client)) {
                 return true;
             }
         }
@@ -324,11 +373,9 @@ final class DevelopmentNatsReloader {
         List<Object> beans = new ArrayList<>();
         if (!listeners.isEmpty()) {
             Set<String> names = new HashSet<>(listeners);
-            for (Class<? extends Annotation> listener : LISTENERS) {
-                for (BeanRegistration<?> registration : beanContext.getActiveBeanRegistrations(Qualifiers.byStereotype(listener))) {
-                    if (names.contains(registration.getBeanDefinition().getBeanType().getName())) {
-                        add(beans, registration.bean());
-                    }
+            for (BeanRegistration<?> registration : beanContext.getActiveBeanRegistrations(LISTENERS)) {
+                if (names.contains(registration.getBeanDefinition().getBeanType().getName())) {
+                    add(beans, registration.bean());
                 }
             }
         }
@@ -398,14 +445,83 @@ final class DevelopmentNatsReloader {
     }
 
     /**
-     * Recreates the registries when a serializer, binder or client definition is registered or removed. The first
-     * batch is what they were built from.
-     *
-     * @param <T> The watched type
+     * Selects the listener beans, whether the listener stereotype is on the class or only on a method. The class
+     * metadata of a bean is read first, which needs nothing loaded. The methods are read only for a bean that requires
+     * method processing, as a bean whose methods a consumer advice receives does; that skips the executable methods of
+     * every other bean, and the class that holds them. A reference, which has no methods to read, is kept when it
+     * requires method processing.
      */
-    private final class RegistryDefinitionsWatcher<T> implements BeanDefinitionWatcher<T>, Ordered {
+    private static final class ListenerQualifier implements Qualifier<Object> {
         @Override
-        public void onChange(BeanDefinitionChange<T> change) {
+        public <B extends BeanType<Object>> Stream<B> reduce(Class<Object> beanType, Stream<B> candidates) {
+            return candidates.filter(ListenerQualifier::isListenerBean);
+        }
+
+        @Override
+        public boolean doesQualify(Class<Object> beanType, BeanType<Object> candidate) {
+            return isListenerBean(candidate);
+        }
+
+        private static boolean isListenerBean(BeanType<?> candidate) {
+            if (hasStereotype(candidate.getAnnotationMetadata())) {
+                return true;
+            }
+            if (!candidate.requiresMethodProcessing()) {
+                return false;
+            }
+            if (!(candidate instanceof BeanDefinition<?> definition)) {
+                return true;
+            }
+            for (ExecutableMethod<?, ?> method : definition.getExecutableMethods()) {
+                if (hasStereotype(method.getAnnotationMetadata())) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private static boolean hasStereotype(AnnotationMetadata metadata) {
+            for (Class<? extends Annotation> stereotype : LISTENER_STEREOTYPES) {
+                if (metadata.hasStereotype(stereotype)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        @Override
+        public String toString() {
+            return "listeners";
+        }
+    }
+
+    /**
+     * Selects the beans the registries are built from: a serializer, a binder, a registry of them, or a client.
+     */
+    private static final class RegisteredQualifier implements Qualifier<Object> {
+        @Override
+        public <B extends BeanType<Object>> Stream<B> reduce(Class<Object> beanType, Stream<B> candidates) {
+            return candidates.filter(DevelopmentNatsReloader::isRegisteredBean);
+        }
+
+        @Override
+        public boolean doesQualify(Class<Object> beanType, BeanType<Object> candidate) {
+            return isRegisteredBean(candidate);
+        }
+
+        @Override
+        public String toString() {
+            return "serializers, binders and clients";
+        }
+    }
+
+    /**
+     * Recreates the registries when a serializer, binder, registry or client definition is registered or removed. The
+     * first batch is what they were built from.
+     */
+    private final class RegistryDefinitionsWatcher implements BeanDefinitionWatcher<Object>, Ordered {
+        @Override
+        public void onChange(BeanDefinitionChange<Object> change) {
             if (!ignored(change)) {
                 restartConsumers(true, List.of(), names(change) + " registered or removed");
             }
