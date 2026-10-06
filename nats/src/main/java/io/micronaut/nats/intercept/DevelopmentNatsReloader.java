@@ -207,9 +207,12 @@ final class DevelopmentNatsReloader {
             return true;
         }
         try {
-            for (Method method : type.getMethods()) {
-                if (hasAnnotation(method.getAnnotations(), LISTENER_STEREOTYPES)) {
-                    return true;
+            // declared methods, of every visibility, through the hierarchy: a listener method need not be public
+            for (Class<?> current = type; current != null && current != Object.class; current = current.getSuperclass()) {
+                for (Method method : current.getDeclaredMethods()) {
+                    if (hasAnnotation(method.getAnnotations(), LISTENER_STEREOTYPES)) {
+                        return true;
+                    }
                 }
             }
         } catch (LinkageError e) {

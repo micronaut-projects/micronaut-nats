@@ -1,5 +1,6 @@
 package io.micronaut.nats.reload
 
+import groovy.transform.PackageScope
 import io.micronaut.context.ApplicationContext
 import io.micronaut.context.DefaultBeanContext
 import io.micronaut.context.annotation.Requires
@@ -344,6 +345,22 @@ class NatsReloadSpec extends Specification {
         dispatcher().active
     }
 
+    void "in development mode an in-place change of a class with a listener annotation on a package-private method restarts the consumers"() {
+        given:
+        devContext(true)
+        NatsConsumerAdvice advice = context.getBean(NatsConsumerAdvice)
+
+        expect: 'no bean definition says the class is a listener: only the redefined class does'
+        !context.getBeanDefinitions(PackagePrivateSubject).any()
+
+        when:
+        context.publishEvent(classChange([] as Set, [new ClassChange(PackagePrivateSubject.name, ClassChange.Kind.MODIFIED)], ReloadStrategy.RELOAD))
+
+        then:
+        !context.getBean(NatsConsumerAdvice).is(advice)
+        dispatcher().active
+    }
+
     private void devContext(boolean track) {
         context = ApplicationContext.builder()
             .properties(properties() + ['micronaut.dev.enabled': true])
@@ -380,6 +397,16 @@ class NatsReloadSpec extends Specification {
 
     private ClassChangeEvent classChange(Set<ClassLoader> retired, List<ClassChange> changes, ReloadStrategy strategy) {
         return new ClassChangeEvent(this, 1, retired, NatsReloadSpec.classLoader, changes, strategy)
+    }
+
+    /**
+     * As a class redefined in place could be, with a listener annotation newly on a package-private method.
+     */
+    static class PackagePrivateSubject {
+        @PackageScope
+        @Subject('devreload.package-private')
+        void receive(String value) {
+        }
     }
 
     @NatsListener
