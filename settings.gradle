@@ -49,6 +49,7 @@ include 'docs-examples:example-java'
 include 'docs-examples:example-kotlin'
 include 'docs-examples:example-python'
 include 'test-suite-nats-utils'
+include 'test-suite-dev-reload'
 
 enableFeaturePreview 'TYPESAFE_PROJECT_ACCESSORS'
 
