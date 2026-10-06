@@ -48,13 +48,15 @@ import java.util.regex.Pattern;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Runs an application with a NATS listener and a JetStream push consumer through the development runtime, against a
  * NATS server, and edits the listeners. A change applied in place restarts the consumers on the new listeners; the
- * restart closes the connection and the dispatchers of the retired generation as its context stops, and nothing of
- * them keeps the retired generation reachable.
+ * restart closes the dispatchers of the retired generation as its context stops, and the next generation subscribes on
+ * the same connection, which development mode retains until a change under {@code nats} releases it. Nothing of the
+ * retired generation stays reachable.
  */
 class NatsReloadTest {
 
@@ -181,14 +183,20 @@ class NatsReloadTest {
             harness.source("example.PushListener", PUSH_LISTENER.formatted(STREAM, JS_SUBJECT, "second"));
             List<String> firstCore = received(harness.context(), "example.Listener");
             List<String> firstPush = received(harness.context(), "example.PushListener");
+            Connection retained = harness.context().getBean(Connection.class);
+            JetStream retainedJetStream = harness.context().getBean(JetStream.class);
             long reloadStart = System.nanoTime();
             harness.reload();
             assertEquals(2, harness.generation());
             assertReloaderPresent(harness.context());
 
-            // the retired context closed its connection as it stopped
-            awaitTrue("the server has the one connection of the second generation", () -> connections() == baseline + 1);
-            System.out.println("The server had the one connection of the second generation " + millisSince(reloadStart) + " ms after the reload started");
+            // the second generation subscribes on the connection of the first: the server never saw another one
+            ReloadTck.assertRetained(harness, retained);
+            ReloadTck.assertRetained(harness, retainedJetStream);
+            assertSame(retained, harness.context().getBean(Connection.class));
+            assertSame(retainedJetStream, harness.context().getBean(JetStream.class));
+            assertEquals(Connection.Status.CONNECTED, retained.getStatus());
+            assertEquals(baseline + 1, connections(), "the server has the one retained connection");
             publish(connection, jetStream, "two");
             awaitTrue("the second generation receives", () -> received(harness.context(), "example.Listener").contains("second two")
                 && received(harness.context(), "example.PushListener").contains("second two"));
@@ -200,10 +208,61 @@ class NatsReloadTest {
             assertEquals(subscriptions, subscriptions(), "the server has as many subscriptions as before the restart");
             ReloadTck.assertFollowsReload(harness, context -> bean(context, "example.Listener"));
 
-            // neither the dispatchers of the first generation, its connection, nor the development-only reloader keep it reachable
+            // neither the dispatchers of the first generation, the retained connection, nor the development-only reloader keep it reachable
             ReloadTck.assertRetiredGenerationsCollected(harness);
             management.deleteStream(STREAM);
         }
+    }
+
+    @Test
+    void aChangeUnderTheNatsPrefixReleasesTheRetainedConnection() throws Exception {
+        String address = "nats://" + nats.getHost() + ":" + nats.getMappedPort(CLIENT_PORT);
+        try (Connection connection = Nats.connect(address);
+             ReloadHarness harness = ReloadHarness.inDirectory(project)) {
+            JetStreamManagement management = connection.jetStreamManagement();
+            JetStream jetStream = connection.jetStream();
+            int baseline = connections();
+
+            harness.property("nats.default.addresses", address);
+            harness.property("nats.default.jetstream.streams." + STREAM + ".storage-type", "Memory");
+            harness.property("nats.default.jetstream.streams." + STREAM + ".subjects", "devreload.js.>");
+            harness.source("example.Listener", LISTENER.formatted(SUBJECT, "first"));
+            harness.source("example.PushListener", PUSH_LISTENER.formatted(STREAM, JS_SUBJECT, "first"));
+            harness.start();
+            awaitTrue("the first generation connected", () -> connections() == baseline + 1);
+            Connection first = harness.context().getBean(Connection.class);
+            JetStream firstJetStream = harness.context().getBean(JetStream.class);
+
+            // the connection configuration changes, together with a class, so the application restarts
+            harness.resource("application.properties", properties(address, "PT17S"));
+            harness.source("example.Listener", LISTENER.formatted(SUBJECT, "second"));
+            harness.source("example.PushListener", PUSH_LISTENER.formatted(STREAM, JS_SUBJECT, "second"));
+            harness.reload();
+            assertEquals(2, harness.generation());
+
+            Connection second = harness.context().getBean(Connection.class);
+            assertNotSame(first, second);
+            assertNotSame(firstJetStream, harness.context().getBean(JetStream.class));
+            assertEquals(Connection.Status.CLOSED, first.getStatus(), "the released connection is closed");
+            assertEquals(Duration.ofSeconds(17), second.getOptions().getPingInterval());
+            first = null;
+            firstJetStream = null;
+            awaitTrue("the server has the one connection of the second generation", () -> connections() == baseline + 1);
+
+            publish(connection, jetStream, "two");
+            awaitTrue("the second generation receives on its connection", () -> received(harness.context(), "example.Listener").equals(List.of("second two"))
+                && received(harness.context(), "example.PushListener").equals(List.of("second two")));
+            ReloadTck.assertRetiredGenerationsCollected(harness);
+            management.deleteStream(STREAM);
+        }
+    }
+
+    private static String properties(String address, String pingInterval) {
+        // as the harness wrote them at the start, with the ping interval
+        return "nats.default.addresses=" + address + "\n"
+            + "nats.default.jetstream.streams." + STREAM + ".storage-type=Memory\n"
+            + "nats.default.jetstream.streams." + STREAM + ".subjects=devreload.js.>\n"
+            + "nats.default.ping-interval=" + pingInterval + "\n";
     }
 
     private static void publish(Connection connection, JetStream jetStream, String value) throws Exception {

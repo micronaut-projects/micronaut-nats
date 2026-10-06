@@ -18,8 +18,10 @@ package io.micronaut.nats.jetstream;
 import io.micronaut.context.BeanContext;
 import io.micronaut.context.annotation.EachBean;
 import io.micronaut.context.annotation.Factory;
-import io.micronaut.inject.qualifiers.Qualifiers;
+import io.micronaut.context.annotation.Parameter;
+import io.micronaut.context.annotation.Retain;
 import io.micronaut.nats.connect.NatsConnectionFactoryConfig;
+import io.micronaut.scheduling.executor.ExecutorConfiguration;
 import io.nats.client.Connection;
 import io.nats.client.JetStream;
 import io.nats.client.JetStreamApiException;
@@ -40,23 +42,37 @@ import java.io.IOException;
 @Factory
 public class JetStreamFactory {
 
-    private final BeanContext beanContext;
-
+    /**
+     * Creates the factory. It holds nothing bound to the context: the JetStream beans receive their connection, so
+     * that development mode can retain them, with the connection, across a restart.
+     *
+     * @since 5.2.0
+     */
     @Inject
+    public JetStreamFactory() {
+    }
+
+    /**
+     * @param beanContext The bean context, not used
+     * @deprecated The JetStream beans receive their connection, use {@link #JetStreamFactory()}
+     */
+    @Deprecated(since = "5.2.0")
     public JetStreamFactory(BeanContext beanContext) {
-        this.beanContext = beanContext;
+        this();
     }
 
     /**
      * @param config The jetstream configuration
+     * @param connection The connection of the configuration
      * @return The jetstream management
      * @throws IOException in case of communication issue
      */
     @Singleton
     @EachBean(NatsConnectionFactoryConfig.class)
-    JetStreamManagement jetStreamManagement(NatsConnectionFactoryConfig config) throws IOException {
+    @Retain(invalidatedBy = {NatsConnectionFactoryConfig.PREFIX, ExecutorConfiguration.PREFIX_CONSUMER})
+    JetStreamManagement jetStreamManagement(NatsConnectionFactoryConfig config, @Parameter Connection connection) throws IOException {
         if (config.getJetstream() != null) {
-            return getConnectionByName(config.getName()).jetStreamManagement(
+            return connection.jetStreamManagement(
                     config.getJetstream().toJetStreamOptions());
         }
         return null;
@@ -64,25 +80,25 @@ public class JetStreamFactory {
 
     /**
      * @param config The jetstream configuration
+     * @param connection The connection of the configuration
      * @return The jetstream
      * @throws IOException           in case of communication issue
      * @throws JetStreamApiException the request had an error related to the data
      */
     @Singleton
     @EachBean(NatsConnectionFactoryConfig.class)
-    JetStream jetStream(NatsConnectionFactoryConfig config) throws IOException, JetStreamApiException {
+    @Retain(invalidatedBy = {NatsConnectionFactoryConfig.PREFIX, ExecutorConfiguration.PREFIX_CONSUMER})
+    JetStream jetStream(NatsConnectionFactoryConfig config, @Parameter Connection connection) throws IOException, JetStreamApiException {
         if (config.getJetstream() != null) {
-            Connection connection = getConnectionByName(config.getName());
-
-            createOrUpdateStreams(config);
+            createOrUpdateStreams(config, connection);
 
             return connection.jetStream(config.getJetstream().toJetStreamOptions());
         }
         return null;
     }
 
-    private void createOrUpdateStreams(NatsConnectionFactoryConfig config) throws IOException, JetStreamApiException {
-        final JetStreamManagement jetStreamManagement = getConnectionByName(config.getName()).jetStreamManagement(
+    private void createOrUpdateStreams(NatsConnectionFactoryConfig config, Connection connection) throws IOException, JetStreamApiException {
+        final JetStreamManagement jetStreamManagement = connection.jetStreamManagement(
             config.getJetstream().toJetStreamOptions());
 
         // initialize the given stream configurations
@@ -113,11 +129,5 @@ public class JetStreamFactory {
         } else {
             jetStreamManagement.addStream(streamConfiguration);
         }
-    }
-
-    private Connection getConnectionByName(String connectionName) {
-        return beanContext.findBean(Connection.class, Qualifiers.byName(connectionName))
-                          .orElseThrow(() -> new IllegalStateException(
-                              "No nats connection found for " + connectionName));
     }
 }
