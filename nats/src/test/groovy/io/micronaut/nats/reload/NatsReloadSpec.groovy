@@ -365,7 +365,7 @@ class NatsReloadSpec extends Specification {
         context = ApplicationContext.builder()
             .properties(properties() + ['micronaut.dev.enabled': true])
             .environments("test")
-            .trackBeanDependencies(track)
+            .beanDependencyTrackingEnabled(track)
             .start()
     }
 
@@ -396,7 +396,7 @@ class NatsReloadSpec extends Specification {
     }
 
     private ClassChangeEvent classChange(Set<ClassLoader> retired, List<ClassChange> changes, ReloadStrategy strategy) {
-        return new ClassChangeEvent(this, 1, retired, NatsReloadSpec.classLoader, changes, strategy)
+        return new ClassChangeEvent(this, retired, NatsReloadSpec.classLoader, changes, strategy)
     }
 
     /**

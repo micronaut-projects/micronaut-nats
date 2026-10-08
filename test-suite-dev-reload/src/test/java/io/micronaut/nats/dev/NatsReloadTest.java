@@ -301,7 +301,7 @@ class NatsReloadTest {
     private static void changedInPlace(ReloadHarness harness, String... classNames) {
         ApplicationContext context = harness.context();
         List<ClassChange> changes = java.util.Arrays.stream(classNames).map(name -> new ClassChange(name, ClassChange.Kind.MODIFIED)).toList();
-        context.publishEvent(new ClassChangeEvent(NatsReloadTest.class, harness.generation(), Set.of(), context.getClassLoader(), changes, ReloadStrategy.RELOAD));
+        context.publishEvent(new ClassChangeEvent(NatsReloadTest.class, Set.of(), context.getClassLoader(), changes, ReloadStrategy.RELOAD));
     }
 
     private static void awaitTrue(String what, BooleanSupplier condition) throws InterruptedException {
