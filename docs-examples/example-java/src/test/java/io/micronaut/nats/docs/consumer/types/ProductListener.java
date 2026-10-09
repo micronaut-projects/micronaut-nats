@@ -27,9 +27,9 @@ public class ProductListener {
             Connection connection,
             Subscription subscription,
             Headers headers) { // <1>
-        messages.add(String.format("subject: [%s], maxPayload: [%s], pendingMessageCount: [%s], x-productCount: [%s]",
+        messages.add(String.format("subject: [%s], maxPayload: [%s], subscriptionSubject: [%s], x-productCount: [%s]",
                 message.getSubject(),
-                connection.getMaxPayload(), subscription.getPendingMessageCount(),
+                connection.getMaxPayload(), subscription.getSubject(),
                 headers.get("x-product-count").get(0)));
     }
 }

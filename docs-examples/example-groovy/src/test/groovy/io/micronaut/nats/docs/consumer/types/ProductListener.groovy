@@ -27,7 +27,7 @@ class ProductListener {
                  Subscription subscription,
                  Headers headers) { // <1>
         def count = headers.get("x-product-count").get(0)
-        messages << "subject: [$message.subject], maxPayload: [$connection.maxPayload], pendingMessageCount: [$subscription.pendingMessageCount], x-productCount: [$count]".toString()
+        messages << "subject: [$message.subject], maxPayload: [$connection.maxPayload], subscriptionSubject: [$subscription.subject], x-productCount: [$count]".toString()
 
     }
 }

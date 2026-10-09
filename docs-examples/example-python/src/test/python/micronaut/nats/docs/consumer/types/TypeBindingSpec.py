@@ -25,9 +25,9 @@ class TypeBindingSpec:
         # end::producer[]
 
         expected = [
-            "subject: [product], maxPayload: [1048576], pendingMessageCount: [0], x-productCount: [20]",
-            "subject: [product], maxPayload: [1048576], pendingMessageCount: [0], x-productCount: [30]",
-            "subject: [product], maxPayload: [1048576], pendingMessageCount: [0], x-productCount: [40]",
+            "subject: [product], maxPayload: [1048576], subscriptionSubject: [product], x-productCount: [20]",
+            "subject: [product], maxPayload: [1048576], subscriptionSubject: [product], x-productCount: [30]",
+            "subject: [product], maxPayload: [1048576], subscriptionSubject: [product], x-productCount: [40]",
         ]
         for _ in range(600):
             if len(self.product_listener.messages) == 3:
