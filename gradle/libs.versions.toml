@@ -1,10 +1,10 @@
 [versions]
-micronaut = "5.2.13"
-micronaut-platform = "5.2.1"
+micronaut = "5.2.15"
+micronaut-platform = "5.2.2"
 micronaut-gradle-plugin = "5.0.2"
 
 awaitility = '4.3.0'
-bouncycastle = '2.73.12.1'
+bouncycastle = '2.73.13'
 nats = '2.26.2'
 
 micronaut-micrometer = "6.1.0"
