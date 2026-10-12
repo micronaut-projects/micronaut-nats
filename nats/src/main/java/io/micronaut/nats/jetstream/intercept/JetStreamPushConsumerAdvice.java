@@ -199,8 +199,12 @@ public class JetStreamPushConsumerAdvice
         try {
             PushSubscribeOptions options = buildConsumerConfiguration(streamName, pushConsumer);
 
-            Optional<String> queueOptional = pushConsumer.get("queue", String.class);
-            if (queueOptional.isPresent() && !queueOptional.get().isEmpty()) {
+            Optional<String> queueOptional = pushConsumer.stringValue("queue")
+                                                         .filter(StringUtils::isNotEmpty)
+                                                         .or(() -> listenerAnnotation.get()
+                                                                                     .stringValue("queue")
+                                                                                     .filter(StringUtils::isNotEmpty));
+            if (queueOptional.isPresent()) {
                 subscriptions.add(
                     jetStream.subscribe(subject, queueOptional.get(), ds, messageHandler, autoAck,
                         options));
