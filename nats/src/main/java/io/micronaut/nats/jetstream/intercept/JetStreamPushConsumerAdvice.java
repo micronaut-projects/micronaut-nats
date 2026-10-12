@@ -60,10 +60,12 @@ import jakarta.inject.Singleton;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -89,7 +91,7 @@ public class JetStreamPushConsumerAdvice
 
     private final ApplicationConfiguration applicationConfiguration;
 
-    private final Map<String, StaticConsumerState> consumers = new ConcurrentHashMap<>();
+    private final Map<String, List<StaticConsumerState>> consumers = new ConcurrentHashMap<>();
 
     private final AtomicInteger clientIdGenerator = new AtomicInteger(10);
 
@@ -222,7 +224,8 @@ public class JetStreamPushConsumerAdvice
                 "An error occurred binding the message to the method", e, bean));
         }
 
-        consumers.put(clientId, new StaticConsumerState(clientId, subscriptions, ds, connection));
+        consumers.computeIfAbsent(clientId, k -> new CopyOnWriteArrayList<>())
+                 .add(new StaticConsumerState(clientId, subscriptions, ds, connection));
     }
 
     private boolean determineAckMode(ExecutableMethod<?, ?> method, Optional<AckPolicy> ackPolicy) {
@@ -351,9 +354,9 @@ public class JetStreamPushConsumerAdvice
     @PreDestroy
     @Override
     public void close() {
-        for (StaticConsumerState consumerState : consumers.values()) {
-            if (consumerState.getConnection().getStatus() != Connection.Status.CLOSED) {
-                consumerState.getConnection().closeDispatcher(consumerState.getDispatcher());
+        for (List<StaticConsumerState> consumerStates : consumers.values()) {
+            for (StaticConsumerState consumerState : consumerStates) {
+                consumerState.close();
             }
         }
         consumers.clear();
