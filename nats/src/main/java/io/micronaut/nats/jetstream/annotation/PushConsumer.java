@@ -172,6 +172,9 @@ public @interface PushConsumer {
     String description() default "";
 
     /**
+     * The queue (deliver group) of the consumer. If empty, the {@link JetStreamListener#queue()}
+     * of the listener is used.
+     *
      * @return the queue of the consumer
      */
     String queue() default "";
