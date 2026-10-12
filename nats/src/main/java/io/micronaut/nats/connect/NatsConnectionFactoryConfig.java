@@ -26,6 +26,8 @@ import io.nats.client.JetStreamOptions;
 import io.nats.client.Nats;
 import io.nats.client.Options;
 
+import javax.net.ssl.KeyManager;
+import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManagerFactory;
 import java.io.BufferedInputStream;
@@ -54,6 +56,7 @@ import static io.nats.client.Options.DEFAULT_URL;
 
 /**
  * Base class for nats to be configured.
+ *
  * @author jgrimm
  * @since 1.0.0
  */
@@ -75,6 +78,8 @@ public class NatsConnectionFactoryConfig {
 
     private Duration pingInterval = DEFAULT_PING_INTERVAL;
 
+    private Duration socketWriteTimeout = Options.DEFAULT_SOCKET_WRITE_TIMEOUT;
+
     private long reconnectBufferSize = DEFAULT_RECONNECT_BUF_SIZE;
 
     private String inboxPrefix = DEFAULT_INBOX_PREFIX;
@@ -95,6 +100,24 @@ public class NatsConnectionFactoryConfig {
 
     @Nullable
     private JetStreamConfiguration jetstream;
+
+    /**
+     * Further connection options of {@link Options.Builder}. Options which are covered by the explicit properties of
+     * this class, or which require a runtime object (executors, listeners, handlers, factories), are excluded.
+     */
+    @ConfigurationBuilder(prefixes = "", allowZeroArgs = true, excludes = {
+        // covered by explicit properties
+        "server", "servers", "connectionName", "maxReconnects", "reconnectWait", "connectionTimeout", "pingInterval",
+        "reconnectBufferSize", "inboxPrefix", "socketWriteTimeout", "noEcho", "supportUTF8Subjects", "token", "tokenSupplier", "userInfo",
+        "authHandler", "credentialPath", "sslContext", "sslContextFactory", "secure", "opentls",
+        "keystorePath", "keystorePassword", "truststorePath", "truststorePassword", "tlsAlgorithm",
+        // runtime objects
+        "properties", "executor", "callbackExecutor", "connectExecutor", "readerExecutor", "writerExecutor",
+        "scheduledExecutor", "callbackThreadFactory", "connectThreadFactory", "readerThreadFactory",
+        "writerThreadFactory", "connectionListener", "errorListener", "readListener", "statisticsCollector",
+        "timeTraceLogger", "dispatcherFactory", "serverPool", "proxy", "reconnectDelayHandler",
+        "httpRequestInterceptor", "httpRequestInterceptors", "build"})
+    private Builder builder = new Builder();
 
     /**
      * Default constructor.
@@ -134,24 +157,10 @@ public class NatsConnectionFactoryConfig {
     }
 
     /**
-     * @param username the username
-     */
-    public void setUsername(@Nullable String username) {
-        this.username = username;
-    }
-
-    /**
      * @return the password for the connection
      */
     public Optional<String> getPassword() {
         return Optional.ofNullable(password);
-    }
-
-    /**
-     * @param password the password
-     */
-    public void setPassword(@Nullable String password) {
-        this.password = password;
     }
 
     /**
@@ -162,24 +171,10 @@ public class NatsConnectionFactoryConfig {
     }
 
     /**
-     * @param token the token
-     */
-    public void setToken(String token) {
-        this.token = token;
-    }
-
-    /**
      * @return the max reconnection tries
      */
     public int getMaxReconnect() {
         return maxReconnect;
-    }
-
-    /**
-     * @param maxReconnect times to try reconnect
-     */
-    public void setMaxReconnect(int maxReconnect) {
-        this.maxReconnect = maxReconnect;
     }
 
     /**
@@ -190,24 +185,10 @@ public class NatsConnectionFactoryConfig {
     }
 
     /**
-     * @param reconnectWait time to wait
-     */
-    public void setReconnectWait(Duration reconnectWait) {
-        this.reconnectWait = reconnectWait;
-    }
-
-    /**
      * @return maximum time for initial connection
      */
     public Duration getConnectionTimeout() {
         return connectionTimeout;
-    }
-
-    /**
-     * @param connectionTimeout maximumTime for inital connection
-     */
-    public void setConnectionTimeout(Duration connectionTimeout) {
-        this.connectionTimeout = connectionTimeout;
     }
 
     /**
@@ -218,24 +199,10 @@ public class NatsConnectionFactoryConfig {
     }
 
     /**
-     * @param pingInterval time between server pings
-     */
-    public void setPingInterval(Duration pingInterval) {
-        this.pingInterval = pingInterval;
-    }
-
-    /**
      * @return size of the buffer, in bytes, used to store publish messages during reconnect
      */
     public long getReconnectBufferSize() {
         return reconnectBufferSize;
-    }
-
-    /**
-     * @param reconnectBufferSize size of the buffer, in bytes, used to store publish messages during reconnect
-     */
-    public void setReconnectBufferSize(long reconnectBufferSize) {
-        this.reconnectBufferSize = reconnectBufferSize;
     }
 
     /**
@@ -246,24 +213,10 @@ public class NatsConnectionFactoryConfig {
     }
 
     /**
-     * @param inboxPrefix custom prefix for request/reply inboxes
-     */
-    public void setInboxPrefix(String inboxPrefix) {
-        this.inboxPrefix = inboxPrefix;
-    }
-
-    /**
      * @return whether or not to block echo messages, messages that were sent by this connection
      */
     public boolean isNoEcho() {
         return noEcho;
-    }
-
-    /**
-     * @param noEcho enable or disable echo messages, messages that are sent by this connection back to this connection
-     */
-    public void setNoEcho(boolean noEcho) {
-        this.noEcho = noEcho;
     }
 
     /**
@@ -274,17 +227,95 @@ public class NatsConnectionFactoryConfig {
     }
 
     /**
-     * @param utf8Support whether or not the client should support for UTF8 subject names
-     */
-    public void setUtf8Support(boolean utf8Support) {
-        this.utf8Support = utf8Support;
-    }
-
-    /**
      * @return path to the credentials file to use for authentication with an account enabled server
      */
     public String getCredentials() {
         return credentials;
+    }
+
+    /**
+     * @param username the username
+     */
+    public void setUsername(@Nullable String username) {
+        this.username = username;
+    }
+
+    /**
+     * @param password the password
+     */
+    public void setPassword(@Nullable String password) {
+        this.password = password;
+    }
+
+    /**
+     * @param token the token
+     */
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    /**
+     * @param maxReconnect times to try reconnect
+     */
+    public void setMaxReconnect(int maxReconnect) {
+        this.maxReconnect = maxReconnect;
+    }
+
+    /**
+     * @param reconnectWait time to wait
+     */
+    public void setReconnectWait(Duration reconnectWait) {
+        this.reconnectWait = reconnectWait;
+    }
+
+    /**
+     * @param connectionTimeout maximumTime for inital connection
+     */
+    public void setConnectionTimeout(Duration connectionTimeout) {
+        this.connectionTimeout = connectionTimeout;
+    }
+
+    /**
+     * @param pingInterval time between server pings
+     */
+    public void setPingInterval(Duration pingInterval) {
+        this.pingInterval = pingInterval;
+    }
+
+    /**
+     * @param socketWriteTimeout the timeout for writing to the socket
+     * @since 5.2.0
+     */
+    public void setSocketWriteTimeout(Duration socketWriteTimeout) {
+        this.socketWriteTimeout = socketWriteTimeout;
+    }
+
+    /**
+     * @param reconnectBufferSize size of the buffer, in bytes, used to store publish messages during reconnect
+     */
+    public void setReconnectBufferSize(long reconnectBufferSize) {
+        this.reconnectBufferSize = reconnectBufferSize;
+    }
+
+    /**
+     * @param inboxPrefix custom prefix for request/reply inboxes
+     */
+    public void setInboxPrefix(String inboxPrefix) {
+        this.inboxPrefix = inboxPrefix;
+    }
+
+    /**
+     * @param noEcho enable or disable echo messages, messages that are sent by this connection back to this connection
+     */
+    public void setNoEcho(boolean noEcho) {
+        this.noEcho = noEcho;
+    }
+
+    /**
+     * @param utf8Support whether or not the client should support for UTF8 subject names
+     */
+    public void setUtf8Support(boolean utf8Support) {
+        this.utf8Support = utf8Support;
     }
 
     /**
@@ -302,13 +333,16 @@ public class NatsConnectionFactoryConfig {
     }
 
     /**
+     * Every call returns a new builder, containing the explicit properties of this configuration as well as the
+     * further options configured on {@link #getBuilder()}.
+     *
      * @return NATS options builder based on this set of properties, useful if other settings are required before
      * connect is called
-     * @throws IOException if there is a problem reading a file or setting up the SSL context
+     * @throws IOException              if there is a problem reading a file or setting up the SSL context
      * @throws GeneralSecurityException if there is a problem setting up the SSL context
      */
     public Builder toOptionsBuilder() throws IOException, GeneralSecurityException {
-        Builder builder = new Builder();
+        Builder builder = this.builder;
 
         builder = builder.servers(this.addresses.toArray(new String[0]));
         builder = builder.maxReconnects(this.maxReconnect);
@@ -316,6 +350,7 @@ public class NatsConnectionFactoryConfig {
         builder = builder.connectionTimeout(this.connectionTimeout);
         builder = builder.connectionName(this.name);
         builder = builder.pingInterval(this.pingInterval);
+        builder = builder.socketWriteTimeout(this.socketWriteTimeout);
         builder = builder.reconnectBufferSize(this.reconnectBufferSize);
         builder = builder.inboxPrefix(this.inboxPrefix);
 
@@ -339,6 +374,18 @@ public class NatsConnectionFactoryConfig {
             builder.sslContext(this.tls.createTlsContext());
         }
 
+        // return an independent builder, so changes of the caller do not leak into this configuration
+        return new Builder(builder.build());
+    }
+
+    /**
+     * get the options builder holding the further configured connection options. Use
+     * {@link #toOptionsBuilder()} to obtain the complete options for a connection.
+     *
+     * @return the options builder
+     * @since 5.2.0
+     */
+    public Builder getBuilder() {
         return builder;
     }
 
@@ -355,6 +402,7 @@ public class NatsConnectionFactoryConfig {
     /**
      * @param jetstream the jestream configuration
      */
+    @ConfigurationProperties("jetstream")
     public void setJetstream(@Nullable JetStreamConfiguration jetstream) {
         this.jetstream = jetstream;
     }
@@ -373,12 +421,11 @@ public class NatsConnectionFactoryConfig {
 
         private String certificatePath;
 
-        /**
-         * @return file path for the trust store
-         */
-        public String getTrustStorePath() {
-            return this.trustStorePath;
-        }
+        private String keyStorePath;
+
+        private String keyStorePassword;
+
+        private String keyStoreType;
 
         /**
          * @param trustStorePath file path for the trust store
@@ -388,24 +435,10 @@ public class NatsConnectionFactoryConfig {
         }
 
         /**
-         * @return password used to unlock the trust store
-         */
-        public String getTrustStorePassword() {
-            return this.trustStorePassword;
-        }
-
-        /**
          * @param trustStorePassword used to unlock the trust store
          */
         public void setTrustStorePassword(String trustStorePassword) {
             this.trustStorePassword = trustStorePassword;
-        }
-
-        /**
-         * @return type of keystore to use for connections
-         */
-        public String getTrustStoreType() {
-            return this.trustStoreType;
         }
 
         /**
@@ -417,6 +450,34 @@ public class NatsConnectionFactoryConfig {
         }
 
         /**
+         * @param certificatePath the path to the certificate
+         */
+        public void setCertificatePath(String certificatePath) {
+            this.certificatePath = certificatePath;
+        }
+
+        /**
+         * @return file path for the trust store
+         */
+        public String getTrustStorePath() {
+            return this.trustStorePath;
+        }
+
+        /**
+         * @return password used to unlock the trust store
+         */
+        public String getTrustStorePassword() {
+            return this.trustStorePassword;
+        }
+
+        /**
+         * @return type of keystore to use for connections
+         */
+        public String getTrustStoreType() {
+            return this.trustStoreType;
+        }
+
+        /**
          * @return the certificate path
          */
         public String getCertificatePath() {
@@ -424,41 +485,71 @@ public class NatsConnectionFactoryConfig {
         }
 
         /**
-         * @param certificatePath the path to the certificate
+         * @param keyStorePath file path for the key store holding the client certificate and key (mutual TLS)
+         * @since 5.2.0
          */
-        public void setCertificatePath(String certificatePath) {
-            this.certificatePath = certificatePath;
+        public void setKeyStorePath(@Nullable String keyStorePath) {
+            this.keyStorePath = keyStorePath;
+        }
+
+        /**
+         * @param keyStorePassword used to unlock the key store and its key
+         * @since 5.2.0
+         */
+        public void setKeyStorePassword(@Nullable String keyStorePassword) {
+            this.keyStorePassword = keyStorePassword;
+        }
+
+        /**
+         * @param keyStoreType the type of the key store, defaults to {@link KeyStore#getDefaultType()}
+         * @since 5.2.0
+         */
+        public void setKeyStoreType(@Nullable String keyStoreType) {
+            this.keyStoreType = keyStoreType;
         }
 
         private SSLContext createTlsContext() throws IOException, GeneralSecurityException {
             SSLContext ctx = SSLContext.getInstance(DEFAULT_SSL_PROTOCOL);
 
-            TrustManagerFactory factory =
-                TrustManagerFactory.getInstance(
-                    Optional.ofNullable(trustStoreType).orElse("SunX509"));
+            TrustManagerFactory factory = TrustManagerFactory.getInstance(Optional.ofNullable(trustStoreType)
+                .orElse("SunX509"));
             KeyStore ks = KeyStore.getInstance(KeyStore.getDefaultType());
             if (trustStorePath != null && !trustStorePath.isEmpty()) {
-                try (BufferedInputStream in = new BufferedInputStream(
-                    Files.newInputStream(Paths.get(trustStorePath)))) {
+                try (BufferedInputStream in = new BufferedInputStream(Files.newInputStream(Paths.get(trustStorePath)))) {
                     ks.load(in, Optional.ofNullable(trustStorePassword)
-                                        .map(String::toCharArray)
-                                        .orElse(new char[0]));
+                        .map(String::toCharArray)
+                        .orElse(new char[0]));
                 }
             } else {
                 ks.load(null);
             }
             if (certificatePath != null && !certificatePath.isEmpty()) {
-                try (BufferedInputStream in = new BufferedInputStream(
-                    Files.newInputStream(Paths.get(certificatePath)))) {
+                try (BufferedInputStream in = new BufferedInputStream(Files.newInputStream(Paths.get(certificatePath)))) {
                     CertificateFactory cf = CertificateFactory.getInstance("X.509");
                     X509Certificate cert = (X509Certificate) cf.generateCertificate(in);
                     ks.setCertificateEntry("nats", cert);
                 }
             }
             factory.init(ks);
-            ctx.init(null, factory.getTrustManagers(), new SecureRandom());
+            ctx.init(createKeyManagers(), factory.getTrustManagers(), new SecureRandom());
 
             return ctx;
+        }
+
+        private KeyManager @Nullable [] createKeyManagers() throws IOException, GeneralSecurityException {
+            if (keyStorePath == null || keyStorePath.isEmpty()) {
+                return null;
+            }
+            char[] password = Optional.ofNullable(keyStorePassword)
+                .map(String::toCharArray)
+                .orElse(new char[0]);
+            KeyStore ks = KeyStore.getInstance(Optional.ofNullable(keyStoreType).orElse(KeyStore.getDefaultType()));
+            try (BufferedInputStream in = new BufferedInputStream(Files.newInputStream(Paths.get(keyStorePath)))) {
+                ks.load(in, password);
+            }
+            KeyManagerFactory factory = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
+            factory.init(ks, password);
+            return factory.getKeyManagers();
         }
 
     }
@@ -472,9 +563,8 @@ public class NatsConnectionFactoryConfig {
     @ConfigurationProperties("jetstream")
     public static class JetStreamConfiguration {
 
-        @ConfigurationBuilder(prefixes = "")
-        private JetStreamOptions.Builder builder =
-            JetStreamOptions.builder(JetStreamOptions.defaultOptions());
+        @ConfigurationBuilder(prefixes = "", excludes = {"build"})
+        private JetStreamOptions.Builder builder = JetStreamOptions.builder(JetStreamOptions.defaultOptions());
 
         private List<StreamConfiguration> streams = new ArrayList<>();
 
@@ -560,16 +650,24 @@ public class NatsConnectionFactoryConfig {
         @EachProperty(value = "streams")
         public static class StreamConfiguration {
 
-            @ConfigurationBuilder(prefixes = "", excludes = {"addSubjects", "addSources", "addSource", "name",
-                "subjects", "build"})
-            private io.nats.client.api.StreamConfiguration.Builder builder =
-                io.nats.client.api.StreamConfiguration.builder();
-
             private final String name;
-
+            @ConfigurationBuilder(prefixes = "", excludes = {"addSubjects", "addSources", "addSource", "name", "subjects", "build", "placement", "subjectTransform", "republish", "mirror", "sources", "consumerLimits"})
+            private io.nats.client.api.StreamConfiguration.Builder builder = io.nats.client.api.StreamConfiguration.builder();
             private List<String> subjects;
 
             private boolean createOrUpdate = true;
+
+            private Placement placement;
+
+            private SubjectTransform subjectTransform;
+
+            private Mirror mirror;
+
+            private List<Source> sources;
+
+            private Republish republish;
+
+            private ConsumerLimits consumerLimits;
 
             public StreamConfiguration(@Parameter String name) {
                 this.name = name;
@@ -591,16 +689,29 @@ public class NatsConnectionFactoryConfig {
              * @return nats stream configuration
              */
             public io.nats.client.api.StreamConfiguration toStreamConfiguration() {
-                return builder.name(name).subjects(subjects).build();
-            }
-
-            /**
-             * get the subjects of the stream.
-             *
-             * @return the subjects
-             */
-            public List<String> getSubjects() {
-                return subjects;
+                io.nats.client.api.StreamConfiguration.Builder streamBuilder = builder.name(name)
+                    .subjects(subjects);
+                if (sources != null) {
+                    streamBuilder = streamBuilder.sources(sources.stream()
+                        .map(io.micronaut.nats.connect.Source::build)
+                        .toList());
+                }
+                if (mirror != null) {
+                    streamBuilder = streamBuilder.mirror(mirror.build());
+                }
+                if (republish != null) {
+                    streamBuilder = streamBuilder.republish(republish.build());
+                }
+                if (consumerLimits != null) {
+                    streamBuilder = streamBuilder.consumerLimits(consumerLimits.build());
+                }
+                if (placement != null) {
+                    streamBuilder = streamBuilder.placement(placement.build());
+                }
+                if (subjectTransform != null) {
+                    streamBuilder = streamBuilder.subjectTransform(subjectTransform.build());
+                }
+                return streamBuilder.build();
             }
 
             /**
@@ -610,6 +721,15 @@ public class NatsConnectionFactoryConfig {
              */
             public void setSubjects(List<String> subjects) {
                 this.subjects = subjects;
+            }
+
+            /**
+             * get the subjects of the stream.
+             *
+             * @return the subjects
+             */
+            public List<String> getSubjects() {
+                return subjects;
             }
 
             /**
@@ -631,6 +751,163 @@ public class NatsConnectionFactoryConfig {
             public void setCreateOrUpdate(boolean createOrUpdate) {
                 this.createOrUpdate = createOrUpdate;
             }
+
+            /**
+             * the Placement.
+             *
+             * @param placement {@link Placement}
+             */
+            public void setPlacement(Placement placement) {
+                this.placement = placement;
+            }
+
+            /**
+             * The Subject Transform.
+             *
+             * @param subjectTransform SubjectTransform
+             */
+            public void setSubjectTransform(SubjectTransform subjectTransform) {
+                this.subjectTransform = subjectTransform;
+            }
+
+            /**
+             * The mirror.
+             *
+             * @param mirror {@link Mirror}
+             */
+            public void setMirror(Mirror mirror) {
+                this.mirror = mirror;
+            }
+
+            /**
+             * Sources.
+             *
+             * @param sources list of sources
+             */
+            public void setSources(List<Source> sources) {
+                this.sources = sources;
+            }
+
+            /**
+             * Republish.
+             *
+             * @param republish {@link Republish}
+             */
+            public void setRepublish(Republish republish) {
+                this.republish = republish;
+            }
+
+            /**
+             * Consumer Limits.
+             *
+             * @param consumerLimits {@link ConsumerLimits}
+             */
+            public void setConsumerLimits(ConsumerLimits consumerLimits) {
+                this.consumerLimits = consumerLimits;
+            }
+
+            /**
+             * Placement.
+             *
+             * @author Joachim Grimm
+             * @since 4.8.0
+             */
+            @ConfigurationProperties("placement")
+            public static class Placement extends io.micronaut.nats.connect.Placement {
+            }
+
+            /**
+             * Subject Transform.
+             *
+             * @author Joachim Grimm
+             * @since 4.8.0
+             */
+            @ConfigurationProperties("subject-transform")
+            public static class SubjectTransform extends SubjectTransformBase {
+            }
+
+            /**
+             * Republish.
+             *
+             * @author Joachim Grimm
+             * @since 4.8.0
+             */
+            @ConfigurationProperties("republish")
+            public static class Republish extends io.micronaut.nats.connect.Republish {
+            }
+
+            /**
+             * Republish.
+             *
+             * @author Joachim Grimm
+             * @since 4.8.0
+             */
+            @ConfigurationProperties("consumer-limits")
+            public static class ConsumerLimits extends io.micronaut.nats.connect.ConsumerLimits {
+            }
+
+            /**
+             * Mirror.
+             *
+             * @author Joachim Grimm
+             * @since 4.8.0
+             */
+            @ConfigurationProperties("mirror")
+            public static class Mirror extends io.micronaut.nats.connect.Mirror<Mirror.SubjectTransform, Mirror.External> {
+
+                /**
+                 * Subject transformations.
+                 *
+                 * @author Joachim Grimm
+                 * @since 4.8.0
+                 */
+                @EachProperty(value = "subject-transforms", list = true)
+                public static class SubjectTransform extends SubjectTransformBase {
+                }
+
+                /**
+                 * External.
+                 *
+                 * @author Joachim Grimm
+                 * @since 4.1.0
+                 */
+                @ConfigurationProperties("external")
+                public static class External extends io.micronaut.nats.connect.External {
+
+                }
+            }
+
+            /**
+             * Source.
+             *
+             * @author Joachim Grimm
+             * @since 4.8.0
+             */
+            @EachProperty(value = "sources", list = true)
+            public static class Source extends io.micronaut.nats.connect.Source<Source.SubjectTransform, Source.External> {
+
+                /**
+                 * Subject transformations.
+                 *
+                 * @author Joachim Grimm
+                 * @since 4.8.0
+                 */
+                @EachProperty(value = "subject-transforms", list = true)
+                public static class SubjectTransform extends SubjectTransformBase {
+                }
+
+                /**
+                 * External.
+                 *
+                 * @author Joachim Grimm
+                 * @since 4.1.0
+                 */
+                @ConfigurationProperties("external")
+                public static class External extends io.micronaut.nats.connect.External {
+
+                }
+            }
+
         }
 
 
@@ -641,10 +918,17 @@ public class NatsConnectionFactoryConfig {
         public static class KeyValueConfiguration {
 
             private final String name;
-            @ConfigurationBuilder(prefixes = "", excludes = {"addSources", "addSource", "name",
-                "sources", "build"})
-            private io.nats.client.api.KeyValueConfiguration.Builder builder =
-                io.nats.client.api.KeyValueConfiguration.builder();
+
+            private Placement placement;
+
+            private Mirror mirror;
+
+            private List<Source> sources;
+
+            @ConfigurationBuilder(prefixes = "", excludes = {"addSources", "addSource", "name", "sources", "build", "placement", "republish", "mirror"})
+            private io.nats.client.api.KeyValueConfiguration.Builder builder = io.nats.client.api.KeyValueConfiguration.builder();
+
+            private Republish republish;
 
             private boolean createOrUpdate = true;
 
@@ -668,7 +952,60 @@ public class NatsConnectionFactoryConfig {
              * @return nats key value configuration
              */
             public io.nats.client.api.KeyValueConfiguration toKeyValueConfiguration() {
-                return builder.name(name).build();
+                io.nats.client.api.KeyValueConfiguration.Builder keyValueBuilder = builder
+                    .name(name);
+                if (sources != null) {
+                    keyValueBuilder = keyValueBuilder
+                        .sources(sources.stream()
+                            .map(io.micronaut.nats.connect.Source::build)
+                            .toList());
+                }
+                if (mirror != null) {
+                    keyValueBuilder = keyValueBuilder.mirror(mirror.build());
+                }
+                if (republish != null) {
+                    keyValueBuilder = keyValueBuilder.republish(republish.build());
+                }
+                if (placement != null) {
+                    keyValueBuilder = keyValueBuilder.placement(placement.build());
+                }
+                return keyValueBuilder.build();
+            }
+
+            /**
+             * the Placement.
+             *
+             * @param placement {@link Placement}
+             */
+            public void setPlacement(Placement placement) {
+                this.placement = placement;
+            }
+
+            /**
+             * The mirror.
+             *
+             * @param mirror Mirror
+             */
+            public void setMirror(Mirror mirror) {
+                this.mirror = mirror;
+            }
+
+            /**
+             * sources.
+             *
+             * @param sources list of sources
+             */
+            public void setSources(List<Source> sources) {
+                this.sources = sources;
+            }
+
+            /**
+             * Republish.
+             *
+             * @param republish {@link Republish}
+             */
+            public void setRepublish(Republish republish) {
+                this.republish = republish;
             }
 
             /**
@@ -690,6 +1027,88 @@ public class NatsConnectionFactoryConfig {
             public void setCreateOrUpdate(boolean createOrUpdate) {
                 this.createOrUpdate = createOrUpdate;
             }
+
+            /**
+             * Placement.
+             *
+             * @author Joachim Grimm
+             * @since 4.8.0
+             */
+            @ConfigurationProperties("placement")
+            public static class Placement extends io.micronaut.nats.connect.Placement {
+            }
+
+            /**
+             * Republish.
+             *
+             * @author Joachim Grimm
+             * @since 4.8.0
+             */
+            @ConfigurationProperties("republish")
+            public static class Republish extends io.micronaut.nats.connect.Republish {
+            }
+
+            /**
+             * Mirror.
+             *
+             * @author Joachim Grimm
+             * @since 4.8.0
+             */
+            @ConfigurationProperties("mirror")
+            public static class Mirror extends io.micronaut.nats.connect.Mirror<Mirror.SubjectTransform, Mirror.External> {
+
+                /**
+                 * Subject transformations.
+                 *
+                 * @author Joachim Grimm
+                 * @since 4.8.0
+                 */
+                @EachProperty(value = "subject-transforms", list = true)
+                public static class SubjectTransform extends SubjectTransformBase {
+                }
+
+                /**
+                 * External.
+                 *
+                 * @author Joachim Grimm
+                 * @since 4.1.0
+                 */
+                @ConfigurationProperties("external")
+                public static class External extends io.micronaut.nats.connect.External {
+
+                }
+            }
+
+            /**
+             * Sources.
+             *
+             * @author Joachim Grimm
+             * @since 4.8.0
+             */
+            @EachProperty(value = "sources", list = true)
+            public static class Source extends io.micronaut.nats.connect.Source<Source.SubjectTransform, Source.External> {
+
+                /**
+                 * Subject transformations.
+                 *
+                 * @author Joachim Grimm
+                 * @since 4.8.0
+                 */
+                @EachProperty(value = "subject-transforms", list = true)
+                public static class SubjectTransform extends SubjectTransformBase {
+                }
+
+                /**
+                 * External.
+                 *
+                 * @author Joachim Grimm
+                 * @since 4.1.0
+                 */
+                @ConfigurationProperties("external")
+                public static class External extends io.micronaut.nats.connect.External {
+
+                }
+            }
         }
 
         /**
@@ -700,9 +1119,11 @@ public class NatsConnectionFactoryConfig {
         public static class ObjectStoreConfiguration {
 
             private final String name;
-            @ConfigurationBuilder(prefixes = "", excludes = { "name", "build"})
-            private io.nats.client.api.ObjectStoreConfiguration.Builder builder =
-                io.nats.client.api.ObjectStoreConfiguration.builder();
+
+            private Placement placement;
+
+            @ConfigurationBuilder(prefixes = "", excludes = {"name", "build", "placement"})
+            private io.nats.client.api.ObjectStoreConfiguration.Builder builder = io.nats.client.api.ObjectStoreConfiguration.builder();
 
             private boolean create = true;
 
@@ -720,13 +1141,26 @@ public class NatsConnectionFactoryConfig {
             }
 
             /**
+             * the Placement.
+             *
+             * @param placement {@link Placement}
+             */
+            public void setPlacement(Placement placement) {
+                this.placement = placement;
+            }
+
+            /**
              * return the configuration as
              * {@link io.nats.client.api.ObjectStoreConfiguration}.
              *
              * @return nats object store configuration
              */
             public io.nats.client.api.ObjectStoreConfiguration toObjectStoreConfiguration() {
-                return builder.name(name).build();
+                io.nats.client.api.ObjectStoreConfiguration.Builder objectStoreBuilder = builder.name(name);
+                if (placement != null) {
+                    objectStoreBuilder = objectStoreBuilder.placement(placement.build());
+                }
+                return objectStoreBuilder.build();
             }
 
             /**
@@ -747,6 +1181,16 @@ public class NatsConnectionFactoryConfig {
              */
             public void setCreate(boolean create) {
                 this.create = create;
+            }
+
+            /**
+             * Placement.
+             *
+             * @author Joachim Grimm
+             * @since 4.8.0
+             */
+            @ConfigurationProperties("placement")
+            public static class Placement extends io.micronaut.nats.connect.Placement {
             }
         }
     }
