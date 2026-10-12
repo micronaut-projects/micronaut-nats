@@ -57,6 +57,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -82,7 +83,7 @@ public class NatsConsumerAdvice implements ExecutableMethodProcessor<Subject>, A
 
     private final ApplicationConfiguration applicationConfiguration;
 
-    private final Map<String, StaticConsumerState> consumers = new ConcurrentHashMap<>();
+    private final Map<String, List<StaticConsumerState>> consumers = new ConcurrentHashMap<>();
 
     private final AtomicInteger clientIdGenerator = new AtomicInteger(10);
 
@@ -195,14 +196,17 @@ public class NatsConsumerAdvice implements ExecutableMethodProcessor<Subject>, A
             }
         }
 
-        consumers.put(clientId, new StaticConsumerState(clientId, subscriptions, ds, connection));
+        consumers.computeIfAbsent(clientId, k -> new CopyOnWriteArrayList<>())
+                 .add(new StaticConsumerState(clientId, subscriptions, ds, connection));
     }
 
     @PreDestroy
     @Override
     public void close() {
-        for (StaticConsumerState consumerState : consumers.values()) {
-            consumerState.close();
+        for (List<StaticConsumerState> consumerStates : consumers.values()) {
+            for (StaticConsumerState consumerState : consumerStates) {
+                consumerState.close();
+            }
         }
         consumers.clear();
     }
@@ -219,7 +223,7 @@ public class NatsConsumerAdvice implements ExecutableMethodProcessor<Subject>, A
     @Override
     public Consumer getConsumer(@NonNull String id) {
         ArgumentUtils.requireNonNull("id", id);
-        Dispatcher dispatcher = getConsumerState(id).getDispatcher();
+        Dispatcher dispatcher = getConsumerStates(id).get(0).getDispatcher();
         if (dispatcher == null) {
             throw new IllegalArgumentException("No consumer found for ID:" + id);
         }
@@ -233,20 +237,23 @@ public class NatsConsumerAdvice implements ExecutableMethodProcessor<Subject>, A
     }
 
     @NonNull
-    private StaticConsumerState getConsumerState(@NonNull String id) {
-        StaticConsumerState consumerState = consumers.get(id);
-        if (consumerState == null) {
+    private List<StaticConsumerState> getConsumerStates(@NonNull String id) {
+        List<StaticConsumerState> consumerStates = consumers.get(id);
+        if (consumerStates == null || consumerStates.isEmpty()) {
             throw new IllegalArgumentException("No consumer found for ID: " + id);
         }
-        return consumerState;
+        return consumerStates;
     }
 
     @NonNull
     @Override
     public Set<Subscription> getConsumerSubscription(@NonNull final String id) {
         ArgumentUtils.requireNonNull("id", id);
-        final Set<Subscription> subscriptions = getConsumerState(id).getSubscriptions();
-        if (subscriptions == null || subscriptions.isEmpty()) {
+        final Set<Subscription> subscriptions = new HashSet<>();
+        for (StaticConsumerState consumerState : getConsumerStates(id)) {
+            subscriptions.addAll(consumerState.getSubscriptions());
+        }
+        if (subscriptions.isEmpty()) {
             throw new IllegalArgumentException("No consumer subscription found for ID: " + id);
         }
         return subscriptions;
