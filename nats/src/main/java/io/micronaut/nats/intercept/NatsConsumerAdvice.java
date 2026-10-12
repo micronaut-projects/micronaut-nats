@@ -165,22 +165,32 @@ public class NatsConsumerAdvice implements ExecutableMethodProcessor<Subject>, A
             }
 
             if (boundExecutable != null) {
-                Object returnedValue = boundExecutable.invoke(bean);
-                if (!isVoid && StringUtils.isNotEmpty(msg.getReplyTo())) {
-                    byte[] converted = null;
-                    if (returnedValue != null) {
-                        NatsMessageSerDes<Object> serDes =
-                            serDesRegistry.findSerdes(method.getReturnType().asArgument())
-                                          .map(NatsMessageSerDes.class::cast)
-                                          .orElseThrow(() -> new NatsListenerException(
-                                              String.format(
-                                                  "Could not find a serializer for the "
-                                                      + "body argument of type [%s]",
-                                                  returnedValue.getClass().getName()), bean,
-                                              msg));
-                        converted = serDes.serialize(returnedValue);
+                try {
+                    Object returnedValue = boundExecutable.invoke(bean);
+                    if (!isVoid && StringUtils.isNotEmpty(msg.getReplyTo())) {
+                        byte[] converted = null;
+                        if (returnedValue != null) {
+                            NatsMessageSerDes<Object> serDes =
+                                serDesRegistry.findSerdes(method.getReturnType().asArgument())
+                                              .map(NatsMessageSerDes.class::cast)
+                                              .orElseThrow(() -> new NatsListenerException(
+                                                  String.format(
+                                                      "Could not find a serializer for the "
+                                                          + "body argument of type [%s]",
+                                                      returnedValue.getClass().getName()), bean,
+                                                  msg));
+                            converted = serDes.serialize(returnedValue);
+                        }
+                        connection.publish(msg.getReplyTo(), converted);
                     }
-                    connection.publish(msg.getReplyTo(), converted);
+                } catch (NatsListenerException e) {
+                    handleException(e);
+                } catch (Exception e) {
+                    handleException(
+                        new NatsListenerException(
+                            "An error occurred processing the message",
+                            e, bean,
+                            msg));
                 }
             }
         };
