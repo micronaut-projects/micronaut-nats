@@ -2029,9 +2029,9 @@ public class ProductListener {
             Connection connection,
             Subscription subscription,
             Headers headers) { // <b class="conum">(1)</b>
-        messages.add(String.format("subject: [%s], maxPayload: [%s], pendingMessageCount: [%s], x-productCount: [%s]",
+        messages.add(String.format("subject: [%s], maxPayload: [%s], subscriptionSubject: [%s], x-productCount: [%s]",
                 message.getSubject(),
-                connection.getMaxPayload(), subscription.getPendingMessageCount(),
+                connection.getMaxPayload(), subscription.getSubject(),
                 headers.get("x-product-count").get(0)));
     }
 }</code></pre>
@@ -2053,7 +2053,7 @@ class ProductListener:
     def receive(self, data: bytes, message: Message, connection: Connection, subscription: Subscription, headers: Headers) -&gt; None:  # <b class="conum">(1)</b>
         self.messages.append(
             f"subject: [{message.getSubject()}], maxPayload: [{connection.getMaxPayload()}], "
-            f"pendingMessageCount: [{subscription.getPendingMessageCount()}], x-productCount: [{headers.get('x-product-count').get(0)}]"
+            f"subscriptionSubject: [{subscription.getSubject()}], x-productCount: [{headers.get('x-product-count').get(0)}]"
         )</code></pre>
 </div>
 </div>
@@ -2079,7 +2079,7 @@ class ProductListener {
                 connection: Connection,
                 subscription: Subscription,
                 headers: Headers) { // <b class="conum">(1)</b>
-        messages.add("subject: [${message.subject}], maxPayload: [${connection.maxPayload}], pendingMessageCount: [${subscription.pendingMessageCount}], x-productCount: [${headers["x-product-count"]!![0]}]")
+        messages.add("subject: [${message.subject}], maxPayload: [${connection.maxPayload}], subscriptionSubject: [${subscription.subject}], x-productCount: [${headers["x-product-count"]!![0]}]")
     }
 
 }</code></pre>
@@ -2109,7 +2109,7 @@ class ProductListener {
                  Subscription subscription,
                  Headers headers) { // <b class="conum">(1)</b>
         def count = headers.get("x-product-count").get(0)
-        messages &lt;&lt; "subject: [$message.subject], maxPayload: [$connection.maxPayload], pendingMessageCount: [$subscription.pendingMessageCount], x-productCount: [$count]".toString()
+        messages &lt;&lt; "subject: [$message.subject], maxPayload: [$connection.maxPayload], subscriptionSubject: [$subscription.subject], x-productCount: [$count]".toString()
 
     }
 }</code></pre>
