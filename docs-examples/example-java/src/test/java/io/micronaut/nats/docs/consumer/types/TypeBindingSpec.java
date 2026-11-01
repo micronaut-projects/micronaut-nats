@@ -28,9 +28,9 @@ class TypeBindingSpec implements TestPropertyProvider {
 
         await().atMost(60, SECONDS).until(() ->
                 productListener.messages.size() == 3 &&
-                productListener.messages.contains("subject: [product], maxPayload: [1048576], pendingMessageCount: [0], x-productCount: [20]") &&
-                productListener.messages.contains("subject: [product], maxPayload: [1048576], pendingMessageCount: [0], x-productCount: [30]") &&
-                productListener.messages.contains("subject: [product], maxPayload: [1048576], pendingMessageCount: [0], x-productCount: [40]")
+                productListener.messages.contains("subject: [product], maxPayload: [1048576], subscriptionSubject: [product], x-productCount: [20]") &&
+                productListener.messages.contains("subject: [product], maxPayload: [1048576], subscriptionSubject: [product], x-productCount: [30]") &&
+                productListener.messages.contains("subject: [product], maxPayload: [1048576], subscriptionSubject: [product], x-productCount: [40]")
         );
     }
 

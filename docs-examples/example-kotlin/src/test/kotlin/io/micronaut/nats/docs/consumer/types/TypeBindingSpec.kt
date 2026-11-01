@@ -33,9 +33,9 @@ class TypeBindingSpec : BehaviorSpec(), TestPropertyProvider {
                 then("the message is consumed") {
                     eventually(10.seconds) {
                         productListener.messages.size shouldBe 3
-                        productListener.messages shouldContain "subject: [product], maxPayload: [1048576], pendingMessageCount: [0], x-productCount: [20]"
-                        productListener.messages shouldContain "subject: [product], maxPayload: [1048576], pendingMessageCount: [0], x-productCount: [30]"
-                        productListener.messages shouldContain "subject: [product], maxPayload: [1048576], pendingMessageCount: [0], x-productCount: [40]"
+                        productListener.messages shouldContain "subject: [product], maxPayload: [1048576], subscriptionSubject: [product], x-productCount: [20]"
+                        productListener.messages shouldContain "subject: [product], maxPayload: [1048576], subscriptionSubject: [product], x-productCount: [30]"
+                        productListener.messages shouldContain "subject: [product], maxPayload: [1048576], subscriptionSubject: [product], x-productCount: [40]"
                     }
                 }
             }
