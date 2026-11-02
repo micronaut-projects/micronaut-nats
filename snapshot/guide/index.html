@@ -611,6 +611,12 @@ class ProductListener {
 <td class="tableblock halign-left valign-top"><p class="tableblock">path to the credentials file to use for authentication with an account enabled server</p></td>
 <td class="tableblock halign-left valign-top"></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.socket-write-timeout</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.time.Duration</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">the timeout for writing to the socket</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
 </tbody>
 </table>
 <div class="admonitionblock note">
@@ -916,7 +922,453 @@ certificate-path = "/path/to/certificate.crt"</code></pre>
 </tr>
 <tr>
 <td><i class="conum" data-value="3"></i><b>3</b></td>
-<td>Or ou can use a single certificate for connecting to NATS securely.</td>
+<td>Or you can use a single certificate for connecting to NATS securely.</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>If the server requires a client certificate (mutual TLS), configure a key store holding the client certificate and its private key in addition:</p>
+</div>
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">nats.default.addresses[0]=tls://localhost:4222
+nats.default.tls.trust-store-path=/path/to/client.truststore.jks
+nats.default.tls.trust-store-password=secret
+nats.default.tls.key-store-path=/path/to/client.p12
+nats.default.tls.key-store-password=secret
+nats.default.tls.key-store-type=PKCS12</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">nats:
+  default:
+    addresses:
+      - "tls://localhost:4222"
+    tls:
+      trust-store-path: /path/to/client.truststore.jks
+      trust-store-password: secret
+      key-store-path: /path/to/client.p12 # <b class="conum">(1)</b>
+      key-store-password: secret # <b class="conum">(2)</b>
+      key-store-type: PKCS12 # <b class="conum">(3)</b></code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[nats.default]
+addresses = ["tls://localhost:4222"]
+
+[nats.default.tls]
+trust-store-path = "/path/to/client.truststore.jks"
+trust-store-password = "secret"
+key-store-path = "/path/to/client.p12"
+key-store-password = "secret"
+key-store-type = "PKCS12"</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">nats {
+  'default' {
+    addresses = ["tls://localhost:4222"]
+    tls {
+      trustStorePath = "/path/to/client.truststore.jks"
+      trustStorePassword = "secret"
+      keyStorePath = "/path/to/client.p12"
+      keyStorePassword = "secret"
+      keyStoreType = "PKCS12"
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  nats {
+    default {
+      addresses = ["tls://localhost:4222"]
+      tls {
+        trust-store-path = "/path/to/client.truststore.jks"
+        trust-store-password = "secret"
+        key-store-path = "/path/to/client.p12"
+        key-store-password = "secret"
+        key-store-type = "PKCS12"
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "nats": {
+    "default": {
+      "addresses": ["tls://localhost:4222"],
+      "tls": {
+        "trust-store-path": "/path/to/client.truststore.jks",
+        "trust-store-password": "secret",
+        "key-store-path": "/path/to/client.p12",
+        "key-store-password": "secret",
+        "key-store-type": "PKCS12"
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The key store with the client certificate and private key</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>The password of the key store, also used for the private key</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>The key store type, defaults to the JVM default key store type</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_further_connection_options">Further connection options</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Besides the options above, all options of the <a href="https://javadoc.io/doc/io.nats/jnats/latest/io/nats/client/Options.Builder.html">Options.Builder</a> which can be converted from a configuration value can be set directly underneath the connection. Options without an argument, such as <code>noRandomize()</code>, are enabled by setting them to <code>true</code>.</p>
+</div>
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">nats.default.addresses[0]=nats://localhost:4222
+nats.default.max-pings-out=5
+nats.default.no-randomize=true
+nats.default.request-cleanup-interval=10s
+nats.default.reconnect-jitter=200ms
+nats.default.max-messages-in-outgoing-queue=10000
+nats.default.discard-messages-when-outgoing-queue-full=true</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">nats:
+  default:
+    addresses:
+      - "nats://localhost:4222"
+    max-pings-out: 5
+    no-randomize: true
+    request-cleanup-interval: 10s
+    reconnect-jitter: 200ms
+    max-messages-in-outgoing-queue: 10000
+    discard-messages-when-outgoing-queue-full: true</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[nats.default]
+addresses = ["nats://localhost:4222"]
+max-pings-out = 5
+no-randomize = true
+request-cleanup-interval = "10s"
+reconnect-jitter = "200ms"
+max-messages-in-outgoing-queue = 10000
+discard-messages-when-outgoing-queue-full = true</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">nats {
+  'default' {
+    addresses = ["nats://localhost:4222"]
+    maxPingsOut = 5
+    noRandomize = true
+    requestCleanupInterval = "10s"
+    reconnectJitter = "200ms"
+    maxMessagesInOutgoingQueue = 10000
+    discardMessagesWhenOutgoingQueueFull = true
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  nats {
+    default {
+      addresses = ["nats://localhost:4222"]
+      max-pings-out = 5
+      no-randomize = true
+      request-cleanup-interval = "10s"
+      reconnect-jitter = "200ms"
+      max-messages-in-outgoing-queue = 10000
+      discard-messages-when-outgoing-queue-full = true
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "nats": {
+    "default": {
+      "addresses": ["nats://localhost:4222"],
+      "max-pings-out": 5,
+      "no-randomize": true,
+      "request-cleanup-interval": "10s",
+      "reconnect-jitter": "200ms",
+      "max-messages-in-outgoing-queue": 10000,
+      "discard-messages-when-outgoing-queue-full": true
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<a id="io.nats.client.Options$Builder" href="#io.nats.client.Options$Builder">&#128279;</a>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 2. Configuration Properties for <a href="../api/io/micronaut/io/nats/client/Options.Builder.html">Options$Builder</a></caption>
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Property</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+<th class="tableblock halign-left valign-top">Default value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.old-request-style</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.no-randomize</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.hostname-resolve-mode</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">io.nats.client.Options$HostnameResolveMode</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.subject-validation-type</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">io.nats.client.Options$SubjectValidationType</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.report-no-responders</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.no-headers</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.no-no-responders</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.client-side-limit-checks</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.verbose</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.pedantic</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.turn-on-advanced-stats</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.trace-connection</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.no-reconnect</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.reconnect-jitter</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.time.Duration</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.reconnect-jitter-tls</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.time.Duration</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.max-control-line</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">int</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.socket-read-timeout-millis</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">int</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.socket-so-linger</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">int</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.receive-buffer-size</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">int</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.send-buffer-size</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">int</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.request-cleanup-interval</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.time.Duration</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.write-queue-push-timeout</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.time.Duration</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.max-pings-out</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">int</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.buffer-size</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">int</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.reconnect-delay-behavior</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">io.nats.client.Options$ReconnectDelayBehavior</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.data-port-type</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.max-messages-in-outgoing-queue</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">int</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.discard-messages-when-outgoing-queue-full</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.ignore-discovered-servers</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.tls-first</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.use-timeout-exception</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.advanced-request-behavior</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.use-dispatcher-with-executor</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.dont-force-flush-on-request</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+</tbody>
+</table>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Options which require objects at runtime (for example executors, listeners or handlers) can only be set through a <a href="https://docs.micronaut.io/latest/api/io/micronaut/context/event/BeanCreatedEventListener.html">BeanCreatedEventListener</a> for the <code>io.micronaut.nats.connect.NatsConnectionFactoryConfig</code>, using <code>getBuilder()</code>.
+</td>
 </tr>
 </table>
 </div>
@@ -3508,6 +3960,265 @@ You can do a normal publish to the subject for unacknowledged delivery, though i
 <td class="tableblock halign-left valign-top"><p class="tableblock">create or update stream during startup.</p></td>
 <td class="tableblock halign-left valign-top"></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.sources</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.util.List</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Sources.</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+</tbody>
+</table>
+<a id="io.nats.client.api.StreamConfiguration$Builder" href="#io.nats.client.api.StreamConfiguration$Builder">&#128279;</a>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 2. Configuration Properties for <a href="../api/io/micronaut/io/nats/client/api/StreamConfiguration.Builder.html">StreamConfiguration$Builder</a></caption>
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Property</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+<th class="tableblock halign-left valign-top">Default value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.description</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.retention-policy</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">io.nats.client.api.RetentionPolicy</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.compression-option</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">io.nats.client.api.CompressionOption</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.max-consumers</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">long</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.max-messages</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">long</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.max-messages-per-subject</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">long</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.max-bytes</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">long</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.max-age</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.time.Duration</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.maximum-message-size</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">int</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.storage-type</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">io.nats.client.api.StorageType</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.replicas</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">int</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.no-ack</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.template-owner</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.discard-policy</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">io.nats.client.api.DiscardPolicy</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.duplicate-window</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.time.Duration</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.allow-rollup</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.allow-direct</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.mirror-direct</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.deny-delete</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.deny-purge</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.discard-new-per-subject</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.metadata</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.util.Map</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.first-sequence</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">long</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.subject-delete-marker-ttl</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.time.Duration</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.allow-message-ttl</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.allow-message-schedules</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.allow-message-counter</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.allow-atomic-publish</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.allow-batched</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.persist-mode</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">io.nats.client.api.PersistMode</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>The options of the <a href="https://javadoc.io/doc/io.nats/jnats/latest/io/nats/client/JetStreamOptions.Builder.html">JetStreamOptions.Builder</a> are configured underneath <code>jetstream</code>:</p>
+</div>
+<a id="io.nats.client.JetStreamOptions$Builder" href="#io.nats.client.JetStreamOptions$Builder">&#128279;</a>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 3. Configuration Properties for <a href="../api/io/micronaut/io/nats/client/JetStreamOptions.Builder.html">JetStreamOptions$Builder</a></caption>
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Property</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+<th class="tableblock halign-left valign-top">Default value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.request-timeout</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.time.Duration</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.prefix</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.domain</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.publish-no-ack</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.opt-out290-consumer-create</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
 </tbody>
 </table>
 <div class="paragraph">
@@ -3593,6 +4304,728 @@ subjects = ["events.&gt;"]</code></pre>
 </div>
 </div>
 </div>
+</div>
+<div class="sect2">
+<h3 id="_subject_transform_compression_and_metadata">Subject transform, compression and metadata</h3>
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">nats.default.jetstream.streams.events.subjects[0]=events.&gt;
+nats.default.jetstream.streams.events.compression-option=s2
+nats.default.jetstream.streams.events.metadata.owner=team-a
+nats.default.jetstream.streams.events.subject-transform.source=events.*.*
+nats.default.jetstream.streams.events.subject-transform.destination=events.{{wildcard(2)}}.{{wildcard(1)}}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">nats:
+  default:
+    jetstream:
+      streams:
+        events:
+          subjects:
+            - events.&gt;
+          compression-option: s2 # <b class="conum">(1)</b>
+          metadata: # <b class="conum">(2)</b>
+            owner: team-a
+          subject-transform: # <b class="conum">(3)</b>
+            source: "events.*.*"
+            destination: "events.{{wildcard(2)}}.{{wildcard(1)}}"</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[nats.default.jetstream.streams.events]
+subjects = ["events.&gt;"]
+compression-option = "s2"
+
+[nats.default.jetstream.streams.events.metadata]
+owner = "team-a"
+
+[nats.default.jetstream.streams.events.subject-transform]
+source = "events.*.*"
+destination = "events.{{wildcard(2)}}.{{wildcard(1)}}"</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">nats {
+  'default' {
+    jetstream {
+      streams {
+        events {
+          subjects = ["events.&gt;"]
+          compressionOption = "s2"
+          metadata {
+            owner = "team-a"
+          }
+          subjectTransform {
+            source = "events.*.*"
+            destination = "events.{{wildcard(2)}}.{{wildcard(1)}}"
+          }
+        }
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  nats {
+    default {
+      jetstream {
+        streams {
+          events {
+            subjects = ["events.&gt;"]
+            compression-option = "s2"
+            metadata {
+              owner = "team-a"
+            }
+            subject-transform {
+              source = "events.*.*"
+              destination = "events.{{wildcard(2)}}.{{wildcard(1)}}"
+            }
+          }
+        }
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "nats": {
+    "default": {
+      "jetstream": {
+        "streams": {
+          "events": {
+            "subjects": ["events.&gt;"],
+            "compression-option": "s2",
+            "metadata": {
+              "owner": "team-a"
+            },
+            "subject-transform": {
+              "source": "events.*.*",
+              "destination": "events.{{wildcard(2)}}.{{wildcard(1)}}"
+            }
+          }
+        }
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Compression of the stream storage, either <code>none</code> or <code>s2</code></td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Custom metadata of the stream</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Transformation of the subjects of incoming messages</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_placement_republish_and_consumer_limits">Placement, republish and consumer limits</h3>
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">nats.default.jetstream.streams.events.subjects[0]=events.&gt;
+nats.default.jetstream.streams.events.placement.cluster=east
+nats.default.jetstream.streams.events.placement.tags[0]=ssd
+nats.default.jetstream.streams.events.republish.source=events.&gt;
+nats.default.jetstream.streams.events.republish.destination=republished.&gt;
+nats.default.jetstream.streams.events.republish.headers-only=false
+nats.default.jetstream.streams.events.consumer-limits.inactive-threshold=10m
+nats.default.jetstream.streams.events.consumer-limits.max-ack-pending=1000</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">nats:
+  default:
+    jetstream:
+      streams:
+        events:
+          subjects:
+            - events.&gt;
+          placement: # <b class="conum">(1)</b>
+            cluster: east
+            tags:
+              - ssd
+          republish: # <b class="conum">(2)</b>
+            source: "events.&gt;"
+            destination: "republished.&gt;"
+            headers-only: false
+          consumer-limits: # <b class="conum">(3)</b>
+            inactive-threshold: 10m
+            max-ack-pending: 1000</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[nats.default.jetstream.streams.events]
+subjects = ["events.&gt;"]
+
+[nats.default.jetstream.streams.events.placement]
+cluster = "east"
+tags = ["ssd"]
+
+[nats.default.jetstream.streams.events.republish]
+source = "events.&gt;"
+destination = "republished.&gt;"
+headers-only = false
+
+[nats.default.jetstream.streams.events.consumer-limits]
+inactive-threshold = "10m"
+max-ack-pending = 1000</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">nats {
+  'default' {
+    jetstream {
+      streams {
+        events {
+          subjects = ["events.&gt;"]
+          placement {
+            cluster = "east"
+            tags = ["ssd"]
+          }
+          republish {
+            source = "events.&gt;"
+            destination = "republished.&gt;"
+            headersOnly = false
+          }
+          consumerLimits {
+            inactiveThreshold = "10m"
+            maxAckPending = 1000
+          }
+        }
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  nats {
+    default {
+      jetstream {
+        streams {
+          events {
+            subjects = ["events.&gt;"]
+            placement {
+              cluster = "east"
+              tags = ["ssd"]
+            }
+            republish {
+              source = "events.&gt;"
+              destination = "republished.&gt;"
+              headers-only = false
+            }
+            consumer-limits {
+              inactive-threshold = "10m"
+              max-ack-pending = 1000
+            }
+          }
+        }
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "nats": {
+    "default": {
+      "jetstream": {
+        "streams": {
+          "events": {
+            "subjects": ["events.&gt;"],
+            "placement": {
+              "cluster": "east",
+              "tags": ["ssd"]
+            },
+            "republish": {
+              "source": "events.&gt;",
+              "destination": "republished.&gt;",
+              "headers-only": false
+            },
+            "consumer-limits": {
+              "inactive-threshold": "10m",
+              "max-ack-pending": 1000
+            }
+          }
+        }
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The cluster and tags the stream should be placed on</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Republishes stored messages to another subject</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Default limits for consumers of the stream</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_mirror">Mirror</h3>
+<div class="paragraph">
+<p>A stream can mirror another stream. A mirror can not have subjects of its own.</p>
+</div>
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">nats.default.jetstream.streams.events-mirror.mirror.name=events
+nats.default.jetstream.streams.events-mirror.mirror.filter-subject=events.orders.&gt;
+nats.default.jetstream.streams.events-mirror.mirror.start-seq=1
+nats.default.jetstream.streams.events-mirror.mirror.domain=hub
+nats.default.jetstream.streams.events-mirror.mirror.subject-transforms[0].source=events.orders.&gt;
+nats.default.jetstream.streams.events-mirror.mirror.subject-transforms[0].destination=mirror.orders.&gt;</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">nats:
+  default:
+    jetstream:
+      streams:
+        events-mirror:
+          mirror:
+            name: events # <b class="conum">(1)</b>
+            filter-subject: "events.orders.&gt;" # <b class="conum">(2)</b>
+            start-seq: 1
+            domain: hub # <b class="conum">(3)</b>
+            subject-transforms: # <b class="conum">(4)</b>
+              - source: "events.orders.&gt;"
+                destination: "mirror.orders.&gt;"</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[nats.default.jetstream.streams.events-mirror.mirror]
+name = "events"
+filter-subject = "events.orders.&gt;"
+start-seq = 1
+domain = "hub"
+
+[[nats.default.jetstream.streams.events-mirror.mirror.subject-transforms]]
+source = "events.orders.&gt;"
+destination = "mirror.orders.&gt;"</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">nats {
+  'default' {
+    jetstream {
+      streams {
+        eventsMirror {
+          mirror {
+            name = "events"
+            filterSubject = "events.orders.&gt;"
+            startSeq = 1
+            domain = "hub"
+            subjectTransforms = [{
+                source = "events.orders.&gt;"
+                destination = "mirror.orders.&gt;"
+              }]
+          }
+        }
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  nats {
+    default {
+      jetstream {
+        streams {
+          events-mirror {
+            mirror {
+              name = "events"
+              filter-subject = "events.orders.&gt;"
+              start-seq = 1
+              domain = "hub"
+              subject-transforms = [{
+                  source = "events.orders.&gt;"
+                  destination = "mirror.orders.&gt;"
+                }]
+            }
+          }
+        }
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "nats": {
+    "default": {
+      "jetstream": {
+        "streams": {
+          "events-mirror": {
+            "mirror": {
+              "name": "events",
+              "filter-subject": "events.orders.&gt;",
+              "start-seq": 1,
+              "domain": "hub",
+              "subject-transforms": [{
+                  "source": "events.orders.&gt;",
+                  "destination": "mirror.orders.&gt;"
+                }]
+            }
+          }
+        }
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The name of the stream to mirror</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Only mirror a subset of the messages. Can not be combined with <code>subject-transforms</code></td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>The JetStream domain of the origin stream. Alternatively <code>external.api</code> and <code>external.deliver</code> can be configured</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>Transformations of the subjects while mirroring, the sources act as filter</td>
+</tr>
+</table>
+</div>
+<a id="io.micronaut.nats.connect.NatsConnectionFactoryConfig$JetStreamConfiguration$StreamConfiguration$Mirror" href="#io.micronaut.nats.connect.NatsConnectionFactoryConfig$JetStreamConfiguration$StreamConfiguration$Mirror">&#128279;</a>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 4. Configuration Properties for <a href="../api/io/micronaut/nats/connect/NatsConnectionFactoryConfig.JetStreamConfiguration.StreamConfiguration.Mirror.html">NatsConnectionFactoryConfig$JetStreamConfiguration$StreamConfiguration$Mirror</a></caption>
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Property</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+<th class="tableblock halign-left valign-top">Default value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.mirror.name</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Name.</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.mirror.start-seq</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">long</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Start sequence.</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.mirror.start-time</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.time.ZonedDateTime</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Start time.</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.mirror.filter-subject</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Filter subject.</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.mirror.subject-transforms</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.util.List</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Subject transformations.</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.mirror.domain</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The JetStream domain of the origin stream. Shortcut for {@code external.api} with {@code $JS.&lt;domain&gt;.API},
+ an explicit {@code external} configuration takes precedence.</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_sources">Sources</h3>
+<div class="paragraph">
+<p>A stream can be sourced from one or more other streams, in addition to its own subjects.</p>
+</div>
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">nats.default.jetstream.streams.all-events.sources[0].name=events
+nats.default.jetstream.streams.all-events.sources[0].subject-transforms[0].source=events.*
+nats.default.jetstream.streams.all-events.sources[0].subject-transforms[0].destination=all.events.$1
+nats.default.jetstream.streams.all-events.sources[1].name=remote-events
+nats.default.jetstream.streams.all-events.sources[1].filter-subject=remote.&gt;
+nats.default.jetstream.streams.all-events.sources[1].external.api=$JS.remote.API
+nats.default.jetstream.streams.all-events.sources[1].external.deliver=deliver.remote</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">nats:
+  default:
+    jetstream:
+      streams:
+        all-events:
+          sources:
+            - name: events # <b class="conum">(1)</b>
+              subject-transforms: # <b class="conum">(2)</b>
+                - source: "events.*"
+                  destination: "all.events.$1"
+            - name: remote-events
+              filter-subject: "remote.&gt;"
+              external: # <b class="conum">(3)</b>
+                api: "$JS.remote.API"
+                deliver: "deliver.remote"</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[[nats.default.jetstream.streams.all-events.sources]]
+name = "events"
+
+[[nats.default.jetstream.streams.all-events.sources.subject-transforms]]
+source = "events.*"
+destination = "all.events.$1"
+
+[[nats.default.jetstream.streams.all-events.sources]]
+name = "remote-events"
+filter-subject = "remote.&gt;"
+
+[nats.default.jetstream.streams.all-events.sources.external]
+api = "$JS.remote.API"
+deliver = "deliver.remote"</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">nats {
+  'default' {
+    jetstream {
+      streams {
+        allEvents {
+          sources = [{
+              name = "events"
+              subjectTransforms = [{
+                  source = "events.*"
+                  destination = "all.events.$1"
+                }]
+            }, {
+              name = "remote-events"
+              filterSubject = "remote.&gt;"
+              external {
+                api = "$JS.remote.API"
+                deliver = "deliver.remote"
+              }
+            }]
+        }
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  nats {
+    default {
+      jetstream {
+        streams {
+          all-events {
+            sources = [{
+                name = "events"
+                subject-transforms = [{
+                    source = "events.*"
+                    destination = "all.events.$1"
+                  }]
+              }, {
+                name = "remote-events"
+                filter-subject = "remote.&gt;"
+                external {
+                  api = "$JS.remote.API"
+                  deliver = "deliver.remote"
+                }
+              }]
+          }
+        }
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "nats": {
+    "default": {
+      "jetstream": {
+        "streams": {
+          "all-events": {
+            "sources": [{
+                "name": "events",
+                "subject-transforms": [{
+                    "source": "events.*",
+                    "destination": "all.events.$1"
+                  }]
+              }, {
+                "name": "remote-events",
+                "filter-subject": "remote.&gt;",
+                "external": {
+                  "api": "$JS.remote.API",
+                  "deliver": "deliver.remote"
+                }
+              }]
+          }
+        }
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The name of the stream to source from</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Transformations of the subjects while sourcing, the sources act as filter. Can not be combined with <code>filter-subject</code></td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Source a stream of another account or domain</td>
+</tr>
+</table>
+</div>
+<a id="io.micronaut.nats.connect.NatsConnectionFactoryConfig$JetStreamConfiguration$StreamConfiguration$Source" href="#io.micronaut.nats.connect.NatsConnectionFactoryConfig$JetStreamConfiguration$StreamConfiguration$Source">&#128279;</a>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 5. Configuration Properties for <a href="../api/io/micronaut/nats/connect/NatsConnectionFactoryConfig.JetStreamConfiguration.StreamConfiguration.Source.html">NatsConnectionFactoryConfig$JetStreamConfiguration$StreamConfiguration$Source</a></caption>
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Property</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+<th class="tableblock halign-left valign-top">Default value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.sources[*].name</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Name.</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.sources[*].start-seq</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">long</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Start sequence.</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.sources[*].start-time</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.time.ZonedDateTime</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Start time.</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.sources[*].filter-subject</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Filter subject.</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.sources[*].subject-transforms</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.util.List</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Subject transformations.</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.streams.*.sources[*].domain</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The JetStream domain of the origin stream. Shortcut for {@code external.api} with {@code $JS.&lt;domain&gt;.API},
+ an explicit {@code external} configuration takes precedence.</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+</tbody>
+</table>
 </div>
 
 <h2 id="js_producer"><a class="anchor" href="#js_producer"></a>11.1.2 Producer</h2>
@@ -3803,6 +5236,18 @@ class ProductListener {
 <tr>
 <td><i class="conum" data-value="2"></i><b>2</b></td>
 <td>The <a href="../api/io/micronaut/configuration/nats/jetstream/annotation/PushConsumer.html">@PushConsumer</a> configures the stream(<code>value</code>) and the <code>subject</code> to listen for. It is possible to use all known values from <a href="https://javadoc.io/doc/io.nats/jnats/latest/io/nats/client/SubscribeOptions.html">SubscribeOptions</a> and <a href="https://javadoc.io/doc/io.nats/jnats/latestio/nats/client/PushSubscribeOptions.html">PushSubscribeOptions</a> such as <code>durable</code>.</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+To consume multiple subjects of a stream with a single consumer, use <code>filterSubjects</code>, for example <code>@PushConsumer(value = "events", durable = "orders-and-payments", filterSubjects = {"events.orders.&gt;", "events.payments.&gt;"})</code>. With <code>filterSubjects</code> the <code>subject</code> is optional; if it is set, it has to be one of the filter subjects. The single valued <code>filterSubject</code> is deprecated.
+</td>
 </tr>
 </table>
 </div>
@@ -4068,7 +5513,7 @@ class PullConsumerHelper {
 <p>All properties on the <a href="https://javadoc.io/doc/io.nats/jnats/latest/io/nats/client/JetStreamOptions.Builder.html">JetStreamOptions.Builder</a> and <a href="https://javadoc.io/doc/io.nats/jnats/latest/io/nats/client/api/KeyValueConfiguration.Builder.html">KeyValueConfiguration.Builder</a> are available to be modified, either through configuration or a <a href="https://docs.micronaut.io/latest/api/io/micronaut/context/event/BeanCreatedEventListener.html">BeanCreatedEventListener</a>.</p>
 </div>
 <div class="paragraph">
-<p>The following properties are available for a stream configuration:</p>
+<p>The following properties are available for a key value configuration:</p>
 </div>
 <a id="io.micronaut.nats.connect.NatsConnectionFactoryConfig$JetStreamConfiguration$KeyValueConfiguration" href="#io.micronaut.nats.connect.NatsConnectionFactoryConfig$JetStreamConfiguration$KeyValueConfiguration">&#128279;</a>
 <table class="tableblock frame-all grid-all stretch">
@@ -4089,9 +5534,95 @@ class PullConsumerHelper {
 </thead>
 <tbody>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.keyvalue.*.sources</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.util.List</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">sources.</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.keyvalue.*.create-or-update</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">create or update key/value store during startup.</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+</tbody>
+</table>
+<a id="io.nats.client.api.KeyValueConfiguration$Builder" href="#io.nats.client.api.KeyValueConfiguration$Builder">&#128279;</a>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 2. Configuration Properties for <a href="../api/io/micronaut/io/nats/client/api/KeyValueConfiguration.Builder.html">KeyValueConfiguration$Builder</a></caption>
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Property</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+<th class="tableblock halign-left valign-top">Default value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.keyvalue.*.description</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.keyvalue.*.max-history-per-key</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">int</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.keyvalue.*.max-bucket-size</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">long</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.keyvalue.*.maximum-value-size</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">int</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.keyvalue.*.ttl</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.time.Duration</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.keyvalue.*.storage-type</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">io.nats.client.api.StorageType</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.keyvalue.*.replicas</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">int</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.keyvalue.*.compression</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.keyvalue.*.metadata</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.util.Map</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.keyvalue.*.limit-marker</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.time.Duration</p></td>
+<td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"></td>
 </tr>
 </tbody>
@@ -4178,6 +5709,263 @@ max-history-per-key = 5</code></pre>
 </div>
 </div>
 </div>
+</div>
+<div class="paragraph">
+<p>Compression, metadata, placement and republish can be configured as for streams:</p>
+</div>
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">nats.default.jetstream.keyvalue.examplebucket.compression=true
+nats.default.jetstream.keyvalue.examplebucket.metadata.owner=team-a
+nats.default.jetstream.keyvalue.examplebucket.placement.cluster=east
+nats.default.jetstream.keyvalue.examplebucket.republish.source=$KV.examplebucket.&gt;
+nats.default.jetstream.keyvalue.examplebucket.republish.destination=changes.examplebucket.&gt;</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">nats:
+  default:
+    jetstream:
+      keyvalue:
+        examplebucket:
+          compression: true
+          metadata:
+            owner: team-a
+          placement:
+            cluster: east
+          republish:
+            source: "$KV.examplebucket.&gt;"
+            destination: "changes.examplebucket.&gt;"</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[nats.default.jetstream.keyvalue.examplebucket]
+compression = true
+
+[nats.default.jetstream.keyvalue.examplebucket.metadata]
+owner = "team-a"
+
+[nats.default.jetstream.keyvalue.examplebucket.placement]
+cluster = "east"
+
+[nats.default.jetstream.keyvalue.examplebucket.republish]
+source = "$KV.examplebucket.&gt;"
+destination = "changes.examplebucket.&gt;"</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">nats {
+  'default' {
+    jetstream {
+      keyvalue {
+        examplebucket {
+          compression = true
+          metadata {
+            owner = "team-a"
+          }
+          placement {
+            cluster = "east"
+          }
+          republish {
+            source = "$KV.examplebucket.&gt;"
+            destination = "changes.examplebucket.&gt;"
+          }
+        }
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  nats {
+    default {
+      jetstream {
+        keyvalue {
+          examplebucket {
+            compression = true
+            metadata {
+              owner = "team-a"
+            }
+            placement {
+              cluster = "east"
+            }
+            republish {
+              source = "$KV.examplebucket.&gt;"
+              destination = "changes.examplebucket.&gt;"
+            }
+          }
+        }
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "nats": {
+    "default": {
+      "jetstream": {
+        "keyvalue": {
+          "examplebucket": {
+            "compression": true,
+            "metadata": {
+              "owner": "team-a"
+            },
+            "placement": {
+              "cluster": "east"
+            },
+            "republish": {
+              "source": "$KV.examplebucket.&gt;",
+              "destination": "changes.examplebucket.&gt;"
+            }
+          }
+        }
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>A bucket can also mirror another bucket, or be sourced from other buckets. The names refer to the buckets, the <code>KV_</code> prefix of the underlying streams is added automatically.</p>
+</div>
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">nats.default.jetstream.keyvalue.examplebucket-mirror.mirror.name=examplebucket
+nats.default.jetstream.keyvalue.aggregated-bucket.sources[0].name=examplebucket
+nats.default.jetstream.keyvalue.aggregated-bucket.sources[1].name=otherbucket</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">nats:
+  default:
+    jetstream:
+      keyvalue:
+        examplebucket-mirror:
+          mirror:
+            name: examplebucket
+        aggregated-bucket:
+          sources:
+            - name: examplebucket
+            - name: otherbucket</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[nats.default.jetstream.keyvalue.examplebucket-mirror.mirror]
+name = "examplebucket"
+
+[[nats.default.jetstream.keyvalue.aggregated-bucket.sources]]
+name = "examplebucket"
+
+[[nats.default.jetstream.keyvalue.aggregated-bucket.sources]]
+name = "otherbucket"</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">nats {
+  'default' {
+    jetstream {
+      keyvalue {
+        examplebucketMirror {
+          mirror {
+            name = "examplebucket"
+          }
+        }
+        aggregatedBucket {
+          sources = [{
+              name = "examplebucket"
+            }, {
+              name = "otherbucket"
+            }]
+        }
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  nats {
+    default {
+      jetstream {
+        keyvalue {
+          examplebucket-mirror {
+            mirror {
+              name = "examplebucket"
+            }
+          }
+          aggregated-bucket {
+            sources = [{
+                name = "examplebucket"
+              }, {
+                name = "otherbucket"
+              }]
+          }
+        }
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "nats": {
+    "default": {
+      "jetstream": {
+        "keyvalue": {
+          "examplebucket-mirror": {
+            "mirror": {
+              "name": "examplebucket"
+            }
+          },
+          "aggregated-bucket": {
+            "sources": [{
+                "name": "examplebucket"
+              }, {
+                "name": "otherbucket"
+              }]
+          }
+        }
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The entries are mirrored into the stream <code>KV_&lt;mirror bucket&gt;</code> keeping the subjects of the origin bucket, so reading them through the mirror bucket name does not return them. Read through the origin bucket instead; the mirror is allowed to answer those reads (mirror direct).
+</td>
+</tr>
+</table>
 </div>
 
 <h2 id="usage"><a class="anchor" href="#usage"></a>11.2.2 Usage</h2>
@@ -4346,8 +6134,70 @@ Experimental Preview
 </tr>
 </tbody>
 </table>
+<a id="io.nats.client.api.ObjectStoreConfiguration$Builder" href="#io.nats.client.api.ObjectStoreConfiguration$Builder">&#128279;</a>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 2. Configuration Properties for <a href="../api/io/micronaut/io/nats/client/api/ObjectStoreConfiguration.Builder.html">ObjectStoreConfiguration$Builder</a></caption>
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Property</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+<th class="tableblock halign-left valign-top">Default value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.objectstore.*.description</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.objectstore.*.max-bucket-size</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">long</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.objectstore.*.ttl</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.time.Duration</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.objectstore.*.storage-type</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">io.nats.client.api.StorageType</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.objectstore.*.replicas</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">int</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.objectstore.*.compression</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nats.*.jetstream.objectstore.*.metadata</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.util.Map</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+</tbody>
+</table>
 <div class="paragraph">
-<p>A simple configuration for key value can look like:</p>
+<p>A simple configuration for an object store can look like:</p>
 </div>
 <div class="openblock">
 <div class="content">
@@ -4413,6 +6263,126 @@ storage-type = "Memory"</code></pre>
         "objectstore": {
           "examplebucket": {
             "storage-type": "Memory"
+          }
+        }
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Compression, metadata and placement can be configured as well:</p>
+</div>
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">nats.default.jetstream.objectstore.examplebucket.storage-type=Memory
+nats.default.jetstream.objectstore.examplebucket.compression=true
+nats.default.jetstream.objectstore.examplebucket.metadata.owner=team-a
+nats.default.jetstream.objectstore.examplebucket.placement.cluster=east
+nats.default.jetstream.objectstore.examplebucket.placement.tags[0]=ssd</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">nats:
+  default:
+    jetstream:
+      objectstore:
+        examplebucket:
+          storage-type: Memory
+          compression: true
+          metadata:
+            owner: team-a
+          placement:
+            cluster: east
+            tags:
+              - ssd</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[nats.default.jetstream.objectstore.examplebucket]
+storage-type = "Memory"
+compression = true
+
+[nats.default.jetstream.objectstore.examplebucket.metadata]
+owner = "team-a"
+
+[nats.default.jetstream.objectstore.examplebucket.placement]
+cluster = "east"
+tags = ["ssd"]</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">nats {
+  'default' {
+    jetstream {
+      objectstore {
+        examplebucket {
+          storageType = "Memory"
+          compression = true
+          metadata {
+            owner = "team-a"
+          }
+          placement {
+            cluster = "east"
+            tags = ["ssd"]
+          }
+        }
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  nats {
+    default {
+      jetstream {
+        objectstore {
+          examplebucket {
+            storage-type = "Memory"
+            compression = true
+            metadata {
+              owner = "team-a"
+            }
+            placement {
+              cluster = "east"
+              tags = ["ssd"]
+            }
+          }
+        }
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "nats": {
+    "default": {
+      "jetstream": {
+        "objectstore": {
+          "examplebucket": {
+            "storage-type": "Memory",
+            "compression": true,
+            "metadata": {
+              "owner": "team-a"
+            },
+            "placement": {
+              "cluster": "east",
+              "tags": ["ssd"]
+            }
           }
         }
       }

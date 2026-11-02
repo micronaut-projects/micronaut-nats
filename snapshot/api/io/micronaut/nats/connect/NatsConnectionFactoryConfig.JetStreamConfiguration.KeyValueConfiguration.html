@@ -30,6 +30,7 @@ loadScripts(document, 'script');</script>
 <li><a href="../../../../index.html">Overview</a></li>
 <li class="nav-bar-cell1-rev">Class</li>
 <li><a href="package-tree.html">Tree</a></li>
+<li><a href="../../../../deprecated-list.html">Deprecated</a></li>
 <li><a href="../../../../index-all.html">Index</a></li>
 <li><a href="../../../../search.html">Search</a></li>
 <li><a href="../../../../help-doc.html#class">Help</a></li>
@@ -55,6 +56,7 @@ loadScripts(document, 'script');</script>
 <div class="toc-header">Contents&nbsp;<input type="text" class="filter-input" disabled placeholder="Filter contents (type .)" aria-label="Filter table of contents" autocomplete="off" spellcheck="false"><input type="reset" class="reset-filter" disabled tabindex="-1" value="Reset"></div>
 <ol class="toc-list" tabindex="-1">
 <li><a href="#" tabindex="0">Description</a></li>
+<li><a href="#nested-class-summary" tabindex="0">Nested Class Summary</a></li>
 <li><a href="#constructor-summary" tabindex="0">Constructor Summary</a></li>
 <li><a href="#method-summary" tabindex="0">Method Summary</a></li>
 <li><a href="#constructor-detail" tabindex="0">Constructor Details</a>
@@ -66,6 +68,10 @@ loadScripts(document, 'script');</script>
 <ol class="toc-list">
 <li><a href="#getBuilder()" tabindex="0">getBuilder()</a></li>
 <li><a href="#toKeyValueConfiguration()" tabindex="0">toKeyValueConfiguration()</a></li>
+<li><a href="#setPlacement(io.micronaut.nats.connect.NatsConnectionFactoryConfig.JetStreamConfiguration.KeyValueConfiguration.Placement)" tabindex="0">setPlacement(NatsConnectionFactoryConfig.JetStreamConfiguration.KeyValueConfiguration.Placement)</a></li>
+<li><a href="#setMirror(io.micronaut.nats.connect.NatsConnectionFactoryConfig.JetStreamConfiguration.KeyValueConfiguration.Mirror)" tabindex="0">setMirror(NatsConnectionFactoryConfig.JetStreamConfiguration.KeyValueConfiguration.Mirror)</a></li>
+<li><a href="#setSources(java.util.List)" tabindex="0">setSources(List)</a></li>
+<li><a href="#setRepublish(io.micronaut.nats.connect.NatsConnectionFactoryConfig.JetStreamConfiguration.KeyValueConfiguration.Republish)" tabindex="0">setRepublish(NatsConnectionFactoryConfig.JetStreamConfiguration.KeyValueConfiguration.Republish)</a></li>
 <li><a href="#isCreateOrUpdate()" tabindex="0">isCreateOrUpdate()</a></li>
 <li><a href="#setCreateOrUpdate(boolean)" tabindex="0">setCreateOrUpdate(boolean)</a></li>
 </ol>
@@ -101,6 +107,38 @@ loadScripts(document, 'script');</script>
 </section>
 <section class="summary">
 <ul class="summary-list">
+<!-- ======== NESTED CLASS SUMMARY ======== -->
+<li>
+<section class="nested-class-summary" id="nested-class-summary">
+<h2>Nested Class Summary</h2>
+<div class="caption"><span>Nested Classes</span></div>
+<div class="summary-table three-column-summary">
+<div class="table-header col-first">Modifier and Type</div>
+<div class="table-header col-second">Class</div>
+<div class="table-header col-last">Description</div>
+<div class="col-first even-row-color"><code>static class&nbsp;</code></div>
+<div class="col-second even-row-color"><code><a href="NatsConnectionFactoryConfig.JetStreamConfiguration.KeyValueConfiguration.Mirror.html" class="type-name-link" title="class in io.micronaut.nats.connect">NatsConnectionFactoryConfig.JetStreamConfiguration.KeyValueConfiguration.Mirror</a></code></div>
+<div class="col-last even-row-color">
+<div class="block">Mirror.</div>
+</div>
+<div class="col-first odd-row-color"><code>static class&nbsp;</code></div>
+<div class="col-second odd-row-color"><code><a href="NatsConnectionFactoryConfig.JetStreamConfiguration.KeyValueConfiguration.Placement.html" class="type-name-link" title="class in io.micronaut.nats.connect">NatsConnectionFactoryConfig.JetStreamConfiguration.KeyValueConfiguration.Placement</a></code></div>
+<div class="col-last odd-row-color">
+<div class="block">Placement.</div>
+</div>
+<div class="col-first even-row-color"><code>static class&nbsp;</code></div>
+<div class="col-second even-row-color"><code><a href="NatsConnectionFactoryConfig.JetStreamConfiguration.KeyValueConfiguration.Republish.html" class="type-name-link" title="class in io.micronaut.nats.connect">NatsConnectionFactoryConfig.JetStreamConfiguration.KeyValueConfiguration.Republish</a></code></div>
+<div class="col-last even-row-color">
+<div class="block">Republish.</div>
+</div>
+<div class="col-first odd-row-color"><code>static class&nbsp;</code></div>
+<div class="col-second odd-row-color"><code><a href="NatsConnectionFactoryConfig.JetStreamConfiguration.KeyValueConfiguration.Source.html" class="type-name-link" title="class in io.micronaut.nats.connect">NatsConnectionFactoryConfig.JetStreamConfiguration.KeyValueConfiguration.Source</a></code></div>
+<div class="col-last odd-row-color">
+<div class="block">Sources.</div>
+</div>
+</div>
+</section>
+</li>
 <!-- ======== CONSTRUCTOR SUMMARY ======== -->
 <li>
 <section class="constructor-summary" id="constructor-summary">
@@ -139,6 +177,26 @@ loadScripts(document, 'script');</script>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setCreateOrUpdate(boolean)" class="member-name-link">setCreateOrUpdate</a><wbr>(boolean&nbsp;createOrUpdate)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">create or update key/value store during startup.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setMirror(io.micronaut.nats.connect.NatsConnectionFactoryConfig.JetStreamConfiguration.KeyValueConfiguration.Mirror)" class="member-name-link">setMirror</a><wbr>(<a href="NatsConnectionFactoryConfig.JetStreamConfiguration.KeyValueConfiguration.Mirror.html" title="class in io.micronaut.nats.connect">NatsConnectionFactoryConfig.JetStreamConfiguration.KeyValueConfiguration.Mirror</a>&nbsp;mirror)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">The mirror.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setPlacement(io.micronaut.nats.connect.NatsConnectionFactoryConfig.JetStreamConfiguration.KeyValueConfiguration.Placement)" class="member-name-link">setPlacement</a><wbr>(<a href="NatsConnectionFactoryConfig.JetStreamConfiguration.KeyValueConfiguration.Placement.html" title="class in io.micronaut.nats.connect">NatsConnectionFactoryConfig.JetStreamConfiguration.KeyValueConfiguration.Placement</a>&nbsp;placement)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">the Placement.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setRepublish(io.micronaut.nats.connect.NatsConnectionFactoryConfig.JetStreamConfiguration.KeyValueConfiguration.Republish)" class="member-name-link">setRepublish</a><wbr>(<a href="NatsConnectionFactoryConfig.JetStreamConfiguration.KeyValueConfiguration.Republish.html" title="class in io.micronaut.nats.connect">NatsConnectionFactoryConfig.JetStreamConfiguration.KeyValueConfiguration.Republish</a>&nbsp;republish)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Republish.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setSources(java.util.List)" class="member-name-link">setSources</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="NatsConnectionFactoryConfig.JetStreamConfiguration.KeyValueConfiguration.Source.html" title="class in io.micronaut.nats.connect">NatsConnectionFactoryConfig.JetStreamConfiguration.KeyValueConfiguration.Source</a>&gt;&nbsp;sources)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">sources.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>io.nats.client.api.KeyValueConfiguration</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toKeyValueConfiguration()" class="member-name-link">toKeyValueConfiguration</a>()</code></div>
@@ -203,6 +261,58 @@ loadScripts(document, 'script');</script>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>nats key value configuration</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="setPlacement(io.micronaut.nats.connect.NatsConnectionFactoryConfig.JetStreamConfiguration.KeyValueConfiguration.Placement)">
+<h3>setPlacement</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setPlacement</span><wbr><span class="parameters">(<a href="NatsConnectionFactoryConfig.JetStreamConfiguration.KeyValueConfiguration.Placement.html" title="class in io.micronaut.nats.connect">NatsConnectionFactoryConfig.JetStreamConfiguration.KeyValueConfiguration.Placement</a>&nbsp;placement)</span></div>
+<div class="block">the Placement.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>placement</code> - <a href="NatsConnectionFactoryConfig.JetStreamConfiguration.KeyValueConfiguration.Placement.html" title="class in io.micronaut.nats.connect"><code>NatsConnectionFactoryConfig.JetStreamConfiguration.KeyValueConfiguration.Placement</code></a></dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="setMirror(io.micronaut.nats.connect.NatsConnectionFactoryConfig.JetStreamConfiguration.KeyValueConfiguration.Mirror)">
+<h3>setMirror</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setMirror</span><wbr><span class="parameters">(<a href="NatsConnectionFactoryConfig.JetStreamConfiguration.KeyValueConfiguration.Mirror.html" title="class in io.micronaut.nats.connect">NatsConnectionFactoryConfig.JetStreamConfiguration.KeyValueConfiguration.Mirror</a>&nbsp;mirror)</span></div>
+<div class="block">The mirror.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>mirror</code> - Mirror</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="setSources(java.util.List)">
+<h3>setSources</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setSources</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="NatsConnectionFactoryConfig.JetStreamConfiguration.KeyValueConfiguration.Source.html" title="class in io.micronaut.nats.connect">NatsConnectionFactoryConfig.JetStreamConfiguration.KeyValueConfiguration.Source</a>&gt;&nbsp;sources)</span></div>
+<div class="block">sources.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>sources</code> - list of sources</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="setRepublish(io.micronaut.nats.connect.NatsConnectionFactoryConfig.JetStreamConfiguration.KeyValueConfiguration.Republish)">
+<h3>setRepublish</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setRepublish</span><wbr><span class="parameters">(<a href="NatsConnectionFactoryConfig.JetStreamConfiguration.KeyValueConfiguration.Republish.html" title="class in io.micronaut.nats.connect">NatsConnectionFactoryConfig.JetStreamConfiguration.KeyValueConfiguration.Republish</a>&nbsp;republish)</span></div>
+<div class="block">Republish.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>republish</code> - <a href="NatsConnectionFactoryConfig.JetStreamConfiguration.KeyValueConfiguration.Republish.html" title="class in io.micronaut.nats.connect"><code>NatsConnectionFactoryConfig.JetStreamConfiguration.KeyValueConfiguration.Republish</code></a></dd>
 </dl>
 </div>
 </section>
