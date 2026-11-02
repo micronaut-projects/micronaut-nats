@@ -59,4 +59,46 @@ nats:
 
 <1> You can either use `nats://localhost:4222` or `tls://localhost:4222` as protocol.
 <2> You can configure a complete truststore
-<3> Or ou can use a single certificate for connecting to NATS securely.
+<3> Or you can use a single certificate for connecting to NATS securely.
+
+If the server requires a client certificate (mutual TLS), configure a key store holding the client certificate and its private key in addition:
+
+[configuration]
+----
+nats:
+  default:
+    addresses:
+      - "tls://localhost:4222"
+    tls:
+      trust-store-path: /path/to/client.truststore.jks
+      trust-store-password: secret
+      key-store-path: /path/to/client.p12 # <1>
+      key-store-password: secret # <2>
+      key-store-type: PKCS12 # <3>
+----
+
+<1> The key store with the client certificate and private key
+<2> The password of the key store, also used for the private key
+<3> The key store type, defaults to the JVM default key store type
+
+== Further connection options
+
+Besides the options above, all options of the link:{apinats}/io/nats/client/Options.Builder.html[Options.Builder] which can be converted from a configuration value can be set directly underneath the connection. Options without an argument, such as `noRandomize()`, are enabled by setting them to `true`.
+
+[configuration]
+----
+nats:
+  default:
+    addresses:
+      - "nats://localhost:4222"
+    max-pings-out: 5
+    no-randomize: true
+    request-cleanup-interval: 10s
+    reconnect-jitter: 200ms
+    max-messages-in-outgoing-queue: 10000
+    discard-messages-when-outgoing-queue-full: true
+----
+
+include::{includedir}configurationProperties/io.nats.client.Options$Builder.adoc[]
+
+NOTE: Options which require objects at runtime (for example executors, listeners or handlers) can only be set through a link:{apimicronaut}context/event/BeanCreatedEventListener.html[BeanCreatedEventListener] for the `io.micronaut.nats.connect.NatsConnectionFactoryConfig`, using `getBuilder()`.

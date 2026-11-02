@@ -16,6 +16,9 @@
 package io.micronaut.nats.jetstream
 
 import io.micronaut.context.ApplicationContext
+import io.nats.client.Connection
+import io.nats.client.JetStreamManagement
+import io.nats.client.Nats
 import org.testcontainers.containers.GenericContainer
 import org.testcontainers.containers.wait.strategy.LogMessageWaitStrategy
 import org.testcontainers.containers.wait.strategy.Wait
@@ -36,12 +39,28 @@ abstract class AbstractJetstreamTest extends Specification {
         natsContainer.start()
     }
 
+    /**
+     * All specs share one server, remove the streams (including the ones backing key value and object stores)
+     * left by previous tests, so every test starts with a clean server.
+     */
+    void setup() {
+        Connection connection = Nats.connect("nats://localhost:${natsContainer.getMappedPort(4222)}")
+        try {
+            JetStreamManagement jsm = connection.jetStreamManagement()
+            jsm.getStreamNames().each { jsm.deleteStream(it) }
+        } finally {
+            connection.close()
+        }
+    }
+
     protected ApplicationContext startContext(Map additionalConfig = [:]) {
         ApplicationContext.run(
                 ["nats.default.addresses"                                            : ["nats://localhost:${natsContainer.getMappedPort(4222)}"],
                  "spec.name"                                                         : getClass().simpleName,
                  "nats.default.jetstream.streams.widgets.storage-type"               : "Memory",
                  "nats.default.jetstream.streams.widgets.subjects"                   : ['subject.>'],
+                 "nats.default.jetstream.streams.widgets.consumer-limits.inactive-threshold": "10m",
+                 "nats.default.jetstream.streams.widgets.consumer-limits.max-ack-pending": "-1",
                  "nats.default.jetstream.keyvalue.examplebucket.storage-type"        : "Memory",
                  "nats.default.jetstream.keyvalue.examplebucket.max-history-per-key" : 5,
                  "nats.default.jetstream.keyvalue.examplebucket2.storage-type"       : "Memory",
