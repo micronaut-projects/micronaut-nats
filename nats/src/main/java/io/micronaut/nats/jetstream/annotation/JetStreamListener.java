@@ -46,6 +46,9 @@ public @interface JetStreamListener {
     String connection() default "";
 
     /**
+     * The queue (deliver group) of the push consumers of this listener. Used for every
+     * {@link PushConsumer} method that does not define its own {@link PushConsumer#queue()}.
+     *
      * @return the queue of the consumer
      */
     String queue() default "";

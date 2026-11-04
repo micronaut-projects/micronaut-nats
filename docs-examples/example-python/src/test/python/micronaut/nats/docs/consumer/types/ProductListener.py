@@ -18,6 +18,6 @@ class ProductListener:
     def receive(self, data: bytes, message: Message, connection: Connection, subscription: Subscription, headers: Headers) -> None:  # <1>
         self.messages.append(
             f"subject: [{message.getSubject()}], maxPayload: [{connection.getMaxPayload()}], "
-            f"pendingMessageCount: [{subscription.getPendingMessageCount()}], x-productCount: [{headers.get('x-product-count').get(0)}]"
+            f"subscriptionSubject: [{subscription.getSubject()}], x-productCount: [{headers.get('x-product-count').get(0)}]"
         )
 # end::clazz[]
