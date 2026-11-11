@@ -22,8 +22,10 @@ import java.util.concurrent.ExecutorService;
 import io.micronaut.context.annotation.Bean;
 import io.micronaut.context.annotation.EachBean;
 import io.micronaut.context.annotation.Factory;
+import io.micronaut.context.annotation.Retain;
 import io.micronaut.context.exceptions.BeanInstantiationException;
 import io.micronaut.scheduling.TaskExecutors;
+import io.micronaut.scheduling.executor.ExecutorConfiguration;
 import io.nats.client.Connection;
 import io.nats.client.Nats;
 import jakarta.inject.Named;
@@ -39,10 +41,15 @@ import jakarta.inject.Singleton;
 public class NatsConnectionFactory {
 
     /**
+     * Creates the connection. Development mode retains it across a restart, with the consumer executor service it
+     * dispatches on, until the configuration of either changes: the consumers and subscriptions of the stopped
+     * generation are closed as it stops, and the next generation subscribes on the same connection.
+     *
      * @param connectionFactory The factory to create the connection
      * @param executorService   The messaging executer service
      * @return The connection
      */
+    @Retain(invalidatedBy = {NatsConnectionFactoryConfig.PREFIX, ExecutorConfiguration.PREFIX_CONSUMER})
     @Bean(preDestroy = "close")
     @Singleton
     @EachBean(NatsConnectionFactoryConfig.class)
